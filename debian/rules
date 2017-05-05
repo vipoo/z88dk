@@ -1,0 +1,39 @@
+#!/usr/bin/make -f
+
+pwd = $(shell pwd)
+
+%:
+	dh $@
+
+override_dh_auto_clean:
+	make clean || true
+	rm -rf bin usr debian/tmp debian/usr
+
+override_dh_auto_configure:
+	rm -rf bin usr
+	mkdir -p bin usr
+
+override_dh_auto_build-arch:
+	PATH=$(pwd)/bin:$(PATH) ZCCCFG=$(pwd)/lib/config/ EXEC_PREFIX=z88dk- make -e prefix=/usr 
+
+override_dh_auto_build-indep: override_dh_auto_build-arch
+	PATH=$(pwd)/bin:$(PATH) ZCCCFG=$(pwd)/lib/config/ EXEC_PREFIX=z88dk- make -C $(pwd)/libsrc/
+	PATH=$(pwd)/bin:$(PATH) ZCCCFG=$(pwd)/lib/config/ EXEC_PREFIX=z88dk- make -C $(pwd)/libsrc/ install
+	PATH=$(pwd)/bin:$(PATH) ZCCCFG=$(pwd)/lib/config/ EXEC_PREFIX=z88dk- make -C $(pwd)/libsrc/_DEVELOPMENT
+
+override_dh_auto_install-arch:
+	mkdir -p $(pwd)/debian/tmp/usr/bin
+	mkdir -p $(pwd)/debian/tmp/usr/share
+	EXEC_PREFIX=z88dk- make -e prefix=$(pwd)/debian/tmp/usr install
+	rm -f debian/tmp/usr/bin/*
+	for i in bin/*; do cp $$i debian/tmp/usr/bin/z88dk-$$(basename $$i); done
+	mkdir -p debian/tmp/usr/share/man/man1
+	rm -f debian/tmp/usr/share/man/man1/*
+	for i in debian/manpages/*.1; do cp $$i debian/tmp/usr/share/man/man1/z88dk-$$(basename $$i); done
+	rm -f debian/tmp/usr/share/man/man1/z88dk-z88dk.1
+
+override_dh_auto_install-indep: override_dh_auto_install-arch
+	make prefix=/usr DESTDIR=$(pwd)/debian install
+
+override_dh_auto_test-arch:
+	PATH=$(pwd)/bin:$(PATH) ZCCCFG=$(pwd)/lib/config/ EXEC_PREFIX="z88dk-" make  test
