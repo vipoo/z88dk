@@ -713,361 +713,361 @@ void t_strutil_spool_add(void)
 
 void t_strutil_base(void)
 {
-	map_t* map;
-	map_elem_t* elem;
+    map_t* map;
+    map_elem_t* elem;
 
-	map = map_new();
-	TEST_ASSERT_NOT_NULL(map);
-	TEST_ASSERT_EQUAL(0, map->count);
-	TEST_ASSERT_NULL(map_first(map));
+    map = map_new();
+    TEST_ASSERT_NOT_NULL(map);
+    TEST_ASSERT_EQUAL(0, map->count);
+    TEST_ASSERT_NULL(map_first(map));
 
-	map_set(map, "abc");
-	TEST_ASSERT_EQUAL(1, map->count);
+    map_set(map, "abc");
+    TEST_ASSERT_EQUAL(1, map->count);
 
-	elem = map_first(map);
-	TEST_ASSERT_NOT_NULL(elem);
-	TEST_ASSERT_EQUAL_STRING("abc", elem->key);
-	TEST_ASSERT_EQUAL(1, elem->num);
+    elem = map_first(map);
+    TEST_ASSERT_NOT_NULL(elem);
+    TEST_ASSERT_EQUAL_STRING("abc", elem->key);
+    TEST_ASSERT_EQUAL(1, elem->num);
 
-	elem = map_next(elem);
-	TEST_ASSERT_NULL(elem);
+    elem = map_next(elem);
+    TEST_ASSERT_NULL(elem);
 
-	map_set(map, "ABC");
-	TEST_ASSERT_EQUAL(2, map->count);
+    map_set(map, "ABC");
+    TEST_ASSERT_EQUAL(2, map->count);
 
-	elem = map_first(map);
-	TEST_ASSERT_NOT_NULL(elem);
-	TEST_ASSERT_EQUAL_STRING("abc", elem->key);
-	TEST_ASSERT_EQUAL(1, elem->num);
+    elem = map_first(map);
+    TEST_ASSERT_NOT_NULL(elem);
+    TEST_ASSERT_EQUAL_STRING("abc", elem->key);
+    TEST_ASSERT_EQUAL(1, elem->num);
 
-	elem = map_next(elem);
-	TEST_ASSERT_NOT_NULL(elem);
-	TEST_ASSERT_EQUAL_STRING("ABC", elem->key);
-	TEST_ASSERT_EQUAL(1, elem->num);
+    elem = map_next(elem);
+    TEST_ASSERT_NOT_NULL(elem);
+    TEST_ASSERT_EQUAL_STRING("ABC", elem->key);
+    TEST_ASSERT_EQUAL(1, elem->num);
 
-	elem = map_next(elem);
-	TEST_ASSERT_NULL(elem);
+    elem = map_next(elem);
+    TEST_ASSERT_NULL(elem);
 
-	map_free(map);
+    map_free(map);
 }
 
 void t_strutil_icase(void)
 {
-	map_t* map;
-	map_elem_t* elem;
+    map_t* map;
+    map_elem_t* elem;
 
-	map = map_new_icase();
-	TEST_ASSERT_NOT_NULL(map);
-	TEST_ASSERT_EQUAL(0, map->count);
-	TEST_ASSERT_NULL(map_first(map));
+    map = map_new_icase();
+    TEST_ASSERT_NOT_NULL(map);
+    TEST_ASSERT_EQUAL(0, map->count);
+    TEST_ASSERT_NULL(map_first(map));
 
-	map_set(map, "abc");
-	TEST_ASSERT_EQUAL(1, map->count);
+    map_set(map, "abc");
+    TEST_ASSERT_EQUAL(1, map->count);
 
-	elem = map_first(map);
-	TEST_ASSERT_NOT_NULL(elem);
-	TEST_ASSERT_EQUAL_STRING("ABC", elem->key);
-	TEST_ASSERT_EQUAL(1, elem->num);
+    elem = map_first(map);
+    TEST_ASSERT_NOT_NULL(elem);
+    TEST_ASSERT_EQUAL_STRING("ABC", elem->key);
+    TEST_ASSERT_EQUAL(1, elem->num);
 
-	elem = map_next(elem);
-	TEST_ASSERT_NULL(elem);
+    elem = map_next(elem);
+    TEST_ASSERT_NULL(elem);
 
-	map_set(map, "ABC");
-	TEST_ASSERT_EQUAL(1, map->count);
+    map_set(map, "ABC");
+    TEST_ASSERT_EQUAL(1, map->count);
 
-	elem = map_first(map);
-	TEST_ASSERT_NOT_NULL(elem);
-	TEST_ASSERT_EQUAL_STRING("ABC", elem->key);
-	TEST_ASSERT_EQUAL(1, elem->num);
+    elem = map_first(map);
+    TEST_ASSERT_NOT_NULL(elem);
+    TEST_ASSERT_EQUAL_STRING("ABC", elem->key);
+    TEST_ASSERT_EQUAL(1, elem->num);
 
-	elem = map_next(elem);
-	TEST_ASSERT_NULL(elem);
+    elem = map_next(elem);
+    TEST_ASSERT_NULL(elem);
 
-	map_free(map);
+    map_free(map);
 }
 
 void t_strutil_xt(void)
 {
-	map_t* map;
-	map_elem_t* elem;
+    map_t* map;
+    map_elem_t* elem;
 
-	map = map_new_xt(true, free);
-	TEST_ASSERT_NOT_NULL(map);
-	TEST_ASSERT_EQUAL(0, map->count);
-	TEST_ASSERT_NULL(map_first(map));
+    map = map_new_xt(true, free);
+    TEST_ASSERT_NOT_NULL(map);
+    TEST_ASSERT_EQUAL(0, map->count);
+    TEST_ASSERT_NULL(map_first(map));
 
-	map_set_ptr(map, "abc", strdup("1"));
-	TEST_ASSERT_EQUAL(1, map->count);
+    map_set_ptr(map, "abc", strdup("1"));
+    TEST_ASSERT_EQUAL(1, map->count);
 
-	elem = map_first(map);
-	TEST_ASSERT_NOT_NULL(elem);
-	TEST_ASSERT_EQUAL_STRING("ABC", elem->key);
-	TEST_ASSERT_EQUAL_STRING("1", elem->num);
+    elem = map_first(map);
+    TEST_ASSERT_NOT_NULL(elem);
+    TEST_ASSERT_EQUAL_STRING("ABC", elem->key);
+    TEST_ASSERT_EQUAL_STRING("1", elem->ptr);
 
-	elem = map_next(elem);
-	TEST_ASSERT_NULL(elem);
+    elem = map_next(elem);
+    TEST_ASSERT_NULL(elem);
 
-	map_set_ptr(map, "ABC", strdup("2"));
-	TEST_ASSERT_EQUAL(1, map->count);
+    map_set_ptr(map, "ABC", strdup("2"));
+    TEST_ASSERT_EQUAL(1, map->count);
 
-	elem = map_first(map);
-	TEST_ASSERT_NOT_NULL(elem);
-	TEST_ASSERT_EQUAL_STRING("ABC", elem->key);
-	TEST_ASSERT_EQUAL_STRING("2", elem->num);
+    elem = map_first(map);
+    TEST_ASSERT_NOT_NULL(elem);
+    TEST_ASSERT_EQUAL_STRING("ABC", elem->key);
+    TEST_ASSERT_EQUAL_STRING("2", elem->ptr);
 
-	elem = map_next(elem);
-	TEST_ASSERT_NULL(elem);
+    elem = map_next(elem);
+    TEST_ASSERT_NULL(elem);
 
-	map_free(map);
+    map_free(map);
 }
 
 void t_strutil_set_num(void)
 {
-	map_t* map;
+    map_t* map;
 
-	map = map_new();
-	TEST_ASSERT_NOT_NULL(map);
-	TEST_ASSERT_EQUAL(0, map->count);
+    map = map_new();
+    TEST_ASSERT_NOT_NULL(map);
+    TEST_ASSERT_EQUAL(0, map->count);
 
-	TEST_ASSERT_EQUAL(0, map_get_num(map, "one"));
-	map_set_num(map, "one", 1);
-	TEST_ASSERT_EQUAL(1, map->count);
-	TEST_ASSERT_EQUAL(1, map_get_num(map, "one"));
+    TEST_ASSERT_EQUAL(0, map_get_num(map, "one"));
+    map_set_num(map, "one", 1);
+    TEST_ASSERT_EQUAL(1, map->count);
+    TEST_ASSERT_EQUAL(1, map_get_num(map, "one"));
 
-	map_set_num(map, "one", 1);
-	TEST_ASSERT_EQUAL(1, map->count);
-	TEST_ASSERT_EQUAL(1, map_get_num(map, "one"));
+    map_set_num(map, "one", 1);
+    TEST_ASSERT_EQUAL(1, map->count);
+    TEST_ASSERT_EQUAL(1, map_get_num(map, "one"));
 
-	map_set_num(map, "two", 2);
-	TEST_ASSERT_EQUAL(2, map->count);
-	TEST_ASSERT_EQUAL(2, map_get_num(map, "two"));
+    map_set_num(map, "two", 2);
+    TEST_ASSERT_EQUAL(2, map->count);
+    TEST_ASSERT_EQUAL(2, map_get_num(map, "two"));
 
-	map_free(map);
+    map_free(map);
 }
 
 void t_strutil_set_ptr(void)
 {
-	const char* p1 = "hello";
-	const char* p2 = "world";
+    const char* p1 = "hello";
+    const char* p2 = "world";
 
-	map_t* map;
+    map_t* map;
 
-	map = map_new();
-	TEST_ASSERT_NOT_NULL(map);
-	TEST_ASSERT_EQUAL(0, map->count);
+    map = map_new();
+    TEST_ASSERT_NOT_NULL(map);
+    TEST_ASSERT_EQUAL(0, map->count);
 
-	TEST_ASSERT(NULL == map_get_ptr(map, "one"));
-	map_set_ptr(map, "one", (void*)p1);
-	TEST_ASSERT_EQUAL(1, map->count);
-	TEST_ASSERT(p1 == map_get_ptr(map, "one"));
+    TEST_ASSERT(NULL == map_get_ptr(map, "one"));
+    map_set_ptr(map, "one", (void*)p1);
+    TEST_ASSERT_EQUAL(1, map->count);
+    TEST_ASSERT(p1 == map_get_ptr(map, "one"));
 
-	map_set_ptr(map, "one", (void*)p1);
-	TEST_ASSERT_EQUAL(1, map->count);
-	TEST_ASSERT(p1 == map_get_ptr(map, "one"));
+    map_set_ptr(map, "one", (void*)p1);
+    TEST_ASSERT_EQUAL(1, map->count);
+    TEST_ASSERT(p1 == map_get_ptr(map, "one"));
 
-	map_set_ptr(map, "two", (void*)p2);
-	TEST_ASSERT_EQUAL(2, map->count);
-	TEST_ASSERT(p2 == map_get_ptr(map, "two"));
+    map_set_ptr(map, "two", (void*)p2);
+    TEST_ASSERT_EQUAL(2, map->count);
+    TEST_ASSERT(p2 == map_get_ptr(map, "two"));
 
-	map_free(map);
+    map_free(map);
 }
 
 void t_strutil_remove(void)
 {
-	map_t* map;
+    map_t* map;
 
-	map = map_new();
-	TEST_ASSERT_NOT_NULL(map);
-	TEST_ASSERT_EQUAL(0, map->count);
+    map = map_new();
+    TEST_ASSERT_NOT_NULL(map);
+    TEST_ASSERT_EQUAL(0, map->count);
 
-	map_remove(map, "one");
-	TEST_ASSERT_EQUAL(0, map_get_num(map, "one"));
-	TEST_ASSERT_EQUAL(0, map->count);
+    map_remove(map, "one");
+    TEST_ASSERT_EQUAL(0, map_get_num(map, "one"));
+    TEST_ASSERT_EQUAL(0, map->count);
 
-	map_set_num(map, "one", 1);
-	TEST_ASSERT_EQUAL(1, map->count);
-	TEST_ASSERT_EQUAL(1, map_get_num(map, "one"));
+    map_set_num(map, "one", 1);
+    TEST_ASSERT_EQUAL(1, map->count);
+    TEST_ASSERT_EQUAL(1, map_get_num(map, "one"));
 
-	map_remove(map, "one");
-	TEST_ASSERT_EQUAL(0, map_get_num(map, "one"));
-	TEST_ASSERT_EQUAL(0, map->count);
+    map_remove(map, "one");
+    TEST_ASSERT_EQUAL(0, map_get_num(map, "one"));
+    TEST_ASSERT_EQUAL(0, map->count);
 
-	map_free(map);
+    map_free(map);
 }
 
 void t_strutil_remove_all(void)
 {
-	map_t* map;
+    map_t* map;
 
-	map = map_new();
-	TEST_ASSERT_NOT_NULL(map);
-	TEST_ASSERT_EQUAL(0, map->count);
+    map = map_new();
+    TEST_ASSERT_NOT_NULL(map);
+    TEST_ASSERT_EQUAL(0, map->count);
 
-	map_remove_all(map);
-	TEST_ASSERT_EQUAL(0, map_get_num(map, "one"));
-	TEST_ASSERT_EQUAL(0, map_get_num(map, "two"));
-	TEST_ASSERT_EQUAL(0, map->count);
+    map_remove_all(map);
+    TEST_ASSERT_EQUAL(0, map_get_num(map, "one"));
+    TEST_ASSERT_EQUAL(0, map_get_num(map, "two"));
+    TEST_ASSERT_EQUAL(0, map->count);
 
-	map_set_num(map, "one", 1);
-	map_set_num(map, "two", 2);
-	TEST_ASSERT_EQUAL(1, map_get_num(map, "one"));
-	TEST_ASSERT_EQUAL(2, map_get_num(map, "two"));
-	TEST_ASSERT_EQUAL(2, map->count);
+    map_set_num(map, "one", 1);
+    map_set_num(map, "two", 2);
+    TEST_ASSERT_EQUAL(1, map_get_num(map, "one"));
+    TEST_ASSERT_EQUAL(2, map_get_num(map, "two"));
+    TEST_ASSERT_EQUAL(2, map->count);
 
-	map_remove_all(map);
-	TEST_ASSERT_EQUAL(0, map_get_num(map, "one"));
-	TEST_ASSERT_EQUAL(0, map_get_num(map, "two"));
-	TEST_ASSERT_EQUAL(0, map->count);
+    map_remove_all(map);
+    TEST_ASSERT_EQUAL(0, map_get_num(map, "one"));
+    TEST_ASSERT_EQUAL(0, map_get_num(map, "two"));
+    TEST_ASSERT_EQUAL(0, map->count);
 
-	map_free(map);
+    map_free(map);
 }
 
 void t_strutil_remove_elem(void)
 {
-	map_t* map;
-	map_elem_t *elem;
+    map_t* map;
+    map_elem_t* elem;
 
-	map = map_new();
-	TEST_ASSERT_NOT_NULL(map);
-	TEST_ASSERT_EQUAL(0, map->count);
+    map = map_new();
+    TEST_ASSERT_NOT_NULL(map);
+    TEST_ASSERT_EQUAL(0, map->count);
 
-	map_set_num(map, "one", 1);
-	map_set_num(map, "two", 2);
-	TEST_ASSERT_EQUAL(1, map_get_num(map, "one"));
-	TEST_ASSERT_EQUAL(2, map_get_num(map, "two"));
-	TEST_ASSERT_EQUAL(2, map->count);
+    map_set_num(map, "one", 1);
+    map_set_num(map, "two", 2);
+    TEST_ASSERT_EQUAL(1, map_get_num(map, "one"));
+    TEST_ASSERT_EQUAL(2, map_get_num(map, "two"));
+    TEST_ASSERT_EQUAL(2, map->count);
 
-	map_remove_elem(map, NULL);
-	TEST_ASSERT_EQUAL(1, map_get_num(map, "one"));
-	TEST_ASSERT_EQUAL(2, map_get_num(map, "two"));
-	TEST_ASSERT_EQUAL(2, map->count);
+    map_remove_elem(map, NULL);
+    TEST_ASSERT_EQUAL(1, map_get_num(map, "one"));
+    TEST_ASSERT_EQUAL(2, map_get_num(map, "two"));
+    TEST_ASSERT_EQUAL(2, map->count);
 
-	elem = map_first(map);
-	TEST_ASSERT_NOT_NULL(elem);
-	TEST_ASSERT_EQUAL_STRING("one", elem->key);
+    elem = map_first(map);
+    TEST_ASSERT_NOT_NULL(elem);
+    TEST_ASSERT_EQUAL_STRING("one", elem->key);
 
-	map_remove_elem(map, elem);
-	TEST_ASSERT_EQUAL(0, map_get_num(map, "one"));
-	TEST_ASSERT_EQUAL(2, map_get_num(map, "two"));
-	TEST_ASSERT_EQUAL(1, map->count);
+    map_remove_elem(map, elem);
+    TEST_ASSERT_EQUAL(0, map_get_num(map, "one"));
+    TEST_ASSERT_EQUAL(2, map_get_num(map, "two"));
+    TEST_ASSERT_EQUAL(1, map->count);
 
-	elem = map_first(map);
-	TEST_ASSERT_NOT_NULL(elem);
-	TEST_ASSERT_EQUAL_STRING("two", elem->key);
+    elem = map_first(map);
+    TEST_ASSERT_NOT_NULL(elem);
+    TEST_ASSERT_EQUAL_STRING("two", elem->key);
 
-	map_remove_elem(map, elem);
-	TEST_ASSERT_EQUAL(0, map_get_num(map, "one"));
-	TEST_ASSERT_EQUAL(0, map_get_num(map, "two"));
-	TEST_ASSERT_EQUAL(0, map->count);
+    map_remove_elem(map, elem);
+    TEST_ASSERT_EQUAL(0, map_get_num(map, "one"));
+    TEST_ASSERT_EQUAL(0, map_get_num(map, "two"));
+    TEST_ASSERT_EQUAL(0, map->count);
 
-	map_free(map);
+    map_free(map);
 }
 
 void t_strutil_map_exists(void)
 {
-	map_t* map;
+    map_t* map;
 
-	map = map_new();
-	TEST_ASSERT_NOT_NULL(map);
-	TEST_ASSERT_EQUAL(0, map->count);
+    map = map_new();
+    TEST_ASSERT_NOT_NULL(map);
+    TEST_ASSERT_EQUAL(0, map->count);
 
-	TEST_ASSERT(!map_exists(map, "one"));
-	TEST_ASSERT(!map_exists(map, "two"));
+    TEST_ASSERT(!map_exists(map, "one"));
+    TEST_ASSERT(!map_exists(map, "two"));
 
-	map_set_num(map, "one", 1);
-	TEST_ASSERT_EQUAL(1, map->count);
+    map_set_num(map, "one", 1);
+    TEST_ASSERT_EQUAL(1, map->count);
 
-	TEST_ASSERT(map_exists(map, "one"));
-	TEST_ASSERT(!map_exists(map, "two"));
+    TEST_ASSERT(map_exists(map, "one"));
+    TEST_ASSERT(!map_exists(map, "two"));
 
-	map_set_num(map, "one", 1);
-	TEST_ASSERT_EQUAL(1, map->count);
+    map_set_num(map, "one", 1);
+    TEST_ASSERT_EQUAL(1, map->count);
 
-	TEST_ASSERT(map_exists(map, "one"));
-	TEST_ASSERT(!map_exists(map, "two"));
+    TEST_ASSERT(map_exists(map, "one"));
+    TEST_ASSERT(!map_exists(map, "two"));
 
-	map_set_num(map, "two", 2);
-	TEST_ASSERT_EQUAL(2, map->count);
+    map_set_num(map, "two", 2);
+    TEST_ASSERT_EQUAL(2, map->count);
 
-	TEST_ASSERT(map_exists(map, "one"));
-	TEST_ASSERT(map_exists(map, "two"));
+    TEST_ASSERT(map_exists(map, "one"));
+    TEST_ASSERT(map_exists(map, "two"));
 
-	map_free(map);
+    map_free(map);
 }
 
 static int ascending(map_elem_t* a, map_elem_t* b)
 {
-	return strcmp(a->key, b->key);
+    return strcmp(a->key, b->key);
 }
 
 static int descending(map_elem_t* a, map_elem_t* b)
 {
-	return strcmp(b->key, a->key);
+    return strcmp(b->key, a->key);
 }
 
 void t_strutil_map_sort(void)
 {
-	map_t* map;
-	map_elem_t *elem;
+    map_t* map;
+    map_elem_t* elem;
 
-	map = map_new();
-	map_set(map, "one");
-	map_set(map, "two");
-	map_set(map, "three");
-	TEST_ASSERT_EQUAL(3, map->count);
+    map = map_new();
+    map_set(map, "one");
+    map_set(map, "two");
+    map_set(map, "three");
+    TEST_ASSERT_EQUAL(3, map->count);
 
-	elem = map_first(map);
-	TEST_ASSERT_NOT_NULL(elem);
-	TEST_ASSERT_EQUAL_STRING("one", elem->key);
+    elem = map_first(map);
+    TEST_ASSERT_NOT_NULL(elem);
+    TEST_ASSERT_EQUAL_STRING("one", elem->key);
 
-	elem = map_next(elem);
-	TEST_ASSERT_NOT_NULL(elem);
-	TEST_ASSERT_EQUAL_STRING("two", elem->key);
+    elem = map_next(elem);
+    TEST_ASSERT_NOT_NULL(elem);
+    TEST_ASSERT_EQUAL_STRING("two", elem->key);
 
-	elem = map_next(elem);
-	TEST_ASSERT_NOT_NULL(elem);
-	TEST_ASSERT_EQUAL_STRING("three", elem->key);
+    elem = map_next(elem);
+    TEST_ASSERT_NOT_NULL(elem);
+    TEST_ASSERT_EQUAL_STRING("three", elem->key);
 
-	elem = map_next(elem);
-	TEST_ASSERT_NULL(elem);
-
-
-	map_sort(map, ascending);
+    elem = map_next(elem);
+    TEST_ASSERT_NULL(elem);
 
 
-	elem = map_first(map);
-	TEST_ASSERT_NOT_NULL(elem);
-	TEST_ASSERT_EQUAL_STRING("one", elem->key);
-
-	elem = map_next(elem);
-	TEST_ASSERT_NOT_NULL(elem);
-	TEST_ASSERT_EQUAL_STRING("three", elem->key);
-
-	elem = map_next(elem);
-	TEST_ASSERT_NOT_NULL(elem);
-	TEST_ASSERT_EQUAL_STRING("two", elem->key);
-
-	elem = map_next(elem);
-	TEST_ASSERT_NULL(elem);
+    map_sort(map, ascending);
 
 
-	map_sort(map, descending);
+    elem = map_first(map);
+    TEST_ASSERT_NOT_NULL(elem);
+    TEST_ASSERT_EQUAL_STRING("one", elem->key);
+
+    elem = map_next(elem);
+    TEST_ASSERT_NOT_NULL(elem);
+    TEST_ASSERT_EQUAL_STRING("three", elem->key);
+
+    elem = map_next(elem);
+    TEST_ASSERT_NOT_NULL(elem);
+    TEST_ASSERT_EQUAL_STRING("two", elem->key);
+
+    elem = map_next(elem);
+    TEST_ASSERT_NULL(elem);
 
 
-	elem = map_first(map);
-	TEST_ASSERT_NOT_NULL(elem);
-	TEST_ASSERT_EQUAL_STRING("two", elem->key);
+    map_sort(map, descending);
 
-	elem = map_next(elem);
-	TEST_ASSERT_NOT_NULL(elem);
-	TEST_ASSERT_EQUAL_STRING("three", elem->key);
 
-	elem = map_next(elem);
-	TEST_ASSERT_NOT_NULL(elem);
-	TEST_ASSERT_EQUAL_STRING("one", elem->key);
+    elem = map_first(map);
+    TEST_ASSERT_NOT_NULL(elem);
+    TEST_ASSERT_EQUAL_STRING("two", elem->key);
 
-	elem = map_next(elem);
-	TEST_ASSERT_NULL(elem);
+    elem = map_next(elem);
+    TEST_ASSERT_NOT_NULL(elem);
+    TEST_ASSERT_EQUAL_STRING("three", elem->key);
 
-	map_free(map);
+    elem = map_next(elem);
+    TEST_ASSERT_NOT_NULL(elem);
+    TEST_ASSERT_EQUAL_STRING("one", elem->key);
+
+    elem = map_next(elem);
+    TEST_ASSERT_NULL(elem);
+
+    map_free(map);
 }

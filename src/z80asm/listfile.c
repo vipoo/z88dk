@@ -1,10 +1,9 @@
 /*
 Z88DK Z80 Macro Assembler
 
-Copyright (C) Gunther Strube, InterLogic 1993-99
-Copyright (C) Paulo Custodio, 2011-2017
+Copyright (C) Paulo Custodio, 2011-2018
 License: The Artistic License 2.0, http://www.perlfoundation.org/artistic_license_2_0
-Repository: https://github.com/pauloscustodio/z88dk-z80asm
+Repository: https://github.com/z88dk/z88dk
 
 Handle assembly listing and symbol table listing.
 */
@@ -30,7 +29,7 @@ static int newline_size = 0;
 /*-----------------------------------------------------------------------------
 *   Global state variables
 *----------------------------------------------------------------------------*/
-static ListFile *the_list = NULL;
+static ListFile* the_list = NULL;
 
 /*-----------------------------------------------------------------------------
 *   Class to hold current list file
@@ -38,91 +37,87 @@ static ListFile *the_list = NULL;
 DEF_CLASS( ListFile );
 
 /*-----------------------------------------------------------------------------
-*	Class helper methods
+*   Class helper methods
 *----------------------------------------------------------------------------*/
-void ListFile_init( ListFile *self )
+void ListFile_init( ListFile* self )
 {
-	self->bytes = Str_new(STR_SIZE);
-	self->line = Str_new(STR_SIZE);
+    self->bytes = Str_new(STR_SIZE);
+    self->line = Str_new(STR_SIZE);
 }
 
-void ListFile_copy( ListFile *self, ListFile *other )
+void ListFile_copy( ListFile* self, ListFile* other )
 {
     /* cannot copy object because of external resources held - open file */
-    self->filename		= NULL;
-    self->file			= NULL;
-    self->bytes			= NULL;
-    self->source_file	= NULL;
-    self->line			= NULL;
+    self->filename      = NULL;
+    self->file          = NULL;
+    self->bytes         = NULL;
+    self->source_file   = NULL;
+    self->line          = NULL;
 }
 
-void ListFile_fini( ListFile *self )
+void ListFile_fini( ListFile* self )
 {
     /* delete file if object is garbage-collected - unexpected exit */
     ListFile_close( self, false );
 
-	Str_delete(self->bytes);
-	Str_delete(self->line);
+    Str_delete(self->bytes);
+    Str_delete(self->line);
 }
 
 /*-----------------------------------------------------------------------------
-*	output one line to the list file
+*   output one line to the list file
 *----------------------------------------------------------------------------*/
-static void ListFile_fprintf( ListFile *self, char *msg, ... )
+static void ListFile_fprintf( ListFile* self, char* msg, ... )
 {
-	STR_DEFINE(str, STR_SIZE);
+    STR_DEFINE(str, STR_SIZE);
     va_list argptr;
 
-    if ( self->file != NULL )
-    {
-	    va_start( argptr, msg );				/* BUG_0046 */
-        Str_vsprintf( str, msg, argptr );		/* ignore ret, as we dont retry */
-		va_end( argptr );
+    if ( self->file != NULL ) {
+        va_start( argptr, msg );                /* BUG_0046 */
+        Str_vsprintf( str, msg, argptr );       /* ignore ret, as we dont retry */
+        va_end( argptr );
 
-		fputs(Str_data(str), self->file);
+        fputs(Str_data(str), self->file);
     }
 
-	STR_DELETE(str);
+    STR_DELETE(str);
 }
 
 /*-----------------------------------------------------------------------------
-*	open the list file
+*   open the list file
 *----------------------------------------------------------------------------*/
-void ListFile_open( ListFile *self, const char *list_file )
+void ListFile_open( ListFile* self, const char* list_file )
 {
     /* close and discard any open list file */
     ListFile_close( self, false );
 
     /* open the file */
-    self->filename	= spool_add( list_file );
-    self->file		= xfopen( list_file, "w" );
+    self->filename  = spool_add( list_file );
+    self->file      = xfopen( list_file, "w" );
     self->source_list_ended = false;
 
     /* init '\n' size */
-	fputc('\n', self->file);
-	newline_size = (int)(ftell(self->file));
-	fseek(self->file, 0, SEEK_SET);
+    fputc('\n', self->file);
+    newline_size = (int)(ftell(self->file));
+    fseek(self->file, 0, SEEK_SET);
 
-	self->start_line_pos = 0;
+    self->start_line_pos = 0;
 }
 
-void list_open(const char *list_file )
+void list_open(const char* list_file )
 {
     if ( the_list == NULL )
-    {
         the_list = OBJ_NEW( ListFile );
-    }
 
     ListFile_open( the_list, list_file );
 }
 
 /*-----------------------------------------------------------------------------
-*	close the list file
+*   close the list file
 *----------------------------------------------------------------------------*/
-void ListFile_close( ListFile *self, bool keep_file )
+void ListFile_close( ListFile* self, bool keep_file )
 {
-    if ( self->file != NULL )
-    {
+    if ( self->file != NULL ) {
         /* close any pending line started */
         ListFile_end( self );
 
@@ -138,23 +133,20 @@ void ListFile_close( ListFile *self, bool keep_file )
 void list_close( bool keep_file )
 {
     if ( the_list != NULL )
-    {
         ListFile_close( the_list, keep_file );
-    }
 }
 
 /*-----------------------------------------------------------------------------
-*	start output of list line
+*   start output of list line
 *----------------------------------------------------------------------------*/
-void ListFile_start_line( ListFile *self, int address,
-	const char *source_file, int source_line_nr, const char *line )
+void ListFile_start_line( ListFile* self, int address,
+                          const char* source_file, int source_line_nr, const char* line )
 {
-    if ( self->file != NULL && ! self->source_list_ended )
-    {
+    if ( self->file != NULL && ! self->source_list_ended ) {
         /* close any pending line */
         ListFile_end_line( self );
 
-        self->line_started = true;			/* signal: in line */
+        self->line_started = true;          /* signal: in line */
 
         /* Get file position for beginning of next line in list file */
         self->start_line_pos = ftell( self->file );
@@ -168,33 +160,30 @@ void ListFile_start_line( ListFile *self, int address,
 
         /* normalize the line end (BUG_0031) */
         Str_set( self->line, line );
-		cstr_chomp(Str_data(self->line));
-		Str_sync_len(self->line);
-		Str_append_char(self->line, '\n');
+        cstr_chomp(Str_data(self->line));
+        Str_sync_len(self->line);
+        Str_append_char(self->line, '\n');
     }
 }
 
 void list_start_line( int address,
-	const char *source_file, int source_line_nr, const char *line )
+                      const char* source_file, int source_line_nr, const char* line )
 {
-    if ( the_list != NULL )
-    {
+    if ( the_list != NULL ) {
         ListFile_start_line( the_list, address,
                              source_file, source_line_nr, line );
     }
 }
 
 /*-----------------------------------------------------------------------------
-*	append one byte / word / long to list line
+*   append one byte / word / long to list line
 *----------------------------------------------------------------------------*/
-void ListFile_append( ListFile *self, long value, int num_bytes )
+void ListFile_append( ListFile* self, long value, int num_bytes )
 {
     byte_t byte1;
 
-    if ( self->file != NULL && ! self->source_list_ended )
-    {
-        while ( num_bytes-- > 0 )
-        {
+    if ( self->file != NULL && ! self->source_list_ended ) {
+        while ( num_bytes-- > 0 ) {
             byte1 = value & 0xFF;
             Str_append_char( self->bytes, byte1 );
             value >>= 8;
@@ -202,17 +191,17 @@ void ListFile_append( ListFile *self, long value, int num_bytes )
     }
 }
 
-void ListFile_append_byte( ListFile *self, byte_t byte1 )
+void ListFile_append_byte( ListFile* self, byte_t byte1 )
 {
     ListFile_append( self, byte1, 1 );
 }
 
-void ListFile_append_word( ListFile *self, int word )
+void ListFile_append_word( ListFile* self, int word )
 {
     ListFile_append( self, word, 2 );
 }
 
-void ListFile_append_long( ListFile *self, long dword )
+void ListFile_append_long( ListFile* self, long dword )
 {
     ListFile_append( self, dword, 4 );
 }
@@ -220,9 +209,7 @@ void ListFile_append_long( ListFile *self, long dword )
 void list_append( long value, int num_bytes )
 {
     if ( the_list != NULL )
-    {
         ListFile_append( the_list, value, num_bytes );
-    }
 }
 
 void list_append_byte( byte_t byte1 )
@@ -241,24 +228,20 @@ void list_append_long( long dword )
 }
 
 /*-----------------------------------------------------------------------------
-*	compute list file position (ftell()) for patching byte at given offset,
-*	take page size and header into account
-*	from start of line, return -1 if no list file open
+*   compute list file position (ftell()) for patching byte at given offset,
+*   take page size and header into account
+*   from start of line, return -1 if no list file open
 *----------------------------------------------------------------------------*/
-long ListFile_patch_pos( ListFile *self, int byte_offset )
+long ListFile_patch_pos( ListFile* self, int byte_offset )
 {
     int start_line_pos;
 
     if ( self->file == NULL || self->source_list_ended )
-    {
         return -1;
-    }
-    else
-    {
+    else {
         start_line_pos = self->start_line_pos;
 
-        while ( byte_offset >= HEX_DUMP_WIDTH )
-        {
+        while ( byte_offset >= HEX_DUMP_WIDTH ) {
             start_line_pos += 5 + 1 + 4 + 2 + ( HEX_DUMP_WIDTH * 3 ) + newline_size;
             byte_offset -= HEX_DUMP_WIDTH;
         }
@@ -270,72 +253,58 @@ long ListFile_patch_pos( ListFile *self, int byte_offset )
 long list_patch_pos( int byte_offset )
 {
     if ( the_list != NULL )
-    {
         return ListFile_patch_pos( the_list, byte_offset );
-    }
     else
-    {
         return -1;
-    }
 }
 
 /*-----------------------------------------------------------------------------
-*	output the current assembly line to the list file with Hex dump
+*   output the current assembly line to the list file with Hex dump
 *----------------------------------------------------------------------------*/
-void ListFile_end_line( ListFile *self )
+void ListFile_end_line( ListFile* self )
 {
     int len, i;
-    byte_t *byteptr;
+    byte_t* byteptr;
 
-    if ( self->file != NULL && self->line_started && ! self->source_list_ended )
-    {
+    if ( self->file != NULL && self->line_started && ! self->source_list_ended ) {
         /* get length of hex dump and pointer to data bytes (BUG_0015) */
         len     = Str_len(self->bytes);
-        byteptr = (byte_t *) Str_data(self->bytes);
+        byteptr = (byte_t*) Str_data(self->bytes);
 
         /* output line number and address */
         ListFile_fprintf( self, "%-5d %04X  ", self->source_line_nr, self->address );
 
         /* output hex dump */
-        for ( i = 0 ; i < len ; i++ )
-        {
+        for ( i = 0 ; i < len ; i++ ) {
             ListFile_fprintf( self, "%02X ", *byteptr++ );
 
             if ( i < len - 1 &&
-                    ( ( i + 1 ) % HEX_DUMP_WIDTH ) == 0 )
-            {
+                 ( ( i + 1 ) % HEX_DUMP_WIDTH ) == 0 )
                 ListFile_fprintf( self, "\n      %04X  ", self->address + i + 1 );
-            }
         }
 
         /* output line - pad to start of asm line*/
         if ( len <= 4 )
-        {
             ListFile_fprintf( self, "%*s", ( 4 - len ) * 3, "" );
-        }
         else
-        {
             ListFile_fprintf( self, "\n%*s", 5 + 1 + 4 + 2 + ( 4 * 3 ), "" );
-        }
 
         ListFile_fprintf( self, "%s", Str_data(self->line) );
 
-        self->line_started = false;				/* no longer in line */
+        self->line_started = false;             /* no longer in line */
     }
 }
 
 void list_end_line( void )
 {
     if ( the_list != NULL )
-    {
         ListFile_end_line( the_list );
-    }
 }
 
 /*-----------------------------------------------------------------------------
-*	signal end of list file
+*   signal end of list file
 *----------------------------------------------------------------------------*/
-void ListFile_end( ListFile *self )
+void ListFile_end( ListFile* self )
 {
     ListFile_end_line( self );
     self->source_list_ended = true;
@@ -344,34 +313,31 @@ void ListFile_end( ListFile *self )
 void list_end( void )
 {
     if ( the_list != NULL )
-    {
         ListFile_end( the_list );
-    }
 }
 
 /*-----------------------------------------------------------------------------
-*	patch list file
+*   patch list file
 *----------------------------------------------------------------------------*/
-void ListFile_patch_data( ListFile *self, long patch_pos, long value, int num_bytes )
+void ListFile_patch_data( ListFile* self, long patch_pos, long value,
+                          int num_bytes )
 {
-    if ( self->file != NULL && patch_pos >= 0 )
-    {
-        fseek( self->file, patch_pos, SEEK_SET );		/* set file pointer in list file */
+    if ( self->file != NULL && patch_pos >= 0 ) {
+        fseek( self->file, patch_pos,
+               SEEK_SET );       /* set file pointer in list file */
 
-        while ( num_bytes-- > 0 )
-        {
+        while ( num_bytes-- > 0 ) {
             ListFile_fprintf( self, "%02X ", value & 0xFF );
             value >>= 8;
         }
 
-        fseek( self->file, 0, SEEK_END );				/* set file pointer to end of list file */
+        fseek( self->file, 0,
+               SEEK_END );               /* set file pointer to end of list file */
     }
 }
 
 void list_patch_data( long patch_pos, long value, int num_bytes )
 {
     if ( the_list != NULL )
-    {
         ListFile_patch_data( the_list, patch_pos, value, num_bytes );
-    }
 }

@@ -1,10 +1,9 @@
 /*
-Z88-DK Z80ASM - Z80 Assembler
+Z88DK Z80 Module Assembler
 
-Copyright (C) Gunther Strube, InterLogic 1993-99
-Copyright (C) Paulo Custodio, 2011-2017
+Copyright (C) Paulo Custodio, 2011-2018
 License: The Artistic License 2.0, http://www.perlfoundation.org/artistic_license_2_0
-Repository: https://github.com/pauloscustodio/z88dk-z80asm
+Repository: https://github.com/z88dk/z88dk
 
 One symbol from the assembly code - label or constant.
 */
@@ -20,18 +19,18 @@ One symbol from the assembly code - label or constant.
 /*-----------------------------------------------------------------------------
 *   Constant tables
 *----------------------------------------------------------------------------*/
-char *sym_type_str[] = {
-	"undef",
-	"const",
-	"addr",
-	"comput",
+char* sym_type_str[] = {
+    "undef",
+    "const",
+    "addr",
+    "comput",
 };
 
-char *sym_scope_str[] = {
-	"local",
-	"public",
-	"extern",
-	"global",
+char* sym_scope_str[] = {
+    "local",
+    "public",
+    "extern",
+    "global",
 };
 
 /*-----------------------------------------------------------------------------
@@ -39,50 +38,50 @@ char *sym_scope_str[] = {
 *----------------------------------------------------------------------------*/
 DEF_CLASS( Symbol )
 
-void Symbol_init( Symbol *self ) {}
-void Symbol_copy( Symbol *self, Symbol *other ) {}
-void Symbol_fini( Symbol *self ) {}
+void Symbol_init( Symbol* self ) {}
+void Symbol_copy( Symbol* self, Symbol* other ) {}
+void Symbol_fini( Symbol* self ) {}
 
 /*-----------------------------------------------------------------------------
 *   create a new symbol, needs to be deleted by OBJ_DELETE()
-*	adds a reference to the page were referred to
+*   adds a reference to the page were referred to
 *----------------------------------------------------------------------------*/
-Symbol *Symbol_create(const char *name, long value, sym_type_t type, sym_scope_t scope,
-					   Module *module, Section *section )
+Symbol* Symbol_create(const char* name, long value, sym_type_t type,
+                      sym_scope_t scope,
+                      Module* module, Section* section )
 {
-    Symbol *self 	= OBJ_NEW( Symbol );
+    Symbol* self    = OBJ_NEW( Symbol );
 
-	self->name = spool_add(name);			/* name in strpool, not freed */
-	self->value = value;
-	self->type = type;
-	self->scope = scope;
-	self->module = module;
-	self->section = section;
-	self->filename = get_error_file();
-	self->line_nr = get_error_line();
+    self->name = spool_add(name);           /* name in strpool, not freed */
+    self->value = value;
+    self->type = type;
+    self->scope = scope;
+    self->module = module;
+    self->section = section;
+    self->filename = get_error_file();
+    self->line_nr = get_error_line();
 
-    return self;              						/* pointer to new symbol */
+    return self;                                    /* pointer to new symbol */
 }
 
 /*-----------------------------------------------------------------------------
 *   return full symbol name NAME@MODULE stored in strpool
 *----------------------------------------------------------------------------*/
-const char *Symbol_fullname( Symbol *sym )
+const char* Symbol_fullname( Symbol* sym )
 {
-	STR_DEFINE(name, STR_SIZE);
-	const char *ret;
+    STR_DEFINE(name, STR_SIZE);
+    const char* ret;
 
     Str_set( name, sym->name );
 
-    if ( sym->module && sym->module->modname )
-    {
+    if ( sym->module && sym->module->modname ) {
         Str_append_char( name, '@' );
         Str_append( name, sym->module->modname );
     }
 
     ret = spool_add( Str_data(name) );
 
-	STR_DELETE(name);
+    STR_DELETE(name);
 
-	return ret;
+    return ret;
 }

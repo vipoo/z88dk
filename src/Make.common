@@ -1,5 +1,11 @@
 #------------------------------------------------------------------------------
+# Z88DK Z80 Module Assembler
+#
 # Configure variables for common libraries
+#
+# Copyright (C) Paulo Custodio, 2011-2018
+# License: http://www.perlfoundation.org/artistic_license_2_0
+# Repository: https://github.com/z88dk/z88dk
 #------------------------------------------------------------------------------
 
 # EXESUFFIX is passed when cross-compiling Win32 on Linux
@@ -15,3 +21,51 @@ ifeq ($(EXE),.exe)
   UNIXem_OBJS		:= ../../ext/UNIXem/src/glob.o \
 					   ../../ext/UNIXem/src/dirent.o
 endif
+
+# astype settings
+ASTYLE		:= astyle --style=linux --break-blocks --pad-oper \
+		   --align-pointer=type --break-closing-braces \
+		   --break-one-line-headers --remove-braces \
+		   --attach-return-type \
+		   --convert-tabs --max-code-length=80 \
+		   --formatted --lineend=linux \
+		   --suffix=none
+
+#------------------------------------------------------------------------------
+# Macro to build executables
+# $(eval $(call MAKE_EXE,<NAME>,<OBJS>,<1=TEST>))
+#------------------------------------------------------------------------------
+define MAKE_C_EXE
+all: $(1)$(EXE)
+
+$(1)$(EXE): $(2)
+	$(CC) $(CFLAGS) -o $(1)$(EXE) $(2) $(LDFLAGS)
+	
+clean::
+	$(RM) $(1)$(EXE) $(2)
+
+test:: $(1)$(EXE)
+ifeq ($(3),1)
+	./$(1)$(EXE)
+endif
+
+endef
+
+#------------------------------------------------------------------------------
+define MAKE_CXX_EXE
+all: $(1)$(EXE)
+
+$(1)$(EXE): $(2)
+	$(CXX) $(CXXFLAGS) -o $(1)$(EXE) $(2) $(LDFLAGS)
+	
+clean::
+	$(RM) $(1)$(EXE) $(2)
+
+test:: $(1)$(EXE)
+ifeq ($(3),1)
+	./$(1)$(EXE)
+endif
+
+endef
+#------------------------------------------------------------------------------
+

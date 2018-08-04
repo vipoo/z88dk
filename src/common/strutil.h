@@ -112,20 +112,21 @@ void argv_set(argv_t* argv, size_t idx, const char* str);
 // map: set of strings mapped to int, or char* or void*
 //-----------------------------------------------------------------------------
 typedef struct map_elem_t {
-	const char* key;
-	union {
-		int num;
-		void *ptr;
-	};
-	UT_hash_handle hh;
+    const char* key;
+    union {
+        int num;
+        void* ptr;
+    };
+    UT_hash_handle hh;
 } map_elem_t;
 
 typedef struct map_t {
-	map_elem_t* elems;
-	size_t count;			// number of elements
-	bool icase;				// if true, keys are case insensitive
-	str_t* key;				// normalized key
-	void(*free_ptr)(void*);	// if not NULL, used to free void* ptr when element is removed
+    map_elem_t* elems;
+    size_t count;           // number of elements
+    bool icase;             // if true, keys are case insensitive
+    str_t* key;             // normalized key
+    void(*free_ptr)(
+        void*); // if not NULL, used to free void* ptr when element is removed
 } map_t;
 
 // compare function used by sort

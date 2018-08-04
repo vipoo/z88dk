@@ -509,154 +509,160 @@ const char* spool_add(const char* str)
 //-----------------------------------------------------------------------------
 // map: set of strings mapped to int, or char* or void*
 //-----------------------------------------------------------------------------
-map_t * map_new()
+map_t* map_new()
 {
-	map_t* map = xnew(map_t);
-	map->key = str_new();
-	return map;
+    map_t* map = xnew(map_t);
+    map->key = str_new();
+    return map;
 }
 
-map_t * map_new_icase()
+map_t* map_new_icase()
 {
-	map_t* map = map_new();
-	map->icase = true;
-	return map;
+    map_t* map = map_new();
+    map->icase = true;
+    return map;
 }
 
-map_t * map_new_xt(bool icase, void(*free_ptr)(void *))
+map_t* map_new_xt(bool icase, void(*free_ptr)(void*))
 {
-	map_t* map = map_new();
-	map->icase = icase;
-	map->free_ptr = free_ptr;
-	return map;
+    map_t* map = map_new();
+    map->icase = icase;
+    map->free_ptr = free_ptr;
+    return map;
 }
 
-void map_free(map_t * map)
+void map_free(map_t* map)
 {
-	map_remove_all(map);
-	str_free(map->key);
-	xfree(map);
+    map_remove_all(map);
+    str_free(map->key);
+    xfree(map);
 }
 
-static void map_norm_key(map_t * map, const char* key)
+static void map_norm_key(map_t* map, const char* key)
 {
-	str_set(map->key, key);
-	if (map->icase) {
-		str_toupper(map->key);
-	}
+    str_set(map->key, key);
+
+    if (map->icase)
+        str_toupper(map->key);
 }
 
-void map_set(map_t * map, const char * key)
+void map_set(map_t* map, const char* key)
 {
-	map_set_num(map, key, 1);
+    map_set_num(map, key, 1);
 }
 
-static map_elem_t* map_set_x(map_t * map, const char * key, void(*free_ptr)(void*))
+static map_elem_t* map_set_x(map_t* map, const char* key,
+                             void(*free_ptr)(void*))
 {
-	map_elem_t* elem = map_get_elem(map, key);
-	if (!elem) {		// add element
-		elem = xnew(map_elem_t);
-		map_norm_key(map, key);
-		elem->key = spool_add(str_data(map->key));	// need invariant key
-		HASH_ADD_KEYPTR(hh, map->elems, elem->key, str_len(map->key), elem);
-		map->count++;
-	}
-	else {				// free old element
-		if (free_ptr)
-			free_ptr(elem->ptr);
-	}
-	return elem;
+    map_elem_t* elem = map_get_elem(map, key);
+
+    if (!elem) {        // add element
+        elem = xnew(map_elem_t);
+        map_norm_key(map, key);
+        elem->key = spool_add(str_data(map->key));  // need invariant key
+        HASH_ADD_KEYPTR(hh, map->elems, elem->key, str_len(map->key), elem);
+        map->count++;
+    }
+    else {              // free old element
+        if (free_ptr)
+            free_ptr(elem->ptr);
+    }
+
+    return elem;
 }
 
-void map_set_num(map_t * map, const char * key, int num)
+void map_set_num(map_t* map, const char* key, int num)
 {
-	map_elem_t* elem = map_set_x(map, key, NULL);
-	elem->num = num;	// update/set value
+    map_elem_t* elem = map_set_x(map, key, NULL);
+    elem->num = num;    // update/set value
 }
 
-void map_set_ptr(map_t * map, const char * key, void * ptr)
+void map_set_ptr(map_t* map, const char* key, void* ptr)
 {
-	map_elem_t* elem = map_set_x(map, key, map->free_ptr);
-	elem->ptr = ptr;	// update/set value
+    map_elem_t* elem = map_set_x(map, key, map->free_ptr);
+    elem->ptr = ptr;    // update/set value
 }
 
-void map_remove_elem(map_t * map, map_elem_t * elem)
+void map_remove_elem(map_t* map, map_elem_t* elem)
 {
-	if (!elem)
-		return;
+    if (!elem)
+        return;
 
-	HASH_DEL(map->elems, elem);
-	map->count--;
+    HASH_DEL(map->elems, elem);
+    map->count--;
 
-	if (map->free_ptr)
-		map->free_ptr(elem->ptr);
+    if (map->free_ptr)
+        map->free_ptr(elem->ptr);
 
-	xfree(elem);
+    xfree(elem);
 }
 
-void map_remove(map_t * map, const char * key)
+void map_remove(map_t* map, const char* key)
 {
-	map_elem_t* elem = map_get_elem(map, key);
-	map_remove_elem(map, elem);
+    map_elem_t* elem = map_get_elem(map, key);
+    map_remove_elem(map, elem);
 }
 
-void map_remove_all(map_t * map)
+void map_remove_all(map_t* map)
 {
-	map_elem_t * elem, *tmp;
-	HASH_ITER(hh, map->elems , elem, tmp) {
-		map_remove_elem(map, elem);
-	}
+    map_elem_t* elem, *tmp;
+    HASH_ITER(hh, map->elems, elem, tmp) {
+        map_remove_elem(map, elem);
+    }
 }
 
-bool map_exists(map_t * map, const char * key)
+bool map_exists(map_t* map, const char* key)
 {
-	map_elem_t* elem = map_get_elem(map, key);
-	if (elem)
-		return true;
-	else
-		return false;
+    map_elem_t* elem = map_get_elem(map, key);
+
+    if (elem)
+        return true;
+    else
+        return false;
 }
 
-map_elem_t * map_get_elem(map_t * map, const char * key)
+map_elem_t* map_get_elem(map_t* map, const char* key)
 {
-	map_elem_t* elem;
-	map_norm_key(map, key);
-	HASH_FIND(hh, map->elems, str_data(map->key), str_len(map->key), elem);
-	return elem;
+    map_elem_t* elem;
+    map_norm_key(map, key);
+    HASH_FIND(hh, map->elems, str_data(map->key), str_len(map->key), elem);
+    return elem;
 }
 
-int map_get_num(map_t * map, const char * key)
+int map_get_num(map_t* map, const char* key)
 {
-	map_elem_t* elem = map_get_elem(map, key);
-	if (!elem)
-		return 0;
-	else
-		return elem->num;
+    map_elem_t* elem = map_get_elem(map, key);
+
+    if (!elem)
+        return 0;
+    else
+        return elem->num;
 }
 
-void * map_get_ptr(map_t * map, const char * key)
+void* map_get_ptr(map_t* map, const char* key)
 {
-	map_elem_t* elem = map_get_elem(map, key);
-	if (!elem)
-		return NULL;
-	else
-		return elem->ptr;
+    map_elem_t* elem = map_get_elem(map, key);
+
+    if (!elem)
+        return NULL;
+    else
+        return elem->ptr;
 }
 
-map_elem_t * map_first(map_t * map)
+map_elem_t* map_first(map_t* map)
 {
-	return map->elems;
+    return map->elems;
 }
 
-map_elem_t * map_next(map_elem_t * iter)
+map_elem_t* map_next(map_elem_t* iter)
 {
-	if (!iter)
-		return NULL;
-	else
-		return iter->hh.next;
+    if (!iter)
+        return NULL;
+    else
+        return iter->hh.next;
 }
 
-void map_sort(map_t * map, map_compare_func compare)
+void map_sort(map_t* map, map_compare_func compare)
 {
-	HASH_SORT(map->elems, compare);
+    HASH_SORT(map->elems, compare);
 }

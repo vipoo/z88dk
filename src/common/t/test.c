@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
 // z80asm unit tests
-// Copyright (C) Paulo Custodio, 2011-20180
+// Copyright (C) Paulo Custodio, 2011-2018
 // License: http://www.perlfoundation.org/artistic_license_2_0
 //-----------------------------------------------------------------------------
 #include "unity.h"
@@ -13,18 +13,18 @@ void setUp() {}
 void tearDown() {}
 
 #define T(name) \
-			extern void name(void); \
-			RUN_TEST(name)
+            extern void name(void); \
+            RUN_TEST(name)
 
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {
-	if (argc == 2) {
+    if (argc == 2) {
 #include "test1.hh"
-		xassert(0);
-	}
-	else {
-		UNITY_BEGIN();
+        xassert(0);
+    }
+    else {
+        UNITY_BEGIN();
 #include "test2.hh"
-		return UNITY_END();
-	}
+        return UNITY_END();
+    }
 }

@@ -2,7 +2,7 @@
 
 # Z88DK Z80 Module Assembler
 #
-# Copyright (C) Paulo Custodio, 2011-2017
+# Copyright (C) Paulo Custodio, 2011-2018
 # License: The Artistic License 2.0, http://www.perlfoundation.org/artistic_license_2_0
 # Repository: https://github.com/z88dk/z88dk/
 #
@@ -76,13 +76,6 @@ Error at file 'test.inc' line 1: cannot include file 'test.asm' recursively
 1 errors occurred during assembly
 END
 
-# syntax
-unlink_testfiles();
-z80asm('include', "", 1, "", <<END);
-Error at file 'test.asm' line 1: syntax error
-1 errors occurred during assembly
-END
-
 # test -I using environment variables
 unlink_testfiles();
 mkdir("test_dir");
@@ -110,6 +103,155 @@ delete $ENV{TEST_ENV};
 unlink "test.bin";
 z80asm('include "test.inc"', '-b "-Itest${TEST_ENV}_dir"');
 check_bin_file("test.bin", pack("C*", 0x3E, 10));
+
+# syntax
+unlink_testfiles();
+z80asm(<<END, "", 1, "", <<END);
+include
+END
+Error at file 'test.asm' line 1: syntax error
+1 errors occurred during assembly
+END
+
+diag "skipped"; if (0) {
+z80asm(<<END, "", 1, "", <<END);
+include<>
+END
+Error at file 'test.asm' line 1: syntax error
+1 errors occurred during assembly
+END
+}
+
+diag "skipped"; if (0) {
+z80asm(<<END, "", 1, "", <<END);
+include''
+END
+Error at file 'test.asm' line 1: syntax error
+1 errors occurred during assembly
+END
+}
+
+z80asm(<<END, "", 1, "", <<END);
+include""
+END
+Error at file 'test.asm' line 1: cannot read file '.'
+1 errors occurred during assembly
+END
+
+spew("test.inc", 'ld a,10');
+
+diag "skipped"; if (0) {
+unlink 'test.bin';
+z80asm(<<END);
+include test.inc;comment
+END
+check_bin_file("test.bin", pack("C*", 0x3E, 10));
+}
+
+diag "skipped"; if (0) {
+unlink 'test.bin';
+z80asm(<<END);
+include'test.inc';comment
+END
+check_bin_file("test.bin", pack("C*", 0x3E, 10));
+}
+
+unlink 'test.bin';
+z80asm(<<END);
+include"test.inc";comment
+END
+check_bin_file("test.bin", pack("C*", 0x3E, 10));
+
+diag "skipped"; if (0) {
+unlink 'test.bin';
+z80asm(<<END);
+include<test.inc>;comment
+END
+check_bin_file("test.bin", pack("C*", 0x3E, 10));
+}
+
+diag "skipped"; if (0) {
+unlink 'test.bin';
+z80asm(<<END);
+*include test.inc;comment
+END
+check_bin_file("test.bin", pack("C*", 0x3E, 10));
+}
+
+diag "skipped"; if (0) {
+unlink 'test.bin';
+z80asm(<<END);
+#include test.inc;comment
+END
+check_bin_file("test.bin", pack("C*", 0x3E, 10));
+}
+
+diag "skipped"; if (0) {
+unlink 'test.bin';
+z80asm(<<END);
+%include test.inc;comment
+END
+check_bin_file("test.bin", pack("C*", 0x3E, 10));
+}
+
+diag "skipped"; if (0) {
+unlink 'test.bin';
+z80asm(<<END);
+ include test.inc;comment
+END
+check_bin_file("test.bin", pack("C*", 0x3E, 10));
+}
+
+diag "skipped"; if (0) {
+unlink 'test.bin';
+z80asm(<<END);
+* include test.inc;comment
+END
+check_bin_file("test.bin", pack("C*", 0x3E, 10));
+}
+
+diag "skipped"; if (0) {
+unlink 'test.bin';
+z80asm(<<END);
+# include test.inc;comment
+END
+check_bin_file("test.bin", pack("C*", 0x3E, 10));
+}
+
+diag "skipped"; if (0) {
+unlink 'test.bin';
+z80asm(<<END);
+% include test.inc;comment
+END
+check_bin_file("test.bin", pack("C*", 0x3E, 10));
+}
+
+diag "skipped"; if (0) {
+# with label
+z80asm(<<END);
+start    include test.inc;comment
+		 defw start
+END
+check_bin_file("test.bin", pack("C*", 0x3E, 10, 0, 0));
+}
+
+z80asm(<<END);
+ .start  include "test.inc";comment
+		 defw start
+END
+check_bin_file("test.bin", pack("C*", 0x3E, 10, 0, 0));
+
+z80asm(<<END);
+  start: include "test.inc";comment
+		 defw start
+END
+check_bin_file("test.bin", pack("C*", 0x3E, 10, 0, 0));
+
+z80asm(<<END);
+  start:include "test.inc";comment
+		 defw start
+END
+check_bin_file("test.bin", pack("C*", 0x3E, 10, 0, 0));
 
 unlink_testfiles();
 done_testing();

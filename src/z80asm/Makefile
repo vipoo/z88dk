@@ -1,7 +1,6 @@
 #------------------------------------------------------------------------------
 # Z88DK Z80 Module Assembler
-#
-# Copyright (C) Paulo Custodio, 2011-2017
+# Copyright (C) Paulo Custodio, 2011-2018
 # License: http://www.perlfoundation.org/artistic_license_2_0
 # Repository: https://github.com/z88dk/z88dk
 #------------------------------------------------------------------------------
@@ -9,7 +8,7 @@ PROJ		:= z80asm
 
 include ../Make.common
 
-CC 			?= gcc
+CC 		?= gcc
 INSTALL 	?= install
 CROSS		?= 0
 
@@ -18,22 +17,18 @@ CROSS		?= 0
 #------------------------------------------------------------------------------
 SRCS		:= $(filter-out test.c,$(wildcard *.c lib/*.c ../common/*.c ../../ext/regex/reg*.c))
 OBJS 		:= $(SRCS:.c=.o) \
-			$(UNIXem_OBJS)
-DEPENDS		:= $(SRCS:.c=.d)
-TEST_SRC_MAIN:= $(wildcard t/test_*.c)
-TEST_SRC_LIB:=t/testlib.c
+		   $(UNIXem_OBJS)
+DEPENDS		+= $(SRCS:.c=.d)
+TEST_SRC_MAIN	:= $(wildcard t/test_*.c)
+TEST_SRC_LIB	:= t/testlib.c
 
 #------------------------------------------------------------------------------
 # variables
 #------------------------------------------------------------------------------
-TARGET =		$(PROJ)$(EXE)
-MSVC_TARGET =	../../win32/Debug/$(TARGET)
-
-OPT = -O3
-
-STD = -std=gnu11
-LOCAL_LIB :=	lib
-LOCAL_CFLAGS +=	-MMD -I. -I$(LOCAL_LIB) -It -g -Wall -ftabstop=4 $(STD) $(OPT) \
+OPT 		=  -O3
+STD 		=  -std=gnu11
+LOCAL_LIB 	:= lib
+LOCAL_CFLAGS 	+= -MMD -I. -I$(LOCAL_LIB) -It -g -Wall -ftabstop=4 $(STD) $(OPT) \
 			-I../common \
 			-I../../ext/optparse \
 			-I../../ext/regex \
@@ -45,15 +40,15 @@ LOCAL_CFLAGS +=	-MMD -I. -I$(LOCAL_LIB) -It -g -Wall -ftabstop=4 $(STD) $(OPT) \
 #------------------------------------------------------------------------------
 .PHONY: all
 
-all: $(TARGET)
+all: $(PROJ)$(EXE)
 
-$(TARGET): ../config.h $(OBJS)
-	$(CC) $(LOCAL_CFLAGS) $(CFLAGS) -o $(TARGET) $(OBJS) $(LDFLAGS)
+$(PROJ)$(EXE): ../config.h $(OBJS)
+	$(CC) $(LOCAL_CFLAGS) $(CFLAGS) -o $(PROJ)$(EXE) $(OBJS) $(LDFLAGS)
 
 ../config.h:
-	@echo \#define PREFIX \"/usr/local/share/z88dk\" 				 > $@
-	@echo \#define UNIX 1											>> $@
-	@echo \#define EXEC_PREFIX \"\"									>> $@
+	@echo \#define PREFIX \"/usr/local/share/z88dk\" 		 > $@
+	@echo \#define UNIX 1						>> $@
+	@echo \#define EXEC_PREFIX \"\"					>> $@
 	@echo \#define Z88DK_VERSION \"build-$(shell date +%Y%m%d)\"	>> $@
 
 %.o: %.c
@@ -93,10 +88,18 @@ clean::
 	$(MAKE) -C lib clean
 
 #------------------------------------------------------------------------------
-# intall
+# astyle
+#------------------------------------------------------------------------------
+.PHONY: astyle
+astyle:
+	$(ASTYLE) $(wildcard *.c *.h lib/*.c lib/*.h t/*.c t/*.h)
+	$(ASTYLE) $(wildcard ../common/*.c ../common/*.h ../common/t/*.c ../common/t/*.h)
+
+#------------------------------------------------------------------------------
+# install
 #------------------------------------------------------------------------------
 install:
-	$(INSTALL) $(TARGET)     $(PREFIX)/bin/$(EXEC_PREFIX)$(TARGET)
+	$(INSTALL) $(PROJ)$(EXE)     $(PREFIX)/bin/$(EXEC_PREFIX)$(PROJ)$(EXE)
 	$(INSTALL) asmpp.pl      $(PREFIX)/bin/asmpp.pl
 	make -C dev/z80asm_lib install PREFIX=$(PREFIX_SHARE)
 
@@ -134,7 +137,7 @@ $(TEST_SRC_MAIN:.c=.o) : t/libtestlib.a
 clean::
 	$(RM) t/libtestlib.a t/*.o t/*.out lib/t/*.o lib/t/*.out $(TEST_SRC_MAIN:.c=$(EXE))
 
-test: $(TARGET) z80asm_lib
+test:: $(PROJ)$(EXE) z80asm_lib
 	$(MAKE) dev
 	$(MAKE) z80asm_lib
 	#$(MAKE) -C dev\z80asm_lib test
@@ -147,13 +150,10 @@ testlib:
 
 prove_c: t/libtestlib.a $(TEST_SRC_MAIN:.c=.o) $(TEST_SRC_MAIN:.c=.out)
 
-prove_perl: $(TARGET)
+prove_perl: $(PROJ)$(EXE)
 	perl -S prove t/*.t
 
-testmsvc : $(MSVC_TARGET)
-	make Z80ASM=$(MSVC_TARGET) prove
-
-test_enigma: $(TARGET)
+test_enigma: $(PROJ)$(EXE)
 	zcc +cpm -oenigma.bin t/data/enigma.c
 	echo HELLO. > enigma.in
 	cpm enigma.bin < enigma.in > enigma.out
@@ -165,7 +165,7 @@ test_enigma: $(TARGET)
 clean::
 	$(RM) zcc_opt.def zcc_proj.lst enigma.bin enigma.in enigma.out enigma.bmk
 
-testzcc : $(TARGET)
+testzcc : $(PROJ)$(EXE)
 	zcc +zx -lndos       -create-app -omicroman.bin ../../examples/microman.c
 	zcc +zx -lndos -lmzx -create-app -omandel.bin   ../../examples/graphics/mandel.c
 	eightyone microman.tap
@@ -176,16 +176,8 @@ clean::
 	$(RM) zcc_opt.def mandel.bin   mandel.tap
 
 clean::
-	$(RM) $(TARGET) $(LOCAL_LIB)/$(TARGET) test* $(LOCAL_LIB)/test*
+	$(RM) $(PROJ)$(EXE) $(LOCAL_LIB)/$(PROJ)$(EXE) test* $(LOCAL_LIB)/test*
 	$(RM) t/*.tmp $(LOCAL_LIB)/t/*.tmp t/dev/*.tmp 
-
-#------------------------------------------------------------------------------
-# build with msvc - need to build manualy, devenv not available in Express
-#------------------------------------------------------------------------------
-$(MSVC_TARGET) : $(wildcard *.c) $(wildcard *.h)
-	@echo Build $(PROJ) inside Microsoft Visual C++ 2010 Express
-	@exit 1
-
 
 #------------------------------------------------------------------------------
 # Dependencies

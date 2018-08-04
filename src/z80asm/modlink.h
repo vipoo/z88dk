@@ -1,10 +1,9 @@
 /*
 Z88DK Z80 Macro Assembler
 
-Copyright (C) Gunther Strube, InterLogic 1993-99
-Copyright (C) Paulo Custodio, 2011-2017
+Copyright (C) Paulo Custodio, 2011-2018
 License: The Artistic License 2.0, http://www.perlfoundation.org/artistic_license_2_0
-Repository: https://github.com/pauloscustodio/z88dk-z80asm
+Repository: https://github.com/z88dk/z88dk
 */
 
 #pragma once
@@ -13,4 +12,5 @@ Repository: https://github.com/pauloscustodio/z88dk-z80asm
 #include "expr.h"
 
 extern void link_modules( void );
-extern void compute_equ_exprs( ExprList *exprs, bool show_error, bool module_relative_addr );
+extern void compute_equ_exprs( ExprList* exprs, bool show_error,
+                               bool module_relative_addr );
