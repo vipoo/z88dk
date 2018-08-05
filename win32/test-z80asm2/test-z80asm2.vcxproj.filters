@@ -39,6 +39,12 @@
     <ClCompile Include="..\..\src\z80asm2\t\t_buffers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\z80asm2\t\t_errors.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\z80asm2\errors.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\z80asm2\t\test.h">

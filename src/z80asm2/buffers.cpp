@@ -31,10 +31,8 @@ bool Buffer::open_file(const std::string& filename_)
 
     ifs.open(filename_, std::ios::binary);
 
-    if (!ifs.is_open()) {
-        std::cerr << "Cannot open file " << filename_ << std::endl;
+    if (!ifs.is_open())
         return false;
-    }
 
     cur_line = Line(filename_);
 
@@ -104,16 +102,14 @@ void Input::push_text(const std::string& text)
 bool Input::push_file(const std::string& filename_)
 {
     if (has_file_open(filename_)) {
-        std::cerr << "Recursive include opening " << filename_ << " from " <<
-                  cur_line().filename
-                  << std::endl;
+        err.e_recursive_include(*this, filename_);
         return false;
     }
 
     auto buf = std::make_shared<Buffer>();
 
     if (!buf->open_file(filename_)) {
-        // error message already output
+        err.e_file_not_found(*this, filename_);
         return false;
     }
 

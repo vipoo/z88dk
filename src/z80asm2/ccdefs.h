@@ -30,5 +30,6 @@
 #include <sys/stat.h>
 
 #include "buffers.h"
+#include "errors.h"
 #include "options.h"
 #include "utils.h"

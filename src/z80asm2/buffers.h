@@ -35,7 +35,7 @@ private:
     size_t          textp{ 0 };
 
 public:
-    // open a file, error message and return false on error
+    // open a file, return false on error
     bool open_file(const std::string& filename_);
 
     // prepare to parse a text block
@@ -57,7 +57,8 @@ struct Input {
     void push_text(const std::string& text);
 
     // try to open file and push it to the stack
-    // returns false and does not open file if file not found or recursive include
+    // returns false, error messages and does not open file
+    // if file not found or recursive include
     bool push_file(const std::string& filename_);
 
     // pop one file/text

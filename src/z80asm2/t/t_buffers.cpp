@@ -78,11 +78,7 @@ void test_buffer_error()
 {
     remove("test.txt");
     Buffer b;
-    bool ok;
-    START_CAPTURE();
-    ok = b.open_file("test.txt");
-    END_CAPTURE("", "Cannot open file test.txt\n");
-    NOK(ok);
+    NOK(b.open_file("test.txt"));
 }
 
 void test_input()
@@ -119,14 +115,16 @@ void test_input()
 
     START_CAPTURE();
     ok = in.push_file("test1.txt");
-    END_CAPTURE("", "Recursive include opening test1.txt from test2.txt\n");
+    END_CAPTURE("",
+                "Error at file 'test2.txt' line 1: cannot include file 'test1.txt' recursively\n");
     NOK(ok);
 
     IS_LINE(in.cur_line(), "test2.txt", 1, "a");
 
     START_CAPTURE();
     ok = in.push_file("test3.txt");
-    END_CAPTURE("", "Cannot open file test3.txt\n");
+    END_CAPTURE("",
+                "Error at file 'test2.txt' line 1: cannot read file 'test3.txt'\n");
     NOK(ok);
 
     IS_LINE(in.cur_line(), "test2.txt", 1, "a");

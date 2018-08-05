@@ -147,6 +147,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="..\..\src\z80asm2\errors.cpp" />
     <ClCompile Include="..\..\src\z80asm2\options.cpp" />
     <ClCompile Include="..\..\src\z80asm2\utils.cpp" />
     <ClCompile Include="..\..\src\z80asm2\z80asm.cpp" />
@@ -154,6 +155,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\src\z80asm2\buffers.h" />
     <ClInclude Include="..\..\src\z80asm2\ccdefs.h" />
+    <ClInclude Include="..\..\src\z80asm2\errors.h" />
     <ClInclude Include="..\..\src\z80asm2\options.h" />
     <ClInclude Include="..\..\src\z80asm2\utils.h" />
   </ItemGroup>
