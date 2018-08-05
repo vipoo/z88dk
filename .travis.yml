@@ -41,6 +41,10 @@ matrix:
 
 before_install:
   - eval "${MATRIX_EVAL}"
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update          ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install cpanm   ; fi
+  - cpanm -v --local-lib=~/perl5 local::lib App::Prove Capture::Tiny Path::Tiny Modern::Perl 
+  - eval $(perl -I ~/perl5/lib/perl5/ -Mlocal::lib)
 
 before_script: 
   - export PATH=`pwd`/bin:$PATH
