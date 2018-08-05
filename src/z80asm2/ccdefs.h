@@ -10,6 +10,7 @@
 #include <exception>
 #include <fstream>
 #include <iostream>
+#include <memory>
 #include <sstream>
 #include <stdexcept>
 #include <streambuf>
@@ -28,5 +29,6 @@
 
 #include <sys/stat.h>
 
+#include "buffers.h"
 #include "options.h"
 #include "utils.h"

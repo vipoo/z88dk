@@ -8,12 +8,12 @@
 
 void test_redirect()
 {
-	std::cout << "# standard output" << std::endl;
-	std::cerr << "# standard error" << std::endl;
+    std::cout << "# standard output" << std::endl;
+    std::cerr << "# standard error" << std::endl;
 
     START_CAPTURE();
-	std::cout << "# redirected output" << std::endl;
-	std::cerr << "# redirected error" << std::endl;
+    std::cout << "# redirected output" << std::endl;
+    std::cerr << "# redirected error" << std::endl;
     END_CAPTURE("# redirected output\n",
                 "# redirected error\n");
 }
@@ -38,7 +38,7 @@ void test_spew_slurp()
     spew("test.1", "hello world");
     OK(file_exists("test.1"));
 
-	std::string text = slurp("test.1");
+    std::string text = slurp("test.1");
     IS_STR(text.c_str(), "hello world");
 
     remove_file("test.1");
@@ -222,14 +222,14 @@ void test_combine_path()
 
 void test_getline()
 {
-	std::string s;
+    std::string s;
 
-	std::ofstream out("test.txt", std::ios::binary);
+    std::ofstream out("test.txt", std::ios::binary);
     ASSERT(out.good());
     out.write("a\nb\rc\r\nd", 8);
     out.close();
 
-	std::ifstream in("test.txt", std::ios::binary);
+    std::ifstream in("test.txt", std::ios::binary);
     ASSERT(in.good());
 
     OK(!safe_getline(in, s).eof());
@@ -293,7 +293,7 @@ void test_search_file_file_exists()
     OK(file_exists("test_dir/test.2"));
     NOK(file_exists("test.3"));
 
-	std::vector<std::string> dirs;
+    std::vector<std::string> dirs;
     IS_STR(search_file("test.1", dirs), "test.1");
     IS_STR(search_file("test.2", dirs), "");
 
@@ -330,7 +330,7 @@ void test_strip()
 
 void test_chomp()
 {
-	std::string text;
+    std::string text;
 
     text = " \r\n\t\v\f  \r\n\t\v\f ";
     chomp(text);
@@ -355,7 +355,7 @@ void test_chomp()
 
 void test_replace_words()
 {
-	std::string text;
+    std::string text;
 
     text = "hello world";
     replace_words(text, "hello", "ola");

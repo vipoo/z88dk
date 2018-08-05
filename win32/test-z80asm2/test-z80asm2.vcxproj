@@ -142,9 +142,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\src\z80asm2\buffers.cpp" />
     <ClCompile Include="..\..\src\z80asm2\ccdefs.cpp" />
     <ClCompile Include="..\..\src\z80asm2\options.cpp" />
     <ClCompile Include="..\..\src\z80asm2\t\test.cpp" />
+    <ClCompile Include="..\..\src\z80asm2\t\t_buffers.cpp" />
     <ClCompile Include="..\..\src\z80asm2\t\t_options.cpp" />
     <ClCompile Include="..\..\src\z80asm2\t\t_utils.cpp" />
     <ClCompile Include="..\..\src\z80asm2\utils.cpp" />

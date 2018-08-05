@@ -24,7 +24,7 @@ public:
 
 private:
     std::streambuf* old_out;
-	std::streambuf* old_err;
+    std::streambuf* old_err;
     std::stringstream out_buffer;
     std::stringstream err_buffer;
 };

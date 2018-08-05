@@ -42,14 +42,14 @@ std::string get_basename(std::string path);
 // extension
 std::string get_extension(const std::string& path);
 std::string replace_extension(const std::string& path,
-                         const std::string& new_ext);
+                              const std::string& new_ext);
 
 // combine directory and file name
 std::string combine_path(std::string dir, std::string filename);
 
 // search file in directory path, return empty std::string if not found
 std::string search_file(const std::string& filename,
-                   const std::vector<std::string>& dirs);
+                        const std::vector<std::string>& dirs);
 
 // read line from input file with any EOL terminator
 std::istream& safe_getline(std::istream& is, std::string& t);

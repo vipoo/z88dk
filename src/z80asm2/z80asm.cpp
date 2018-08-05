@@ -7,9 +7,10 @@
 
 int main(int argc, char** argv)
 {
-	opts.parse(argc, argv);
-	if (opts.args.size() == 0) {
-		opts.usage();
-		return 0;
-	}
+    opts.parse(argc, argv);
+
+    if (opts.args.size() == 0) {
+        opts.usage();
+        return 0;
+    }
 }

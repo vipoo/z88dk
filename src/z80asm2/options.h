@@ -9,17 +9,16 @@
 #include <string>
 #include <vector>
 
-struct Options
-{
-	bool						verbose;
-	bool						preprocess;			// -E: preprocess only
-	std::vector<std::string>	include_path;		// -I option
-	std::vector<std::string>	args;				// input file names
+struct Options {
+    bool                        verbose;
+    bool                        preprocess;         // -E: preprocess only
+    std::vector<std::string>    include_path;       // -I option
+    std::vector<std::string>    args;               // input file names
 
-	// parse options, return true if no errors
-	bool parse(int argc, char **argv);
+    // parse options, return true if no errors
+    bool parse(int argc, char** argv);
 
-	static void usage();
+    static void usage();
 };
 
-extern Options opts;		// singleton
+extern Options opts;        // singleton

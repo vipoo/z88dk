@@ -23,8 +23,8 @@ std::string slurp(const std::string& filename)
 
     if (!ifs.good())
         throw std::runtime_error("open file " +
-                            filename + ": " +
-                            std::string(std::strerror(errno)));
+                                 filename + ": " +
+                                 std::string(std::strerror(errno)));
 
     // get length of file:
     ifs.seekg(0, ifs.end);
@@ -45,8 +45,8 @@ void spew(const std::string& filename, const std::string& text)
 
     if (!ofs.good())
         throw std::runtime_error("create file " +
-                            filename + ": " +
-                            std::string(std::strerror(errno)));
+                                 filename + ": " +
+                                 std::string(std::strerror(errno)));
 
     ofs.write(&text[0], text.length());
 }
@@ -195,7 +195,7 @@ std::string get_extension(const std::string& path)
 }
 
 std::string replace_extension(const std::string& path,
-                         const std::string& new_ext)
+                              const std::string& new_ext)
 {
     size_t ext_len = get_extension(path).length();
     return simplify_path(path.substr(0, path.length() - ext_len) + new_ext);
@@ -220,7 +220,7 @@ std::string combine_path(std::string dir, std::string filename)
 }
 
 std::string search_file(const std::string& filename,
-                   const std::vector<std::string>& dirs)
+                        const std::vector<std::string>& dirs)
 {
     if (file_exists(filename))
         return filename;
@@ -246,8 +246,8 @@ std::istream& safe_getline(std::istream& is, std::string& t)
     // The sentry object performs various tasks,
     // such as thread synchronization and updating the stream state.
 
-	std::istream::sentry se(is, true);
-	std::streambuf* sb = is.rdbuf();
+    std::istream::sentry se(is, true);
+    std::streambuf* sb = is.rdbuf();
 
     for (;;) {
         int c = sb->sbumpc();

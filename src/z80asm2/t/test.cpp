@@ -15,8 +15,8 @@ RedirectOutput::RedirectOutput()
 
 RedirectOutput::~RedirectOutput()
 {
-	std::cout.rdbuf(old_out);
-	std::cerr.rdbuf(old_err);
+    std::cout.rdbuf(old_out);
+    std::cerr.rdbuf(old_err);
 }
 
 std::string RedirectOutput::out() const
@@ -31,7 +31,7 @@ std::string RedirectOutput::err() const
 
 static void print_summary()
 {
-	std::cout << "1.." << count_run << std::endl;
+    std::cout << "1.." << count_run << std::endl;
 
     if (count_failed)
         DIAG("Failed " << count_failed << " test"
@@ -43,9 +43,9 @@ void is_ok(bool value, const std::string& filename, int line_nr)
     count_run++;
 
     if (!value)
-		std::cout << "not ";
+        std::cout << "not ";
 
-	std::cout << "ok " << count_run << std::endl;
+    std::cout << "ok " << count_run << std::endl;
 
     if (!value) {
         count_failed++;
