@@ -8,7 +8,8 @@
 
 void test_options_ok()
 {
-	char **argv = (char**)calloc(8, sizeof(char*));
+	const int argc = 9;
+	char **argv = (char**)calloc(argc, sizeof(char*));
 	argv[0] = strdup("z80asm2");
 	argv[1] = strdup("file1.asm");
 	argv[2] = strdup("-v");
@@ -17,10 +18,12 @@ void test_options_ok()
 	argv[5] = strdup("file2.asm");
 	argv[6] = strdup("-Idir2");
 	argv[7] = strdup("file3.asm");
+	argv[8] = strdup("-E");
 
-	OK(opts.parse(8, argv));
+	OK(opts.parse(argc, argv));
 
 	OK(opts.verbose);
+	OK(opts.preprocess);
 
 	IS(opts.args.size(), 3);
 	IS_STR(opts.args[0], "file1.asm");
@@ -31,7 +34,7 @@ void test_options_ok()
 	IS_STR(opts.include_path[0], "dir1");
 	IS_STR(opts.include_path[1], "dir2");
 
-	for (int i = 0; i < 8; i++)
+	for (int i = 0; i < argc; i++)
 		free(argv[i]);
 	free(argv);
 }

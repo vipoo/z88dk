@@ -12,6 +12,7 @@
 struct Options
 {
 	bool						verbose;
+	bool						preprocess;			// -E: preprocess only
 	std::vector<std::string>	include_path;		// -I option
 	std::vector<std::string>	args;				// input file names
 

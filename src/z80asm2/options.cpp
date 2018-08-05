@@ -12,9 +12,35 @@ void Options::usage()
 {
 	std::cout << "Usage: z80asm2 [options] [files]" << std::endl
 		<< "Options:" << std::endl
+		<< "  -E    preprocess" << std::endl
+		<< "  -Idir add directory to include path" << std::endl
 		<< "  -v    verbose" << std::endl
-		<< "  -Idir add directory to include path" << std::endl;
+		;
 }
+
+#define OPT_NO_ARGS(opt)												\
+		if (!*argp) {													\
+			opt = true;													\
+			continue;													\
+		}																\
+		else {															\
+			std::cerr << "Unknown option " << argv[argi] << std::endl;	\
+			return false;												\
+		}
+
+#define OPT_ARG(action)													\
+		if (*argp) {													\
+			action(argp);												\
+			continue;													\
+		}																\
+		else if (++argi < argc) {										\
+			action(argv[argi]);											\
+			continue;													\
+		}																\
+		else {															\
+			std::cerr << "Option -I requires argument" << std::endl;	\
+			return false;												\
+		}
 
 bool Options::parse(int argc, char ** argv)
 {
@@ -26,28 +52,12 @@ bool Options::parse(int argc, char ** argv)
 		switch (*argp++) {			// 1st char
 		case '-':
 			switch (*argp++) {		// 2nd char
+			case 'E':
+				OPT_NO_ARGS(preprocess);
 			case 'I':
-				if (*argp) {
-					include_path.push_back(argp);
-					continue;
-				}
-				else if (++argi < argc) {
-					include_path.push_back(argv[argi]);
-					continue;
-				}
-				else {
-					std::cerr << "Option -I requires argument" << std::endl;
-					return false;
-				}
+				OPT_ARG(include_path.push_back);
 			case 'v':
-				if (!*argp) {
-					verbose = true;
-					continue;
-				}
-				else {
-					std::cerr << "Unknown option " << argv[argi] << std::endl;
-					return false;
-				}
+				OPT_NO_ARGS(verbose);
 			default:
 				std::cerr << "Unknown option " << argv[argi] << std::endl;
 				return false;

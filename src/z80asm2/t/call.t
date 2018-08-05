@@ -24,8 +24,9 @@ ok 1, $cmd;
 is $out, <<END;
 Usage: z80asm2 [options] [files]
 Options:
-  -v    verbose
+  -E    preprocess
   -Idir add directory to include path
+  -v    verbose
 END
 is $err, '';
 is $rv, 0;
