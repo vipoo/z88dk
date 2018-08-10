@@ -27,13 +27,17 @@ DEPENDS		+= $(SRCS:.cpp=.d) $(T_SRCS:.cpp=.d)
 
 
 #------------------------------------------------------------------------------
+.PHONY: all clean test valgrind astyle
+
+#------------------------------------------------------------------------------
 # main
 #------------------------------------------------------------------------------
 all: $(PROJ)$(EXE)
 
-$(PROJ)$(EXE): ../config.h
+$(OBJS_ALL): ../config.h
 
 ../config.h:
+	@echo Create $@
 	@echo \#define PREFIX \"/usr/local/share/z88dk\" 		 > $@
 	@echo \#define UNIX 1						>> $@
 	@echo \#define EXEC_PREFIX \"\"					>> $@
@@ -71,15 +75,14 @@ RE2C_OBJS	:= $(RE2C_SRCS:.cc=.o)
 DEPENDS		+= $(RE2C_SRCS:.cc=.d)
 
 #------------------------------------------------------------------------------
-.PHONY: all clean test valgrind astyle
+all: $(RE2C)$(EXE)
 
-#------------------------------------------------------------------------------
-all:   $(RE2C_ROOT)/config.h
-test:: $(RE2C_ROOT)/config.h
+$(RE2C_OBJS): $(RE2C_ROOT)/config.h
 
 $(RE2C_ROOT)/config.h:
-	echo '#define HAVE_STDINT_H 1'          > $(RE2C_ROOT)/config.h
-	echo '#define PACKAGE_VERSION "1.0.3"' >> $(RE2C_ROOT)/config.h
+	@echo Create $@
+	@echo '#define HAVE_STDINT_H 1'          > $@
+	@echo '#define PACKAGE_VERSION "1.0.3"' >> $@
 
 #------------------------------------------------------------------------------
 define MAKE_RE2C
