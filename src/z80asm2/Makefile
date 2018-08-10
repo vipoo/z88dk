@@ -90,7 +90,7 @@ $(PROJ)$(EXE): $(1).o
 
 $(1).cpp: $(1).re $(RE2C)$(EXE)
 	./$(RE2C)$(EXE) $(RE2C_FLAGS) -o $(1).cpp1 $(1).re
-	sed -e "s/\r//" < $(1).cpp1 > $(1).cpp
+	sed -e "s/\\r//" < $(1).cpp1 > $(1).cpp
 	$(RM) $(1).cpp1
 endef
 
