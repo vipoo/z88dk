@@ -124,7 +124,7 @@ void test_input()
     START_CAPTURE();
     ok = in.push_file("test3.txt");
     END_CAPTURE("",
-                "Error at file 'test2.txt' line 1: cannot read file 'test3.txt'\n");
+                "Error at file 'test2.txt' line 1: file 'test3.txt' not found\n");
     NOK(ok);
 
     IS_LINE(in.cur_line(), "test2.txt", 1, "a");

@@ -14,6 +14,7 @@ struct Errors {
 
     void e_syntax(const Input& input);
     void e_file_not_found(const Input& input, const std::string& filename);
+    void e_read_file(const Input& input, const std::string& filename);
     void e_write_file(const Input& input, const std::string& filename);
     void e_recursive_include(const Input& input, const std::string& filename);
 

@@ -1,3 +1,0 @@
-LINE 1, "t/preproc/f2.asm"
-	ld a,1
-	ld a,2

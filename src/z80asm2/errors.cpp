@@ -21,12 +21,17 @@ void Errors::e_syntax(const Input& input)
 
 void Errors::e_file_not_found(const Input& input, const std::string& filename)
 {
+    ERR("file '" << filename << "' not found");
+}
+
+void Errors::e_read_file(const Input& input, const std::string& filename)
+{
     ERR("cannot read file '" << filename << "'");
 }
 
 void Errors::e_write_file(const Input& input, const std::string& filename)
 {
-    ERR("cannot write file '" << filename << "' recursively");
+    ERR("cannot write file '" << filename << "'");
 }
 
 void Errors::e_recursive_include(const Input& input,

@@ -1,0 +1,3 @@
+LINE 1, "t/preproc/02_simple.asm"
+	ld a,1
+	ld a,2

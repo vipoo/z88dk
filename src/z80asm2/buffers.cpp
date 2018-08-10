@@ -116,7 +116,7 @@ bool Input::push_file(const std::string& filename_)
     auto buf = std::make_shared<Buffer>();
 
     if (!buf->open_file(pathname)) {
-        err.e_file_not_found(*this, pathname);
+        err.e_read_file(*this, pathname);
         return false;
     }
 

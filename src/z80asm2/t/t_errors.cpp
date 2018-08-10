@@ -16,7 +16,7 @@ void test_errors()
     err.count = 0;
     START_CAPTURE();
     err.e_file_not_found(in, "test.inc");
-    END_CAPTURE("", "Error: cannot read file 'test.inc'\n");
+    END_CAPTURE("", "Error: file 'test.inc' not found\n");
     IS(err.count, 1);
     err.count = 0;
 
@@ -27,7 +27,7 @@ void test_errors()
     START_CAPTURE();
     err.e_file_not_found(in, "test.inc");
     END_CAPTURE("",
-                "Error at file 'test.txt' line 1: cannot read file 'test.inc'\n");
+                "Error at file 'test.txt' line 1: file 'test.inc' not found\n");
     IS(err.count, 1);
     err.count = 0;
 
