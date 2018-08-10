@@ -9,7 +9,7 @@ PROJ		:= z80asm2
 include ../Make.common
 
 CXX		?= g++
-CXXFLAGS	+= -g -Wall -Wextra -std=gnu++11 -MMD -Iext/re2c/re2c
+CXXFLAGS	+= -g -Wall -Wextra -std=gnu++11 -MMD
 INSTALL 	?= install
 CROSS		?= 0
 
@@ -91,7 +91,7 @@ $(1).cpp: $(1).re $(RE2C)$(EXE)
 	$(RM) $(1).cpp1
 endef
 
-#$(eval $(call MAKE_RE2C,options_re))
+$(eval $(call MAKE_RE2C,preproc_re))
 
 $(eval $(call MAKE_CXX_EXE,$(RE2C),$(RE2C_OBJS),0))
 

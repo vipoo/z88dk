@@ -146,10 +146,13 @@
     <ClCompile Include="..\..\src\z80asm2\ccdefs.cpp" />
     <ClCompile Include="..\..\src\z80asm2\errors.cpp" />
     <ClCompile Include="..\..\src\z80asm2\options.cpp" />
+    <ClCompile Include="..\..\src\z80asm2\preproc.cpp" />
+    <ClCompile Include="..\..\src\z80asm2\preproc_re.cpp" />
     <ClCompile Include="..\..\src\z80asm2\t\test.cpp" />
     <ClCompile Include="..\..\src\z80asm2\t\t_buffers.cpp" />
     <ClCompile Include="..\..\src\z80asm2\t\t_errors.cpp" />
     <ClCompile Include="..\..\src\z80asm2\t\t_options.cpp" />
+    <ClCompile Include="..\..\src\z80asm2\t\t_preproc.cpp" />
     <ClCompile Include="..\..\src\z80asm2\t\t_utils.cpp" />
     <ClCompile Include="..\..\src\z80asm2\utils.cpp" />
   </ItemGroup>

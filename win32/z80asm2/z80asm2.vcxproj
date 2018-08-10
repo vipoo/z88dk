@@ -149,6 +149,8 @@
     </ClCompile>
     <ClCompile Include="..\..\src\z80asm2\errors.cpp" />
     <ClCompile Include="..\..\src\z80asm2\options.cpp" />
+    <ClCompile Include="..\..\src\z80asm2\preproc.cpp" />
+    <ClCompile Include="..\..\src\z80asm2\preproc_re.cpp" />
     <ClCompile Include="..\..\src\z80asm2\utils.cpp" />
     <ClCompile Include="..\..\src\z80asm2\z80asm.cpp" />
   </ItemGroup>
@@ -157,6 +159,7 @@
     <ClInclude Include="..\..\src\z80asm2\ccdefs.h" />
     <ClInclude Include="..\..\src\z80asm2\errors.h" />
     <ClInclude Include="..\..\src\z80asm2\options.h" />
+    <ClInclude Include="..\..\src\z80asm2\preproc.h" />
     <ClInclude Include="..\..\src\z80asm2\utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

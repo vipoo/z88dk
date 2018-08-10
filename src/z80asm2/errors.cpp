@@ -14,9 +14,19 @@ Errors err;
         footer(input);      \
         count++
 
+void Errors::e_syntax(const Input& input)
+{
+    ERR("syntax error");
+}
+
 void Errors::e_file_not_found(const Input& input, const std::string& filename)
 {
     ERR("cannot read file '" << filename << "'");
+}
+
+void Errors::e_write_file(const Input& input, const std::string& filename)
+{
+    ERR("cannot write file '" << filename << "' recursively");
 }
 
 void Errors::e_recursive_include(const Input& input,

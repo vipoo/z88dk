@@ -101,26 +101,42 @@ void Input::push_text(const std::string& text)
 
 bool Input::push_file(const std::string& filename_)
 {
-    if (has_file_open(filename_)) {
-        err.e_recursive_include(*this, filename_);
+    std::string pathname = search_file(filename_, opts.include_path);
+
+    if (pathname.empty()) {
+        err.e_file_not_found(*this, filename_);
+        return false;
+    }
+
+    if (has_file_open(pathname)) {
+        err.e_recursive_include(*this, pathname);
         return false;
     }
 
     auto buf = std::make_shared<Buffer>();
 
-    if (!buf->open_file(filename_)) {
-        err.e_file_not_found(*this, filename_);
+    if (!buf->open_file(pathname)) {
+        err.e_file_not_found(*this, pathname);
         return false;
     }
 
     stack.push_back(buf);
+
+    // add directory of file to path for includes
+    opts.include_path.push_back(get_dirname(pathname));
+    buf->pushed_include_path = true;
+
     return true;
 }
 
 void Input::pop()
 {
-    if (!stack.empty())
+    if (!stack.empty()) {
+        if (stack.back()->pushed_include_path)
+            opts.include_path.pop_back();
+
         stack.pop_back();
+    }
 }
 
 bool Input::getline()

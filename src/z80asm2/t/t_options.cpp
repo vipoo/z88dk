@@ -8,6 +8,8 @@
 
 void test_options_ok()
 {
+    IS(opts.include_path.size(), 0);
+
     const int argc = 9;
     char** argv = (char**)calloc(argc, sizeof(char*));
     argv[0] = strdup("z80asm2");

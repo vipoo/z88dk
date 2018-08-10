@@ -25,9 +25,10 @@ struct Line {
 // one input buffer from input file or macro expansion
 struct Buffer {
     Line    cur_line;       // current input line, updated by getline()
+    bool    pushed_include_path{ false };
 
     Buffer(const std::string& filename_ = "", int line_nr_ = 0);
-    ~Buffer();
+    virtual ~Buffer();
 
 private:
     std::ifstream   ifs;

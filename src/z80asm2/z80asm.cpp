@@ -13,4 +13,13 @@ int main(int argc, char** argv)
         opts.usage();
         return 0;
     }
+    else if (opts.preprocess) {
+        for (const auto& it : opts.args)
+            Preproc::do_process(it);
+    }
+
+	if (err.count == 0)
+		return EXIT_SUCCESS;
+	else
+		return EXIT_FAILURE;
 }

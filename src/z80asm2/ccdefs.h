@@ -10,14 +10,17 @@
 #include <exception>
 #include <fstream>
 #include <iostream>
+#include <list>
 #include <memory>
 #include <sstream>
 #include <stdexcept>
 #include <streambuf>
 #include <string>
+#include <unordered_map>
 #include <unordered_set>
 #include <vector>
 
+#include <cctype>
 #include <cstdlib>
 #include <cstring>
 
@@ -32,4 +35,5 @@
 #include "buffers.h"
 #include "errors.h"
 #include "options.h"
+#include "preproc.h"
 #include "utils.h"
