@@ -32,14 +32,22 @@ private:
     // scanner
     void init_scan(const std::string& text_);
 
+    // check if a token follows
     enum { NONE, INCLUDE };
-    int get_keyword();
-    std::string get_include_filename();
-    bool check_end();
+    int is_keyword();
+    std::string is_label();
 
+    // assert a token follows, error if not
+    std::string get_include_filename();
+    bool get_end_of_statement();
+
+    // parse
     bool parse_line();
     bool parse_directive();
+    bool parse_opt_label_directive();
     void parse_include();
 
-    void parse();
+    std::string label_asm(const std::string& label);
+    void do_label(const std::string& label);
+    void undo_label(const std::string& label);
 };

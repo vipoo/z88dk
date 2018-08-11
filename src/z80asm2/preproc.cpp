@@ -15,7 +15,7 @@
                 case 'A': case 'B': case 'C': case 'D': case 'E': case 'F': case 'G': case 'H': \
                 case 'I': case 'J': case 'K': case 'L': case 'M': case 'N': case 'O': case 'P': \
                 case 'Q': case 'R': case 'S': case 'T': case 'U': case 'V': case 'W': case 'X': \
-                case 'Y': case 'Z':
+                case 'Y': case 'Z'
 
 Preproc::~Preproc()
 {
@@ -75,6 +75,21 @@ void Preproc::do_process(const std::string& asm_filename)
     }
 }
 
+bool Preproc::get_end_of_statement()
+{
+    while (*p && isspace(*p))
+        p++;
+
+    if (!*p || *p == ';') {
+        p += strlen(p);
+        return true;
+    }
+    else {
+        err.e_syntax(*this);
+        return false;
+    }
+}
+
 bool Preproc::parse_line()
 {
     // check first character
@@ -88,11 +103,17 @@ bool Preproc::parse_line()
         parse_directive();
         return true;
 
+    case ALPHA:
+        if (parse_opt_label_directive())
+            return true;
+
+        break;
+
     default:
         ;
     }
 
-    if (parse_directive())
+    if (parse_opt_label_directive())
         return true;
 
     return false;
@@ -100,7 +121,7 @@ bool Preproc::parse_line()
 
 bool Preproc::parse_directive()
 {
-    int kw = get_keyword();
+    int kw = is_keyword();
 
     switch (kw) {
     case INCLUDE:
@@ -112,6 +133,21 @@ bool Preproc::parse_directive()
     }
 }
 
+bool Preproc::parse_opt_label_directive()
+{
+    auto p0 = p;
+    std::string label = is_label();
+    do_label(label);
+
+    if (!parse_directive()) {
+        undo_label(label);
+        p = p0;
+        return false;
+    }
+
+    return true;
+}
+
 void Preproc::parse_include()
 {
     auto filename = get_include_filename();
@@ -119,71 +155,34 @@ void Preproc::parse_include()
     if (filename.empty())
         return;
 
-    if (!check_end())
+    if (!get_end_of_statement())
         return;
 
     // recurse
     process(filename);
 }
 
-std::string Preproc::get_include_filename()
+std::string Preproc::label_asm(const std::string& label)
 {
-    std::string filename;
-    char delim;
-
-    while (isspace(*p))
-        p++;
-
-    switch (*p) {
-    case '<':
-        delim = '>';
-        break;
-
-    case '"':
-        delim = *p;
-        break;
-
-    case '\'':
-        delim = *p;
-        break;
-
-    default:
-        delim = '\0';
-        break;
-    }
-
-    if (delim) {
-        p++;                // skip initial delimiter
-
-        while (*p && *p != ';' && *p != delim)
-            filename += *p++;
-
-        if (!*p) {          // no end delimiter
-            err.e_syntax(*this);
-            return std::string();
-        }
-
-        p++;                // skip final delimiter
-    }
-    else {                  // white space delimited
-        while (*p && *p != ';' && !isspace(*p))
-            filename += *p++;
-    }
-
-    return filename;
+    if (label.empty())
+        return std::string();
+    else
+        return std::string(".") + label;
 }
 
-bool Preproc::check_end()
+void Preproc::do_label(const std::string& label)
 {
-    while (*p && isspace(*p))
-        p++;
+    if (!label.empty()) {
+        auto cur_line = input.cur_line();
+        auto line = std::make_shared<Line>(cur_line.filename, cur_line.line_nr,
+                                           label_asm(label));
+        lines.push_back(line);
+    }
+}
 
-    if (!*p || *p == ';') {
-        p += strlen(p);
-        return true;
-    }
-    else {
-        err.e_syntax(*this);
-        return false;
-    }
+void Preproc::undo_label(const std::string& label)
+{
+    if (!label.empty() && !lines.empty()
+        && lines.back()->text == label_asm(label))
+        lines.pop_back();
 }

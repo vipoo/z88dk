@@ -30,7 +30,7 @@ void Preproc::init_scan(const std::string & text_)
 	p = text.c_str();
 }
 
-int Preproc::get_keyword()
+int Preproc::is_keyword()
 {
 	const char *YYMARKER;
 	auto p0 = p;
@@ -40,81 +40,43 @@ int Preproc::get_keyword()
 */
 }
 
-#define PUSH(new_text)						\
-			auto line = std::make_shared<Line>(cur_line.filename, cur_line.line_nr, new_text);	\
-			lines.push_back(line);
-
-#define DO_LABEL()							\
-			if (true /*is_opcode(p3, p4)*/) {		\
-				std::string new_text = std::string(".") + std::string(p1, p2);	\
-				PUSH(new_text);				\
-				p = p3;						\
-				state = at_opcode;			\
-				continue;					\
-			}								\
-			else {							\
-				p = p1;						\
-				state = at_opcode;			\
-				continue;					\
-			}
-
-#define DO_INCLUDE() 						\
-			std::string incfile(p1, p2);	\
-			if (!input.push_file(incfile)) 	\
-				return;						\
-			state = at_end;					\
-			continue;
-
-void Preproc::parse()
+std::string Preproc::is_label()
 {
-	const char *YYMARKER, *p1, *p2, *p3, *p4, *yyt1, *yyt2, *yyt3;
-	const Line& cur_line = input.cur_line();
-	std::string text(cur_line.text);
-	text.reserve(text.length() + YYMAXFILL);		// needed by re2c
-	const char *p = text.c_str();
-	enum { at_bol, at_opcode, at_end };
-	
-	for (int state = at_bol; *p; ) {
-		if (state == at_bol) {
+	const char *YYMARKER, *p1, *p2, *yyt1, *yyt2;
+	auto p0 = p;
 /*!re2c
-			
-			        @p1 name @p2     ws+ @p3 name @p4		{ DO_LABEL(); }
-			ws* '.' @p1 name @p2     ws+ @p3 name @p4		{ DO_LABEL(); }
-			ws*     @p1 name @p2 ':' ws* @p3 name @p4		{ DO_LABEL(); }
-			
-			pp? ws* 'INCLUDE' ws* @p1 '<' file_ab @p2 '>' 	{ DO_INCLUDE(); }
-			pp? ws* 'INCLUDE' ws* @p1 "'" file_sq @p2 "'" 	{ DO_INCLUDE(); }
-			pp? ws* 'INCLUDE' ws* @p1 '"' file_dq @p2 '"' 	{ DO_INCLUDE(); }
-			pp? ws* 'INCLUDE' ws+ @p1     file_sp @p2     	{ DO_INCLUDE(); }
-			pp? ws* 'INCLUDE' ws* 	{ err.e_syntax(*this); return; }
-			
-			*						{ state = at_opcode; continue; }
-*/
-		}
-		else if (state == at_opcode) {
-/*!re2c 
-			'INCLUDE' ws* @p1 '<' file_ab @p2 '>' 			{ DO_INCLUDE(); }
-			'INCLUDE' ws* @p1 "'" file_sq @p2 "'" 			{ DO_INCLUDE(); }
-			'INCLUDE' ws* @p1 '"' file_dq @p2 '"' 			{ DO_INCLUDE(); }
-			'INCLUDE' ws+ @p1     file_sp @p2     			{ DO_INCLUDE(); }
-			'INCLUDE' ws* 			{ err.e_syntax(*this); return; }
-			
-			ws+ 					{ continue; }
-			( ';' | "\x00" ) 		{ return; }
-			* {
-				std::string new_text(p);
-				PUSH(new_text);
-				return;
+	        @p1 name @p2 ws+	{ 
+				if (is_keyword() != NONE) {		// column-1 name followed by keyword
+					p = p2;						// go back to before keyword
+					return std::string(p1, p2);
+				}
+				else {
+					p = p0; return std::string();
+				}				    
 			}
+	ws*     @p1 name @p2 ':' 	{ return std::string(p1, p2); }
+	ws* '.' @p1 name @p2 		{ return std::string(p1, p2); }
+	*							{ p = p0; return std::string(); }
 */
-		}
-		else /* if (state == at_end) */ {
-/*!re2c 
-			ws+ 					{ continue; }
-			( ';' | "\x00" ) 		{ return; }
-			* 						{ err.e_syntax(*this); return; }
-*/
-		}
-	}
 }
 
+std::string Preproc::get_include_filename()
+{
+	const char *YYMARKER, *p1, *p2, *yyt1, *yyt2;
+	auto p0 = p;
+	
+/*!re2c
+	ws* '<'     file_ab 		{ err.e_syntax(*this); return std::string(); }
+	ws* '<' @p1 file_ab @p2 '>'	{ return std::string(p1, p2); }
+	
+	ws* "'"     file_sq 		{ err.e_syntax(*this); return std::string(); }
+	ws* "'" @p1 file_sq @p2 "'"	{ return std::string(p1, p2); }
+
+	ws* '"'     file_dq 		{ err.e_syntax(*this); return std::string(); }
+	ws* '"' @p1 file_dq @p2 '"'	{ return std::string(p1, p2); }
+	
+	ws+     @p1 file_sp @p2		{ return std::string(p1, p2); }
+	
+	*							{ p = p0; err.e_syntax(*this); return std::string(); }
+*/
+}

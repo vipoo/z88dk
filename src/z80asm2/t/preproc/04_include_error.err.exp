@@ -10,13 +10,13 @@ Error at file 't/preproc/04_include_error.asm' line 4: syntax error
 	-------------------------------------^
 Error at file 't/preproc/04_include_error.asm' line 5: syntax error
 	        include <04_include_error;.inc>
-	----------------------------------^
+	---------------------------------^
 Error at file 't/preproc/04_include_error.asm' line 6: syntax error
 	        include '04_include_error;.inc'
-	----------------------------------^
+	---------------------------------^
 Error at file 't/preproc/04_include_error.asm' line 7: syntax error
 	        include "04_include_error;.inc"
-	----------------------------------^
+	---------------------------------^
 Error at file 't/preproc/04_include_error.asm' line 8: syntax error
 	        include  04_include_error.inc   x
 	----------------------------------------^

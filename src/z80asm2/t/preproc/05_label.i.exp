@@ -1,0 +1,24 @@
+LINE 1, "t/preproc/05_label.asm"
+inc a
+LINE 1, "t/preproc/05_label.inc"
+nop
+LINE 3, "t/preproc/05_label.asm"
+.inc
+LINE 1, "t/preproc/05_label.inc"
+nop
+LINE 4, "t/preproc/05_label.asm"
+.inc
+LINE 1, "t/preproc/05_label.inc"
+nop
+LINE 5, "t/preproc/05_label.asm"
+.inc
+LINE 1, "t/preproc/05_label.inc"
+nop
+LINE 6, "t/preproc/05_label.asm"
+.inc
+LINE 1, "t/preproc/05_label.inc"
+nop
+LINE 7, "t/preproc/05_label.asm"
+.inc
+LINE 1, "t/preproc/05_label.inc"
+nop

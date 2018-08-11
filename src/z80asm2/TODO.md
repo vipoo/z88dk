@@ -2,9 +2,6 @@
 
 ## Short term
 
-[ ] indicate syntax error location  
-[ ] process labels in INCLUDE line  
-[ ] process labels  
 [ ] process C_LINE  
 [ ] fix lis files when parsing a .i
 
@@ -20,3 +17,5 @@
 
 [x] process INCLUDE  
 [x] generate .i file
+[x] indicate syntax error location  
+[x] process labels  
