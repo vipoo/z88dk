@@ -32,8 +32,8 @@ struct Buffer {
 
 private:
     std::ifstream   ifs;
-    std::string     text;
-    size_t          textp{ 0 };
+    std::string     text;           // pushed text
+    size_t          textp{ 0 };     // point at next pushed text to return
 
 public:
     // open a file, return false on error

@@ -42,7 +42,7 @@ void Errors::e_recursive_include(const Input& input,
 
 void Errors::header(const Input& input)
 {
-    const Line line = input.cur_line();
+    const Line& line = input.cur_line();
     std::cerr << "Error";
 
     if (strlen(line.filename) != 0 && line.line_nr != 0)
