@@ -86,7 +86,7 @@ void Preproc::parse()
 			pp? ws* 'INCLUDE' ws* @p1 "'" file_sq @p2 "'" 	{ DO_INCLUDE(); }
 			pp? ws* 'INCLUDE' ws* @p1 '"' file_dq @p2 '"' 	{ DO_INCLUDE(); }
 			pp? ws* 'INCLUDE' ws+ @p1     file_sp @p2     	{ DO_INCLUDE(); }
-			pp? ws* 'INCLUDE' ws* 	{ err.e_syntax(input); return; }
+			pp? ws* 'INCLUDE' ws* 	{ err.e_syntax(*this); return; }
 			
 			*						{ state = at_opcode; continue; }
 */
@@ -97,7 +97,7 @@ void Preproc::parse()
 			'INCLUDE' ws* @p1 "'" file_sq @p2 "'" 			{ DO_INCLUDE(); }
 			'INCLUDE' ws* @p1 '"' file_dq @p2 '"' 			{ DO_INCLUDE(); }
 			'INCLUDE' ws+ @p1     file_sp @p2     			{ DO_INCLUDE(); }
-			'INCLUDE' ws* 			{ err.e_syntax(input); return; }
+			'INCLUDE' ws* 			{ err.e_syntax(*this); return; }
 			
 			ws+ 					{ continue; }
 			( ';' | "\x00" ) 		{ return; }
@@ -112,7 +112,7 @@ void Preproc::parse()
 /*!re2c 
 			ws+ 					{ continue; }
 			( ';' | "\x00" ) 		{ return; }
-			* 						{ err.e_syntax(input); return; }
+			* 						{ err.e_syntax(*this); return; }
 */
 		}
 	}

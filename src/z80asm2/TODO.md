@@ -2,10 +2,11 @@
 
 ## Short term
 
-[ ] indicate error location  
-[ ] process include directives  
+[ ] indicate syntax error location  
+[ ] process labels in INCLUDE line  
 [ ] process labels  
 [ ] process C_LINE  
+[ ] fix lis files when parsing a .i
 
 ## Medium term
 
@@ -17,4 +18,5 @@
 
 ## Done
 
+[x] process INCLUDE  
 [x] generate .i file

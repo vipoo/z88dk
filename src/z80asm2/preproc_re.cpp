@@ -1821,7 +1821,7 @@ yy70:
                 }
 
 yy71: {
-                    err.e_syntax(input);
+                    err.e_syntax(*this);
                     return;
                 }
 yy72:
@@ -2640,7 +2640,7 @@ yy126:
                 }
 
 yy127: {
-                    err.e_syntax(input);
+                    err.e_syntax(*this);
                     return;
                 }
 yy128:
@@ -3018,7 +3018,7 @@ yy162:
 yy164:
                 ++p;
                 {
-                    err.e_syntax(input);
+                    err.e_syntax(*this);
                     return;
                 }
 yy166:

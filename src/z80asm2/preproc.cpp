@@ -159,7 +159,7 @@ std::string Preproc::get_include_filename()
             filename += *p++;
 
         if (!*p) {          // no end delimiter
-            err.e_syntax(input);
+            err.e_syntax(*this);
             return std::string();
         }
 
@@ -183,7 +183,7 @@ bool Preproc::check_end()
         return true;
     }
     else {
-        err.e_syntax(input);
+        err.e_syntax(*this);
         return false;
     }
 }

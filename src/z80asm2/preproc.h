@@ -16,6 +16,9 @@ struct Preproc {
     Input input;
     std::list<std::shared_ptr<Line> > lines;
 
+    std::string text;                   // scanned text
+    const char* p{ nullptr };           // scan pointer
+
     virtual ~Preproc();
 
     // preprocess a file, output to lines
@@ -27,8 +30,6 @@ struct Preproc {
 
 private:
     // scanner
-    std::string text;                   // scanned text
-    const char* p{ nullptr };           // scan pointer
     void init_scan(const std::string& text_);
 
     enum { NONE, INCLUDE };
