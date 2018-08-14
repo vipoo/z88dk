@@ -4,7 +4,8 @@
 // License: http://www.perlfoundation.org/artistic_license_2_0
 //-----------------------------------------------------------------------------
 #include "test.h"
-#include "../ccdefs.h"
+#include "../options.h"
+#include <cstring>
 
 void test_options_ok()
 {

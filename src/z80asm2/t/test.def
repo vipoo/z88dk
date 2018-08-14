@@ -6,7 +6,6 @@ DIAG("test_errors"); void test_errors(); test_errors();
 DIAG("test_options_ok"); void test_options_ok(); test_options_ok();
 DIAG("test_options_v_error"); void test_options_v_error(); test_options_v_error();
 DIAG("test_options_I_error"); void test_options_I_error(); test_options_I_error();
-DIAG("test_preproc"); void test_preproc(); test_preproc();
 DIAG("test_redirect"); void test_redirect(); test_redirect();
 DIAG("test_atom"); void test_atom(); test_atom();
 DIAG("test_spew_slurp"); void test_spew_slurp(); test_spew_slurp();

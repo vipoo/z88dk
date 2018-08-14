@@ -5,7 +5,8 @@
 // Copyright (C) Paulo Custodio, 2011-20180
 // License: http://www.perlfoundation.org/artistic_license_2_0
 //-----------------------------------------------------------------------------
-#include "ccdefs.h"
+#include "preproc.h"
+#include "errors.h"
 
 #define YYMAXFILL 8
 
@@ -811,22 +812,14 @@ yy35:
         p1 = yyt1;
         p2 = yyt2;
         {
-
             if (is_keyword() != NONE) {     // column-1 name followed by keyword
-
                 p = p2;                     // go back to before keyword
-
                 return std::string(p1, p2);
-
             }
-
             else {
-
                 p = p0;
                 return std::string();
-
             }
-
         }
 yy36:
         yych = *++p;

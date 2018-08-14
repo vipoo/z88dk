@@ -4,7 +4,15 @@
 // License: http://www.perlfoundation.org/artistic_license_2_0
 //-----------------------------------------------------------------------------
 #include "test.h"
-#include "../ccdefs.h"
+#include "../utils.h"
+
+#ifdef _WIN32
+#include <windows.h>
+#else // POSIX
+#include <unistd.h>
+#endif
+#include <sys/stat.h>
+
 
 void test_redirect()
 {

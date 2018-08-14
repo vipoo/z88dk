@@ -4,7 +4,18 @@
 // Copyright (C) Paulo Custodio, 2011-20180
 // License: http://www.perlfoundation.org/artistic_license_2_0
 //-----------------------------------------------------------------------------
-#include "ccdefs.h"
+#include "utils.h"
+#include <algorithm>
+#include <cstring>
+#include <fstream>
+#include <unordered_set>
+
+#ifdef _WIN32
+#include <windows.h>
+#else // POSIX
+#include <unistd.h>
+#endif
+#include <sys/stat.h>
 
 static inline bool is_word(int c)
 {
@@ -121,7 +132,12 @@ std::string canonize_path(std::string path)
 #endif
 }
 
-static size_t skip_volume(const std::string& path)
+static size_t skip_volume(
+    const std::string&
+#ifdef _WIN32
+    path
+#endif
+)
 {
 #ifdef _WIN32
 

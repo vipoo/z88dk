@@ -4,7 +4,7 @@
 // License: http://www.perlfoundation.org/artistic_license_2_0
 //-----------------------------------------------------------------------------
 #include "test.h"
-#include "../ccdefs.h"
+#include "../buffers.h"
 
 #define IS_LINE(l, fn, ln, txt) \
         IS_STR(l.filename, fn); \

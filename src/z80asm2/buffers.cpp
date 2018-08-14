@@ -4,7 +4,11 @@
 // Copyright (C) Paulo Custodio, 2011-20180
 // License: http://www.perlfoundation.org/artistic_license_2_0
 //-----------------------------------------------------------------------------
-#include "ccdefs.h"
+#include "buffers.h"
+#include "errors.h"
+#include "options.h"
+
+#include <cstring>
 
 Line::Line(const std::string& filename_, int line_nr_, const std::string& text_)
     : filename(make_atom(filename_))
