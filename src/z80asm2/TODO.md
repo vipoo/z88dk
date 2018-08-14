@@ -2,8 +2,11 @@
 
 ## Short term
 
+[ ] do not process preprocessor directives in the false branch of IF  
+    fails building z88dk because INCLUDE of unexistent file guarded by 
+    IF FALSE is processed and assembly fails
 [ ] process C_LINE  
-[ ] fix lis files when parsing a .i
+[ ] fix list files when parsing a .i
 
 ## Medium term
 
