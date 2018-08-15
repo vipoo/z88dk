@@ -1,7 +1,7 @@
 #!perl
 #------------------------------------------------------------------------------
 # z80asm unit tests
-# Copyright (C) Paulo Custodio, 2011-20180
+# Copyright (C) Paulo Custodio, 2011-2018
 # License: http://www.perlfoundation.org/artistic_license_2_0
 #------------------------------------------------------------------------------
 
