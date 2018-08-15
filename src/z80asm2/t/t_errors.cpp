@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
 // z80asm unit tests
-// Copyright (C) Paulo Custodio, 2011-20180
+// Copyright (C) Paulo Custodio, 2011-2018
 // License: http://www.perlfoundation.org/artistic_license_2_0
 //-----------------------------------------------------------------------------
 #include "test.h"
@@ -21,13 +21,23 @@ void test_errors()
     err.count = 0;
 
     in.push_file("test.txt");
+
+    err.count = 0;
+    START_CAPTURE();
+    err.e_file_not_found(in, "test.inc");
+    END_CAPTURE("", "Error at file 'test.txt' line 0: file 'test.inc' not found\n");
+    IS(err.count, 1);
+    err.count = 0;
+
     OK(in.getline());
 
     err.count = 0;
     START_CAPTURE();
     err.e_file_not_found(in, "test.inc");
     END_CAPTURE("",
-                "Error at file 'test.txt' line 1: file 'test.inc' not found\n");
+                "Error at file 'test.txt' line 1: file 'test.inc' not found\n"
+                "\thello\n"
+                "\t^\n");
     IS(err.count, 1);
     err.count = 0;
 

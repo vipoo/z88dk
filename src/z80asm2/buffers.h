@@ -1,7 +1,7 @@
 //-----------------------------------------------------------------------------
 // z80asm assembler
 // input buffers
-// Copyright (C) Paulo Custodio, 2011-20180
+// Copyright (C) Paulo Custodio, 2011-2018
 // License: http://www.perlfoundation.org/artistic_license_2_0
 //-----------------------------------------------------------------------------
 #pragma once
@@ -51,6 +51,10 @@ public:
 struct Input {
     std::vector<std::shared_ptr<Buffer> > stack;
 
+    // line being scanned by scanner, initialized by getline()
+    std::string scan_text;
+    const char* p{""};
+
     // return current input in top buffer, ("",0,"") if stack empty
     const Line& cur_line() const;
 
@@ -71,4 +75,7 @@ struct Input {
 private:
     // true if file open in input stack
     bool has_file_open(const std::string& filename) const;
+
+    // init scan_text after getline() and push_...()
+    void init_scan_text();
 };

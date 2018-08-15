@@ -1,7 +1,7 @@
 //-----------------------------------------------------------------------------
 // z80asm assembler
 // preprocessor
-// Copyright (C) Paulo Custodio, 2011-20180
+// Copyright (C) Paulo Custodio, 2011-2018
 // License: http://www.perlfoundation.org/artistic_license_2_0
 //-----------------------------------------------------------------------------
 #include "preproc.h"
@@ -31,7 +31,6 @@ void Preproc::process(const std::string& filename)
 
     while (input.getline()) {
         auto cur_line = input.cur_line();
-        init_scan(cur_line.text);
 
         if (!parse_line()) {
             auto line = std::make_shared<Line>(cur_line.filename, cur_line.line_nr,
@@ -79,15 +78,15 @@ void Preproc::do_process(const std::string& asm_filename)
 
 bool Preproc::get_end_of_statement()
 {
-    while (*p && isspace(*p))
-        p++;
+    while (*input.p && isspace(*input.p))
+        input.p++;
 
-    if (!*p || *p == ';') {
-        p += strlen(p);
+    if (!*input.p || *input.p == ';') {
+        input.p += strlen(input.p);
         return true;
     }
     else {
-        err.e_syntax(*this);
+        err.e_syntax(input);
         return false;
     }
 }
@@ -95,7 +94,7 @@ bool Preproc::get_end_of_statement()
 bool Preproc::parse_line()
 {
     // check first character
-    switch (*p) {
+    switch (*input.p) {
     case '\0':
         return false;
 
@@ -137,13 +136,13 @@ bool Preproc::parse_directive()
 
 bool Preproc::parse_opt_label_directive()
 {
-    auto p0 = p;
+    auto p0 = input.p;
     std::string label = is_label();
     do_label(label);
 
     if (!parse_directive()) {
         undo_label(label);
-        p = p0;
+        input.p = p0;
         return false;
     }
 

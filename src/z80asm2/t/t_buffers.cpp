@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
 // z80asm unit tests
-// Copyright (C) Paulo Custodio, 2011-20180
+// Copyright (C) Paulo Custodio, 2011-2018
 // License: http://www.perlfoundation.org/artistic_license_2_0
 //-----------------------------------------------------------------------------
 #include "test.h"
@@ -10,6 +10,11 @@
         IS_STR(l.filename, fn); \
         IS(l.line_nr, ln);      \
         IS_STR(l.text, txt)
+
+#define IS_IN(in, fn, ln, txt)                  \
+        IS_LINE(in.cur_line(), fn, ln, txt);    \
+        IS_STR(in.scan_text, txt);                \
+        IS_STR(in.p, txt)
 
 void test_line()
 {
@@ -90,102 +95,106 @@ void test_input()
     Input in;
     bool ok;
 
-    IS_LINE(in.cur_line(), "", 0, "");
+    IS_IN(in, "", 0, "");
 
     NOK(in.getline());
-    IS_LINE(in.cur_line(), "", 0, "");
+    IS_IN(in, "", 0, "");
 
     in.push_text("A\nB");
-    IS_LINE(in.cur_line(), "", 0, "");
+    IS_IN(in, "", 0, "");
 
     OK(in.getline());
-    IS_LINE(in.cur_line(), "", 0, "A");
+    IS_IN(in, "", 0, "A");
 
     OK(in.push_file("test1.txt"));
-    IS_LINE(in.cur_line(), "test1.txt", 0, "");
+    IS_IN(in, "test1.txt", 0, "");
 
     OK(in.getline());
-    IS_LINE(in.cur_line(), "test1.txt", 1, "1");
+    IS_IN(in, "test1.txt", 1, "1");
 
     OK(in.push_file("test2.txt"));
-    IS_LINE(in.cur_line(), "test2.txt", 0, "");
+    IS_IN(in, "test2.txt", 0, "");
 
     OK(in.getline());
-    IS_LINE(in.cur_line(), "test2.txt", 1, "a");
+    IS_IN(in, "test2.txt", 1, "a");
 
     START_CAPTURE();
     ok = in.push_file("test1.txt");
     END_CAPTURE("",
-                "Error at file 'test2.txt' line 1: cannot include file 'test1.txt' recursively\n");
+                "Error at file 'test2.txt' line 1: cannot include file 'test1.txt' recursively\n"
+                "\ta\n"
+                "\t^\n");
     NOK(ok);
 
-    IS_LINE(in.cur_line(), "test2.txt", 1, "a");
+    IS_IN(in, "test2.txt", 1, "a");
 
     START_CAPTURE();
     ok = in.push_file("test3.txt");
     END_CAPTURE("",
-                "Error at file 'test2.txt' line 1: file 'test3.txt' not found\n");
+                "Error at file 'test2.txt' line 1: file 'test3.txt' not found\n"
+                "\ta\n"
+                "\t^\n");
     NOK(ok);
 
-    IS_LINE(in.cur_line(), "test2.txt", 1, "a");
+    IS_IN(in, "test2.txt", 1, "a");
 
     in.push_text("C\nD");
-    IS_LINE(in.cur_line(), "test2.txt", 1, "");
+    IS_IN(in, "test2.txt", 1, "");
 
     OK(in.getline());
-    IS_LINE(in.cur_line(), "test2.txt", 1, "C");
+    IS_IN(in, "test2.txt", 1, "C");
 
     OK(in.getline());
-    IS_LINE(in.cur_line(), "test2.txt", 1, "D");
+    IS_IN(in, "test2.txt", 1, "D");
 
     NOK(in.getline());
-    IS_LINE(in.cur_line(), "test2.txt", 1, "");
+    IS_IN(in, "test2.txt", 1, "");
 
     NOK(in.getline());
-    IS_LINE(in.cur_line(), "test2.txt", 1, "");
+    IS_IN(in, "test2.txt", 1, "");
 
     in.pop();
-    IS_LINE(in.cur_line(), "test2.txt", 1, "a");
+    IS_IN(in, "test2.txt", 1, "a");
 
     OK(in.getline());
-    IS_LINE(in.cur_line(), "test2.txt", 2, "b");
+    IS_IN(in, "test2.txt", 2, "b");
 
     NOK(in.getline());
-    IS_LINE(in.cur_line(), "test2.txt", 2, "");
+    IS_IN(in, "test2.txt", 2, "");
 
     NOK(in.getline());
-    IS_LINE(in.cur_line(), "test2.txt", 2, "");
+    IS_IN(in, "test2.txt", 2, "");
 
     in.pop();
-    IS_LINE(in.cur_line(), "test1.txt", 1, "1");
+    IS_IN(in, "test1.txt", 1, "1");
 
     OK(in.getline());
-    IS_LINE(in.cur_line(), "test1.txt", 2, "2");
+    IS_IN(in, "test1.txt", 2, "2");
 
     NOK(in.getline());
-    IS_LINE(in.cur_line(), "test1.txt", 2, "");
+    IS_IN(in, "test1.txt", 2, "");
 
     NOK(in.getline());
-    IS_LINE(in.cur_line(), "test1.txt", 2, "");
+    IS_IN(in, "test1.txt", 2, "");
 
     in.pop();
-    IS_LINE(in.cur_line(), "", 0, "A");
+    IS_IN(in, "", 0, "A");
 
     OK(in.getline());
-    IS_LINE(in.cur_line(), "", 0, "B");
+    IS_IN(in, "", 0, "B");
 
     NOK(in.getline());
-    IS_LINE(in.cur_line(), "", 0, "");
+    IS_IN(in, "", 0, "");
 
     NOK(in.getline());
-    IS_LINE(in.cur_line(), "", 0, "");
+    IS_IN(in, "", 0, "");
 
     in.pop();
-    IS_LINE(in.cur_line(), "", 0, "");
+    IS_IN(in, "", 0, "");
 
     // extra pop is no-op
     in.pop();
-    IS_LINE(in.cur_line(), "", 0, "");
+    IS_IN(in, "", 0, "");
 
     remove("test1.txt");
     remove("test2.txt");

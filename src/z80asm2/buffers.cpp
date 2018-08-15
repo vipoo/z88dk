@@ -1,13 +1,13 @@
 //-----------------------------------------------------------------------------
 // z80asm assembler
 // input buffers
-// Copyright (C) Paulo Custodio, 2011-20180
+// Copyright (C) Paulo Custodio, 2011-2018
 // License: http://www.perlfoundation.org/artistic_license_2_0
 //-----------------------------------------------------------------------------
 #include "buffers.h"
 #include "errors.h"
 #include "options.h"
-
+#include "preproc.h"
 #include <cstring>
 
 Line::Line(const std::string& filename_, int line_nr_, const std::string& text_)
@@ -101,6 +101,7 @@ void Input::push_text(const std::string& text)
     auto buf = std::make_shared<Buffer>(cur_line().filename, cur_line().line_nr);
     buf->push_text(text);
     stack.push_back(buf);
+    init_scan_text();
 }
 
 bool Input::push_file(const std::string& filename_)
@@ -125,6 +126,7 @@ bool Input::push_file(const std::string& filename_)
     }
 
     stack.push_back(buf);
+    init_scan_text();
 
     // add directory of file to path for includes
     opts.include_path.push_back(get_dirname(pathname));
@@ -141,14 +143,20 @@ void Input::pop()
 
         stack.pop_back();
     }
+
+    init_scan_text();
 }
 
 bool Input::getline()
 {
-    if (stack.empty())
+    if (stack.empty() || ! stack.back()->getline()) {
+        init_scan_text();
         return false;
-    else
-        return stack.back()->getline();
+    }
+    else {
+        init_scan_text();
+        return true;
+    }
 }
 
 bool Input::has_file_open(const std::string& filename) const
@@ -159,4 +167,15 @@ bool Input::has_file_open(const std::string& filename) const
     }
 
     return false;
+}
+
+void Input::init_scan_text()
+{
+    if (stack.empty())
+        scan_text.clear();
+    else
+        scan_text = cur_line().text;
+
+    scan_text.reserve(scan_text.length() + preproc_max_fill());
+    p = scan_text.c_str();
 }

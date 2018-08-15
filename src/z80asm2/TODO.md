@@ -2,9 +2,13 @@
 
 ## Short term
 
+[ ] separate scanner from preprocessor  
+[ ] parse expressions  
+[ ] compute compile-time constants  
+[ ] execute compile-time IF/ELSE/ENDIF  
 [ ] do not process preprocessor directives in the false branch of IF  
-    fails building z88dk because INCLUDE of unexistent file guarded by 
-    IF FALSE is processed and assembly fails
+    fails building z88dk because INCLUDE of unexistent file guarded by
+    IF FALSE is processed and assembly fails  
 [ ] process C_LINE  
 [ ] fix list files when parsing a .i
 
@@ -18,7 +22,7 @@
 
 ## Done
 
-[x] process INCLUDE  
-[x] generate .i file
+[x] process INCLUDE / INCBIN / BINARY  
+[x] generate .i file  
 [x] indicate syntax error location  
 [x] process labels  

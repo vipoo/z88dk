@@ -1,7 +1,7 @@
 //-----------------------------------------------------------------------------
 // z80asm assembler
 // preprocessor
-// Copyright (C) Paulo Custodio, 2011-20180
+// Copyright (C) Paulo Custodio, 2011-2018
 // License: http://www.perlfoundation.org/artistic_license_2_0
 //-----------------------------------------------------------------------------
 #pragma once
@@ -11,13 +11,12 @@
 #include <list>
 #include <memory>
 
+size_t preproc_max_fill();
+
 // preprocess a source file, produce a list of Line objects
 struct Preproc {
     Input input;
     std::list<std::shared_ptr<Line> > lines;
-
-    std::string text;                   // scanned text
-    const char* p{ nullptr };           // scan pointer
 
     virtual ~Preproc();
 

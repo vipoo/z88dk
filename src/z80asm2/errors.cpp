@@ -1,7 +1,7 @@
 //-----------------------------------------------------------------------------
 // z80asm assembler
 // assembly errors
-// Copyright (C) Paulo Custodio, 2011-20180
+// Copyright (C) Paulo Custodio, 2011-2018
 // License: http://www.perlfoundation.org/artistic_license_2_0
 //-----------------------------------------------------------------------------
 #include "errors.h"
@@ -9,40 +9,36 @@
 
 Errors err;
 
-#define INPUT_ERR(input, out)           \
-        header(input);                  \
-        std::cerr << out;               \
-        footer(input);                  \
+#define ERR(out)           \
+        header(input);     \
+        std::cerr << out;  \
+        footer(input);     \
         count++
 
-#define PREPROC_ERR(preproc, out)       \
-        INPUT_ERR(preproc.input, out);  \
-        footer(preproc)
-
-void Errors::e_syntax(const Preproc& preproc)
+void Errors::e_syntax(const Input& input)
 {
-    PREPROC_ERR(preproc, "syntax error");
+    ERR("syntax error");
 }
 
 void Errors::e_file_not_found(const Input& input, const std::string& filename)
 {
-    INPUT_ERR(input, "file '" << filename << "' not found");
+    ERR("file '" << filename << "' not found");
 }
 
 void Errors::e_read_file(const Input& input, const std::string& filename)
 {
-    INPUT_ERR(input, "cannot read file '" << filename << "'");
+    ERR("cannot read file '" << filename << "'");
 }
 
 void Errors::e_write_file(const Input& input, const std::string& filename)
 {
-    INPUT_ERR(input, "cannot write file '" << filename << "'");
+    ERR("cannot write file '" << filename << "'");
 }
 
 void Errors::e_recursive_include(const Input& input,
                                  const std::string& filename)
 {
-    INPUT_ERR(input, "cannot include file '" << filename << "' recursively");
+    ERR("cannot include file '" << filename << "' recursively");
 }
 
 void Errors::header(const Input& input)
@@ -50,25 +46,22 @@ void Errors::header(const Input& input)
     const Line& line = input.cur_line();
     std::cerr << "Error";
 
-    if (strlen(line.filename) != 0 && line.line_nr != 0)
+    if (strlen(line.filename) != 0)
         std::cerr << " at file '" << line.filename << "' line " << line.line_nr;
 
     std::cerr << ": ";
 }
 
-void Errors::footer(const Input&)
+void Errors::footer(const Input& input)
 {
     std::cerr << std::endl;
-}
 
-void Errors::footer(const Preproc& preproc)
-{
-    if (preproc.p) {
+    if (!input.scan_text.empty()) {
         // show source line
         std::cerr << "\t";
         int col = 0;
 
-        for (const auto& it : preproc.text) {
+        for (const auto& it : input.scan_text) {
             if (it == '\t') {
                 int spaces = 8 - (col % 8);
                 std::cerr << std::string(spaces, ' ');
@@ -87,8 +80,8 @@ void Errors::footer(const Preproc& preproc)
         col = 0;
         int n = 0;
 
-        for (const auto& it : preproc.text) {
-            if (preproc.text.c_str() + n == preproc.p)
+        for (const auto& it : input.scan_text) {
+            if (input.scan_text.c_str() + n == input.p)
                 break;
             else {
                 if (it == '\t') {

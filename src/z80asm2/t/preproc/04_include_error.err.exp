@@ -1,4 +1,6 @@
 Error at file 't/preproc/04_include_error.asm' line 1: file '04_include_error.inc' not found
+	        include  04_include_error.inc
+	-------------------------------------^
 Error at file 't/preproc/04_include_error.asm' line 2: syntax error
 	        include <04_include_error.inc
 	-------------------------------------^
@@ -30,3 +32,5 @@ Error at file 't/preproc/04_include_error.asm' line 11: syntax error
 	        include "04_include_error.inc"  x
 	----------------------------------------^
 Error at file 't/preproc/04_include_error.2.inc' line 1: cannot include file 't/preproc/04_include_error.1.inc' recursively
+	        include 04_include_error.1.inc
+	--------------------------------------^

@@ -2,7 +2,7 @@
 //-----------------------------------------------------------------------------
 // z80asm assembler
 // preprocessor
-// Copyright (C) Paulo Custodio, 2011-20180
+// Copyright (C) Paulo Custodio, 2011-2018
 // License: http://www.perlfoundation.org/artistic_license_2_0
 //-----------------------------------------------------------------------------
 #include "preproc.h"
@@ -12,23 +12,21 @@
 
 
 
-
-
-void Preproc::init_scan(const std::string& text_)
+size_t preproc_max_fill()
 {
-    text = text_;
-    text.reserve(text.length() + YYMAXFILL);
-    p = text.c_str();
+    return YYMAXFILL;
 }
+
+
 
 int Preproc::is_keyword()
 {
     const char* YYMARKER;
-    auto p0 = p;
+    auto p0 = input.p;
 
     {
         char yych;
-        yych = *p;
+        yych = *input.p;
 
         switch (yych) {
         case '\t':
@@ -48,13 +46,13 @@ int Preproc::is_keyword()
         }
 
 yy2:
-        ++p;
+        ++input.p;
 yy3: {
-            p = p0;
+            input.p = p0;
             return NONE;
         }
 yy4:
-        yych = *(YYMARKER = ++p);
+        yych = *(YYMARKER = ++input.p);
 
         switch (yych) {
         case '\t':
@@ -74,7 +72,7 @@ yy4:
         }
 
 yy5:
-        yych = *(YYMARKER = ++p);
+        yych = *(YYMARKER = ++input.p);
 
         switch (yych) {
         case 'N':
@@ -86,7 +84,7 @@ yy5:
         }
 
 yy6:
-        yych = *++p;
+        yych = *++input.p;
 
         switch (yych) {
         case '\t':
@@ -106,10 +104,10 @@ yy6:
         }
 
 yy8:
-        p = YYMARKER;
+        input.p = YYMARKER;
         goto yy3;
 yy9:
-        yych = *++p;
+        yych = *++input.p;
 
         switch (yych) {
         case 'N':
@@ -121,7 +119,7 @@ yy9:
         }
 
 yy10:
-        yych = *++p;
+        yych = *++input.p;
 
         switch (yych) {
         case 'C':
@@ -133,7 +131,7 @@ yy10:
         }
 
 yy11:
-        yych = *++p;
+        yych = *++input.p;
 
         switch (yych) {
         case 'L':
@@ -145,7 +143,7 @@ yy11:
         }
 
 yy12:
-        yych = *++p;
+        yych = *++input.p;
 
         switch (yych) {
         case 'U':
@@ -157,7 +155,7 @@ yy12:
         }
 
 yy13:
-        yych = *++p;
+        yych = *++input.p;
 
         switch (yych) {
         case 'D':
@@ -169,7 +167,7 @@ yy13:
         }
 
 yy14:
-        yych = *++p;
+        yych = *++input.p;
 
         switch (yych) {
         case 'E':
@@ -181,7 +179,7 @@ yy14:
         }
 
 yy15:
-        ++p;
+        ++input.p;
         {
             return INCLUDE;
         }
@@ -192,11 +190,11 @@ yy15:
 std::string Preproc::is_label()
 {
     const char* YYMARKER, *p1, *p2, *yyt1, *yyt2;
-    auto p0 = p;
+    auto p0 = input.p;
 
     {
         char yych;
-        yych = *p;
+        yych = *input.p;
 
         switch (yych) {
         case '\t':
@@ -263,7 +261,7 @@ std::string Preproc::is_label()
         case 'x':
         case 'y':
         case 'z':
-            yyt1 = p;
+            yyt1 = input.p;
             goto yy23;
 
         default:
@@ -271,13 +269,13 @@ std::string Preproc::is_label()
         }
 
 yy19:
-        ++p;
+        ++input.p;
 yy20: {
-            p = p0;
+            input.p = p0;
             return std::string();
         }
 yy21:
-        yych = *(YYMARKER = ++p);
+        yych = *(YYMARKER = ++input.p);
 
         switch (yych) {
         case '\t':
@@ -344,7 +342,7 @@ yy21:
         case 'x':
         case 'y':
         case 'z':
-            yyt1 = p;
+            yyt1 = input.p;
             goto yy28;
 
         default:
@@ -352,7 +350,7 @@ yy21:
         }
 
 yy22:
-        yych = *++p;
+        yych = *++input.p;
 
         switch (yych) {
         case 'A':
@@ -408,7 +406,7 @@ yy22:
         case 'x':
         case 'y':
         case 'z':
-            yyt1 = p;
+            yyt1 = input.p;
             goto yy30;
 
         default:
@@ -416,7 +414,7 @@ yy22:
         }
 
 yy23:
-        yych = *(YYMARKER = ++p);
+        yych = *(YYMARKER = ++input.p);
 
         switch (yych) {
         case '\t':
@@ -496,7 +494,7 @@ yy23:
         }
 
 yy24:
-        yych = *++p;
+        yych = *++input.p;
 
         switch (yych) {
         case '\t':
@@ -563,7 +561,7 @@ yy24:
         case 'x':
         case 'y':
         case 'z':
-            yyt1 = p;
+            yyt1 = input.p;
             goto yy28;
 
         default:
@@ -571,10 +569,10 @@ yy24:
         }
 
 yy26:
-        p = YYMARKER;
+        input.p = YYMARKER;
         goto yy20;
 yy27:
-        yych = *++p;
+        yych = *++input.p;
 
         switch (yych) {
         case 'A':
@@ -630,7 +628,7 @@ yy27:
         case 'x':
         case 'y':
         case 'z':
-            yyt1 = p;
+            yyt1 = input.p;
             goto yy30;
 
         default:
@@ -638,7 +636,7 @@ yy27:
         }
 
 yy28:
-        yych = *++p;
+        yych = *++input.p;
 
         switch (yych) {
         case '0':
@@ -714,7 +712,7 @@ yy28:
         }
 
 yy30:
-        yych = *++p;
+        yych = *++input.p;
 
         switch (yych) {
         case '0':
@@ -788,12 +786,12 @@ yy30:
 
 yy32:
         p1 = yyt1;
-        p2 = p;
+        p2 = input.p;
         {
             return std::string(p1, p2);
         }
 yy33:
-        yych = *++p;
+        yych = *++input.p;
 
         switch (yych) {
         case '\t':
@@ -813,16 +811,16 @@ yy35:
         p2 = yyt2;
         {
             if (is_keyword() != NONE) {     // column-1 name followed by keyword
-                p = p2;                     // go back to before keyword
+                input.p = p2;                     // go back to before keyword
                 return std::string(p1, p2);
             }
             else {
-                p = p0;
+                input.p = p0;
                 return std::string();
             }
         }
 yy36:
-        yych = *++p;
+        yych = *++input.p;
 yy37:
 
         switch (yych) {
@@ -832,7 +830,7 @@ yy37:
         case '\f':
         case '\r':
         case ' ':
-            yyt2 = p;
+            yyt2 = input.p;
             goto yy33;
 
         case '0':
@@ -908,9 +906,9 @@ yy37:
         }
 
 yy38:
-        ++p;
+        ++input.p;
         p1 = yyt1;
-        p2 = p - 1;
+        p2 = input.p - 1;
         {
             return std::string(p1, p2);
         }
@@ -921,12 +919,12 @@ yy38:
 std::string Preproc::get_include_filename()
 {
     const char* YYMARKER, *p1, *p2, *yyt1, *yyt2;
-    auto p0 = p;
+    auto p0 = input.p;
 
 
     {
         char yych;
-        yych = *p;
+        yych = *input.p;
 
         switch (yych) {
         case '\t':
@@ -951,14 +949,14 @@ std::string Preproc::get_include_filename()
         }
 
 yy42:
-        ++p;
+        ++input.p;
 yy43: {
-            p = p0;
-            err.e_syntax(*this);
+            input.p = p0;
+            err.e_syntax(input);
             return std::string();
         }
 yy44:
-        yych = *(YYMARKER = ++p);
+        yych = *(YYMARKER = ++input.p);
 
         switch (yych) {
         case 0x00:
@@ -970,7 +968,7 @@ yy44:
         }
 
 yy45:
-        yych = *++p;
+        yych = *++input.p;
 
         switch (yych) {
         case 0x00:
@@ -984,12 +982,12 @@ yy45:
             goto yy43;
 
         default:
-            yyt2 = p;
+            yyt2 = input.p;
             goto yy57;
         }
 
 yy46:
-        yych = *++p;
+        yych = *++input.p;
 
         switch (yych) {
         case 0x00:
@@ -1003,12 +1001,12 @@ yy46:
             goto yy43;
 
         default:
-            yyt2 = p;
+            yyt2 = input.p;
             goto yy60;
         }
 
 yy47:
-        yych = *++p;
+        yych = *++input.p;
 
         switch (yych) {
         case 0x00:
@@ -1022,12 +1020,12 @@ yy47:
             goto yy43;
 
         default:
-            yyt2 = p;
+            yyt2 = input.p;
             goto yy63;
         }
 
 yy48:
-        yych = *++p;
+        yych = *++input.p;
 
         switch (yych) {
         case 0x00:
@@ -1046,12 +1044,12 @@ yy48:
 
 yy50:
         p1 = yyt1;
-        p2 = p;
+        p2 = input.p;
         {
             return std::string(p1, p2);
         }
 yy51:
-        yych = *++p;
+        yych = *++input.p;
 yy52:
 
         switch (yych) {
@@ -1068,27 +1066,27 @@ yy52:
             goto yy51;
 
         case '"':
-            yyt1 = p;
+            yyt1 = input.p;
             goto yy54;
 
         case '\'':
-            yyt1 = p;
+            yyt1 = input.p;
             goto yy55;
 
         case '<':
-            yyt1 = p;
+            yyt1 = input.p;
             goto yy56;
 
         default:
-            yyt1 = p;
+            yyt1 = input.p;
             goto yy48;
         }
 
 yy53:
-        p = YYMARKER;
+        input.p = YYMARKER;
         goto yy43;
 yy54:
-        yych = *++p;
+        yych = *++input.p;
 
         switch (yych) {
         case 0x00:
@@ -1101,19 +1099,19 @@ yy54:
             goto yy50;
 
         case ' ':
-            yyt2 = p;
+            yyt2 = input.p;
             goto yy57;
 
         case '"':
             goto yy48;
 
         default:
-            yyt2 = p;
+            yyt2 = input.p;
             goto yy66;
         }
 
 yy55:
-        yych = *++p;
+        yych = *++input.p;
 
         switch (yych) {
         case 0x00:
@@ -1126,19 +1124,19 @@ yy55:
             goto yy50;
 
         case ' ':
-            yyt2 = p;
+            yyt2 = input.p;
             goto yy60;
 
         case '\'':
             goto yy48;
 
         default:
-            yyt2 = p;
+            yyt2 = input.p;
             goto yy68;
         }
 
 yy56:
-        yych = *++p;
+        yych = *++input.p;
 
         switch (yych) {
         case 0x00:
@@ -1151,19 +1149,19 @@ yy56:
             goto yy50;
 
         case ' ':
-            yyt2 = p;
+            yyt2 = input.p;
             goto yy63;
 
         case '>':
             goto yy48;
 
         default:
-            yyt2 = p;
+            yyt2 = input.p;
             goto yy70;
         }
 
 yy57:
-        yych = *++p;
+        yych = *++input.p;
 
         switch (yych) {
         case 0x00:
@@ -1183,11 +1181,11 @@ yy57:
         }
 
 yy59: {
-            err.e_syntax(*this);
+            err.e_syntax(input);
             return std::string();
         }
 yy60:
-        yych = *++p;
+        yych = *++input.p;
 
         switch (yych) {
         case 0x00:
@@ -1207,11 +1205,11 @@ yy60:
         }
 
 yy62: {
-            err.e_syntax(*this);
+            err.e_syntax(input);
             return std::string();
         }
 yy63:
-        yych = *++p;
+        yych = *++input.p;
 
         switch (yych) {
         case 0x00:
@@ -1231,11 +1229,11 @@ yy63:
         }
 
 yy65: {
-            err.e_syntax(*this);
+            err.e_syntax(input);
             return std::string();
         }
 yy66:
-        yych = *++p;
+        yych = *++input.p;
 
         switch (yych) {
         case 0x00:
@@ -1258,7 +1256,7 @@ yy66:
         }
 
 yy68:
-        yych = *++p;
+        yych = *++input.p;
 
         switch (yych) {
         case 0x00:
@@ -1281,7 +1279,7 @@ yy68:
         }
 
 yy70:
-        yych = *++p;
+        yych = *++input.p;
 
         switch (yych) {
         case 0x00:
@@ -1304,31 +1302,31 @@ yy70:
         }
 
 yy72:
-        ++p;
+        ++input.p;
 yy73:
         p1 = yyt2;
-        p2 = p - 1;
+        p2 = input.p - 1;
         {
             return std::string(p1, p2);
         }
 yy74:
-        ++p;
+        ++input.p;
 yy75:
         p1 = yyt2;
-        p2 = p - 1;
+        p2 = input.p - 1;
         {
             return std::string(p1, p2);
         }
 yy76:
-        ++p;
+        ++input.p;
 yy77:
         p1 = yyt2;
-        p2 = p - 1;
+        p2 = input.p - 1;
         {
             return std::string(p1, p2);
         }
 yy78:
-        yych = *++p;
+        yych = *++input.p;
 
         switch (yych) {
         case 0x00:
@@ -1346,7 +1344,7 @@ yy78:
         }
 
 yy79:
-        yych = *++p;
+        yych = *++input.p;
 
         switch (yych) {
         case 0x00:
@@ -1364,7 +1362,7 @@ yy79:
         }
 
 yy80:
-        yych = *++p;
+        yych = *++input.p;
 
         switch (yych) {
         case 0x00:
