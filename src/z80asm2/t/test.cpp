@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
 // z80asm unit tests
-// Copyright (C) Paulo Custodio, 2011-20180
+// Copyright (C) Paulo Custodio, 2011-2018
 // License: http://www.perlfoundation.org/artistic_license_2_0
 //-----------------------------------------------------------------------------
 #include "test.h"
@@ -42,12 +42,10 @@ void is_ok(bool value, const std::string& filename, int line_nr)
 {
     count_run++;
 
-    if (!value)
-        std::cout << "not ";
-
-    std::cout << "ok " << count_run << std::endl;
-
-    if (!value) {
+    if (value)
+        std::cout << "ok " << count_run << "\r";
+    else {
+        std::cout << "not ok " << count_run << std::endl;
         count_failed++;
         DIAG("Failed test at " << filename << " line " << line_nr);
     }
