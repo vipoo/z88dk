@@ -35,6 +35,7 @@ Define rules for a ragel-based parser.
 #define DO_stmt_jr( opcode)	_DO_stmt_(jr,  opcode)
 #define DO_stmt_n(  opcode)	_DO_stmt_(n,   opcode)
 #define DO_stmt_d(  opcode)	_DO_stmt_(d,   opcode)
+#define DO_stmt_dd( opcode)	_DO_stmt_(dd,  opcode)
 #define DO_stmt_nn( opcode)	_DO_stmt_(nn,  opcode)
 #define DO_stmt_NN( opcode)	_DO_stmt_(NN,  opcode)
 #define DO_stmt_idx(opcode)	_DO_stmt_(idx, opcode)

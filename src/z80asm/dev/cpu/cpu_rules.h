@@ -10641,6 +10641,25 @@ break;
 default: error_illegal_ident(); }
 }
 
+| label? _TK_CALL _TK_NS _TK_COMMA expr _TK_NEWLINE @{
+switch (opts.cpu) {
+case CPU_R2K: case CPU_R3K:
+if (expr_in_parens) warn_expr_in_parens();
+DO_STMT_LABEL();
+Expr *target_expr = pop_expr(ctx);
+const char *end_label = autolabel();
+Expr *end_label_expr = parse_expr(end_label);
+add_opcode_nn(0xFA, end_label_expr);
+add_opcode_nn(0xCD, target_expr);
+asm_LABEL_offset(end_label, 6);
+break;
+case CPU_Z180: case CPU_Z80: case CPU_Z80_ZXN:
+if (expr_in_parens) warn_expr_in_parens();
+DO_stmt_nn(0xF4);
+break;
+default: error_illegal_ident(); }
+}
+
 | label? _TK_CALL _TK_NV _TK_COMMA expr _TK_NEWLINE @{
 switch (opts.cpu) {
 case CPU_R2K: case CPU_R3K: 
@@ -10726,6 +10745,25 @@ break;
 case CPU_Z180: case CPU_Z80: case CPU_Z80_ZXN: 
 if (expr_in_parens) warn_expr_in_parens();
 DO_stmt_nn(0xE4);
+break;
+default: error_illegal_ident(); }
+}
+
+| label? _TK_CALL _TK_S _TK_COMMA expr _TK_NEWLINE @{
+switch (opts.cpu) {
+case CPU_R2K: case CPU_R3K:
+if (expr_in_parens) warn_expr_in_parens();
+DO_STMT_LABEL();
+Expr *target_expr = pop_expr(ctx);
+const char *end_label = autolabel();
+Expr *end_label_expr = parse_expr(end_label);
+add_opcode_nn(0xF2, end_label_expr);
+add_opcode_nn(0xCD, target_expr);
+asm_LABEL_offset(end_label, 6);
+break;
+case CPU_Z180: case CPU_Z80: case CPU_Z80_ZXN:
+if (expr_in_parens) warn_expr_in_parens();
+DO_stmt_nn(0xFC);
 break;
 default: error_illegal_ident(); }
 }
@@ -23409,6 +23447,11 @@ if (expr_in_parens) warn_expr_in_parens();
 DO_stmt_nn(0xD2);
 }
 
+| label? _TK_JP _TK_NS _TK_COMMA expr _TK_NEWLINE @{
+if (expr_in_parens) warn_expr_in_parens();
+DO_stmt_nn(0xF2);
+}
+
 | label? _TK_JP _TK_NV _TK_COMMA expr _TK_NEWLINE @{
 if (expr_in_parens) warn_expr_in_parens();
 DO_stmt_nn(0xE2);
@@ -23432,6 +23475,11 @@ DO_stmt_nn(0xEA);
 | label? _TK_JP _TK_PO _TK_COMMA expr _TK_NEWLINE @{
 if (expr_in_parens) warn_expr_in_parens();
 DO_stmt_nn(0xE2);
+}
+
+| label? _TK_JP _TK_S _TK_COMMA expr _TK_NEWLINE @{
+if (expr_in_parens) warn_expr_in_parens();
+DO_stmt_nn(0xFA);
 }
 
 | label? _TK_JP _TK_V _TK_COMMA expr _TK_NEWLINE @{
@@ -27436,6 +27484,10 @@ DO_stmt(0xD0);
 DO_stmt(0xC9);
 }
 
+| label? _TK_RET _TK_NS _TK_NEWLINE @{
+DO_stmt(0xF0);
+}
+
 | label? _TK_RET _TK_NV _TK_NEWLINE @{
 DO_stmt(0xE0);
 }
@@ -27454,6 +27506,10 @@ DO_stmt(0xE8);
 
 | label? _TK_RET _TK_PO _TK_NEWLINE @{
 DO_stmt(0xE0);
+}
+
+| label? _TK_RET _TK_S _TK_NEWLINE @{
+DO_stmt(0xF8);
 }
 
 | label? _TK_RET _TK_V _TK_NEWLINE @{

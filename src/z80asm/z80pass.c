@@ -108,9 +108,16 @@ Z80pass2( void )
 				patch_byte(expr->code_pos, (byte_t)value);
                 break;
 
-			case RANGE_WORD:
+			case RANGE_WORD_UNSIGNED:
 				if (value < -32768 || value > 65535)
 					warn_int_range(value);
+
+				patch_word(expr->code_pos, (int)value);
+				break;
+
+			case RANGE_WORD_SIGNED:
+				if (value < -32768 || value > 32767)
+					error_int_range(value);
 
 				patch_word(expr->code_pos, (int)value);
 				break;

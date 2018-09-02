@@ -296,6 +296,9 @@
  call nc, -32768                ; D4 00 80
  call nc, 32767                 ; D4 FF 7F
  call nc, 65535                 ; D4 FF FF
+ call ns, -32768                ; F4 00 80
+ call ns, 32767                 ; F4 FF 7F
+ call ns, 65535                 ; F4 FF FF
  call nv, -32768                ; E4 00 80
  call nv, 32767                 ; E4 FF 7F
  call nv, 65535                 ; E4 FF FF
@@ -311,6 +314,9 @@
  call po, -32768                ; E4 00 80
  call po, 32767                 ; E4 FF 7F
  call po, 65535                 ; E4 FF FF
+ call s, -32768                 ; FC 00 80
+ call s, 32767                  ; FC FF 7F
+ call s, 65535                  ; FC FF FF
  call v, -32768                 ; EC 00 80
  call v, 32767                  ; EC FF 7F
  call v, 65535                  ; EC FF FF
@@ -462,6 +468,9 @@
  jp nc, -32768                  ; D2 00 80
  jp nc, 32767                   ; D2 FF 7F
  jp nc, 65535                   ; D2 FF FF
+ jp ns, -32768                  ; F2 00 80
+ jp ns, 32767                   ; F2 FF 7F
+ jp ns, 65535                   ; F2 FF FF
  jp nv, -32768                  ; E2 00 80
  jp nv, 32767                   ; E2 FF 7F
  jp nv, 65535                   ; E2 FF FF
@@ -477,6 +486,9 @@
  jp po, -32768                  ; E2 00 80
  jp po, 32767                   ; E2 FF 7F
  jp po, 65535                   ; E2 FF FF
+ jp s, -32768                   ; FA 00 80
+ jp s, 32767                    ; FA FF 7F
+ jp s, 65535                    ; FA FF FF
  jp v, -32768                   ; EA 00 80
  jp v, 32767                    ; EA FF 7F
  jp v, 65535                    ; EA FF FF
@@ -1032,11 +1044,13 @@
  ret c                          ; D8
  ret m                          ; F8
  ret nc                         ; D0
+ ret ns                         ; F0
  ret nv                         ; E0
  ret nz                         ; C0
  ret p                          ; F0
  ret pe                         ; E8
  ret po                         ; E0
+ ret s                          ; F8
  ret v                          ; E8
  ret z                          ; C8
  reti                           ; ED 4D

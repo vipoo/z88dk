@@ -479,13 +479,21 @@ static void objfile_read_exprs(objfile_t *obj, FILE *fp, long fpos_start, long f
 		if (type == 0)
 			break;							// end marker
 
-		if (show_expr)
-			printf("    E %c%c",
-				type,
-				type == '=' ? ' ' :
-				type == 'L' ? 'l' :
-				type == 'C' ? 'w' :
-				type == 'B' ? 'W' : 'b');
+		if (show_expr) {
+			printf("    E %c", type);
+			switch (type) {
+			case 'U': printf("(u8)    "); break;
+			case 'S': printf("(s8)    "); break;
+			case 'C': printf("(u16)   "); break;
+			case 'c': printf("(s16)   "); break;
+			case 'B': printf("(u16,be)"); break;
+			case 'L': printf("(u32)   "); break;
+			case 'J': printf("(jump8) "); break;
+			case '=': printf("(expr)  "); break;
+			default:
+				assert(0);
+			}
+		}
 
 		// create a new expression
 		expr_t *expr = expr_new();

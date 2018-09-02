@@ -33,7 +33,7 @@ END
 
 run("z80asm -otestx.o test1.asm test2.asm");
 z80nm("testx.o", <<'END');
-Object  file testx.o at $0000: Z80RMF12
+Object  file testx.o at $0000: Z80RMF13
   Name: testx
   Section "": 1 bytes
     C $0000: C9
@@ -41,7 +41,7 @@ Object  file testx.o at $0000: Z80RMF12
     G = $0000 main1 (section "") (file test1.asm:4)
     G A $0000 main (section "") (file test2.asm:2)
   Expressions:
-    E =  $0000 $0000: main1 := main (section "") (file test1.asm:4)
+    E =(expr) $0000 $0000: main1 := main (section "") (file test1.asm:4)
 END
 
 spew("test.asm", <<'END');

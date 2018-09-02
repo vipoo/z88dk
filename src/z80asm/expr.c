@@ -350,7 +350,8 @@ int range_size( range_t range )
 	case RANGE_JR_OFFSET:		return 1;
 	case RANGE_BYTE_UNSIGNED:	return 1;
 	case RANGE_BYTE_SIGNED:		return 1;
-	case RANGE_WORD:			return 2;
+	case RANGE_WORD_UNSIGNED:	return 2;
+	case RANGE_WORD_SIGNED:		return 2;
 	case RANGE_WORD_BE:			return 2;
 	case RANGE_DWORD:			return 4;
 	default: xassert(0);

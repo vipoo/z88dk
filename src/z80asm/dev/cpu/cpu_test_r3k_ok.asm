@@ -1762,24 +1762,30 @@
  call nc, -32768                ; 38 03 CD 00 80
  call nc, 32767                 ; 38 03 CD FF 7F
  call nc, 65535                 ; 38 03 CD FF FF
- call nv, -32768                ; EA 94 19 CD 00 80
- call nv, 32767                 ; EA 9A 19 CD FF 7F
- call nv, 65535                 ; EA A0 19 CD FF FF
+ call ns, -32768                ; FA 94 19 CD 00 80
+ call ns, 32767                 ; FA 9A 19 CD FF 7F
+ call ns, 65535                 ; FA A0 19 CD FF FF
+ call nv, -32768                ; EA A6 19 CD 00 80
+ call nv, 32767                 ; EA AC 19 CD FF 7F
+ call nv, 65535                 ; EA B2 19 CD FF FF
  call nz, -32768                ; 28 03 CD 00 80
  call nz, 32767                 ; 28 03 CD FF 7F
  call nz, 65535                 ; 28 03 CD FF FF
- call p, -32768                 ; FA B5 19 CD 00 80
- call p, 32767                  ; FA BB 19 CD FF 7F
- call p, 65535                  ; FA C1 19 CD FF FF
- call pe, -32768                ; E2 C7 19 CD 00 80
- call pe, 32767                 ; E2 CD 19 CD FF 7F
- call pe, 65535                 ; E2 D3 19 CD FF FF
- call po, -32768                ; EA D9 19 CD 00 80
- call po, 32767                 ; EA DF 19 CD FF 7F
- call po, 65535                 ; EA E5 19 CD FF FF
- call v, -32768                 ; E2 EB 19 CD 00 80
- call v, 32767                  ; E2 F1 19 CD FF 7F
- call v, 65535                  ; E2 F7 19 CD FF FF
+ call p, -32768                 ; FA C7 19 CD 00 80
+ call p, 32767                  ; FA CD 19 CD FF 7F
+ call p, 65535                  ; FA D3 19 CD FF FF
+ call pe, -32768                ; E2 D9 19 CD 00 80
+ call pe, 32767                 ; E2 DF 19 CD FF 7F
+ call pe, 65535                 ; E2 E5 19 CD FF FF
+ call po, -32768                ; EA EB 19 CD 00 80
+ call po, 32767                 ; EA F1 19 CD FF 7F
+ call po, 65535                 ; EA F7 19 CD FF FF
+ call s, -32768                 ; F2 FD 19 CD 00 80
+ call s, 32767                  ; F2 03 1A CD FF 7F
+ call s, 65535                  ; F2 09 1A CD FF FF
+ call v, -32768                 ; E2 0F 1A CD 00 80
+ call v, 32767                  ; E2 15 1A CD FF 7F
+ call v, 65535                  ; E2 1B 1A CD FF FF
  call z, -32768                 ; 20 03 CD 00 80
  call z, 32767                  ; 20 03 CD FF 7F
  call z, 65535                  ; 20 03 CD FF FF
@@ -3850,6 +3856,9 @@
  jp nc, -32768                  ; D2 00 80
  jp nc, 32767                   ; D2 FF 7F
  jp nc, 65535                   ; D2 FF FF
+ jp ns, -32768                  ; F2 00 80
+ jp ns, 32767                   ; F2 FF 7F
+ jp ns, 65535                   ; F2 FF FF
  jp nv, -32768                  ; E2 00 80
  jp nv, 32767                   ; E2 FF 7F
  jp nv, 65535                   ; E2 FF FF
@@ -3865,6 +3874,9 @@
  jp po, -32768                  ; E2 00 80
  jp po, 32767                   ; E2 FF 7F
  jp po, 65535                   ; E2 FF FF
+ jp s, -32768                   ; FA 00 80
+ jp s, 32767                    ; FA FF 7F
+ jp s, 65535                    ; FA FF FF
  jp v, -32768                   ; EA 00 80
  jp v, 32767                    ; EA FF 7F
  jp v, 65535                    ; EA FF FF
@@ -4632,11 +4644,13 @@
  ret lz                         ; E0
  ret m                          ; F8
  ret nc                         ; D0
+ ret ns                         ; F0
  ret nv                         ; E0
  ret nz                         ; C0
  ret p                          ; F0
  ret pe                         ; E8
  ret po                         ; E0
+ ret s                          ; F8
  ret v                          ; E8
  ret z                          ; C8
  reti                           ; ED 4D

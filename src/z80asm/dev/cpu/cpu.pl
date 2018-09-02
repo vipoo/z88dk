@@ -1,16 +1,17 @@
 #------------------------------------------------------------------------------
 # Z88DK Z80 Macro Assembler
 #
-# Z80/Z180/RCM2000/RCM3000 assembly table
-# Generate test code and parsing tables for the cpus defined in cpu.def
+# Z80/Z180/Z280/RCM2000/RCM3000 assembly table
+# Generate test code and parsing tables for the different cpus
 #
-# Copyright (C) Paulo Custodio, 2011-2017
+# References:
+# http://mdfs.net/Docs/Comp/Z280/OpList
+#
+# Copyright (C) Paulo Custodio, 2011-2018
 # License: The Artistic License 2.0, http://www.perlfoundation.org/artistic_license_2_0
 # Repository: https://github.com/z88dk/z88dk
 #------------------------------------------------------------------------------
-use strict;
-use warnings;
-use v5.10;
+use Modern::Perl;
 
 #------------------------------------------------------------------------------
 # Programatic opcode generator
@@ -21,12 +22,14 @@ use v5.10;
 #	%M	unsigned word, big-endian
 #	%j	jr offset
 #	%c	constant (im, bit, rst, ...)
-#	%d	signed register indirect offset
+#	%d	signed register indirect 8-bit offset
+#	%D	signed register indirect 16-bit offset
 #	%u	unsigned register indirect offset
 #	%t	temp jump label
 #	@label	unsigned word with given global label address
 #------------------------------------------------------------------------------
-my @CPUS = qw( z80 z80_zxn z180 r2k r3k );
+#my @CPUS = qw( z80 z80_zxn z180 z280 r2k r3k );		# z280 not yet supported
+my @CPUS = qw(  z80 z80_zxn z180       r2k r3k );
 
 my @R8	= qw( b c d e h l      a );
 my @R8I	= qw( b c d e h l (hl) a );
@@ -38,7 +41,7 @@ my @TEST= qw( tst test );
 my @ROTA= qw( rlca rrca rla rra );
 my @ROT = qw( rlc rrc rl rr sla sra sll sli srl );
 my @BIT = qw( bit res set );
-my @FLAGS = qw( _nz _z _nc _c _po _pe _nv _v _lz _lo _p _m );
+my @FLAGS = qw( _nz _z _nc _c _po _pe _nv _v _lz _lo _p _m _ns _s );
 my %INV_FLAG = qw( 	_nz	_z 
 					_z 	_nz
 					_nc _c 
@@ -50,7 +53,10 @@ my %INV_FLAG = qw( 	_nz	_z
 					_lz _lo 
 					_lo	_lz
 					_p 	_m
-					_m	_p );
+					_m	_p
+					_ns	_s
+					_s	_ns
+				);
 my @X	= qw( ix iy );
 my @DIS	= ('0', '%d');
 my @IO	= ('', qw( ioi ioe ));
@@ -64,7 +70,7 @@ my %V = (
 	_nz => 0, _z => 1, _nc => 2, _c => 3, 
 	_po => 4, _pe => 5,
 	_nv => 4, _v => 5,
-	_lz => 4, _lo => 5, _p => 6, _m => 7,
+	_lz => 4, _lo => 5, _p => 6, _m => 7, _ns => 6, _s => 7,
 	add => 0, adc => 1, sub => 2, sbc => 3, and => 4, xor => 5, or => 6, cp => 7,
 	rlca => 0, rrca => 1, rla => 2, rra => 3,
 	rlc => 0, rrc => 1, rl => 2, rr => 3, sla => 4, sra => 5, sll => 6, sli => 6, srl => 7, 
@@ -83,6 +89,7 @@ for my $cpu (@CPUS) {
 	my $z80 	= ($cpu =~ /^z80/);
 	my $z80_zxn	= ($cpu =~ /^z80_zxn/);
 	my $z180 	= ($cpu =~ /^z180/);
+	my $z280 	= ($cpu =~ /^z280/);
 	my $zilog	= ($cpu =~ /^z/);
 	
 	# 8-bit load group
@@ -109,6 +116,15 @@ for my $cpu (@CPUS) {
 		}
 		for my $a (@A_) {
 			add_opc($cpu, "$op $a%n", 0xC6 + $V{$op}*8, '%n');
+
+			if ($z280) {
+				add_opc($cpu, "$op $a(%m)", 0xDD, 0x87 + $V{$op}*8, '%m', '%m');
+
+				for ([ix => 1], [iy => 2], [hl => 3]) {
+					my($reg, $regc) = @$_;
+					add_opc($cpu, "$op $a($reg+%D)", 0xFD, 0x88 + $regc, '%D', '%D');
+				}
+			}
 		}
 	}
 	for my $r (@R8I) { 
@@ -675,7 +691,12 @@ for my $asm (sort keys %Tests) {
 			}
 		}
 		else {
-			$fh{$cpu}{''}{err}->print($asmf."; Error\n");
+			# check if a variant exists, e.g.
+			# 'adc (%m)' does not exist in z80, but 'adc %n does'
+			(my $asm1 = $asm) =~ s/\(-?\d+\)/255/;
+			if (not exists $Tests{$asm1}{$cpu}) {
+				$fh{$cpu}{''}{err}->print($asmf."; Error\n");
+			}
 		}
 	}
 	if (exists $Tests{$asm}{''}) {
@@ -698,7 +719,8 @@ sub add_opc {
 	add_opc_1($cpu, $asm, @bin);
 	
 	# expand ixh, ixl, ...
-	if ($cpu =~ /^z80/ && $asm =~ /\b[hl]\b/ && $asm !~ /\b(hl|ix|iy|in|out)\b/) {
+	if ($cpu =~ /^z80|^z280/ &&
+		$asm =~ /\b[hl]\b/ && $asm !~ /\b(hl|ix|iy|in|out)\b/) {
 		(my $asm1 = $asm) =~ s/\b([hl])\b/ix$1/g;
 		add_opc_1($cpu, $asm1, $V{ix}, @bin);
 		(   $asm1 = $asm) =~ s/\b([hl])\b/iy$1/g;
@@ -825,7 +847,7 @@ sub parser_tokens {
 		elsif (/\G , 			/gcx) { push @tokens, "_TK_COMMA"; }
 		elsif (/\G \) 			/gcx) { push @tokens, "_TK_RPAREN"; }
 		elsif (/\G \( %[nm] \)	/gcx) { push @tokens, "expr"; }
-		elsif (/\G \+ %[du]		/gcx) { push @tokens, "expr"; }
+		elsif (/\G \+ %[duD]	/gcx) { push @tokens, "expr"; }
 		elsif (/\G    %[snmMj]	/gcx) { push @tokens, "expr"; }
 		elsif (/\G    %[c]		/gcx) { push @tokens, "const_expr"; }
 		elsif (/\G    (\w+)	'	/gcx) { push @tokens, "_TK_".uc($1)."1"; }
@@ -910,6 +932,9 @@ sub parse_code {
 	}
 	elsif ($bin =~ s/ %s$//) {
 		$stmt = "DO_stmt_d";
+	}
+	elsif ($bin =~ s/ %D %D$//) {
+		$stmt = "DO_stmt_dd";
 	}
 	elsif ($bin =~ /%t %t/) {
 		push @code,

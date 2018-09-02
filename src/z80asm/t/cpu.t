@@ -1,11 +1,15 @@
 #!perl
 
 #------------------------------------------------------------------------------
+# Z88DK Z80 Macro Assembler
+#
 # Test cpu opcode files created by ../dev/cpu/cpu.pl
+#
+# Copyright (C) Paulo Custodio, 2011-2018
+# License: The Artistic License 2.0, http://www.perlfoundation.org/artistic_license_2_0
+# Repository: https://github.com/z88dk/z88dk
 #------------------------------------------------------------------------------
-use strict;
-use warnings;
-use v5.10;
+use Modern::Perl;
 use Test::More;
 use File::Basename;
 
@@ -57,6 +61,7 @@ for my $file (<dev/cpu/cpu_test*.asm>) {
 			}
 		}
 		my $length = $addr;		# only compare output up to $length
+		ok $length < 0x10000, int($length/1024+1)."k bytes test code";
 		
 		# run assembler
 		ok system($cmd)==0, $cmd;

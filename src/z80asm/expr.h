@@ -90,8 +90,9 @@ typedef enum {
 	RANGE_JR_OFFSET = 1,
 	RANGE_BYTE_UNSIGNED,
 	RANGE_BYTE_SIGNED,
-	RANGE_WORD,			// 16-bit value little-endian
-	RANGE_WORD_BE,		// 16-bit value big-endian
+	RANGE_WORD_UNSIGNED,	// 16-bit value little-endian unsigned
+	RANGE_WORD_SIGNED,		// 16-bit value little-endian signed
+	RANGE_WORD_BE,			// 16-bit value big-endian
 	RANGE_DWORD,
 } range_t;
 

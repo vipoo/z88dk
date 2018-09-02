@@ -304,7 +304,7 @@ void asm_DEFC(const char *name, Expr *expr)
 		}
 		else {
 			/* store in object file to be computed at link time */
-			expr->range = RANGE_WORD;
+			expr->range = RANGE_WORD_UNSIGNED;
 			expr->target_name = spool_add(name);
 
 			ExprList_push(&CURRENTMODULE->exprs, expr);
@@ -352,7 +352,7 @@ void asm_DEFB_expr(Expr *expr)
 *----------------------------------------------------------------------------*/
 void asm_DEFW(Expr *expr)
 {
-	Pass2infoExpr(RANGE_WORD, expr);
+	Pass2infoExpr(RANGE_WORD_UNSIGNED, expr);
 }
 
 void asm_DEFDB(Expr *expr)

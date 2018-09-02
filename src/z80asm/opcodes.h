@@ -30,6 +30,9 @@ extern void add_opcode_n(int opcode, struct Expr *expr);
 /* add opcode followed by 8-bit signed expression */
 extern void add_opcode_d(int opcode, struct Expr *expr);
 
+/* add opcode followed by 16-bit signed expression */
+extern void add_opcode_dd(int opcode, struct Expr *expr);
+
 /* add opcode followed by 16-bit expression */
 extern void add_opcode_nn(int opcode, struct Expr *expr);
 

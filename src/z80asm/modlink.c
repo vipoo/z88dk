@@ -208,11 +208,12 @@ static void read_cur_module_exprs_1(ExprList *exprs, FILE *file, char *filename,
             {
             case 'U': expr->range = RANGE_BYTE_UNSIGNED; break;
             case 'S': expr->range = RANGE_BYTE_SIGNED;  break;
-			case 'C': expr->range = RANGE_WORD;			break;
+			case 'C': expr->range = RANGE_WORD_UNSIGNED; break;
+			case 'c': expr->range = RANGE_WORD_SIGNED; break;
 			case 'B': expr->range = RANGE_WORD_BE;		break;
 			case 'L': expr->range = RANGE_DWORD;		break;
 			case 'J': expr->range = RANGE_JR_OFFSET;	break;
-			case '=': expr->range = RANGE_WORD;
+			case '=': expr->range = RANGE_WORD_UNSIGNED;
 					  xassert( str_len(target_name) > 0 );
 					  expr->target_name = spool_add( str_data(target_name) );	/* define expression as EQU */
 					  break;
@@ -422,7 +423,7 @@ static void patch_exprs( ExprList *exprs )
 				patch_byte(expr->code_pos, (byte_t)value);
                 break;
 
-            case RANGE_WORD:
+            case RANGE_WORD_UNSIGNED:
                 if ( value < -32768 || value > 65535 )
                     warn_int_range( value );
 
@@ -458,6 +459,13 @@ static void patch_exprs( ExprList *exprs )
 					}
 				}                
                 break;
+
+			case RANGE_WORD_SIGNED:
+				if (value < -32768 || value > 32767)
+					error_int_range(value);
+
+				patch_word(expr->code_pos, (int)value);
+				break;
 
 			case RANGE_WORD_BE:
 				if (value < -32768 || value > 65535)

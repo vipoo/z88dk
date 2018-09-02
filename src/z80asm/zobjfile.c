@@ -61,7 +61,8 @@ static long write_expr( FILE *fp )
 			switch ( expr->range )
 			{
 			case RANGE_DWORD:			range = 'L'; break;
-			case RANGE_WORD:			range = 'C'; break;
+			case RANGE_WORD_UNSIGNED:	range = 'C'; break;
+			case RANGE_WORD_SIGNED:		range = 'c'; break;
 			case RANGE_WORD_BE:			range = 'B'; break;
 			case RANGE_BYTE_UNSIGNED:	range = 'U'; break;
 			case RANGE_BYTE_SIGNED:		range = 'S'; break;

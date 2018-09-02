@@ -66,11 +66,18 @@ void add_opcode_d(int opcode, Expr *expr)
 	Pass2infoExpr(RANGE_BYTE_SIGNED, expr);
 }
 
+/* add opcode followed by 16-bit signed expression */
+void add_opcode_dd(int opcode, Expr *expr)
+{
+	add_opcode(opcode);
+	Pass2infoExpr(RANGE_WORD_SIGNED, expr);
+}
+
 /* add opcode followed by 16-bit expression */
 void add_opcode_nn(int opcode, Expr *expr)
 {
 	add_opcode(opcode);
-	Pass2infoExpr(RANGE_WORD, expr);
+	Pass2infoExpr(RANGE_WORD_UNSIGNED, expr);
 }
 
 /* add opcode followed by big-endian 16-bit expression */

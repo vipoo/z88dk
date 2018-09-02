@@ -131,10 +131,12 @@ TOKEN_KW(PO, )
 TOKEN_KW(PE, )
 TOKEN_KW(P,  )
 TOKEN_KW(M,  )
+TOKEN_KW(NS, )			// z280
+TOKEN_KW(S,  )			// z280
 TOKEN_RABBIT(LZ)		// issue #577
 TOKEN_RABBIT(LO)		// issue #577
-TOKEN_KW(NV, )
-TOKEN_KW(V, )
+TOKEN_KW(NV, )			// z180
+TOKEN_KW(V, )			// z180
 
 /* 8-bit registers */
 TOKEN_KW(B, )
@@ -172,9 +174,10 @@ TOKEN_KW(IY, )
 
 TOKEN_KW(AF, )
 TOKEN_KW(SP, )
-TOKEN_KW(IP, )
-TOKEN_KW(SU, )
-TOKEN_KW(XPC, )
+TOKEN_KW(IP, )		// rabbit
+TOKEN_KW(SU, )		// r3k
+TOKEN_KW(PC, )		// z280
+TOKEN_KW(XPC, )		// rabbit
 
 TOKEN(TK_B1, "B'", )
 TOKEN(TK_C1, "C'", )

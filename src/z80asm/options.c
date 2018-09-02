@@ -61,6 +61,7 @@ static void option_use_lib(const char *library );
 static void option_cpu_z80(void);
 static void option_cpu_z80_zxn(void);
 static void option_cpu_z180(void);
+static void option_cpu_z280(void);
 static void option_cpu_r2k(void);
 static void option_cpu_r3k(void);
 static void option_appmake_zx(void);
@@ -677,6 +678,11 @@ static void option_cpu_z180(void)
 	opts.cpu_name = CPU_Z180_NAME;
 }
 
+static void option_cpu_z280(void)
+{
+	opts.cpu = CPU_Z280;
+}
+
 static void option_cpu_r2k(void)
 {
 	opts.cpu = CPU_R2K;
@@ -700,6 +706,9 @@ static void define_assembly_defines()
 		break;
 	case CPU_Z180:
 	    define_static_def_sym("__CPU_Z180__", 1);
+		break;
+	case CPU_Z280:
+		define_static_def_sym("__CPU_Z280__", 1);
 		break;
 	case CPU_R2K:
 	    define_static_def_sym("__CPU_R2K__", 1);

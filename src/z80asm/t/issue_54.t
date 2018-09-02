@@ -71,7 +71,7 @@ END
 
 
 z80nm("test.o", <<'END');
-Object  file test.o at $0000: Z80RMF12
+Object  file test.o at $0000: Z80RMF13
   Name: test
   Section "": 1 bytes, ORG $FDE8
     C $0000: C9
@@ -83,8 +83,8 @@ Object  file test.o at $0000: Z80RMF12
     G = $0000 asm_BIFROST2_stop (section "") (file test.asm:10)
     G C $C9C2 asm_BIFROST2_showNext2Tiles (section "") (file test.asm:11)
   Expressions:
-    E =  $0000 $0000: asm_BIFROST2_start := 51625+ASMPC-ASMPC (section "") (file test.asm:9)
-    E =  $0000 $0000: asm_BIFROST2_stop := 51634+here-there (section "") (file test.asm:10)
+    E =(expr) $0000 $0000: asm_BIFROST2_start := 51625+ASMPC-ASMPC (section "") (file test.asm:9)
+    E =(expr) $0000 $0000: asm_BIFROST2_stop := 51634+here-there (section "") (file test.asm:10)
 END
 
 unlink_testfiles();

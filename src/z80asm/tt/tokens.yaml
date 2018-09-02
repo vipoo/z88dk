@@ -181,6 +181,8 @@ tokens:
   - name    : LO
   - name    : NV
   - name    : V
+  - name    : NS
+  - name    : S
 
   # 8-bit registers
   - name    : B
@@ -209,7 +211,8 @@ tokens:
   - name    : IY
   - name    : AF
   - name    : SP
-  
+  - name    : PC
+
   - name    : B1
     regexp  : "\"B'\"i"
   
