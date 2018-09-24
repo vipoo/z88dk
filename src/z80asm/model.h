@@ -15,7 +15,9 @@ Global data model.
 #include "module.h"
 #include "types.h"
 #include "utarray.h"
+#include "cobject.h"
 
+cobj_t* g_cobj;				// global obj of file being assembled
 
 
 /*-----------------------------------------------------------------------------

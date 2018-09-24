@@ -21,7 +21,8 @@ Global data model.
 /*-----------------------------------------------------------------------------
 *   Global data
 *----------------------------------------------------------------------------*/
-static SrcFile			*g_src_input;			/* input handle for reading source lines */
+static SrcFile*	g_src_input;			// input handle for reading source lines
+cobj_t*			g_cobj = NULL;			// global obj of file being assembled
 
 /*-----------------------------------------------------------------------------
 *   Call-back called when reading each new line from source

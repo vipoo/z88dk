@@ -45,6 +45,19 @@ LOCAL_CFLAGS 	+= -MMD -I. -I$(LOCAL_LIB) -It -g -Wall -ftabstop=4 $(STD) $(OPT) 
 #------------------------------------------------------------------------------
 .PHONY: all
 
+#------------------------------------------------------------------------------
+LIBZ80ASM_DIR	= ../z80asm2
+LIBZ80ASM		= $(LIBZ80ASM_DIR)/libz80asm.a
+LIBZ80ASM_SRC	= $(wildcard $(LIBZ80ASM_DIR)/*.cpp $(LIBZ80ASM_DIR)/*.h $(LIBZ80ASM_DIR)/c/*.cpp $(LIBZ80ASM_DIR)/c/*.h)
+
+all: $(LIBZ80ASM)
+
+$(LIBZ80ASM): $(LIBZ80ASM_SRC)
+	$(MAKE) -C $(LIBZ80ASM_DIR)
+
+LDFLAGS			+= -L$(LIBZ80ASM_DIR) -lz80asm
+
+#------------------------------------------------------------------------------
 all: $(TARGET)
 
 $(TARGET): ../config.h $(OBJS)

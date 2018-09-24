@@ -70,6 +70,9 @@ void assemble_file( char *filename )
 	obj_filename = get_obj_filename(filename);
 	path_mkdir(path_dir(obj_filename));
 
+	// create interface object to C++
+	g_cobj = cobj_new(get_asm_filename(filename));
+
 	/* try to load object file */
 	if (strcmp(filename, obj_filename) == 0 &&			/* input is object file */
 		file_exists(filename)							/* .o file exists */
@@ -135,6 +138,9 @@ void assemble_file( char *filename )
 
 	/* finished assembly, remove dirname from include path */
 	argv_pop(opts.inc_path);
+
+	// delete C++ object
+	cobj_free(g_cobj); g_cobj = NULL;
 }
 
 /*-----------------------------------------------------------------------------

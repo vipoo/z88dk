@@ -16,3 +16,6 @@
 [submodule "ext/cpm"]
 	path = ext/cpm
 	url = https://github.com/z88dk/cpm.git
+[submodule "src/z80asm2"]
+	path = src/z80asm2
+	url = https://github.com/z88dk/z80asm.git
