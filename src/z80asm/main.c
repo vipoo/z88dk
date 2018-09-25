@@ -7,7 +7,11 @@ Repository: https://github.com/z88dk/z88dk
 
 Main function
 */
-#include "z80asm.h"
+#ifdef __cplusplus
+	extern "C" int z80asm_main(int argc, char *argv[]);
+#else
+	#include "z80asm.h"
+#endif
 
 int main(int argc, char *argv[])
 {

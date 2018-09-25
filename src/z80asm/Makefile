@@ -5,40 +5,43 @@
 # License: http://www.perlfoundation.org/artistic_license_2_0
 # Repository: https://github.com/z88dk/z88dk
 #------------------------------------------------------------------------------
-PROJ		:= z80asm
+PROJ			:= z80asm
 
 include ../Make.common
 
-CC 		?= gcc
-INSTALL 	?= install
-CROSS		?= 0
+CC 				?= gcc
+CXX				?= g++
+INSTALL 		?= install
+CROSS			?= 0
 
 #------------------------------------------------------------------------------
 # Object files
 #------------------------------------------------------------------------------
-SRCS		:= $(filter-out test.c,$(wildcard *.c lib/*.c ../common/*.c ../../ext/regex/reg*.c))
-OBJS 		:= $(SRCS:.c=.o) \
+SRCS			:= $(filter-out test.c,$(wildcard *.c lib/*.c ../common/*.c ../../ext/regex/reg*.c))
+OBJS 			:= $(SRCS:.c=.o) \
 		   $(UNIXem_OBJS)
-DEPENDS		:= $(SRCS:.c=.d)
+DEPENDS			:= $(SRCS:.c=.d)
 TEST_SRC_MAIN	:= $(wildcard t/test_*.c)
 TEST_SRC_LIB	:= t/testlib.c
 
 #------------------------------------------------------------------------------
 # variables
 #------------------------------------------------------------------------------
-TARGET 		= $(PROJ)$(EXE)
-MSVC_TARGET 	= ../../win32/Debug/$(TARGET)
+TARGET 			= $(PROJ)$(EXE)
 
-OPT 		= -O3
+OPT 			= -O3
 
-STD 		= -std=gnu11
-LOCAL_LIB 	:= lib
-LOCAL_CFLAGS 	+= -MMD -I. -I$(LOCAL_LIB) -It -g -Wall -ftabstop=4 $(STD) $(OPT) \
-		   -I../common \
-		   -I../../ext/optparse \
-		   -I../../ext/regex \
-		   -I../../ext/uthash/src \
-		   $(UNIXem_CFLAGS)
+STD_C 			= -std=gnu11
+STD_CXX			= -std=gnu++11
+LOCAL_LIB 		:= lib
+COMMON_FLAGS	+= -MMD -I. -I$(LOCAL_LIB) -It -g -Wall -ftabstop=4 $(OPT) \
+					-I../common \
+					-I../../ext/optparse \
+					-I../../ext/regex \
+					-I../../ext/uthash/src \
+					$(UNIXem_CFLAGS)
+LOCAL_CFLAGS 	+= $(COMMON_FLAGS) $(STD_C)
+CXXFLAGS 		+= $(COMMON_FLAGS) $(STD_CXX)
 
 #------------------------------------------------------------------------------
 # main
@@ -55,13 +58,14 @@ all: $(LIBZ80ASM)
 $(LIBZ80ASM): $(LIBZ80ASM_SRC)
 	$(MAKE) -C $(LIBZ80ASM_DIR)
 
+LOCAL_CFLAGS 	+= -I$(LIBZ80ASM_DIR)/c
 LDFLAGS			+= -L$(LIBZ80ASM_DIR) -lz80asm
 
 #------------------------------------------------------------------------------
 all: $(TARGET)
 
 $(TARGET): ../config.h $(OBJS)
-	$(CC) $(LOCAL_CFLAGS) $(CFLAGS) -o $(TARGET) $(OBJS) $(LDFLAGS)
+	$(CXX) $(CXXFLAGS) $(CFLAGS) -o $(TARGET) $(OBJS:main.o=) main.c $(LDFLAGS)
 
 ../config.h:
 	@echo \#define PREFIX \"/usr/local/share/z88dk\" 				 > $@
@@ -162,9 +166,6 @@ prove_c: t/libtestlib.a $(TEST_SRC_MAIN:.c=.o) $(TEST_SRC_MAIN:.c=.out)
 prove_perl: $(TARGET)
 	perl -S prove t/*.t
 
-testmsvc : $(MSVC_TARGET)
-	$(MAKE) Z80ASM=$(MSVC_TARGET) prove
-
 clean::
 	$(RM) zcc_opt.def zcc_proj.lst
 
@@ -181,14 +182,6 @@ clean::
 clean::
 	$(RM) $(TARGET) $(LOCAL_LIB)/$(TARGET) test* $(LOCAL_LIB)/test*
 	$(RM) t/*.tmp $(LOCAL_LIB)/t/*.tmp t/dev/*.tmp
-
-#------------------------------------------------------------------------------
-# build with msvc - need to build manualy, devenv not available in Express
-#------------------------------------------------------------------------------
-$(MSVC_TARGET) : $(wildcard *.c) $(wildcard *.h)
-	@echo Build $(PROJ) inside Microsoft Visual C++ 2010 Express
-	@exit 1
-
 
 #------------------------------------------------------------------------------
 # Dependencies

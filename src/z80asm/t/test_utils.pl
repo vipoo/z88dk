@@ -494,7 +494,7 @@ sub t_compile_module {
 		sleep(1);
 	}
 	
-	my($CFLAGS, $LDFLAGS) = get_gcc_options();
+	my($CFLAGS, $CXXFLAGS, $LDFLAGS) = get_gcc_options();
 	
 	# get list of object files
 	my %modules;
@@ -682,10 +682,6 @@ sub get_copyright {
 sub get_gcc_options {
 	our %FLAGS;
 	
-	# hack
-#	$ENV{LOCAL_LIB} = "lib";
-#	$ENV{OPT} ||= "";
-	
 	if ( ! %FLAGS ) {
 		my %vars;
 		open(my $pipe, "make -p|") or die;
@@ -697,25 +693,23 @@ sub get_gcc_options {
 		}
 		close($pipe) or die;
 		
-		$FLAGS{CFLAGS}   ||= '';
-		$FLAGS{CPPFLAGS} ||= '';
-		$FLAGS{LDFLAGS}  ||= '';
-
 		while (my($flag, $text) = each %vars) {
-			if ($flag =~ /^\w*(CFLAGS|CPPFLAGS|LDFLAGS)$/) {
-				$flag = $1;
+			if ($flag =~ /^(?:LOCAL_CFLAGS|CXXFLAGS|LDFLAGS)$/) {
+				my $run;
+				do {
+					$run = 0;
+					$run += ($text =~ s/\$\((\w+)\)/ $vars{$1} || "" /ge);
+					$run += ($text =~ s/\$\(shell (.*?)\)/ `$1` /ge);
+				} while ($run);
 				
-				$text =~ s/\$\((\w+)\)/ $vars{$1} || "" /ge;
-				
-				$text =~ s/\$\(shell (.*?)\)/ `$1` /ge;
 				$text =~ s/\s+/ /g;
 			
-				$FLAGS{$flag} = join(" ", $FLAGS{$flag}, $text);
+				$FLAGS{$flag} = join(" ", $FLAGS{$flag}//"", $text);
 			}
 		}
 	}
 	
-	return @FLAGS{qw( CFLAGS LDFLAGS )};
+	return @FLAGS{qw( LOCAL_CFLAGS CXXFLAGS LDFLAGS )};
 };
 
 1;
