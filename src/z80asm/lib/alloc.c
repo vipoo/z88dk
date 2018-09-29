@@ -148,7 +148,7 @@ static MemBlock *new_block( size_t client_size, const char *file, int lineno )
     /* create memory to hold MemBlock + client area + fence */
     block_size = BLOCK_SIZE( client_size );
 
-    block = malloc( block_size );
+    block = (MemBlock*)malloc( block_size );
 	check( block, 
 		   "memory alloc (%u bytes) failed at %s:%d", (unsigned)client_size, file, lineno );
 
@@ -186,7 +186,7 @@ static MemBlock *find_block_no_warn( void *memptr )
 		return NULL;
 }
 
-static MemBlock *find_block( void *memptr, char *file, int lineno )
+static MemBlock *find_block( void *memptr, const char *file, int lineno )
 {
     MemBlock *block = find_block_no_warn( memptr );
 	check( block, "memory block not found at %s:%d", file, lineno );
@@ -281,7 +281,7 @@ char *m_strdup_(const char *source, const char *file, int lineno )
 /*-----------------------------------------------------------------------------
 *   realloc
 *----------------------------------------------------------------------------*/
-void *m_realloc_( void *memptr, size_t size, char *file, int lineno )
+void *m_realloc_( void *memptr, size_t size, const char *file, int lineno )
 {
     MemBlock *block, *next_block;
 	bool 	  result;
@@ -305,7 +305,7 @@ void *m_realloc_( void *memptr, size_t size, char *file, int lineno )
 	check( result, "memory realloc (%u bytes) failed at %s:%d", (unsigned)size, file, lineno );
 
     /* reallocate and create new end fence */
-    block = realloc( block, BLOCK_SIZE( size ) );
+    block = (MemBlock*)realloc( block, BLOCK_SIZE( size ) );
 	check( block, "memory realloc (%u bytes) failed at %s:%d", (unsigned)size, file, lineno );
 	
     /* update block */
@@ -336,7 +336,7 @@ void *m_realloc_compat( void *memptr, size_t size )
 /*-----------------------------------------------------------------------------
 *   free
 *----------------------------------------------------------------------------*/
-void m_free_( void *memptr, char *file, int lineno )
+void m_free_( void *memptr, const char *file, int lineno )
 {
     MemBlock *block = NULL;
 	bool result;
@@ -375,7 +375,7 @@ void m_free_compat( void *memptr )
 /*-----------------------------------------------------------------------------
 *   Destructors
 *----------------------------------------------------------------------------*/
-void *m_set_destructor_( void *memptr, destructor_t destructor, char *file, int lineno )
+void *m_set_destructor_( void *memptr, destructor_t destructor, const char *file, int lineno )
 {
     MemBlock *block;
 
@@ -388,7 +388,7 @@ error:
 	return memptr;
 }
 
-void *m_set_in_collection_( void *memptr, bool in_collection, char *file, int lineno )
+void *m_set_in_collection_( void *memptr, bool in_collection, const char *file, int lineno )
 {
     MemBlock *block;
 
@@ -401,7 +401,7 @@ error:
 	return memptr;
 }
 
-void *m_destroy_atexit_( void *memptr, char *file, int lineno )
+void *m_destroy_atexit_( void *memptr, const char *file, int lineno )
 {
     MemBlock *block;
 

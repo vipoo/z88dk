@@ -44,7 +44,6 @@ OPT_VAR(const char *, cpu_name, CPU_Z80_NAME)
 OPT_VAR(const char *,	bin_file,	NULL	)	/* set by -o */
 OPT_VAR(const char *,	lib_file,	NULL	)	/* set by -x */
 OPT_VAR(const char *,    consol_obj_file, NULL)	/* set by -o and no -b */
-OPT_VAR(const char *,    output_directory, NULL)	/* set by -O */
 
 OPT_VAR(argv_t *,	inc_path, NULL)			/* path for include files */
 OPT_VAR(argv_t *,	lib_path, NULL)			/* path for library files */
@@ -89,7 +88,7 @@ OPT(OptCallArg, option_make_lib, "-x", "--make-lib", "Create a library file" FIL
 OPT(OptCallArg, option_use_lib, "-i", "--use-lib", "Link library file" FILEEXT_LIB, "FILE")
 
 OPT_TITLE("Binary Output:")
-OPT(OptString, (void*)&opts.output_directory, "-O", "", "Output directory", "DIR")
+OPT(OptCallArg, option_output_dir, "-O", "", "Output directory", "DIR")
 OPT(OptString, (void*)&opts.bin_file, "-o", "--output", "Output binary file", "FILE")
 OPT(OptSet, &opts.make_bin, "-b", "--make-bin", "Assemble and link/relocate to file" FILEEXT_BIN, "")
 OPT(OptSet, &opts.split_bin, "", "--split-bin", "Create one binary file per section", "")

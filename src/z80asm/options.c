@@ -71,6 +71,7 @@ static void option_debug_info();
 static void define_assembly_defines();
 static void include_z80asm_lib();
 static const char *search_z80asm_lib();
+static void option_output_dir(const char *dir);
 static void make_output_dir();
 
 static void process_options( int *parg, int argc, char *argv[] );
@@ -733,13 +734,13 @@ static void define_assembly_defines()
 static const char *path_prepend_output_dir(const char *filename)
 {
 	char path[FILENAME_MAX];
-	if (opts.output_directory) {
+	if (zasm_get_output_dir(g_zasm)) {
 		if (isalpha(filename[0]) && filename[1] == ':')	// it's a win32 absolute path
 			snprintf(path, sizeof(path), "%s/%c/%s", 
-				opts.output_directory, filename[0], filename + 2);
+				zasm_get_output_dir(g_zasm), filename[0], filename + 2);
 		else
 			snprintf(path, sizeof(path), "%s/%s", 
-				opts.output_directory, filename);
+				zasm_get_output_dir(g_zasm), filename);
 		return spool_add(path);
 	}
 	else {
@@ -927,10 +928,15 @@ static const char *search_z80asm_lib()
 /*-----------------------------------------------------------------------------
 *   output directory
 *----------------------------------------------------------------------------*/
+static void option_output_dir(const char *dir)
+{
+	zasm_set_output_dir(g_zasm, dir);
+}
+
 static void make_output_dir()
 {
-	if (opts.output_directory) {
-		opts.output_directory = path_canon(opts.output_directory);
-		path_mkdir(opts.output_directory);
+	if (zasm_get_output_dir(g_zasm)) {
+		zasm_set_output_dir(g_zasm, path_canon(zasm_get_output_dir(g_zasm)));
+		path_mkdir(zasm_get_output_dir(g_zasm));
 	}
 }

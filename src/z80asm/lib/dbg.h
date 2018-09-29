@@ -57,7 +57,7 @@ Based on Learn C the Hard Way book, by Zed. A. Shaw (http://c.learncodethehardwa
 			( (	dbg_push_##type( (condition) ) ok_check ? \
 					1 : \
 					( log_err(message, ##__VA_ARGS__), \
-					  exit(1) \
+					  exit(1), 1 \
 					) \
 			  ), \
 			  dbg_pop_##type() \

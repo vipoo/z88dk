@@ -18,8 +18,8 @@ Global data model.
 #include "cobject.h"
 #include "assembler.h"
 
-zasm_t* g_zasm;				// global assembler object
-cobj_t* g_cobj;				// global obj of file being assembled
+extern zasm_t* g_zasm;				// global assembler object
+extern cobj_t* g_cobj;				// global obj of file being assembled
 
 
 /*-----------------------------------------------------------------------------

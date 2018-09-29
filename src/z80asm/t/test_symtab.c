@@ -9,6 +9,10 @@ License: The Artistic License 2.0, http://www.perlfoundation.org/artistic_licens
 Repository: https://github.com/pauloscustodio/z88dk-z80asm
 */
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include "listfile.h"
 #include "model.h"
 #include "module.h"
@@ -23,13 +27,13 @@ Repository: https://github.com/pauloscustodio/z88dk-z80asm
 int sizeof_relocroutine = 0;
 int sizeof_reloctable = 0;
 
-char *GetLibfile( char *filename ) { return ""; }
-extern Symbol *_define_sym( char *name, long value, sym_type_t sym_type, byte_t type_mask,
+const char *GetLibfile( char *filename ) { return ""; }
+extern Symbol *_define_sym( const char *name, long value, sym_type_t sym_type, byte_t type_mask,
                      Module *module, Section *section,
 					 SymbolHash **psymtab );
 
 /* reuse string - test saving of keys by hash */
-static char *S(char *str)
+static const char *S(const char *str)
 {
 	static char buffer[MAXLINE];
 	
@@ -70,7 +74,7 @@ static void dump_Symbol ( Symbol *sym )
 					"CURRENTMODULE" : "?");
 }
 
-static void dump_SymbolHash ( SymbolHash *symtab, char *name )
+static void dump_SymbolHash ( SymbolHash *symtab, const char *name )
 {
 	SymbolHashElem *iter;
 	Symbol         *sym;
@@ -107,11 +111,11 @@ static void test_symtab( void )
 	set_cur_module( new_module() );
 
 	warn("Create symbol\n");	
-	sym = Symbol_create(S("Var1"), 123, TYPE_CONSTANT, 0, NULL, NULL);
+	sym = Symbol_create(S("Var1"), 123, (sym_type_t)TYPE_CONSTANT, (sym_scope_t)0, NULL, NULL);
 	dump_Symbol(sym);
 	OBJ_DELETE(sym);
 
-	sym = Symbol_create(S("Var1"), 123, TYPE_CONSTANT, 0, CURRENTMODULE, NULL);
+	sym = Symbol_create(S("Var1"), 123, (sym_type_t)TYPE_CONSTANT, (sym_scope_t)0, CURRENTMODULE, NULL);
 	dump_Symbol(sym);
 	CURRENTMODULE->modname = "MODULE";
 	dump_Symbol(sym);
@@ -126,9 +130,9 @@ static void test_symtab( void )
 	warn("check case insensitive - CH_0024\n");
 	symtab = OBJ_NEW(SymbolHash);
 	assert( symtab );
-	_define_sym(S("Var1"), 1, TYPE_CONSTANT, 0, NULL, NULL, &symtab);
-	_define_sym(S("var1"), 2, TYPE_CONSTANT, 0, NULL, NULL, &symtab);
-	_define_sym(S("VAR1"), 3, TYPE_CONSTANT, 0, NULL, NULL, &symtab);
+	_define_sym(S("Var1"), 1, (sym_type_t)TYPE_CONSTANT, (sym_scope_t)0, NULL, NULL, &symtab);
+	_define_sym(S("var1"), 2, (sym_type_t)TYPE_CONSTANT, (sym_scope_t)0, NULL, NULL, &symtab);
+	_define_sym(S("VAR1"), 3, (sym_type_t)TYPE_CONSTANT, (sym_scope_t)0, NULL, NULL, &symtab);
 	dump_SymbolHash(symtab, "tab1");
 	
 	assert( find_symbol(S("Var1"), symtab)->value == 1 );
@@ -140,16 +144,16 @@ static void test_symtab( void )
 	warn("Concat symbol tables\n");	
 	symtab = OBJ_NEW(SymbolHash);
 	assert( symtab );
-	_define_sym(S("Var1"),  1, TYPE_CONSTANT, 0, NULL, NULL, &symtab);
-	_define_sym(S("Var2"),  2, TYPE_CONSTANT, 0, NULL, NULL, &symtab);
-	_define_sym(S("Var3"), -3, TYPE_CONSTANT, 0, NULL, NULL, &symtab);
+	_define_sym(S("Var1"),  1, (sym_type_t)TYPE_CONSTANT, (sym_scope_t)0, NULL, NULL, &symtab);
+	_define_sym(S("Var2"),  2, (sym_type_t)TYPE_CONSTANT, (sym_scope_t)0, NULL, NULL, &symtab);
+	_define_sym(S("Var3"), -3, (sym_type_t)TYPE_CONSTANT, (sym_scope_t)0, NULL, NULL, &symtab);
 	dump_SymbolHash(symtab, "tab1");
 	
 	symtab2 = OBJ_NEW(SymbolHash);
 	assert( symtab2 );
-	_define_sym(S("Var3"), 3, TYPE_CONSTANT, 0, NULL, NULL, &symtab2);
-	_define_sym(S("Var4"), 4, TYPE_CONSTANT, 0, NULL, NULL, &symtab2);
-	_define_sym(S("Var5"), 5, TYPE_CONSTANT, 0, NULL, NULL, &symtab2);
+	_define_sym(S("Var3"), 3, (sym_type_t)TYPE_CONSTANT, (sym_scope_t)0, NULL, NULL, &symtab2);
+	_define_sym(S("Var4"), 4, (sym_type_t)TYPE_CONSTANT, (sym_scope_t)0, NULL, NULL, &symtab2);
+	_define_sym(S("Var5"), 5, (sym_type_t)TYPE_CONSTANT, (sym_scope_t)0, NULL, NULL, &symtab2);
 	dump_SymbolHash(symtab2, "tab2");
 	
 	SymbolHash_cat( &symtab, symtab2 );
@@ -161,17 +165,17 @@ static void test_symtab( void )
 	warn("Sort\n");	
 	symtab = OBJ_NEW(SymbolHash);
 	assert( symtab );
-	_define_sym(S("One"), 	1, TYPE_CONSTANT, 0, NULL, NULL, &symtab);
-	_define_sym(S("Two"),	2, TYPE_CONSTANT, 0, NULL, NULL, &symtab); 
-	_define_sym(S("Three"),	3, TYPE_CONSTANT, 0, NULL, NULL, &symtab);
-	_define_sym(S("Four"),	4, TYPE_CONSTANT, 0, NULL, NULL, &symtab);
+	_define_sym(S("One"), 	1, (sym_type_t)TYPE_CONSTANT, (sym_scope_t)0, NULL, NULL, &symtab);
+	_define_sym(S("Two"),	2, (sym_type_t)TYPE_CONSTANT, (sym_scope_t)0, NULL, NULL, &symtab); 
+	_define_sym(S("Three"),	3, (sym_type_t)TYPE_CONSTANT, (sym_scope_t)0, NULL, NULL, &symtab);
+	_define_sym(S("Four"),	4, (sym_type_t)TYPE_CONSTANT, (sym_scope_t)0, NULL, NULL, &symtab);
 	dump_SymbolHash(symtab, "tab");
 	OBJ_DELETE( symtab );
 
 	warn("Use local symbol before definition\n");
-	_define_sym(S("WIN32"), 1, TYPE_CONSTANT, 0, NULL, NULL, &static_symtab);
+	_define_sym(S("WIN32"), 1, (sym_type_t)TYPE_CONSTANT, (sym_scope_t)0, NULL, NULL, &static_symtab);
 	SymbolHash_cat( & CURRENTMODULE->local_symtab, static_symtab );
-	_define_sym(S("PC"), 0, TYPE_CONSTANT, 0, NULL, NULL, &global_symtab);
+	_define_sym(S("PC"), 0, (sym_type_t)TYPE_CONSTANT, (sym_scope_t)0, NULL, NULL, &global_symtab);
 	find_symbol( S("PC"), global_symtab )->value += 3;
 	find_symbol( S("PC"), global_symtab )->value += 3;
 	sym = get_used_symbol(S("NN"));
@@ -214,3 +218,7 @@ int main( int argc, char *argv[] )
 	test_symtab();
 	return 0;
 }
+
+#ifdef __cplusplus
+};
+#endif

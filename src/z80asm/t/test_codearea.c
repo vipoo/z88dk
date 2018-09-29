@@ -9,6 +9,10 @@ License: The Artistic License 2.0, http://www.perlfoundation.org/artistic_licens
 Repository: https://github.com/pauloscustodio/z88dk-z80asm
 */
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include "codearea.h"
 #include "options.h"
 #include <assert.h>
@@ -18,9 +22,9 @@ Repository: https://github.com/pauloscustodio/z88dk-z80asm
 int sizeof_relocroutine = 0;
 int sizeof_reloctable = 0;
 
-char *GetLibfile( char *filename ) { return ""; }
+const char *GetLibfile( char *filename ) { return ""; }
 
-static void dump_sections(char *title, int line)
+static void dump_sections(const char *title, int line)
 {
 	Section *section, *first_section, *last_section, *old_cur_section;
 	SectionHashElem *iter;
@@ -39,7 +43,7 @@ static void dump_sections(char *title, int line)
 			first_section = section;
 		last_section = section;
 
-		size = ByteArray_size( section->bytes );
+		size = (int)ByteArray_size( section->bytes );
 		assert( size == get_section_size( section ) );
 		total_size += size;
 
@@ -67,17 +71,17 @@ static void dump_sections(char *title, int line)
 				   (long) section->addr, (long) section->origin, (long) section->align, (long) section->asmpc, 
 				   (long) section->opcode_size );
 		warn("    bytes =");
-		for ( j = 0; j < ByteArray_size( section->bytes ); j++ )
+		for ( j = 0; j < (int)ByteArray_size( section->bytes ); j++ )
 			warn("%s$%02X", 
 					   j != 1 && (j % 16) == 1 ? "\n            " : " ",
 					   *ByteArray_item( section->bytes, j ) );
 		warn("\n    start =");
-		for ( j = 0; j < intArray_size( section->module_start ); j++ )
+		for ( j = 0; j < (int)intArray_size( section->module_start ); j++ )
 			warn(" %3ld", (long) *intArray_item( section->module_start, j ) );
 		warn("\n");
 	}
 
-	num_modules = intArray_size( first_section->module_start );
+	num_modules = (int)intArray_size( first_section->module_start );
 	warn("\nNumber of modules = %ld\n", 
 		       (long) num_modules );
 
@@ -117,7 +121,7 @@ static void dump_sections(char *title, int line)
 	warn("--------------------------------------------------------------------------------\n");
 }
 
-static void dump_file( char *title )
+static void dump_file( const char *title )
 {
 	FILE *file;
 	int i, c;
@@ -351,3 +355,8 @@ int main( int argc, char *argv[] )
 	test_sections();
 	return 0;
 }
+
+
+#ifdef __cplusplus
+};
+#endif

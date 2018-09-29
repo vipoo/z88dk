@@ -32,6 +32,7 @@
     <ClInclude Include="..\..\src\z80asm2\module.h" />
     <ClInclude Include="..\..\src\z80asm2\named_list.h" />
     <ClInclude Include="..\..\src\z80asm2\object.h" />
+    <ClInclude Include="..\..\src\z80asm2\options.h" />
     <ClInclude Include="..\..\src\z80asm2\ptr_list.h" />
     <ClInclude Include="..\..\src\z80asm2\section.h" />
     <ClInclude Include="..\..\src\z80asm2\symbol.h" />
@@ -50,6 +51,7 @@
     <ClCompile Include="..\..\src\z80asm2\location.cpp" />
     <ClCompile Include="..\..\src\z80asm2\module.cpp" />
     <ClCompile Include="..\..\src\z80asm2\object.cpp" />
+    <ClCompile Include="..\..\src\z80asm2\options.cpp" />
     <ClCompile Include="..\..\src\z80asm2\section.cpp" />
     <ClCompile Include="..\..\src\z80asm2\symbol.cpp" />
     <ClCompile Include="..\..\src\z80asm2\symtab.cpp" />

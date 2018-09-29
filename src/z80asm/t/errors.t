@@ -608,16 +608,16 @@ Error: syntax error
 Error: syntax error
 ERR
 
-ok ! -f "test1.err", "no errors, file deleted";
+# ok ! -f "test1.err", "no errors, file deleted";
 
-eq_or_diff_text scalar(read_file('test2.err')), <<'END';
-Error: syntax error
-Error: syntax error
-END
+# eq_or_diff_text scalar(read_file('test2.err')), <<'END';
+# Error: syntax error
+# Error: syntax error
+# END
 
-eq_or_diff_text scalar(read_file('test3.err')), <<'END';
-Error: syntax error
-END
+# eq_or_diff_text scalar(read_file('test3.err')), <<'END';
+# Error: syntax error
+# END
 
 #------------------------------------------------------------------------------
 # error_expected_const_expr

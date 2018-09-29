@@ -49,7 +49,7 @@ extern char *m_strdup_(const char *source, const char *file, int lineno );
 						((char *) check_mem_die( m_strdup_((source), __FILE__, __LINE__) ) )
 
 extern void *m_realloc_compat( void *memptr, size_t size );
-extern void *m_realloc_( void *memptr, size_t size, char *file, int lineno );
+extern void *m_realloc_( void *memptr, size_t size, const char *file, int lineno );
 #define      m_realloc( memptr, size )	\
 						check_mem_die( m_realloc_((memptr), (size), __FILE__, __LINE__) )
 
@@ -61,7 +61,7 @@ extern void *m_realloc_( void *memptr, size_t size, char *file, int lineno );
 
 /* free sets memptr to NULL to avoid reuse of freed memory block */
 extern void  m_free_compat( void *memptr );
-extern void  m_free_( void *memptr, char *file, int lineno );
+extern void  m_free_( void *memptr, const char *file, int lineno );
 #define      m_free( memptr )	\
 						( m_free_((memptr), __FILE__, __LINE__), \
 						  (memptr) = NULL )
@@ -77,13 +77,17 @@ extern void  m_free_( void *memptr, char *file, int lineno );
 *	m_malloc et.al.
 *----------------------------------------------------------------------------*/
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /* destroy children - the parent is destoyed by m_free */
 typedef void (*destructor_t)(void *memptr);
 
 /* declare a memory object destructor, to be called by m_free() to destroy
    any children - the parent is destoyed by m_free
    Returns pointer to be able to be chained. */
-extern void *m_set_destructor_( void *memptr, destructor_t destructor, char *file, int lineno );
+extern void *m_set_destructor_( void *memptr, destructor_t destructor, const char *file, int lineno );
 #define      m_set_destructor( memptr, destructor )	\
 						m_set_destructor_((memptr), (destructor), __FILE__, __LINE__)
 
@@ -94,7 +98,7 @@ extern void *m_set_destructor_( void *memptr, destructor_t destructor, char *fil
    This flag avoids a list element to be destroyed without removing from the
    list, leaving dangling pointers in the parent.
    Returns pointer to be able to be chained. */
-extern void *m_set_in_collection_( void *memptr, bool in_collection, char *file, int lineno );
+extern void *m_set_in_collection_( void *memptr, bool in_collection, const char *file, int lineno );
 #define      m_set_in_collection( memptr )	\
 						m_set_in_collection_((memptr), true,  __FILE__, __LINE__)
 #define      m_clear_in_collection( memptr )	\
@@ -103,9 +107,15 @@ extern void *m_set_in_collection_( void *memptr, bool in_collection, char *file,
 /* declare a memory block as to be destroyed by the garbage collector atexit,
    so that no memory leak warning is given
    Returns pointer to be able to be chained. */
-extern void *m_destroy_atexit_( void *memptr, char *file, int lineno );
+extern void *m_destroy_atexit_( void *memptr, const char *file, int lineno );
 #define      m_destroy_atexit( memptr )	\
 						m_destroy_atexit_((memptr), __FILE__, __LINE__)
 
 /* check if memptr points to a block allocated by m_... */
 extern bool m_is_managed( void *memptr );
+
+
+
+#ifdef __cplusplus
+};
+#endif

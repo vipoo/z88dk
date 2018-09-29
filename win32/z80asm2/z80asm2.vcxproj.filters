@@ -75,6 +75,9 @@
     <ClInclude Include="..\..\src\z80asm2\c\cerrors.h">
       <Filter>Header Files\c</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\z80asm2\options.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\z80asm2\area.cpp">
@@ -117,6 +120,9 @@
       <Filter>Resource Files\c</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\z80asm2\errors.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\z80asm2\options.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
   </ItemGroup>

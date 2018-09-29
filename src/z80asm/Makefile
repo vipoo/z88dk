@@ -144,7 +144,7 @@ t/libtestlib.a : $(OBJS) $(TEST_SRC_LIB:.c=.o)
 $(TEST_SRC_MAIN:.c=.o) : t/libtestlib.a
 
 .o.out :
-	$(CC) $(CFLAGS) $< -o $(<:.o=$(EXE)) $(LDFLAGS) -Lt -ltestlib
+	$(CXX) $(CXXFLAGS) $(<:.o=.c) -o $(<:.o=$(EXE)) -Lt -ltestlib $(LDFLAGS) 
 	$(<:.o=$(EXE)) 2> $@~
 	diff -w $(<:.o=.bmk) $@~
 	mv -f $@~ $@
