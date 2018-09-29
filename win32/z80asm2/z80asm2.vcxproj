@@ -20,9 +20,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\z80asm2\area.h" />
-    <ClInclude Include="..\..\src\z80asm2\assembler.h" />
     <ClInclude Include="..\..\src\z80asm2\code.h" />
+    <ClInclude Include="..\..\src\z80asm2\c\assembler.h" />
+    <ClInclude Include="..\..\src\z80asm2\c\cerrors.h" />
     <ClInclude Include="..\..\src\z80asm2\c\cobject.h" />
+    <ClInclude Include="..\..\src\z80asm2\errors.h" />
+    <ClInclude Include="..\..\src\z80asm2\errors_def.h" />
     <ClInclude Include="..\..\src\z80asm2\expr.h" />
     <ClInclude Include="..\..\src\z80asm2\file.h" />
     <ClInclude Include="..\..\src\z80asm2\location.h" />
@@ -37,9 +40,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\z80asm2\area.cpp" />
-    <ClCompile Include="..\..\src\z80asm2\assembler.cpp" />
     <ClCompile Include="..\..\src\z80asm2\code.cpp" />
+    <ClCompile Include="..\..\src\z80asm2\c\assembler.cpp" />
+    <ClCompile Include="..\..\src\z80asm2\c\cerrors.cpp" />
     <ClCompile Include="..\..\src\z80asm2\c\cobject.cpp" />
+    <ClCompile Include="..\..\src\z80asm2\errors.cpp" />
     <ClCompile Include="..\..\src\z80asm2\expr.cpp" />
     <ClCompile Include="..\..\src\z80asm2\file.cpp" />
     <ClCompile Include="..\..\src\z80asm2\location.cpp" />

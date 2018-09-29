@@ -16,7 +16,9 @@ Global data model.
 #include "types.h"
 #include "utarray.h"
 #include "cobject.h"
+#include "assembler.h"
 
+zasm_t* g_zasm;				// global assembler object
 cobj_t* g_cobj;				// global obj of file being assembled
 
 

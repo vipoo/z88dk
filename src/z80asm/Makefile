@@ -59,6 +59,7 @@ $(LIBZ80ASM): $(LIBZ80ASM_SRC)
 	$(MAKE) -C $(LIBZ80ASM_DIR)
 
 LOCAL_CFLAGS 	+= -I$(LIBZ80ASM_DIR)/c
+CXXFLAGS 		+= -I$(LIBZ80ASM_DIR)/c
 LDFLAGS			+= -L$(LIBZ80ASM_DIR) -lz80asm
 
 #------------------------------------------------------------------------------

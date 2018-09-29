@@ -49,7 +49,7 @@ int main(int argc, char *argv[])
 
 	while (optind < argc) {
 		char *filename = argv[optind++];
-		file_t *file = file_new();
+		File_t *file = file_new();
 		file_read(file, filename);
 		file_free(file);
 	}

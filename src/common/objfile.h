@@ -126,7 +126,7 @@ extern void objfile_write(objfile_t *obj, FILE *fp);
 //-----------------------------------------------------------------------------
 // one file - either object or library
 //-----------------------------------------------------------------------------
-typedef struct file_s
+typedef struct File_s
 {
 	str_t		*filename;
 	str_t		*signature;
@@ -135,16 +135,16 @@ typedef struct file_s
 
 	objfile_t	*objs;					// either one or multiple object files
 
-} file_t;
+} File_t;
 
-extern file_t *file_new();
-extern void file_free(file_t *file);
-extern void file_read(file_t *file, const char *filename);
-extern void file_write(file_t *file, const char *filename);
-extern void file_rename_sections(file_t *file, const char *old_regexp, const char *new_name);
-extern void file_add_symbol_prefix(file_t *file, const char *regexp, const char *prefix);
-extern void file_rename_symbol(file_t *file, const char *old_name, const char *new_name);
-extern void file_make_symbols_local(file_t *file, const char *regexp);
-extern void file_make_symbols_global(file_t *file, const char *regexp);
-extern void file_set_section_org(file_t *file, const char *name, int value);
-extern void file_set_section_align(file_t *file, const char *name, int value);
+extern File_t *file_new();
+extern void file_free(File_t *file);
+extern void file_read(File_t *file, const char *filename);
+extern void file_write(File_t *file, const char *filename);
+extern void file_rename_sections(File_t *file, const char *old_regexp, const char *new_name);
+extern void file_add_symbol_prefix(File_t *file, const char *regexp, const char *prefix);
+extern void file_rename_symbol(File_t *file, const char *old_name, const char *new_name);
+extern void file_make_symbols_local(File_t *file, const char *regexp);
+extern void file_make_symbols_global(File_t *file, const char *regexp);
+extern void file_set_section_org(File_t *file, const char *name, int value);
+extern void file_set_section_align(File_t *file, const char *name, int value);

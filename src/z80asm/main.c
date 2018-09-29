@@ -12,8 +12,18 @@ Main function
 #else
 	#include "z80asm.h"
 #endif
+#include "assembler.h"
+
+extern zasm_t* g_zasm;
+
 
 int main(int argc, char *argv[])
 {
-	return z80asm_main(argc, argv);
+	g_zasm = zasm_new();
+
+	int rv = z80asm_main(argc, argv);
+
+	zasm_free(g_zasm);
+
+	return rv;
 }

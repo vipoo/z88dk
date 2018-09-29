@@ -17,12 +17,14 @@ Global data model.
 #include "listfile.h"
 #include "options.h"
 #include "srcfile.h"
+#include "assembler.h"
 
 /*-----------------------------------------------------------------------------
 *   Global data
 *----------------------------------------------------------------------------*/
 static SrcFile*	g_src_input;			// input handle for reading source lines
 cobj_t*			g_cobj = NULL;			// global obj of file being assembled
+zasm_t*			g_zasm = NULL;
 
 /*-----------------------------------------------------------------------------
 *   Call-back called when reading each new line from source

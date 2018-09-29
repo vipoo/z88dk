@@ -788,9 +788,9 @@ void objfile_write(objfile_t *obj, FILE *fp)
 //-----------------------------------------------------------------------------
 // object or library file
 //-----------------------------------------------------------------------------
-file_t *file_new()
+File_t *file_new()
 {
-	file_t *file = xnew(file_t);
+	File_t *file = xnew(File_t);
 	file->filename = str_new();
 	file->signature = str_new();
 	file->type = is_none;
@@ -800,7 +800,7 @@ file_t *file_new()
 	return file;
 }
 
-void file_free(file_t *file)
+void file_free(File_t *file)
 {
 	str_free(file->filename);
 	str_free(file->signature);
@@ -816,7 +816,7 @@ void file_free(file_t *file)
 //-----------------------------------------------------------------------------
 // read file
 //-----------------------------------------------------------------------------
-static void file_read_object(file_t *file, FILE *fp, str_t *signature, int version)
+static void file_read_object(File_t *file, FILE *fp, str_t *signature, int version)
 {
 	objfile_t *obj = objfile_new();
 
@@ -829,7 +829,7 @@ static void file_read_object(file_t *file, FILE *fp, str_t *signature, int versi
 	DL_APPEND(file->objs, obj);
 }
 
-static void file_read_library(file_t *file, FILE *fp, str_t *signature, int version)
+static void file_read_library(File_t *file, FILE *fp, str_t *signature, int version)
 {
 	str_set_str(file->signature, signature);
 	file->version = version;
@@ -866,7 +866,7 @@ static void file_read_library(file_t *file, FILE *fp, str_t *signature, int vers
 	str_free(obj_signature);
 }
 
-void file_read(file_t *file, const char *filename)
+void file_read(File_t *file, const char *filename)
 {
 	str_t *signature = str_new();
 
@@ -896,12 +896,12 @@ void file_read(file_t *file, const char *filename)
 //-----------------------------------------------------------------------------
 // write file
 //-----------------------------------------------------------------------------
-static void file_write_object(file_t *file, FILE *fp)
+static void file_write_object(File_t *file, FILE *fp)
 {
 	objfile_write(file->objs, fp);
 }
 
-static void file_write_library(file_t *file, FILE *fp)
+static void file_write_library(File_t *file, FILE *fp)
 {
 	// write header
 	write_signature(fp, is_library);
@@ -926,7 +926,7 @@ static void file_write_library(file_t *file, FILE *fp)
 	}
 }
 
-void file_write(file_t *file, const char *filename)
+void file_write(File_t *file, const char *filename)
 {
 	if (opt_obj_verbose)
 		printf("Writing file '%s': %s version %d\n",
@@ -1015,7 +1015,7 @@ static bool delete_merged_section(objfile_t *obj, section_t **p_merged_section,
 #undef merged_section
 }
 
-void file_rename_sections(file_t *file, const char *old_regexp, const char *new_name)
+void file_rename_sections(File_t *file, const char *old_regexp, const char *new_name)
 {
 	if (opt_obj_verbose)
 		printf("File '%s': rename sections that match '%s' to '%s'\n",
@@ -1104,7 +1104,7 @@ static void obj_rename_symbol(objfile_t *obj, const char *old_name, const char *
 	str_free(new_text);
 }
 
-void file_add_symbol_prefix(file_t *file, const char *regexp, const char *prefix)
+void file_add_symbol_prefix(File_t *file, const char *regexp, const char *prefix)
 {
 	if (opt_obj_verbose)
 		printf("File '%s': add prefix '%s' to symbols that match '%s'\n",
@@ -1164,7 +1164,7 @@ void file_add_symbol_prefix(file_t *file, const char *regexp, const char *prefix
 	str_free(new_name);
 }
 
-void file_rename_symbol(file_t *file, const char *old_name, const char *new_name)
+void file_rename_symbol(File_t *file, const char *old_name, const char *new_name)
 {
 	if (opt_obj_verbose)
 		printf("File '%s': rename symbol '%s' to '%s'\n",
@@ -1214,7 +1214,7 @@ void file_rename_symbol(file_t *file, const char *old_name, const char *new_name
 	}
 }
 
-static void file_change_symbols_scope(file_t *file, const char *regexp, char old_scope, char new_scope)
+static void file_change_symbols_scope(File_t *file, const char *regexp, char old_scope, char new_scope)
 {
 	if (opt_obj_verbose)
 		printf("File '%s': make symbols that match '%s' %s\n",
@@ -1263,17 +1263,17 @@ static void file_change_symbols_scope(file_t *file, const char *regexp, char old
 	regfree(&regex);
 }
 
-void file_make_symbols_local(file_t *file, const char *regexp)
+void file_make_symbols_local(File_t *file, const char *regexp)
 {
 	file_change_symbols_scope(file, regexp, 'G', 'L');
 }
 
-void file_make_symbols_global(file_t *file, const char *regexp)
+void file_make_symbols_global(File_t *file, const char *regexp)
 {
 	file_change_symbols_scope(file, regexp, 'L', 'G');
 }
 
-void file_set_section_org(file_t *file, const char *name, int value)
+void file_set_section_org(File_t *file, const char *name, int value)
 {
 	if (opt_obj_verbose)
 		printf("File '%s': set section '%s' ORG to $%04X\n",
@@ -1304,7 +1304,7 @@ void file_set_section_org(file_t *file, const char *name, int value)
 	}
 }
 
-void file_set_section_align(file_t *file, const char *name, int value)
+void file_set_section_align(File_t *file, const char *name, int value)
 {
 	if (opt_obj_verbose)
 		printf("File '%s': set section '%s' ALIGN to $%04X\n",

@@ -66,12 +66,15 @@ void assemble_file( char *filename )
 	bool load_obj_only;
 	Module *module;
 
+	// create a new file object
+	file_t* file = zasm_file_new(g_zasm, filename);
+
 	/* create output directory*/
 	obj_filename = get_obj_filename(filename);
 	path_mkdir(path_dir(obj_filename));
 
 	// create interface object to C++
-	g_cobj = cobj_new(get_asm_filename(filename));
+	g_cobj = cobj_new(filename);
 
 	/* try to load object file */
 	if (strcmp(filename, obj_filename) == 0 &&			/* input is object file */

@@ -13,12 +13,15 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\c">
+      <UniqueIdentifier>{7f06278a-318e-47a4-ad63-816f69ffcdc3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\c">
+      <UniqueIdentifier>{9461e8e9-1ad3-46a7-87a0-7895a749faca}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\z80asm2\area.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\z80asm2\assembler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\z80asm2\code.h">
@@ -57,18 +60,24 @@
     <ClInclude Include="..\..\src\z80asm2\types.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\z80asm2\c\cobject.h">
+    <ClInclude Include="..\..\src\z80asm2\errors.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\z80asm2\errors_def.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\z80asm2\c\assembler.h">
+      <Filter>Header Files\c</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\z80asm2\c\cobject.h">
+      <Filter>Header Files\c</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\z80asm2\c\cerrors.h">
+      <Filter>Header Files\c</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\src\z80asm2\c\cobject.cpp">
-      <Filter>Resource Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\z80asm2\area.cpp">
-      <Filter>Resource Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\z80asm2\assembler.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\z80asm2\code.cpp">
@@ -96,6 +105,18 @@
       <Filter>Resource Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\z80asm2\symtab.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\z80asm2\c\assembler.cpp">
+      <Filter>Resource Files\c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\z80asm2\c\cerrors.cpp">
+      <Filter>Resource Files\c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\z80asm2\c\cobject.cpp">
+      <Filter>Resource Files\c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\z80asm2\errors.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
   </ItemGroup>

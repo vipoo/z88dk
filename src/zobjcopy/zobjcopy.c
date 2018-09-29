@@ -201,7 +201,7 @@ int main(int argc, char *argv[])
 		die("error: too many arguments\n");
 
 	// read file
-	file_t *file = file_new();
+	File_t *file = file_new();
 	file_read(file, infile);
 
 	// execute commands
