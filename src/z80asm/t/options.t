@@ -25,7 +25,12 @@ my $copyrightmsg = get_copyright()."\n";
 # no arguments
 #------------------------------------------------------------------------------
 unlink_testfiles();
-t_z80asm_capture("", 		$copyrightmsg, 	"", 0);
+t_z80asm_capture("", <<END, "", 0);
+$copyrightmsg
+Usage:
+  z80asm [OPTIONS...] {FILE | \@LIST}...
+
+END
 
 #------------------------------------------------------------------------------
 # --verbose, -v
@@ -280,7 +285,7 @@ ok ! -f $bin;
 t_binary(read_file(bin_file(), binmode => ':raw'), "\0");
 
 # -o
-for my $options ("-o$bin", "-o=$bin", "--output$bin", "--output=$bin") {
+for my $options ("-o$bin", "-o=$bin", "--output $bin", "--output=$bin") {
 	unlink_testfiles($bin);
 	write_file(asm_file(), "nop");
 
@@ -362,7 +367,7 @@ for my $options ('-d', '--update') {
 # -r, --origin
 for my $origin (0, 0x1234) {
 	my $origin_hex = sprintf("%x", $origin);
-	for my $options ("-r", "-r=", "--origin", "--origin=") {
+	for my $options ("-r", "-r=", "--origin ", "--origin=") {
 		for my $origin_text ($origin, "0x${origin_hex}", "0X${origin_hex}", "0${origin_hex}h", "0${origin_hex}H", "\$${origin_hex}") {
 			z80asm(
 				options	=> "-b $options".$origin_text,
@@ -492,7 +497,7 @@ t_z80asm_capture("-i".$lib_base." ".asm_file(), "",
 		"Error: cannot read file 'test.lib'\n", 1);
 
 # -L : OK
-for my $options ('-L', '-L=', '--lib-path', '--lib-path=') {
+for my $options ('-L', '-L=', '--lib-path ', '--lib-path=') {
 	t_z80asm_ok(0, $asm, $bin, $options.$lib_dir." -i".$lib_base);
 }
 
@@ -515,14 +520,15 @@ $asm = "ld a,_value23";		# BUG_0045
 t_z80asm_error($asm, "Error at file 'test.asm' line 1: symbol '_value23' not defined");
 
 # invalid -D
-for my $options ('-D23', '-Da*') {
+for my $value ('23', 'a*') {
+	my $options = "-D$value";
 	write_file(asm_file(), $asm);
 	t_z80asm_capture("$options ".asm_file(), "", 
-					"Error: illegal identifier\n", 1);
+					"Error: illegal identifier: $value\n", 1);
 }
 
 # -D
-for my $options ('-D', '-D=', '--define', '--define=') {
+for my $options ('-D', '-D=', '--define ', '--define=') {
 	t_z80asm_ok(0, $asm, "\x3E\x01", $options."_value23");
 }
 
@@ -550,7 +556,7 @@ one:
 	ld a,1
 	ret
 ");
-for my $options ('-x', '-x=', '--make-lib', '--make-lib=') {
+for my $options ('-x', '-x=', '--make-lib ', '--make-lib=') {
 	unlink(o_file(), lib_file());
 	t_z80asm_capture($options.lib_file()." ".asm_file(), "", "", 0);
 	ok -f o_file(), o_file()." created";
@@ -562,7 +568,7 @@ ok copy(lib_file(), $lib), "create $lib";
 unlink(o_file(), lib_file());
 
 # link with the library
-for my $options ('-i', '-i=', '--use-lib', '--use-lib=') {
+for my $options ('-i', '-i=', '--link-lib ', '--link-lib=') {
 	t_z80asm_ok(0, "
 		EXTERN one
 		jp one

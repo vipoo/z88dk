@@ -522,9 +522,6 @@ sub t_compile_module {
 #include <stdlib.h>
 #include <stdio.h>
 
-int sizeof_relocroutine = 0;
-int sizeof_reloctable = 0;
-
 ".join("\n", map {"#include \"$_\""} grep {-f $_} map {"$_.h"} sort keys %modules)."\n".'
 #undef main
 
@@ -572,16 +569,16 @@ int main (int argc, char **argv)
 
 ";
 	
-	write_file("test.c", $main_code);
+	write_file("test.cpp", $main_code);
 
 	# build
-	my $cc = "gcc $CFLAGS -O0 -o test.exe test.c $compile_args $LDFLAGS";
+	my $cc = "g++ $CXXFLAGS -O0 -o test.exe test.cpp $compile_args -Lt -ltestlib $LDFLAGS";
 	note "line ", (caller)[2], ": $cc";
 	
 	my $ok = (0 == system($cc));
-	ok $ok, "cc";
+	ok $ok, "g++";
 	
-	exit 1 if !$ok;	# no need to cotinue if compilation failed
+	exit 1 if !$ok;	# no need to continue if compilation failed
 }
 
 #------------------------------------------------------------------------------

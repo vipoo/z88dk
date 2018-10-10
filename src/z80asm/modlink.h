@@ -12,5 +12,5 @@ Repository: https://github.com/pauloscustodio/z88dk-z80asm
 #include "types.h"
 #include "expr.h"
 
-extern void link_modules( void );
-extern void compute_equ_exprs( ExprList *exprs, bool show_error, bool module_relative_addr );
+void link_modules( void );
+void compute_equ_exprs( ExprList *exprs, bool show_error, bool module_relative_addr );

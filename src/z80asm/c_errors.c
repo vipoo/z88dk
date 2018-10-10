@@ -9,15 +9,18 @@ Repository: https://github.com/pauloscustodio/z88dk-z80asm
 Error handling.
 */
 
-#include "errors.h"
+#include "c_errors.h"
 #include "fileutil.h"
-#include "options.h"
 #include "srcfile.h"
 #include "str.h"
 #include "strutil.h"
 #include "strhash.h"
 #include "types.h"
 #include "init.h"
+
+#include "cmdline.h"
+#include "errors.h"
+
 #include <stdio.h>
 
 /*-----------------------------------------------------------------------------
@@ -25,7 +28,6 @@ Error handling.
 *----------------------------------------------------------------------------*/
 typedef struct Errors
 {
-    int			 count;				/* total errors */
 	const char	*filename;			/* location of error: name of source file */
 	const char	*module;			/* location of error: name of module */
     int			 line;				/* location of error: line number */
@@ -61,7 +63,7 @@ DEFINE_dtor_module()
     close_error_file();
 }
 
-void errors_init( void ) 
+void errors_init( void )
 {
 	init_module();
 }
@@ -113,13 +115,13 @@ int get_error_line(void)
 void reset_error_count( void )
 {
     init_module();
-    errors.count = 0;
+	g_err_count = 0;
 }
 
 int get_num_errors( void )
 {
     init_module();
-    return errors.count;
+    return g_err_count;
 }
 
 /*-----------------------------------------------------------------------------
@@ -222,7 +224,7 @@ void do_error( enum ErrType err_type, char *message )
     puts_error_file( Str_data(msg) );
 
     if ( err_type == ErrError )
-        errors.count++;		/* count number of errors */
+		g_err_count++;		/* count number of errors */
 
 	STR_DELETE(msg);
 }

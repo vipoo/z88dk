@@ -19,7 +19,7 @@ unlink_testfiles();
 mkdir("test_dir");
 
 run("z80asm -b -Itest_dir f_not_found.asm", 1, "", <<'...');
-Error: cannot read file 'f_not_found.asm'
+Error: cannot find file: f_not_found.asm
 ...
 
 unlink_testfiles();

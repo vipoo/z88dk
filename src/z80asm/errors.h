@@ -1,53 +1,59 @@
-/*
-Z88DK Z80 Macro Assembler
-
-Copyright (C) Gunther Strube, InterLogic 1993-99
-Copyright (C) Paulo Custodio, 2011-2017
-License: The Artistic License 2.0, http://www.perlfoundation.org/artistic_license_2_0
-Repository: https://github.com/pauloscustodio/z88dk-z80asm
-
-Error handling.
-*/
-
+//-----------------------------------------------------------------------------
+// z80asm restart
+// errors
+// Copyright (C) Paulo Custodio, 2011-2018
+// License: http://www.perlfoundation.org/artistic_license_2_0
+//-----------------------------------------------------------------------------
 #pragma once
 
-#include "error_func.h"
-#include <stdio.h>
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-enum ErrType { ErrInfo, ErrWarn, ErrError };
+#ifdef __cplusplus
+	struct Location {
+		const char*	file;
+		int			line_nr;
+	};
+#else
+	typedef struct Location {
+		const char*	file;
+		int			line_nr;
+	} Location;
+#endif
 
-/*-----------------------------------------------------------------------------
-*	initialize error module
-*----------------------------------------------------------------------------*/
-extern void errors_init( void );
+// global error count and location
+extern int g_err_count;
+extern Location g_err_loc;
 
-/*-----------------------------------------------------------------------------
-*	define the next FILE, LINENO, MODULE to use in error messages
-*	error_xxx(), warn_xxx()
-*----------------------------------------------------------------------------*/
-extern void set_error_null( void );             /* clear all locations */
-extern void set_error_file(const char *filename );
-extern void set_error_module(const char *modulename );
-extern void set_error_line( int lineno );
+// push new location, pop old
+void err_push(const char* err_file, int line_nr);
+void err_pop();
+bool err_file_is_open(const char* err_file);	// check stack
 
-extern const char *get_error_file(void);
-extern int         get_error_line(void);
+// exit with EXIT_FAILURE for fatal errors
+void err_fatal_exit();
 
-/*-----------------------------------------------------------------------------
-*	reset count of errors and return current count
-*----------------------------------------------------------------------------*/
-extern void reset_error_count( void );
-extern int  get_num_errors( void );
+void err_fatal(const char* msg);
+void err_fatal_s(const char* msg, const char *s1);
+void err_fatal_n(const char* msg, int n1);
 
-/*-----------------------------------------------------------------------------
-*	Open file to receive all errors / warnings from now on
-*	File is created on first call and appended on second, to allow assemble
-*	and link errors to be joined in the same file.
-*----------------------------------------------------------------------------*/
-extern void open_error_file(const char *src_filename );
-extern void close_error_file( void );   /* deletes the file if no errors */
+// show error message and increment g_err_count
+void err_error(const char* msg);
+void err_error_s(const char* msg, const char *s1);
+void err_error_n(const char* msg, int n1);
 
-/*-----------------------------------------------------------------------------
-*   Execute an error
-*----------------------------------------------------------------------------*/
-extern void do_error( enum ErrType err_type, char *message );
+void err_error_at(const char* msg);
+void err_error_at_s(const char* msg, const char *s1);
+void err_error_at_n(const char* msg, int n1);
+
+// show warning message
+void err_warn_at(const char* msg);
+void err_warn_at_s(const char* msg, const char *s1);
+void err_warn_at_n(const char* msg, int n1);
+
+
+
+#ifdef __cplusplus
+} // extern "C"
+#endif

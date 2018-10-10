@@ -40,6 +40,7 @@ int check_retval(int retval, const char *file, const char *source_file, int line
 	return retval;
 }
 
+#if 0
 int xglob(const char * pattern, int flags, 
 	const int(*errfunc)(const char *epath, int eerrno), glob_t * pglob)
 {
@@ -52,3 +53,4 @@ int xglob(const char * pattern, int flags,
 				"unknown problem"));
 	return ret;
 }
+#endif

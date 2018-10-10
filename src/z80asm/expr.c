@@ -13,7 +13,7 @@ see http://www.engr.mun.ca/~theo/Misc/exp_parsing.htm
 #include "array.h"
 #include "codearea.h"
 #include "expr.h"
-#include "errors.h"
+#include "c_errors.h"
 #include "init.h"
 #include "model.h"
 #include "strhash.h"

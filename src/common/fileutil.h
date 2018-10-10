@@ -4,6 +4,9 @@
 // License: http://www.perlfoundation.org/artistic_license_2_0
 //-----------------------------------------------------------------------------
 #pragma once
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #include "strutil.h"
 #include "types.h"
@@ -81,16 +84,20 @@ extern str_t *file_slurp(const char *filename);			// user must free str_t
 // list files in directories, user must free argv_t
 extern argv_t *path_find_all(const char *dirname, bool recursive);
 extern argv_t *path_find_files(const char *dirname, bool recursive);
-extern argv_t *path_find_glob(const char *pattern);
+//extern argv_t *path_find_glob(const char *pattern);
 
 // create/remve a directory and all parents above/children below it
 extern void path_mkdir(const char *path);
 extern void path_rmdir(const char *path);
 
 // check if file/directory exist
-extern bool file_exists(const char *filename);
-extern bool dir_exists(const char *dirname);
+extern bool c_file_exists(const char *filename);
+extern bool c_dir_exists(const char *dirname);
 extern long file_size(const char *filename);		// -1 if not regular file
 
 // search for a file on the given directory list, return full path name in strin pool
 extern const char *path_search(const char *filename, argv_t *dir_list);
+
+#ifdef __cplusplus
+} // extern "C"
+#endif

@@ -10,7 +10,7 @@
 PROJ		:= z80asm
 
 INSTALL 	?= install
-Z80ASM_EXE	?= ../../$(PROJ)
+Z80ASM_EXE		?= ../../$(PROJ)
 SRC			:= $(filter-out test.asm,$(wildcard *.asm))
 
 #------------------------------------------------------------------------------

@@ -502,13 +502,13 @@ static void find_files_1(argv_t *dirs, const char *dirname, bool recursive, bool
 			continue;
 
 		const char *name = path_combine(dirname, entry->d_name);
-		if (dir_exists(name)) {
+		if (c_dir_exists(name)) {
 			if (find_dirs)
 				argv_push(dirs, name);
 			if (recursive)
 				find_files_1(dirs, name, recursive, find_dirs);
 		}
-		else if (file_exists(name)) {
+		else if (c_file_exists(name)) {
 			argv_push(dirs, name);
 		}
 	}
@@ -533,6 +533,7 @@ argv_t *path_find_files(const char *dirname, bool recursive)
 	return dirs;
 }
 
+#if 0
 static void path_find_glob_1(argv_t *files, const char *pattern)
 {
 	str_t *pad = str_new();
@@ -540,7 +541,7 @@ static void path_find_glob_1(argv_t *files, const char *pattern)
 	pattern = path_canon(pattern);
 	const char *wc = strpbrk(pattern, "*?");
 	if (!wc) {
-		if (file_exists(pattern))
+		if (c_file_exists(pattern))
 			argv_push(files, pattern);		// no wildcard
 	}
 	else if (strncmp(wc, "**", 2) == 0) {	// star-star - recursively find all subdirs
@@ -566,7 +567,7 @@ static void path_find_glob_1(argv_t *files, const char *pattern)
 		else if (ret == 0) {
 			for (int i = 0; i < glob_files.gl_pathc; i++) {
 				char *found = glob_files.gl_pathv[i];
-				if (dir_exists(found)) {
+				if (c_dir_exists(found)) {
 					str_set_f(pad, "%s/**", found);
 					if (child)
 						str_append(pad, child);
@@ -621,11 +622,12 @@ argv_t *path_find_glob(const char *pattern)
 	path_find_glob_1(files, pattern);
 	return files;
 }
+#endif
 
 void path_mkdir(const char *path)
 {
 	path = path_canon(path);
-	if (!dir_exists(path)) {
+	if (!c_dir_exists(path)) {
 		const char *parent = path_dir(path);
 		path_mkdir(parent);
 		xmkdir(path);
@@ -635,13 +637,13 @@ void path_mkdir(const char *path)
 void path_rmdir(const char *path)
 {
 	path = path_canon(path);
-	if (dir_exists(path)) {
+	if (c_dir_exists(path)) {
 		// delete all children
 		argv_t *files = path_find_all(path, false);
 		for (char **p = argv_front(files); *p; p++) {
-			if (file_exists(*p))
+			if (c_file_exists(*p))
 				xremove(*p);
-			else if (dir_exists(*p))
+			else if (c_dir_exists(*p))
 				path_rmdir(*p);
 		}
 		argv_free(files);
@@ -653,7 +655,7 @@ void path_rmdir(const char *path)
 //-----------------------------------------------------------------------------
 // file checks
 //-----------------------------------------------------------------------------
-bool file_exists(const char *filename)
+bool c_file_exists(const char *filename)
 {
 	struct stat sb;
 	if ((stat(filename, &sb) == 0) && (sb.st_mode & S_IFREG))
@@ -662,7 +664,7 @@ bool file_exists(const char *filename)
 		return false;
 }
 
-bool dir_exists(const char *dirname)
+bool c_dir_exists(const char *dirname)
 {
 	struct stat sb;
 	if ((stat(dirname, &sb) == 0) && (sb.st_mode & S_IFDIR))
@@ -686,13 +688,13 @@ long file_size(const char *filename)
 const char *path_search(const char *filename, argv_t *dir_list)
 {
 	// if no directory list or file exists, return filename
-	if (!dir_list || argv_len(dir_list) == 0 || file_exists(filename))
+	if (!dir_list || argv_len(dir_list) == 0 || c_file_exists(filename))
 		return path_canon(filename);
 
 	// search in dir list
 	for (char **p = argv_front(dir_list); *p; p++) {
 		const char *f = path_combine(*p, filename);
-		if (file_exists(f))
+		if (c_file_exists(f))
 			return f;
 	}
 

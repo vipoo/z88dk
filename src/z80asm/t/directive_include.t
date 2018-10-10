@@ -38,7 +38,7 @@ Error at file 'test.asm' line 1: cannot read file 'test.inc'
 END
 	
 # -I : OK
-for my $options ('-I', '-I=', '--inc-path', '--inc-path=') {
+for my $options ('-I', '-I=', '--inc-path ', '--inc-path=') {
 	z80asm('include "test.inc"', "-b ${options}test_dir");
 	check_bin_file("test.bin", pack("C*", 0x3E, 10));
 }

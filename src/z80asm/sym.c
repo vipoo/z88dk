@@ -9,9 +9,8 @@ Repository: https://github.com/pauloscustodio/z88dk-z80asm
 One symbol from the assembly code - label or constant.
 */
 
-#include "errors.h"
+#include "c_errors.h"
 #include "listfile.h"
-#include "options.h"
 #include "str.h"
 #include "strutil.h"
 #include "sym.h"

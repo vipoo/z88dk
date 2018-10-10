@@ -13,11 +13,13 @@ Repository: https://github.com/pauloscustodio/z88dk-z80asm
 */
 
 #include "alloc.h"
-#include "../errors.h"
+#include "../c_errors.h"
 #include "srcfile.h"
 #include "strutil.h"
 #include "fileutil.h"
 #include "die.h"
+
+#include "../cmdline.h"
 
 /*-----------------------------------------------------------------------------
 *   Type stored in file_stack
@@ -141,7 +143,7 @@ static bool check_recursive_include( SrcFile *self, const char *filename )
 
 /* Open the source file for reading, closing any previously open file.
    If dir_list is not NULL, calls path_search() to search the file in dir_list */
-bool SrcFile_open( SrcFile *self, const char *filename, UT_array *dir_list )
+bool SrcFile_open( SrcFile *self, const char *filename)
 {
 	/* close last file */
 	if (self->file != NULL)
@@ -151,7 +153,7 @@ bool SrcFile_open( SrcFile *self, const char *filename, UT_array *dir_list )
 	}
 
 	/* search path, add to strpool */
-	const char *filename_path = path_search(filename, dir_list);
+	const char *filename_path = opt_search_source(filename);
 
 	/* check for recursive includes, return if found */
 	if (!check_recursive_include(self, filename_path))

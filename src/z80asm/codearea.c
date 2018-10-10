@@ -10,13 +10,15 @@ Manage the code area in memory
 
 #include "codearea.h"
 #include "fileutil.h"
-#include "errors.h"
+#include "c_errors.h"
 #include "init.h"
 #include "listfile.h"
-#include "options.h"
 #include "strutil.h"
 #include "z80asm.h"
 #include "die.h"
+
+#include "cmdline.h"
+
 #include <memory.h>
 
 /*-----------------------------------------------------------------------------
@@ -307,7 +309,7 @@ void sections_alloc_addr(void)
 			int above = addr % next_section->align;
 			if (above > 0) {
 				for (int i = next_section->align - above; i > 0; i--) {
-					*(ByteArray_push(section->bytes)) = opts.filler;
+					*(ByteArray_push(section->bytes)) = opt_filler();
 					addr++;
 				}
 			}
@@ -457,7 +459,7 @@ void append_value( int value, int num_bytes )
     init_module();
 	patch_value(get_cur_module_size(), value, num_bytes);
 
-	if ( opts.list )
+	if ( opt_list() )
 		list_append( value, num_bytes );
 }
 
@@ -600,12 +602,12 @@ void fwrite_codearea(const char *filename, FILE **pbinfile, FILE **prelocfile)
 			if (section->name && *section->name)					/* only if section name not empty */
 			{
 				/* change current file if address changed, or option --split-bin, or section_split */
-				if ((!opts.relocatable && opts.split_bin) ||
+				if ((!opt_relocatable() && opt_split_bin()) ||
 					section->section_split ||
 					cur_addr != section->addr ||
 					(section != get_first_section(NULL) && section->origin >= 0))
 				{
-					if (opts.appmake)
+					if (opt_appmake())
 						warn_org_ignored(get_obj_filename(filename), section->name);
 					else {
 						Str_set(new_name, path_remove_ext(filename));	/* "test" */
@@ -614,7 +616,7 @@ void fwrite_codearea(const char *filename, FILE **pbinfile, FILE **prelocfile)
 
                         xfclose_remove_empty(*pbinfile);
 
-						if (opts.verbose)
+						if (opt_verbose())
 							printf("Creating binary '%s'\n", path_canon(get_bin_filename(Str_data(new_name))));
 
 						*pbinfile = xfopen(get_bin_filename(Str_data(new_name)), "wb");

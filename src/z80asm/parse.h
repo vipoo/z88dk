@@ -10,6 +10,9 @@ Define ragel-based parser.
 */
 
 #pragma once
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #include "scan.h"
 #include "types.h"
@@ -58,3 +61,8 @@ extern struct Expr *parse_expr(const char *expr_text);
 
 /* return new auto-label in strpool */
 extern const char *autolabel(void);
+
+
+#ifdef __cplusplus
+} // extern "C"
+#endif

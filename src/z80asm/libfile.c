@@ -9,11 +9,12 @@ Repository: https://github.com/pauloscustodio/z88dk-z80asm
 Handle library file contruction, reading and writing
 */
 
-#include "errors.h"
+#include "c_errors.h"
 #include "fileutil.h"
 #include "libfile.h"
 #include "zobjfile.h"
-#include "options.h"
+
+#include "cmdline.h"
 
 char Z80libhdr[] = "Z80LMF" OBJ_VERSION;
 
@@ -34,7 +35,7 @@ static const char *search_libfile(const char *filename )
 /*-----------------------------------------------------------------------------
 *	make library from list of files; convert each source to object file name 
 *----------------------------------------------------------------------------*/
-void make_library(const char *lib_filename, argv_t *src_files)
+void make_library(const char *lib_filename, int argc, char **argv)
 {
 	ByteArray *obj_file_data;
 	FILE	*lib_file;
@@ -45,7 +46,7 @@ void make_library(const char *lib_filename, argv_t *src_files)
 	if ( lib_filename == NULL )
 		return;					/* ERROR */
 
-	if (opts.verbose)
+	if (opt_verbose())
 		printf("Creating library '%s'\n", path_canon(lib_filename));
 
 	/* write library header */
@@ -53,29 +54,29 @@ void make_library(const char *lib_filename, argv_t *src_files)
 	xfwrite_cstr(Z80libhdr, lib_file);
 
 	/* write each object file */
-	for (char **pfile = argv_front(src_files); *pfile; pfile++)
-	{
-		fptr = ftell( lib_file );
+	for (int i = 0; i < argc; i++) {
+		char* file = argv[i];
+
+		fptr = ftell(lib_file);
 
 		/* read object file */
-		obj_filename  = get_obj_filename( *pfile );
-		obj_file_data = read_obj_file_data( obj_filename );
-		if ( obj_file_data == NULL )
-		{
+		obj_filename = get_obj_filename(file);
+		obj_file_data = read_obj_file_data(obj_filename);
+		if (obj_file_data == NULL) {
 			xfclose(lib_file);			/* error */
 			remove(lib_filename);
 			return;
 		}
 
 		/* write file pointer of next file, or -1 if last */
-		obj_size = ByteArray_size( obj_file_data );
-		if (pfile + 1 == argv_back(src_files))
+		obj_size = ByteArray_size(obj_file_data);
+		if (i + 1 == argc)
 			xfwrite_dword(-1, lib_file);
-        else
-            xfwrite_dword(fptr + 4 + 4 + obj_size,  lib_file); 
+		else
+			xfwrite_dword(fptr + 4 + 4 + obj_size, lib_file);
 
 		/* write module size */
-        xfwrite_dword(obj_size, lib_file);
+		xfwrite_dword(obj_size, lib_file);
 
 		/* write module */
 		xfwrite_bytes((char *)ByteArray_item(obj_file_data, 0), obj_size, lib_file);

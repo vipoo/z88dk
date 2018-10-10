@@ -28,7 +28,7 @@ require './t/test_utils.pl';
 # CH_0012 : wrappers on OS calls to raise fatal error
 unlink_testfiles();
 t_z80asm_capture(asm_file(), "",
-		"Error: cannot read file '".asm_file()."'\n",
+		"Error: cannot find file: ".asm_file()."\n",
 		1);
 
 unlink_testfiles();
@@ -377,7 +377,9 @@ t_z80asm_error("defs 65536, 0xAA \n defb 0xAA \n",
 unlink_testfiles();
 write_file(asm_file(), "nop");
 t_z80asm_capture(asm_file()." -IllegalFilename", "",
-		"Error: cannot read file '-IllegalFilename'\n", 1);
+		"Error: illegal source file: -IllegalFilename\n", 1);
+t_z80asm_capture(asm_file()." +IllegalFilename", "",
+		"Error: illegal source file: +IllegalFilename\n", 1);
 
 #------------------------------------------------------------------------------
 # error_org_redefined - tested in directives.t
@@ -478,7 +480,7 @@ t_binary(read_binfile("test.bin"), "\xFE\x10");
 #------------------------------------------------------------------------------
 unlink_testfiles();
 
-my $objs = "errors.o error_func.o scan.o lib/array.o lib/class.o lib/str.o lib/strhash.o lib/list.o  ../common/fileutil.o ../common/strutil.o ../common/die.o ../common/objfile.o ../../ext/regex/regcomp.o ../../ext/regex/regerror.o ../../ext/regex/regexec.o ../../ext/regex/regfree.o options.o model.o module.o sym.o symtab.o codearea.o expr.o listfile.o lib/srcfile.o macros.o hist.o lib/dbg.o ";
+my $objs = "c_errors.o errors.o error_func.o scan.o lib/array.o lib/class.o lib/str.o lib/strhash.o lib/list.o  ../common/fileutil.o ../common/strutil.o ../common/die.o ../common/objfile.o ../../ext/regex/regcomp.o ../../ext/regex/regerror.o ../../ext/regex/regexec.o ../../ext/regex/regfree.o model.o module.o sym.o symtab.o codearea.o z80asm.o cmdline.o expr.o listfile.o lib/srcfile.o macros.o hist.o lib/dbg.o ";
 if ($^O eq 'MSWin32') {
 	  $objs .= "../../ext/UNIXem/src/glob.o ../../ext/UNIXem/src/dirent.o ";
 }
@@ -493,7 +495,7 @@ END
 
 t_compile_module($init, <<'END', $objs);
 #define ERROR return __LINE__
-#define check_count(e) if (get_num_errors() != e) ERROR;
+#define check_count(e) if (g_err_count != e) ERROR;
 
 	check_count(0);
 
@@ -527,9 +529,9 @@ ERR
 
 t_compile_module($init, <<'END', $objs);
 #define ERROR return __LINE__
-#define check_count(e) if (get_num_errors() != e) ERROR;
+#define check_count(e) if (g_err_count != e) ERROR;
 #define SYNTAX(file,module,line) \
-	_count = get_num_errors(); \
+	_count = g_err_count; \
 	set_error_file(file); \
 	set_error_module(module); \
 	set_error_line(line); \

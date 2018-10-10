@@ -26,7 +26,7 @@ use v5.10;
 #	%t	temp jump label
 #	@label	unsigned word with given global label address
 #------------------------------------------------------------------------------
-my @CPUS = qw( z80 z80_zxn z180 r2k r3k );
+my @CPUS = qw( z80 z80_zxn z180 r2k r3k ti83 ti83plus );
 
 my @R8	= qw( b c d e h l      a );
 my @R8I	= qw( b c d e h l (hl) a );
@@ -80,10 +80,10 @@ my %Opcodes = ();
 for my $cpu (@CPUS) {
 	my $rabbit	= ($cpu =~ /^r/);
 	my $r3k		= ($cpu =~ /^r3k/);
-	my $z80 	= ($cpu =~ /^z80/);
+	my $z80 	= ($cpu =~ /^z80|^ti/);
 	my $z80_zxn	= ($cpu =~ /^z80_zxn/);
 	my $z180 	= ($cpu =~ /^z180/);
-	my $zilog	= ($cpu =~ /^z/);
+	my $zilog	= ($cpu =~ /^z|^ti/);
 	
 	# 8-bit load group
 	for my $r (@R8I) { 
@@ -698,7 +698,7 @@ sub add_opc {
 	add_opc_1($cpu, $asm, @bin);
 	
 	# expand ixh, ixl, ...
-	if ($cpu =~ /^z80/ && $asm =~ /\b[hl]\b/ && $asm !~ /\b(hl|ix|iy|in|out)\b/) {
+	if ($cpu =~ /^z80|^ti/ && $asm =~ /\b[hl]\b/ && $asm !~ /\b(hl|ix|iy|in|out)\b/) {
 		(my $asm1 = $asm) =~ s/\b([hl])\b/ix$1/g;
 		add_opc_1($cpu, $asm1, $V{ix}, @bin);
 		(   $asm1 = $asm) =~ s/\b([hl])\b/iy$1/g;
@@ -866,7 +866,7 @@ sub parse_code {
 			"if (expr_value > 0 && expr_value < 8) expr_value *= 8;",
 			"switch (expr_value) {",
 			"case 0x00: case 0x08: case 0x30:",
-			"  if (opts.cpu & CPU_RABBIT)",
+			"  if (opt_cpu() & CPU_RABBIT)",
 			"    DO_stmt(0xCD0000 + (expr_value << 8));",
 			"  else",
 			"    DO_stmt(0xC7 + expr_value);",
@@ -1011,7 +1011,7 @@ sub merge_cpu {
 	}
 	else {
 		# variants per CPU
-		$ret .= "switch (opts.cpu) {\n";
+		$ret .= "switch (opt_cpu()) {\n";
 		for my $code (sort keys %code) {
 			for my $cpu (sort keys %{$code{$code}}) {
 				$ret .= "case CPU_".uc($cpu).": ";
@@ -1067,7 +1067,7 @@ sub merge_ixiy {
 	else {
 		(my $common, $ixiy, $iyix) = extract_common($ixiy, $iyix);
 		return $common.
-				"if (!opts.swap_ix_iy) { $ixiy } else { $iyix }";
+				"if (!opt_swap_ix_iy()) { $ixiy } else { $iyix }";
 	}
 }
 

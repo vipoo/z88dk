@@ -15,8 +15,8 @@ use File::Slurp;
 use Test::Differences;
 require './t/test_utils.pl';
 
-my $objs = "scan.o errors.o error_func.o model.o module.o codearea.o listfile.o ".
-		   "options.o hist.o sym.o symtab.o expr.o ".
+my $objs = "scan.o c_errors.o error_func.o model.o module.o codearea.o z80asm.o cmdline.o listfile.o ".
+		   "hist.o sym.o symtab.o expr.o ".
 		   "lib/str.o lib/strhash.o  ../common/fileutil.o ../common/strutil.o ../common/die.o ../common/objfile.o ../../ext/regex/regcomp.o ../../ext/regex/regerror.o ../../ext/regex/regexec.o ../../ext/regex/regfree.o ".
 		   "lib/srcfile.o macros.o lib/class.o ".
 		   "lib/list.o lib/array.o lib/dbg.o ";
@@ -137,11 +137,11 @@ char *GetLibfile( char *filename ) {return NULL;}
 
 #define T_OPCODE2(opcode, opcode_cmp, _cpu) \
 		if (_cpu & CPU_Z80) { \
-			opts.cpu &= ~CPU_RABBIT; \
+			/*opt_cpu() &= ~CPU_RABBIT;*/ \
 			T_OPCODE1(opcode, opcode_cmp); \
 		} \
 		if (_cpu & CPU_RABBIT) { \
-			opts.cpu |= CPU_RABBIT; \
+			/*opt_cpu() |= CPU_RABBIT;*/ \
 			T_OPCODE1(opcode, opcode_cmp); \
 		}
 

@@ -11,16 +11,17 @@ Global data model.
 
 #include "model.h"
 #include "codearea.h"
-#include "errors.h"
+#include "c_errors.h"
 #include "init.h"
 #include "macros.h"
 #include "listfile.h"
-#include "options.h"
 #include "srcfile.h"
 
 /*-----------------------------------------------------------------------------
 *   Global data
 *----------------------------------------------------------------------------*/
+bool cur_list = false;
+
 static SrcFile			*g_src_input;			/* input handle for reading source lines */
 
 /*-----------------------------------------------------------------------------
@@ -36,7 +37,7 @@ static void new_line_cb(const char *filename, int line_nr, const char *text )
 		set_error_line(line_nr);
 		
         /* interface with list */
-		if (opts.cur_list)
+		if (cur_list)
 			list_start_line(get_phased_PC() >= 0 ? get_phased_PC() : get_PC(), filename, line_nr, text);
 	}
 }
@@ -66,10 +67,10 @@ void model_init(void)
 /*-----------------------------------------------------------------------------
 *   interface to SrcFile singleton
 *----------------------------------------------------------------------------*/
-bool src_open(const char *filename, UT_array *dir_list)
+bool src_open(const char *filename)
 {
 	init_module();
-	return SrcFile_open( g_src_input, filename, dir_list );
+	return SrcFile_open( g_src_input, filename);
 }
 
 static char *src_getline1( void )

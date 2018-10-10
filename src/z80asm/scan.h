@@ -10,6 +10,9 @@ Scanner. Scanning engine is built by ragel from scan_rules.rl.
 */
 
 #pragma once
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #include "tokens.h"
 #include "types.h"
@@ -69,3 +72,7 @@ extern bool EOL;
 /* return static string with current token text
 *  non-reentrant, string needs to be saved by caller */
 extern char *sym_text(Sym *sym);
+
+#ifdef __cplusplus
+} // extern "C"
+#endif

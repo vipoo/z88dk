@@ -9,18 +9,22 @@ Repository: https://github.com/pauloscustodio/z88dk-z80asm
 
 #include "alloc.h"
 #include "codearea.h"
-#include "errors.h"
+#include "c_errors.h"
 #include "expr.h"
 #include "fileutil.h"
 #include "listfile.h"
 #include "modlink.h"
-#include "options.h"
 #include "scan.h"
 #include "str.h"
 #include "strutil.h"
 #include "sym.h"
 #include "symbol.h"
 #include "z80asm.h"
+#include "model.h"
+
+#include "cmdline.h"
+#include "errors.h"
+
 #include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -435,7 +439,7 @@ static void patch_exprs( ExprList *exprs )
 					*(intArray_push(expr->section->reloc)) = expr->code_pos + get_cur_module_start();
 				
 					/* relocate code */
-					if (opts.relocatable)
+					if (opt_relocatable())
 					{
 						int offset = get_cur_module_start() + expr->section->addr;
 						int distance = expr->code_pos + offset - curroffset;
@@ -554,7 +558,7 @@ static void define_location_symbols( void )
 	section    = get_last_section();
 	end_addr   = section->addr + get_section_size( section );
 	
-	if (opts.verbose)
+	if (opt_verbose())
 		printf("Code size: %d bytes ($%04X to $%04X)\n",
 			(int)(get_sections_size()), (int)start_addr, (int)end_addr - 1);
 
@@ -576,7 +580,7 @@ static void define_location_symbols( void )
 			start_addr = section->addr;
 			end_addr   = start_addr + get_section_size( section );
 
-			if (opts.verbose)
+			if (opt_verbose())
 				printf("Section '%s' size: %d bytes ($%04X to $%04X)\n",
 					section->name, (int)(end_addr - start_addr),
 					(unsigned int)start_addr, (unsigned int)end_addr - 1);
@@ -686,6 +690,9 @@ static bool linked_libraries(StrHash *extern_syms)
 	FILE *file;
 	long obj_fpos, obj_next_fpos, module_size;
 
+	if (!libraryhdr)
+		return false;
+
 	/* search library chain */
 	for (lib = libraryhdr->firstlib; !linked && lib != NULL; lib = lib->nextlib) {
 		
@@ -741,10 +748,10 @@ void link_modules( void )
 	ExprList *exprs = NULL;
 	StrHash *extern_syms = OBJ_NEW(StrHash);
 
-    opts.cur_list = false;
+    cur_list = false;
     linkhdr = NULL;
 
-    if ( opts.relocatable )
+    if ( opt_relocatable() )
     {
         reloctable = m_new_n( char, 32768U );
         relocptr = reloctable;
@@ -786,40 +793,40 @@ void link_modules( void )
 
 	/* link libraries */
 	/* consol_obj_file do not include libraries */
-	if (!get_num_errors() && !opts.consol_obj_file && opts.library)
+	if (!g_err_count && !opt_consol_obj_file())
 		link_libraries(extern_syms);
 
 	set_error_null();
 
 	/* allocate segment addresses and compute absolute addresses of symbols */
 	/* in consol_obj_file sections are zero-based */
-	if (!get_num_errors() && !opts.consol_obj_file)	
+	if (!g_err_count && !opt_consol_obj_file())
 		sections_alloc_addr();
 
 	/* relocate address symbols */
-	if (!get_num_errors())
+	if (!g_err_count)
 		relocate_symbols();
 
 	/* define assembly size */
-	if (!get_num_errors() && !opts.consol_obj_file)
+	if (!g_err_count && !opt_consol_obj_file())
 		define_location_symbols();
 
-	if (opts.consol_obj_file) {
-		if (!get_num_errors())
+	if (opt_consol_obj_file()) {
+		if (!g_err_count)
 			merge_modules(extern_syms);
 	}
 	else {
 		/* collect expressions from all modules */
 		exprs = OBJ_NEW(ExprList);
-		if (!get_num_errors())
+		if (!g_err_count)
 			read_module_exprs(exprs);
 
 		/* compute all EQU expressions */
-		if (!get_num_errors())
+		if (!g_err_count)
 			compute_equ_exprs(exprs, true, false);
 
 		/* patch all other expressions */
-		if (!get_num_errors())
+		if (!g_err_count)
 			patch_exprs(exprs);
 
 		OBJ_DELETE(exprs);
@@ -831,11 +838,11 @@ void link_modules( void )
 
 	close_error_file();
 
-	if (!get_num_errors()) {
-		if (opts.map)
+	if (!g_err_count) {
+		if (opt_map())
 			write_map_file();
 
-		if (opts.globaldef)
+		if (opt_globaldef())
 			write_def_file();
 	}
 
@@ -884,7 +891,7 @@ static int LinkModule_1(const char *filename, long fptr_base, str_t *section_nam
 				section->align = xfread_dword(file);
 
 				/* if creating relocatable code, ignore origin */
-				if (opts.relocatable && section->origin >= 0) {
+				if (opt_relocatable() && section->origin >= 0) {
 					warn_org_ignored(filename, str_data(section_name));
 					section->origin = -1;
 					section->section_split = false;
@@ -945,7 +952,7 @@ LinkLibModule(struct libfile *library, long curmodule, const char *modname, StrH
 	lib_module = set_cur_module( new_module() );
 	lib_module->modname = spool_add( modname );
 
-    if ( opts.verbose )
+    if ( opt_verbose() )
         printf( "Linking library module '%s'\n", modname );
 
 	flag = LinkModule(library->libfilename, curmodule, extern_syms);       /* link module & read names */
@@ -961,21 +968,21 @@ CreateBinFile( void )
 	FILE *binaryfile, *inital_binaryfile;
 	FILE *relocfile, *initial_relocfile;
 	const char *filename;
-	bool is_relocatable = ( opts.relocatable && totaladdr != 0 );
+	bool is_relocatable = ( opt_relocatable() && totaladdr != 0 );
 
-    if ( opts.bin_file )        /* use predined output filename from command line */
-        filename = opts.bin_file;
+    if ( opt_bin_file() )        /* use predined output filename from command line */
+        filename = opt_bin_file();
     else						/* create output filename, based on project filename */
         filename = get_bin_filename( get_first_module(NULL)->filename );		/* add '.bin' extension */
 
     /* binary output to filename.bin */
-	if (opts.verbose)
+	if (opt_verbose())
 		printf("Creating binary '%s'\n", path_canon(filename));
 
     binaryfile = xfopen( filename, "wb" );
 	inital_binaryfile = binaryfile;
 
-	relocfile = opts.relocatable ? NULL : opts.reloc_info ? xfopen(get_reloc_filename(filename), "wb") : NULL;
+	relocfile = opt_relocatable() ? NULL : opt_reloc_info() ? xfopen(get_reloc_filename(filename), "wb") : NULL;
 	initial_relocfile = relocfile;
 
 	if (binaryfile)

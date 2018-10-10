@@ -12,6 +12,10 @@ Repository: https://github.com/pauloscustodio/z88dk-z80asm
 #include "modlink.h"
 #include "symbol.h"
 #include "die.h"
+#include "model.h"
+
+#include "cmdline.h"
+#include "errors.h"
 
 /* external functions */
 
@@ -134,7 +138,7 @@ Z80pass2( void )
             }
         }
 
-		if (opts.list) {
+		if (opt_list()) {
 			if (expr->range == RANGE_WORD_BE) {
 				int swapped = ((value & 0xFF00) >> 8) | ((value & 0x00FF) << 8);
 				list_patch_data(expr->listpos, swapped, range_size(expr->range));
@@ -166,10 +170,10 @@ Z80pass2( void )
     //set_error_module( CURRENTMODULE->modname );
 
 	/* create object file */
-	if ( ! get_num_errors() )
+	if ( ! g_err_count )
 		write_obj_file( CURRENTMODULE->filename );
 
-    if ( ! get_num_errors() && opts.symtable )
+    if ( ! g_err_count && opt_symtable() )
 		write_sym_file(CURRENTMODULE);
 }
 
@@ -184,7 +188,7 @@ bool Pass2infoExpr(range_t range, Expr *expr)
 		expr->code_pos = get_cur_module_size();			/* update expression location */
 		list_offset = expr->code_pos - get_PC();
 
-		if (opts.cur_list)
+		if (cur_list)
 			expr->listpos = list_patch_pos(list_offset);	/* now calculated as absolute file pointer */
 		else
 			expr->listpos = -1;

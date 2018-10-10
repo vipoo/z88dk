@@ -26,9 +26,8 @@ test2.asm
 unlink "test2.lst";
 
 run('z80asm -b -otest.bin "@test1.lst"', 1, '', <<'...');
-Error at file 'test1.lst' line 2: cannot read file 'test2.lst'
+Error: test1.lst:2: cannot open file: test2.lst
 ...
-
 
 spew("test1.lst", <<'...');
 test1.asm
@@ -38,7 +37,7 @@ test2.asm
 unlink "test2.lst";
 
 run('z80asm -b -otest.bin "@test1.lst"', 1, '', <<'...');
-Error at file 'test1.lst' line 2: pattern 'test2*.lst' returned no files
+Error: test1.lst:2: no match: @test2*.lst
 ...
 
 unlink_testfiles();

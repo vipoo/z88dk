@@ -53,8 +53,8 @@ t_binary(path("test.bin")->slurp_raw, pack("C*", 0xCD, 0x04, 0x00, 0xC9, @RLD_AT
 $ENV{ZCCCFG} = 'testdir/root/lib/config';
 move('z80asm-z80-.lib', $ENV{ZCCCFG}.'/../z80asm-z80-.lib');
 run("./z80asm -b -v test.asm", 0, <<'END', "");
-Library 'z80asm-z80-.lib' not found
-Library '/usr/local/share/z88dk/lib/z80asm-z80-.lib' not found
+Library not found: z80asm-z80-.lib
+Library not found: /usr/local/share/z88dk/lib/z80asm-z80-.lib
 Reading library 'testdir/root/lib/z80asm-z80-.lib'
 Predefined constant: __CPU_Z80__ = $0001
 Assembling 'test.asm' to 'test.o'
@@ -72,8 +72,8 @@ delete $ENV{ZCCCFG};
 
 # point library with -L
 run("./z80asm -b -v -Ltestdir/root/lib test.asm", 0, <<'END', "");
-Library 'z80asm-z80-.lib' not found
-Library '/usr/local/share/z88dk/lib/z80asm-z80-.lib' not found
+Library not found: z80asm-z80-.lib
+Library not found: /usr/local/share/z88dk/lib/z80asm-z80-.lib
 Reading library 'testdir/root/lib/z80asm-z80-.lib'
 Predefined constant: __CPU_Z80__ = $0001
 Assembling 'test.asm' to 'test.o'
@@ -91,9 +91,8 @@ t_binary(path("test.bin")->slurp_raw, pack("C*", 0xCD, 0x04, 0x00, 0xC9, @RLD_AT
 
 # run without library
 run("./z80asm -b -v test.asm", 1, <<'OUT', <<'ERR');
-Library 'z80asm-z80-.lib' not found
-Library '/usr/local/share/z88dk/lib/z80asm-z80-.lib' not found
-Library '/../z80asm-z80-.lib' not found
+Library not found: z80asm-z80-.lib
+Library not found: /usr/local/share/z88dk/lib/z80asm-z80-.lib
 Predefined constant: __CPU_Z80__ = $0001
 Assembling 'test.asm' to 'test.o'
 Reading 'test.asm' = 'test.asm'

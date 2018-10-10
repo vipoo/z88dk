@@ -23,7 +23,7 @@ $ENV{Z80ASM} = "-r0x8000";
 run("z80asm -b test.asm");
 check_bin_file("test.bin", "\xC3\x00\x80");
 
-$ENV{Z80ASM} = "--origin=0x4000";
+$ENV{Z80ASM} = "--origin 0x4000";
 run("z80asm -b test.asm");
 check_bin_file("test.bin", "\xC3\x00\x40");
 

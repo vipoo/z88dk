@@ -18,7 +18,7 @@ unlink_testfiles();
 
 # not possible to create empty library file
 run('z80asm -xtest.lib "test*.asm"', 1, '', <<'...');
-Error: pattern 'test*.asm' returned no files
+Error: no match: test*.asm
 ...
 
 # force the error and check behaviour

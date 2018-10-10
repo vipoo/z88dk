@@ -20,16 +20,13 @@ Repository: https://github.com/pauloscustodio/z88dk-z80asm
 #include <stdarg.h>
 #include <stdio.h>
 
-int sizeof_relocroutine = 0;
-int sizeof_reloctable = 0;
-
 char *GetLibfile( char *filename ) { return ""; }
 extern Symbol *_define_sym( char *name, long value, sym_type_t sym_type, byte_t type_mask,
                      Module *module, Section *section,
 					 SymbolHash **psymtab );
 
 /* reuse string - test saving of keys by hash */
-static char *S(char *str)
+static char *S(const char *str)
 {
 	static char buffer[MAXLINE];
 	
@@ -70,7 +67,7 @@ static void dump_Symbol ( Symbol *sym )
 					"CURRENTMODULE" : "?");
 }
 
-static void dump_SymbolHash ( SymbolHash *symtab, char *name )
+static void dump_SymbolHash ( SymbolHash *symtab, const char *name )
 {
 	SymbolHashElem *iter;
 	Symbol         *sym;
@@ -94,24 +91,25 @@ static void dump_symtab ( void )
 	dump_SymbolHash(CURRENTMODULE->local_symtab, "local tab");
 }	
 
+extern "C" void _debug_set_symtable_list();
+
 static void test_symtab( void )
 {
 	Symbol *sym;
 	SymbolHash *symtab, *symtab2;
 	
 	list_open("test.lis");
-	opts.symtable = true;
-	opts.list     = true;
+	_debug_set_symtable_list();
 	
 	warn("Create current module\n");	
 	set_cur_module( new_module() );
 
 	warn("Create symbol\n");	
-	sym = Symbol_create(S("Var1"), 123, TYPE_CONSTANT, 0, NULL, NULL);
+	sym = Symbol_create(S("Var1"), 123, TYPE_CONSTANT, (sym_scope_t)0, NULL, NULL);
 	dump_Symbol(sym);
 	OBJ_DELETE(sym);
 
-	sym = Symbol_create(S("Var1"), 123, TYPE_CONSTANT, 0, CURRENTMODULE, NULL);
+	sym = Symbol_create(S("Var1"), 123, TYPE_CONSTANT, (sym_scope_t)0, CURRENTMODULE, NULL);
 	dump_Symbol(sym);
 	CURRENTMODULE->modname = "MODULE";
 	dump_Symbol(sym);

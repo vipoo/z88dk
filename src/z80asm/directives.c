@@ -11,7 +11,7 @@ Assembly directives.
 
 #include "codearea.h"
 #include "directives.h"
-#include "errors.h"
+#include "c_errors.h"
 #include "fileutil.h"
 #include "model.h"
 #include "module.h"
@@ -21,6 +21,8 @@ Assembly directives.
 #include "symtab.h"
 #include "z80asm.h"
 #include "die.h"
+
+#include "cmdline.h"
 
 static void check_org_align();
 
@@ -51,7 +53,7 @@ void asm_cond_LABEL(Str *label)
 		Str_len(label) = 0;
 	}
 
-	if (opts.debug_info && !scr_is_c_source()) {
+	if (opt_debug_info() && !scr_is_c_source()) {
 		STR_DEFINE(name, STR_SIZE);
 
 		Str_sprintf(name, "__ASM_LINE_%ld", get_error_line());
@@ -139,14 +141,14 @@ void asm_DEFVARS_define_const(const char *name, int elem_size, int count)
 *----------------------------------------------------------------------------*/
 void asm_LSTON(void)
 {
-	if (opts.list)
-		opts.cur_list = true;
+	if (opt_list())
+		cur_list = true;
 }
 
 void asm_LSTOFF(void)
 {
-	if (opts.list)
-		opts.cur_list = false;
+	if (opt_list())
+		cur_list = false;
 }
 
 /*-----------------------------------------------------------------------------
@@ -173,7 +175,7 @@ void asm_C_LINE(int line_nr, const char *filename)
 	set_error_file(filename);
 	set_error_line(line_nr);
 	
-	if (opts.debug_info) {
+	if (opt_debug_info()) {
 		STR_DEFINE(name, STR_SIZE);
 
 		Str_sprintf(name, "__C_LINE_%ld", line_nr);
@@ -210,7 +212,7 @@ void asm_INCLUDE(const char *filename)
 
 void asm_BINARY(const char *filename)
 {
-	filename = path_search(filename, opts.inc_path);
+	filename = opt_search_source(filename);
 	FILE *binfile = fopen(filename, "rb");
 	if (!binfile) {
 		error_read_file(filename);
@@ -763,7 +765,7 @@ static void asm_DMA_command_1(int cmd, UT_array *exprs)
 
 void asm_DMA_command(int cmd, UT_array *exprs)
 {
-	if (opts.cpu != CPU_Z80_ZXN) {
+	if (opt_cpu() != CPU_Z80_ZXN) {
 		error_illegal_ident();
 		return;
 	}

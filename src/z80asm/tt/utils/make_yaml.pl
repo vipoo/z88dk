@@ -15,7 +15,7 @@ use YAML;
 my $data = 
 {
   errors => [
-{ Atype => 'ErrInfo', Bfunc => 'info_total_errors', Cargs => 'void', Dmessage => q{"%d errors occurred during assembly" , get_num_errors()} },
+{ Atype => 'ErrInfo', Bfunc => 'info_total_errors', Cargs => 'void', Dmessage => q{"%d errors occurred during assembly" , errors_count} },
 
 
 

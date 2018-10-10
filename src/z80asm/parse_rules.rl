@@ -281,7 +281,7 @@ Define rules for a ragel-based parser.
 		     if (expr_error)
 				error_expected_const_expr();
 			 else
-				asm_DEFS(expr_value, opts.filler); }
+				asm_DEFS(expr_value, opt_filler()); }
 		| label? _TK_DEFS 
 				const_expr _TK_COMMA
 				@{ if (expr_error)
@@ -459,7 +459,7 @@ Define rules for a ragel-based parser.
 			if (expr_error)
 				error_expected_const_expr();
 			else
-				asm_ALIGN(expr_value, opts.filler); 
+				asm_ALIGN(expr_value, opt_filler());
 		}
 		| label? _TK_ALIGN const_expr _TK_COMMA
 				@{ if (expr_error)
@@ -614,7 +614,7 @@ static int get_start_state(ParseCtx *ctx)
 static bool _parse_statement_1(ParseCtx *ctx, Str *name, Str *stmt_label)
 {
 	int  value1 = 0;
-	int  start_num_errors = get_num_errors();
+	int  start_num_errors = g_err_count;
 	int  expr_value = 0;			/* last computed expression value */
 	bool expr_error = false;		/* last computed expression error */
 	bool expr_in_parens = false;	/* true if expression has enclosing parens */
@@ -639,7 +639,7 @@ static bool _parse_statement_1(ParseCtx *ctx, Str *name, Str *stmt_label)
 			return true;
 			
 		/* assembly error? must test after check for end of parse */
-		if (get_num_errors() != start_num_errors) 
+		if (g_err_count != start_num_errors)
 			break;
 	}
 	

@@ -9,6 +9,10 @@ Repository: https://github.com/pauloscustodio/z88dk-z80asm
 
 #pragma once
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include "types.h"
 #include "sym.h"
 #include "expr.h"
@@ -28,4 +32,10 @@ extern const char *GetLibfile(const char *filename );
 extern void assemble_file( const char *filename );
 extern bool Pass2info(range_t range);
 extern bool Pass2infoExpr(range_t range, Expr *expr);
-extern int z80asm_main(int argc, char *argv[]);
+extern int z80asm_main();
+extern void init_libraryhdr();
+
+
+#ifdef __cplusplus
+} // extern "C"
+#endif

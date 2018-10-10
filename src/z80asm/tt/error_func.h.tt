@@ -3,7 +3,14 @@
 %% USE YAML; data = YAML.undumpfile('error_func.yaml')
 
 #pragma once
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 %% FOREACH data.errors
 extern void [% func %]([% args %]);
 %% END
+
+#ifdef __cplusplus
+} // extern "C"
+#endif

@@ -16,10 +16,10 @@
 #endif
 
 #ifdef _WIN32
-#include <unixem/glob.h>
+//#include <unixem/glob.h>
 #endif
-#include <glob.h>
-#include <dirent.h>
+//#include <glob.h>
+//#include <dirent.h>
 
 // error message and exit program
 extern void die(char *msg, ...);
@@ -56,5 +56,7 @@ extern int check_retval(int retval, const char *file, const char *source_file, i
 #define xrmdir(dir)			Check_retval(rmdir(path_os(dir)), (dir))
 #endif
 
+#if 0
 int xglob(const char *pattern, int flags, const int(*errfunc) (const char *epath, int eerrno),
 	glob_t *pglob);
+#endif

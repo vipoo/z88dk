@@ -22,72 +22,50 @@ Z80 Module Assembler $version
 (c) InterLogic 1993-2009, Paulo Custodio 2011-2018
 
 Usage:
-  z80asm [options] { \@<modulefile> | <filename> }
+  z80asm [OPTIONS...] {FILE | \@LIST}...
 
-  [] = optional, {} = may be repeated, | = OR clause.
+ Help options:
+  -h, -?, --help      Show help options
+  -v, --verbose       Be verbose
 
-  To assemble 'fred.asm' use 'fred' or 'fred.asm'
+ Environment options:
+  -I, --inc-path arg  Append to include search path
+  -L, --lib-path arg  Append to library search path
+  -D, --define arg    Define a symbol
 
-  <modulefile> contains list of file names of all modules to be linked,
-  one module per line.
+ Assemble options:
+  -m, --cpu arg       z80, z180, z80-zxn (ZX Next z80 variant),
+                      r2k, r3k (Rabbit 2000 / 3000),
+                      ti83, ti83plus (default: z80)
+      --IXIY          Swap IX and IY
+  -d, --update        Assemble only updated files
+  -s, --symtable      Generate module symbol table
+  -l, --list          Generate module list file
 
-  File types recognized or created by z80asm:
-    .asm   = source file
-    .o     = object file
-    .lis   = list file
-    .bin   = Z80 binary file
-    .sym   = symbols file
-    .map   = map file
-    .reloc = reloc file
-    .def   = global address definition file
-    .err   = error file
+ Link options:
+  -b, --make-bin      Assemble and link
+      --split-bin     One binary file per section
+      --filler arg    Filler byte for DEFS
+  -r, --origin arg    Link at origin address
+  -R, --relocatable   Generate relocation code
+      --reloc-info    Generate relocation information
+  -m, --map           Generate map file
+  -g, --globaldef     Generate global definition file
+      --debug         Debug info in map file
 
-Help Options:
-  -h, --help             Show help options
-  -v, --verbose          Be verbose
+ Libraries options:
+  -x, --make-lib arg  Create library
+  -i, --link-lib arg  Link with library
 
-Code Generation Options:
-  --cpu=z80-zxn          Assemble for the Z80 variant of ZX Next
-  --cpu=z80              Assemble for the Z80
-  --cpu=z180             Assemble for the Z180
-  --cpu=r2k              Assemble for the Rabbit 2000
-  --cpu=r3k              Assemble for the Rabbit 3000
-  --cpu=ti83plus         Assemble for the TI83Plus
-  --cpu=ti83             Assemble for the TI83
-  --IXIY                 Swap IX and IY registers
-  --debug                Add debug info to map file
+ Output options:
+  -O, --out-dir arg   Output directory
+  -o, --output arg    Output file
 
-Environment:
-  -I, --inc-path=PATH    Add directory to include search path
-  -L, --lib-path=PATH    Add directory to library search path
-  -D, --define=SYMBOL    Define a static symbol
+ Appmake options:
+  +zx81               Generate .p file, origin at 16514
+  +zx                 Generate .tap file, origin at 23760 or
+                      above Ramtop with - rORG > 24000
 
-Libraries:
-  -x, --make-lib=FILE    Create a library file.lib
-  -i, --use-lib=FILE     Use library file.lib
-
-Binary Output:
-  -O, --out-dir=DIR      Output directory
-  -o, --output=FILE      Output binary file
-  -b, --make-bin         Assemble and link/relocate to file.bin
-  --split-bin            Create one binary file per section
-  -d, --update           Assemble only updated files
-  -r, --origin=ADDR      Relocate binary file to given address (decimal or hex)
-  -R, --relocatable      Create relocatable code
-  --reloc-info           Geneate binary file relocation information
-  --filler=BYTE          Default value to fill in DEFS (decimal or hex)
-
-Output File Options:
-  -s, --symtable         Create symbol table file.sym
-  -l, --list             Create listing file.lis
-  -m, --map              Create address map file.map
-  -g, --globaldef        Create global definition file.def
-
-Appmake Options:
-  +zx81                  Generate ZX81 .P file, origin at 16514
-  +zx                    Generate ZX Spectrum .tap file, origin defaults to
-                         23760 (in a REM), but can be set with -rORG >= 24000
-                         for above RAMTOP
 END
 
 	run("z80asm $opt=x", 1, "", <<END);

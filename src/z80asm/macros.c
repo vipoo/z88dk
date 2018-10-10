@@ -10,7 +10,7 @@ Assembly macros.
 
 #include "macros.h"
 #include "alloc.h"
-#include "errors.h"
+#include "c_errors.h"
 #include "str.h"
 #include "strutil.h"
 #include "uthash.h"

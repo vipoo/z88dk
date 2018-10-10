@@ -10,6 +10,9 @@ Handle object file contruction, reading and writing
 */
 
 #pragma once
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #include "array.h"
 #include "class.h"
@@ -90,3 +93,7 @@ extern bool check_obj_lib_file(const char *filename,
 	char *signature,
 	void(*error_file)(const char*),
 	void(*error_version)(const char*,int,int));
+
+#ifdef __cplusplus
+} // extern "C"
+#endif

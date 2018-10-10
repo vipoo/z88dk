@@ -13,16 +13,17 @@ b) performance - avltree 50% slower when loading the symbols from the ZX 48 ROM 
    see t\developer\benchmark_symtab.t
 */
 
-#include "errors.h"
+#include "c_errors.h"
 #include "listfile.h"
 #include "fileutil.h"
 #include "model.h"
-#include "options.h"
 #include "symbol.h"
 #include "symtab.h"
 #include "str.h"
 #include "z80asm.h"
 #include "die.h"
+
+#include "cmdline.h"
 
 /*-----------------------------------------------------------------------------
 *   Global Symbol Tables
@@ -155,7 +156,7 @@ Symbol *define_static_def_sym(const char *name, long value )
     Symbol *sym = _define_sym( name, value, TYPE_CONSTANT, SCOPE_LOCAL, 
 						NULL, get_first_section(NULL), 
 						& static_symtab );
-	if (opts.verbose) 
+	if (opt_verbose())
 		printf("Predefined constant: %s = $%04X\n", name, (int)value);
 	return sym;
 }
@@ -579,7 +580,7 @@ static void _write_symbol_file(const char *filename, Module *module, bool(*cond)
 	long			reloc_offset;
 	STR_DEFINE(line, STR_SIZE);
 
-	if (opts.relocatable && module == NULL)		// module is NULL in link phase
+	if (opt_relocatable() && module == NULL)		// module is NULL in link phase
 		reloc_offset = sizeof_relocroutine + sizeof_reloctable + 4;
 	else
 		reloc_offset = 0;

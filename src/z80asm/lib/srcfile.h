@@ -66,7 +66,7 @@ END_CLASS;
 /* Open the source file for reading, closing any previously open file.
    If dir_list is not NULL, calls path_search() to search the file in dir_list
    calls incl_recursion_err_cb pointed fucntion in case of recursive include */
-extern bool SrcFile_open( SrcFile *self, const char *filename, UT_array *dir_list );
+extern bool SrcFile_open( SrcFile *self, const char *filename);
 
 /* get the next line of input, normalize end of line termination (i.e. convert
    "\r", "\r\n" and "\n\r" to "\n"

@@ -9,6 +9,9 @@ Assembly macros.
 */
 
 #pragma once
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef char *(*getline_t)();
 
@@ -17,3 +20,6 @@ extern void clear_macros();
 extern void free_macros();
 extern char *macros_getline(getline_t getline_func);
 
+#ifdef __cplusplus
+} // extern "C"
+#endif
