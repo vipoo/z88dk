@@ -573,7 +573,7 @@ void indirect(LVALUE* lval)
         ot("call\tl_gint\t;");
 #ifdef USEFRAME
         if (c_framepointer_is_ix != -1 && CheckOffset(lval->base_offset) && lval->symbol) {
-            outfmt("(%s+%d)",FRAMEP, lval->base_offset);
+            outfmt("%+d",lval->base_offset);
         }
 #endif
         nl();
