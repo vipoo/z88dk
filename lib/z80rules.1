@@ -3683,3 +3683,10 @@
 	and	a
 	jp	%2
 	ld	hl,%3
+
+	inc	hl
+	ld	bc,%1
+	add	hl,bc
+=
+	ld	bc,%eval( %1 1 +)
+	add	hl,bc

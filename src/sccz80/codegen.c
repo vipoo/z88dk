@@ -351,9 +351,10 @@ void StoreTOS(char typeobj)
 
 void PutFrame(char typeobj, int offset)
 {
-    SYMBOL* ptr;
-    char flags;
-    ptr = retrstk(&flags); /* Not needed but.. */
+    stackaddr stack;
+
+    retrstk(&stack);
+
     switch (typeobj) {
     case KIND_CHAR:
         ot("ld\t");
@@ -393,16 +394,16 @@ void PutFrame(char typeobj, int offset)
 /*      at the address on the top of the stack */
 void putstk(LVALUE *lval)
 {
-    char flags = 0;
-    SYMBOL *ptr;
+    stackaddr stack;
     Kind typeobj = lval->indirect_kind;
 
 
     //outfmt("; %s type=%d val_type=%d indirect=%d\n", lval->ltype->name, lval->type, lval->val_type, lval->indirect_kind);
     /* Store via long pointer... */
-    ptr = retrstk(&flags);
+    retrstk(&stack);
+
     //outfmt(";Restore %p flags %02d\n",ptr, flags);
-    if (flags & FARACC) {
+    if (stack.flags & FARACC) {
         /* exx pop hl, pop de, exx */
         doexx();
         mainpop();

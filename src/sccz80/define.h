@@ -397,4 +397,13 @@ enum optimisation {
         utstring_free(output); \
     } while (0)
 
+typedef struct stackaddr_s stackaddr;
+
+struct stackaddr_s {
+   SYMBOL  *sym;
+   int      flags;
+   int      base_offset;
+   stackaddr *next;
+};
+
 #endif

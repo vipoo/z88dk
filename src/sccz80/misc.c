@@ -7,8 +7,10 @@
  */
 
 #include "ccdefs.h"
+#include "utstack.h"
 
 /* Generic change suffix routine */
+
 
 void changesuffix(char *name, char *suffix)
 {
@@ -23,55 +25,41 @@ void changesuffix(char *name, char *suffix)
     strcat(name, suffix);
 }
 
-/* These two used to keep track of what goes on stack, and what comes
- * off of stack, guess 100 is enough to be going on with?
- */
 
-SYMBOL *stkptr[100], *laststk;
-int stkcount;
-char flgstk[100];
+static stackaddr  *stack;
 
 /* Set up the stack references... */
 
 void initstack()
 {
-    stkcount = 0;
-    laststk = 0;
+    stack = NULL;
 }
 
 /* Retrieve last item on the stack */
 
-SYMBOL* retrstk(char* flags)
+stackaddr *retrstk(stackaddr *stacked)
 {
-    SYMBOL* ptr;
-    if (!stkcount)
-        return (laststk = NULL);
-    ptr = laststk = stkptr[--stkcount];
-    *flags = flgstk[stkcount];
-    return (ptr);
+    stackaddr *elem;
+
+    if ( !STACK_EMPTY(stack) ) {
+        STACK_POP(stack, elem);
+        *stacked = *elem;
+        FREENULL(elem);
+        return stacked;
+    }
+    return NULL; 
 }
 
 /* Insert an item onto the stack */
 
-int addstk(LVALUE* lval)
+void addstk(LVALUE* lval)
 {
-    if ((stkcount + 1) >= 99)
-        return (0);
-    stkptr[stkcount] = lval->symbol;
-    flgstk[stkcount] = lval->flags;
-    return (stkcount++);
+    stackaddr *elem = MALLOC(sizeof(*elem));
+
+    elem->sym = lval->symbol;
+    elem->flags = lval->flags;
+    elem->base_offset = lval->base_offset;
+
+    STACK_PUSH(stack, elem);
 }
 
-/* Check if last item referenced to is this item, used when loading
- * values - saves a little bit of generated code
- */
-
-int chkstk(SYMBOL* ptr)
-{
-    if (!stkcount)
-        return (0);
-    if (laststk == ptr)
-        return (1);
-    else
-        return (0);
-}
