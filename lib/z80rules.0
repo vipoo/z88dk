@@ -1,7 +1,7 @@
-	call	l_gintsp	;
+	call	l_gintsp	;%9
 	call	l_gchar
 =
-	call	l_gintspchar	;
+	call	l_gintspchar	;%9
 
 	ld	hl,(%1)
 	inc	hl
@@ -223,7 +223,7 @@
 	call	l_gchar
 
 	ld	hl,%1	;const
-	call	l_gint
+	call	l_gint	;%9
 	ld	h,0
 	ld	de,%2	;const
 	ex	de,hl
@@ -270,7 +270,7 @@
 	ld	(_udata%1),hl
 	ld	hl,%3
 
-	call	l_gint	;
+	call	l_gint	;%9
 	call	l_pint
 	ld	hl,%1
 =
@@ -656,7 +656,7 @@
 	ex	de,hl
 =
 
-	call	l_gint	;
+	call	l_gint	;%9
 	ld	b,h
 	ld	c,l
 	add	hl,bc
@@ -666,14 +666,14 @@
 	pop	de
 	add	hl,de
 =
-	call	l_gint7de	;
+	call	l_gint7de	;%9
 
 	ld	hl,%1	;const
 	add	hl,sp
-	call	l_gint	;
+	call	l_gint	;%9
 =
 	ld	hl,%1	;const
-	call	l_gintsp	;
+	call	l_gintsp	;%9
 
 	call	l_int2long_s
 	call	float

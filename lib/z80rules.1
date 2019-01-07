@@ -2169,7 +2169,7 @@
 	ld	e,l
 
 	push	hl
-	call	l_gint	;
+	call	l_gint	;%9
 	inc	hl
 	pop	de
 	call	l_pint
@@ -2183,7 +2183,7 @@
 	ld	l,a
 
 	push	hl
-	call	l_gint	;
+	call	l_gint	;%9
 	dec	hl
 	pop	de
 	call	l_pint
@@ -2292,7 +2292,7 @@
 =
 	ld	a,d
 	or	e
-	jr	nz,%1
+	jp	nz,%1
 	ld	hl,%2
 
 	ld	hl,%1
@@ -2595,7 +2595,7 @@
 	ld	h,0
 	ex	de,hl
 
-	call	l_gint	;
+	call	l_gint	;%9
 	call	l_glong
 =
 	call	l_glonghlp
@@ -2754,12 +2754,12 @@
 	push	de
 	ld	hl,%1	;const
 	add	hl,sp
-	call	l_gint	;
+	call	l_gint	;%9
 	pop	de
 =
 	ld	hl,%eval( %1 2 -)	;const
 	add	hl,sp
-	call	l_gint
+	call	l_gint	;
 
 	ld	l,(hl)
 	ld	h,0
@@ -3199,7 +3199,7 @@
 
 	ld	hl,%1	;const
 	add	hl,sp
-	call	l_gint	;
+	call	l_gint	;%9
 	ld	bc,%2
 	add	hl,bc
 .i_%3
@@ -3316,7 +3316,7 @@
 	call	l_glong
 	ld	de,0
 =
-	call	l_gint
+	call	l_gint	;
 	ld	de,0
 
 	ld	hl,(_%1)

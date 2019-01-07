@@ -28,6 +28,9 @@
 #include "ccdefs.h"
 #include <time.h>
 
+
+#define FRAMEP c_framepointer_is_ix ? "ix" : "iy"
+
 extern int check_lastop_was_comparison(LVALUE* lval);
 
 
@@ -569,8 +572,8 @@ void indirect(LVALUE* lval)
     default:
         ot("call\tl_gint\t;");
 #ifdef USEFRAME
-        if (c_framepointer_is_ix != -1 && CheckOffset(lval->offset)) {
-            OutIndex(lval->offset);
+        if (c_framepointer_is_ix != -1 && CheckOffset(lval->base_offset) && lval->symbol) {
+            outfmt("(%s+%d)",FRAMEP, lval->base_offset);
         }
 #endif
         nl();
@@ -3557,49 +3560,37 @@ void RestoreSP(char saveaf)
 {
     if (saveaf)
         doexaf();
-    ot("ld\tsp,");
-    FrameP();
-    nl();
+    outfmt("\tld\tsp,%s\n",FRAMEP);
     if (saveaf)
         doexaf();
 }
 
 void setframe(void)
 {
-#ifdef USEFRAME
     if (c_framepointer_is_ix == -1)
         return;
-    ot("ld\t");
-    FrameP();
-    outstr(",0\n");
-    ot("add\t");
-    FrameP();
-    outstr(",sp\n");
-#endif
+    outfmt("\tld\t%s,0\n",FRAMEP);
+    outfmt("\tadd\tix,%s\n",FRAMEP);
 }
 
 #endif
 
 void FrameP(void)
 {
-    outstr(c_framepointer_is_ix ? "ix" : "iy");
+    outstr(FRAMEP);
 }
 
 void pushframe(void)
 {
     if (c_framepointer_is_ix != -1 || (currfn->ctype->flags & (SAVEFRAME|NAKED)) == SAVEFRAME ) {
-        ot("push\t");
-        FrameP();
-        nl();
+        outfmt("\tpush\t%s\n",FRAMEP);
     }
 }
 
 void popframe(void)
 {
     if (c_framepointer_is_ix != -1 || (currfn->ctype->flags & (SAVEFRAME|NAKED)) == SAVEFRAME ) {
-        ot("pop\t");
-        FrameP();
-        nl();
+        outfmt("\tpop\t%s\n",FRAMEP);
     }
 }
 

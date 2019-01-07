@@ -29,7 +29,7 @@
 %check 0 <= %1 <= 254
 	ld	hl,%1	;const
 	add	hl,sp
-	call	l_gint	;
+	call	l_gint	;%9
 =
 	ld	hl,(sp + %1)
 
@@ -76,7 +76,7 @@
 
 %check 0 <= %1 <= 255
 	ld	hl,%1	;const
-	call	l_gintspsp	;
+	call	l_gintspsp	;%9
 =
 	ld	hl,(sp + %1)
 	push	hl
@@ -93,7 +93,7 @@
 %check 0 <= %1 <= 253
 	ld	hl,%1	;const
 	add	hl,sp
-	call	l_gint
+	call	l_gint	;%9
 =
 	ld	hl,(sp + %1)
 
@@ -165,18 +165,18 @@
 	ld	hl,(hl + %1 + 1)
 
 	inc	hl
-	call	l_gint	;
+	call	l_gint	;%9
 =
 	ld	hl,(hl + 1)
 
 %check -128 <= %1 <= 127
 	ld	bc,%1
 	add	hl,bc
-	call	l_gint	;
+	call	l_gint	;%9
 =
 	ld	hl,(hl+%1)
 
-	call	l_gint	;
+	call	l_gint	;%9
 =
 	ld	hl,(hl+0)
 
