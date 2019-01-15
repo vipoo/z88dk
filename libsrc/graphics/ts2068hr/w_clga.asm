@@ -7,7 +7,7 @@
 ;       Stubs Written by D Morris - 30/9/98
 ;
 ;
-;	$Id: clga2.asm,v 1.1 2016-09-30 12:20:04 stefano Exp $
+;	$Id: w_clga.asm $
 ;
 
 
@@ -121,21 +121,19 @@
 ; (hl) mask
 ; de - screen address
 .INC_X
-		inc de
-		
-;		bit 5,d
-;		jr nz,first
-;		set 5,d
-;		or a
+		bit 5,d
+		jr nz,first
+		set 5,d
+		or a
 		ret
-;.first
-;		res 5,d
-;		inc e
-;		ld a,e
-;		and $1f
-;		ret nz
-;		scf
-;		ret
+.first
+		res 5,d
+		inc e
+		ld a,e
+		and $1f
+		ret nz
+		scf
+		ret
 
 .incy
 		inc d

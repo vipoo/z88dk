@@ -4,10 +4,9 @@
 ;
 ;       Written around the Interlogic Standard Library
 ;
-;       Stubs Written by D Morris - 30/9/98
 ;
 ;
-;	$Id: clga2.asm,v 1.3 2016-06-23 19:41:02 dom Exp $
+;	$Id: w_clga.asm $
 ;
 
 
@@ -15,7 +14,7 @@
 
 
 	INCLUDE	"graphics/grafix.inc"
-	SECTION code_clib
+	SECTION   smc_clib
 	PUBLIC    clga
 	PUBLIC    _clga
 	EXTERN	w_pixeladdress
@@ -121,19 +120,21 @@
 ; (hl) mask
 ; de - screen address
 .INC_X
-		bit 5,d
-		jr nz,first
-		set 5,d
-		or a
+		inc de
+		
+;		bit 5,d
+;		jr nz,first
+;		set 5,d
+;		or a
 		ret
-.first
-		res 5,d
-		inc e
-		ld a,e
-		and $1f
-		ret nz
-		scf
-		ret
+;.first
+;		res 5,d
+;		inc e
+;		ld a,e
+;		and $1f
+;		ret nz
+;		scf
+;		ret
 
 .incy
 		inc d

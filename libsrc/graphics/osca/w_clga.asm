@@ -4,10 +4,9 @@
 ;
 ;       Written around the Interlogic Standard Library
 ;
-;       Stubs Written by D Morris - 30/9/98
 ;
 ;
-;	$Id: clga2.asm $
+;	$Id: w_clga.asm $
 ;
 
 
@@ -15,10 +14,12 @@
 
 
 	INCLUDE	"graphics/grafix.inc"
-	SECTION code_clib
+        SECTION   code_clib
 	PUBLIC    clga
 	PUBLIC    _clga
 	EXTERN	w_pixeladdress
+	EXTERN     swapgfxbk
+	EXTERN	swapgfxbk1
 
 .clga
 ._clga
@@ -26,7 +27,7 @@
 		ld	ix,2
 		add	ix,sp
 		ld	h,(ix+9); x
-		ld	a,1
+		ld a,1	; 512... range checking needs to be fixed to 320
 		cp	h
 		jr	c,clga_exit
 		ld	e,(ix+6); y
@@ -34,6 +35,7 @@
 		cp	e
 		jr	c,clga_exit
 
+		call    swapgfxbk
 		ld	a,(ix+2); height
 		ld	c,(ix+4); width
 		ld	b,(ix+5); width
@@ -73,7 +75,7 @@
 		or	c
 		jr	nz,inner_loop0
 .fill
-		inc de
+		call	INC_X
 		jr	c,wypad
 .fill1
 		push	bc
@@ -89,7 +91,7 @@
 .inner_loop1
 		xor	a
 		ld	(de),a
-		inc de
+		call	INC_X
 		jr	c,wypad
 		djnz	inner_loop1
 
@@ -112,22 +114,49 @@
 		pop	bc ; 1
 		dec	ixl
 		jr	z,clga_exit
-		
-		; inc y
-		LD A,D
-		ADD 8
-		LD D,A
-		JR NC,nowrap3
-		LD A,$50
-		ADD E
-		LD E,A
-		LD A,$C0
-		ADC D
-		LD D,A
-.nowrap3
-		
-		jr	c,clga_exit
-		jr	outer_loop
+		call	incy
+		jr	nc,outer_loop
 .clga_exit
-		pop	ix
+		pop	ix	;restore callers
+		ret
+
+
+; (hl) mask
+; de - screen address
+.INC_X
+		bit 5,d
+		jr nz,first
+		set 5,d
+		or a
+		ret
+.first
+		res 5,d
+		inc e
+		ld a,e
+		and $1f
+		ret nz
+		scf
+		ret
+
+.incy
+		inc d
+		ld a,d
+		and $07
+		ret nz
+
+		ld a,d
+		sub $08
+		ld d,a
+		ld a,e
+		add a,$20
+		ld e,a
+		ret nc
+
+		ld a,d
+		add a,$08
+		ld d,a
+
+		and 95
+		cp $58
+		ccf
 		ret
