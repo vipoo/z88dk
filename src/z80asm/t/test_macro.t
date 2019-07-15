@@ -180,6 +180,22 @@ check_text_file("test.lis", <<'END', "list file");
 2     0004              
 END
 
+#------------------------------------------------------------------------------
+z80asm(<<'END', "-b -l");
+#define continuation_line 1 \
+	+ 1 \
+	+ 1
+	defb continuation_line
+END
+check_bin_file("test.bin", pack("C*", 3));
+check_text_file("test.lis", <<'END', "list file");
+1     0000              #define continuation_line 1 \
+2     0000              	+ 1 \
+3     0000              	+ 1
+4     0000  03          	defb continuation_line
+5     0001              
+END
+
 
 if (0) {
 

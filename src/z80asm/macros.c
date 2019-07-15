@@ -38,6 +38,7 @@ static argv_t *in_lines = NULL;			// line stream from input
 static argv_t *out_lines = NULL;		// line stream to ouput
 static str_t *current_line = NULL;		// current returned line
 static bool in_defgroup;				// no EQU transformation in defgroup
+static getline_t cur_getline_func = NULL; // callback to read a line from input
 
 static DefMacro *DefMacro_add(char *name)
 {
@@ -79,6 +80,9 @@ static DefMacro *DefMacro_lookup(char *name)
 	return elem;
 }
 
+//-----------------------------------------------------------------------------
+//	module API
+//-----------------------------------------------------------------------------
 void init_macros()
 {
 	def_macros = NULL;
@@ -111,13 +115,19 @@ void free_macros()
 	str_free(current_line);
 }
 
+//-----------------------------------------------------------------------------
+//	parser
+//-----------------------------------------------------------------------------
+
 // fill input stream
-static void fill_input(getline_t getline_func)
+static void fill_input()
 {
 	if (argv_len(in_lines) == 0) {
-		char *line = getline_func();
-		if (line)
-			argv_push(in_lines, line);
+		if (cur_getline_func != NULL) {
+			char* line = cur_getline_func();
+			if (line)
+				argv_push(in_lines, line);
+		}
 	}
 }
 
@@ -134,6 +144,33 @@ static bool shift_lines(argv_t *lines)
 	}
 	else
 		return false;
+}
+
+// collect a quoted string from input pointer to output string
+static bool collect_quoted_string(char** p, str_t* out)
+{
+#define P (*p)
+	if (*P == '\'' || *P == '"') {
+		char q = *P; str_append_n(out, P, 1); P++;
+		while (*P != q && *P != '\0') {
+			if (*P == '\\') {
+				str_append_n(out, P, 1); P++;
+				if (*P != '\0') {
+					str_append_n(out, P, 1); P++;
+				}
+			}
+			else {
+				str_append_n(out, P, 1); P++;
+			}
+		}
+		if (*P != '\0') {
+			str_append_n(out, P, 1); P++;
+		}
+		return true;
+	}
+	else
+		return false;
+#undef P
 }
 
 // collect a macro or argument name [\.\#]?[a-z_][a-z_0-9]*
@@ -161,54 +198,48 @@ static bool collect_name(char **in, str_t *out)
 }
 
 // collect formal parameters
-static bool collect_params(char **p, DefMacro *macro, str_t *param)
+static bool collect_formal_params1(char** p, DefMacro* macro, str_t* param)
 {
 #define P (*p)
-
-	if (*P == '(') P++; else return true;
-	while (isspace(*P)) P++;
-	if (*P == ')') { P++; return true; }
-
-	for (;;) {
-		if (!collect_name(p, param)) return false;
+	if (*P == '(') P++; else return true;			// (
+	while (isspace(*P)) P++;						// blanks
+	if (*P == ')') { P++; return true; }			// )
+	
+	while (true) {
+		if (!collect_name(&P, param)) return false;	// NAME
 		argv_push(macro->params, str_data(param));
-
-		while (isspace(*P)) P++;
-		if (*P == ')') { P++; return true; }
-		else if (*P == ',') P++;
-		else return false;
+		while (isspace(*P)) P++;					// blanks
+	
+		if (*P == ')') { P++; return true; }		// )
+		else if (*P == ',') { P++; }				// ,
+		else { return false; }
 	}
-
 #undef P
 }
 
+static bool collect_formal_params(char **p, DefMacro *macro)
+{
+	str_t* param = str_new();
+	bool found = collect_formal_params1(p, macro, param);
+	str_free(param);
+	return found;
+}
+
 // collect macro text
-static bool collect_text(char **p, DefMacro *macro, str_t *text)
+static bool collect_macro_text1(char** p, DefMacro* macro, str_t* text)
 {
 #define P (*p)
-
 	str_clear(text);
-
 	while (isspace(*P)) P++;
 	while (*P) {
-		if (*P == ';' || *P == '\n') 
+		if (*P == ';' || *P == '\n')
 			break;
-		else if (*P == '\'' || *P == '"') {
-			char q = *P; str_append_n(text, P, 1); P++;
-			while (*P != q && *P != '\0') {
-				if (*P == '\\') {
-					str_append_n(text, P, 1); P++;
-					if (*P != '\0') {
-						str_append_n(text, P, 1); P++;
-					}
-				}
-				else {
-					str_append_n(text, P, 1); P++;
-				}
-			}
-			if (*P != '\0') {
-				str_append_n(text, P, 1); P++;
-			}
+		else if (collect_quoted_string(&P, text)) {
+		}
+		else if (P[0] == '\\' && P[1] == '\n') {		// continuation line
+			str_append_n(text, " ", 1);
+			fill_input();
+			if (shift_lines(in_lines)) P = str_data(current_line); else P = "";
 		}
 		else {
 			str_append_n(text, P, 1); P++;
@@ -223,8 +254,15 @@ static bool collect_text(char **p, DefMacro *macro, str_t *text)
 	str_set_str(macro->text, text);
 
 	return true;
-
 #undef P
+}
+
+static bool collect_macro_text(char **p, DefMacro *macro)
+{
+	str_t* text = str_new();
+	bool found = collect_macro_text1(p, macro, text);
+	str_free(text);
+	return found;
 }
 
 // collect white space up to end of line or comment
@@ -347,7 +385,6 @@ static bool collect_hash_define(char* in)
 {
 	bool found = false;
 	str_t* name = str_new();
-	str_t* text = str_new();
 	char* p = in;
 
 	if (*p != '#')						// #
@@ -372,23 +409,22 @@ static bool collect_hash_define(char* in)
 		goto end;
 	}
 
-	// get macro params
 #if 0
-	if (!collect_params(&p, macro, text)) {
+	// get macro params
+	if (!collect_formal_params(&p, macro)) {
 		error_syntax();
 		goto end;
 	}
 #endif
 
 	// get macro text
-	if (!collect_text(&p, macro, text)) {
+	if (!collect_macro_text(&p, macro)) {
 		error_syntax();
 		goto end;
 	}
 
 end:
 	str_free(name);
-	str_free(text);
 	return found;
 }
 
@@ -475,23 +511,7 @@ static void statement_expand_macros(char* in)
 			last_was_ident = true;
 		}
 		else {
-			if (*p == '\'' || *p == '"') {						// string
-				char q = *p;
-				str_append_n(out, p, 1); p++;
-				while (*p != q && *p != '\0') {
-					if (*p == '\\') {
-						str_append_n(out, p, 1); p++;
-						if (*p != '\0') {
-							str_append_n(out, p, 1); p++;
-						}
-					}
-					else {
-						str_append_n(out, p, 1); p++;
-					}
-				}
-				if (*p != '\0') {
-					str_append_n(out, p, 1); p++;
-				}
+			if (collect_quoted_string(&p, out)) {				// string
 			}
 			else if (*p == ';') {
 				str_append_n(out, "\n", 1); p += strlen(p);		// skip comments
@@ -551,23 +571,27 @@ static void parse()
 }
 
 // get line and call parser
-char *macros_getline(getline_t getline_func)
+char* macros_getline1()
 {
-	do {
-		if (shift_lines(out_lines))
+	while (true) {
+		if (shift_lines(out_lines)) 
 			return str_data(current_line);
 
-		fill_input(getline_func);
-
-		if (!shift_lines(in_lines))
+		fill_input();
+		if (!shift_lines(in_lines)) 
 			return NULL;			// end of input
 
 		parse();					// parse current_line, leave output in out_lines
-	} while (!shift_lines(out_lines));
-
-	return str_data(current_line);
+	}
 }
 
+char *macros_getline(getline_t getline_func)
+{
+	cur_getline_func = getline_func;
+	char* line = macros_getline1();
+	cur_getline_func = NULL;
+	return line;
+}
 
 #if 0
 
