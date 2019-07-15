@@ -75,6 +75,9 @@ bool src_open(const char *filename, UT_array *dir_list)
 static char *src_getline1( void )
 {
 	init_module();
+
+	next_PC();							// update assembler program counter
+	list_end_line();					// end pending list from previous input line
 	return SrcFile_getline( g_src_input );
 }
 

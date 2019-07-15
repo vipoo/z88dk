@@ -137,7 +137,7 @@ static bool shift_lines(argv_t *lines)
 }
 
 // collect a macro or argument name [\.\#]?[a-z_][a-z_0-9]*
-static bool collect_name(char **in, UT_string *out)
+static bool collect_name(char **in, str_t *out)
 {
 	char *p = *in;
 
@@ -161,7 +161,7 @@ static bool collect_name(char **in, UT_string *out)
 }
 
 // collect formal parameters
-static bool collect_params(char **p, DefMacro *macro, UT_string *param)
+static bool collect_params(char **p, DefMacro *macro, str_t *param)
 {
 #define P (*p)
 
@@ -255,7 +255,7 @@ static bool collect_ident(char **in, char *ident)
 }
 
 // is this a "NAME EQU xxx" or "NAME = xxx"?
-static bool collect_equ(char **in, UT_string *name)
+static bool collect_equ(char **in, str_t *name)
 {
 	char *p = *in;
 
@@ -285,7 +285,7 @@ static bool collect_equ(char **in, UT_string *name)
 		
 		if (utstring_body(name)[0] == '.') {			// old-style label
 			// remove starting dot from name
-			UT_string *temp;
+			str_t *temp;
 			utstring_new(temp);
 			utstring_printf(temp, "%s", &utstring_body(name)[1]);
 			utstring_clear(name);
@@ -321,93 +321,161 @@ static void macro_expand(DefMacro *macro, char **p, str_t *out)
 	str_append(out, str_data(macro->text));
 }
 
-// parse #define, #undef and expand macros
-static void parse1(str_t *in, str_t *out, str_t *name, str_t *text)
+// translate commands (e.g. EQU, '=') after macro expansion
+static void translate_commands(char* in)
 {
-	// default output = input
-	str_set_str(out, in);
+	str_t* out = str_new();
+	str_t* name = str_new();
+	
+	str_set(out, in);
 
-	char *p = str_data(in);
+	char* p = in;
+	if (collect_equ(&p, name)) {
+		str_set_f(out, "defc %s = %s", str_data(name), p);
+	}
 
-	if (*p == '#') {
-		p++;
+	if (str_len(out) > 0) {
+		argv_push(out_lines, str_data(out));
+	}
+	
+	str_free(out);
+	str_free(name);
+}
 
-		if (collect_ident(&p, "define")) {
-			str_clear(out);
+// parse #define
+static bool collect_hash_define(char* in)
+{
+	bool found = false;
+	str_t* name = str_new();
+	str_t* text = str_new();
+	char* p = in;
 
-			// get macro name
-			if (!collect_name(&p, name)) {
-				error_syntax();
-				return;
-			}
+	if (*p != '#')						// #
+		goto end;
 
-			// create macro, error if duplicate
-			DefMacro *macro = DefMacro_add(str_data(name));
-			if (!macro) {
-				error_redefined_macro(str_data(name));
-				return;
-			}
+	p++;			
 
-			// get macro params
+	if (!collect_ident(&p, "define"))	// define
+		goto end;
+
+	found = true;				
+
+	if (!collect_name(&p, name)) {		// NAME
+		error_syntax();
+		goto end;
+	}
+
+	// create macro, error if duplicate
+	DefMacro* macro = DefMacro_add(str_data(name));
+	if (!macro) {
+		error_redefined_macro(str_data(name));
+		goto end;
+	}
+
+	// get macro params
 #if 0
-			if (!collect_params(&p, macro, text)) {
-				error_syntax();
-				return;
-			}
+	if (!collect_params(&p, macro, text)) {
+		error_syntax();
+		goto end;
+	}
 #endif
 
-			// get macro text
-			if (!collect_text(&p, macro, text)) {
-				error_syntax();
-				return;
-			}
-		}
-		else if (collect_ident(&p, "undef")) {
-			str_clear(out);
-
-			// get macro name
-			if (!collect_name(&p, name)) {
-				error_syntax();
-				return;
-			}
-
-			// assert end of line
-			if (!collect_eol(&p)) {
-				error_syntax();
-				return;
-			}
-
-			DefMacro_delete(str_data(name));
-		}
-		else {
-		}
+	// get macro text
+	if (!collect_text(&p, macro, text)) {
+		error_syntax();
+		goto end;
 	}
-	else {	// expand macros
-		str_clear(out);
-		while (*p != '\0') {
-			if ((Is_ident_prefix(p[0]) && Is_ident_start(p[1])) ||
-				Is_ident_start(p[0])) {
-				// maybe at start of macro call
-				collect_name(&p, name);
-				DefMacro *macro = DefMacro_lookup(str_data(name));
-				if (macro)
-					macro_expand(macro, &p, out);
+
+end:
+	str_free(name);
+	str_free(text);
+	return found;
+}
+
+// parse #undef
+static bool collect_hash_undef(char* in)
+{
+	bool found = false;
+	str_t* name = str_new();
+	char* p = in;
+
+	if (*p != '#')						// #
+		goto end;
+
+	p++;
+
+	if (!collect_ident(&p, "undef"))	// undef
+		goto end;
+
+	found = true;
+
+	// get macro name
+	if (!collect_name(&p, name)) {		// NAME
+		error_syntax();
+		goto end;
+	}
+
+	// assert end of line
+	if (!collect_eol(&p)) {
+		error_syntax();
+		goto end;
+	}
+
+	DefMacro_delete(str_data(name));
+	
+end:
+	str_free(name);
+	return found;
+}
+
+// parse #-any - ignore line
+static bool collect_hash_any(char* in)
+{
+	if (*in == '#')
+		return true;
+	else
+		return false;
+}
+
+// expand macros in each input statement
+static void statement_expand_macros(char* in)
+{
+	str_t* out = str_new();
+	str_t* name = str_new();
+
+	int count_question = 0;
+	int count_ident = 0;
+	bool last_was_ident = false;
+
+	char* p = in;
+	while (*p != '\0') {
+		if ((Is_ident_prefix(p[0]) && Is_ident_start(p[1])) || Is_ident_start(p[0])) {	// identifier
+			// maybe at start of macro call
+			collect_name(&p, name);
+			DefMacro* macro = DefMacro_lookup(str_data(name));
+			if (macro)
+				macro_expand(macro, &p, out);
+			else {
+				// try after prefix
+				if (Is_ident_prefix(str_data(name)[0])) {
+					str_append_n(out, str_data(name), 1);
+					macro = DefMacro_lookup(str_data(name) + 1);
+					if (macro)
+						macro_expand(macro, &p, out);
+					else
+						str_append_n(out, str_data(name) + 1, str_len(name) - 1);
+				}
 				else {
-					// try after prefix
-					if (Is_ident_prefix(str_data(name)[0])) {
-						str_append_n(out, str_data(name), 1);
-						macro = DefMacro_lookup(str_data(name) + 1);
-						if (macro)
-							macro_expand(macro, &p, out);
-						else
-							str_append_n(out, str_data(name) + 1, str_len(name) - 1);
-					}
-					else {
-						str_append_n(out, str_data(name), str_len(name));
-					}
+					str_append_n(out, str_data(name), str_len(name));
 				}
 			}
-			else if (*p == '\'' || *p == '"') {
+
+			// flags to identify ':' after first label
+			count_ident++;
+			last_was_ident = true;
+		}
+		else {
+			if (*p == '\'' || *p == '"') {						// string
 				char q = *p;
 				str_append_n(out, p, 1); p++;
 				while (*p != q && *p != '\0') {
@@ -428,36 +496,58 @@ static void parse1(str_t *in, str_t *out, str_t *name, str_t *text)
 			else if (*p == ';') {
 				str_append_n(out, "\n", 1); p += strlen(p);		// skip comments
 			}
+			else if (*p == '\\') {								// statement separator
+				p++;
+				str_append_n(out, "\n", 1);
+				translate_commands(str_data(out));
+				statement_expand_macros(p); p += strlen(p);		// recurse for next satetement in line
+				str_clear(out);
+			}
+			else if (*p == '?') {
+				str_append_n(out, p, 1); p++;
+				count_question++;
+			}
+			else if (*p == ':') {
+				if (count_question > 0) {						// part of a ?: expression
+					str_append_n(out, p, 1); p++;
+					count_question--;
+				}
+				else if (last_was_ident && count_ident == 1) {	// label marker
+					str_append_n(out, p, 1); p++;
+				}
+				else {											// statement separator
+					p++;
+					str_append_n(out, "\n", 1);
+					translate_commands(str_data(out));
+					statement_expand_macros(p); p += strlen(p);	// recurse for next satetement in line
+					str_clear(out);
+				}
+			}
 			else {
 				str_append_n(out, p, 1); p++;
 			}
-		}
-
-		// check other commands after macro expansion
-		str_set_str(in, out);	// in = out
-
-		p = str_data(in);
-		if (collect_equ(&p, name)) {
-			str_set_f(out, "defc %s = %s", str_data(name), p);
+			last_was_ident = false;
 		}
 	}
-}
-
-static void parse()
-{
-	str_t *out, *name, *text;
-	out = str_new();
-	name = str_new();
-	text = str_new();
-
-	parse1(current_line, out, name, text);
-	if (str_len(out) > 0) {
-		argv_push(out_lines, str_data(out));
-	}
+	translate_commands(str_data(out));
 
 	str_free(out);
 	str_free(name);
-	str_free(text);
+}
+
+// parse #define, #undef and expand macros
+static void parse()
+{
+	char* in = str_data(current_line);
+	if (collect_hash_define(in))
+		return;
+	if (collect_hash_undef(in))
+		return;
+	if (collect_hash_any(in))
+		return;
+
+	// expand macros in each input statement
+	statement_expand_macros(in);
 }
 
 // get line and call parser

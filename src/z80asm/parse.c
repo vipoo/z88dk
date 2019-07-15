@@ -82,23 +82,30 @@ struct Expr *parse_expr(const char *expr_text)
 	Expr *expr;
 	int num_errors;
 
+	// make sure expression ends with a newline and a next line is not read
+	str_t* expr_text_nl = str_new();
+	str_set(expr_text_nl, expr_text);
+	str_append(expr_text_nl, "\n");
+
 	save_scan_state();
 	{
 		src_push();
 		{
-			SetTemporaryLine(expr_text);
+			SetTemporaryLine(str_data(expr_text_nl));
 			num_errors = get_num_errors();
 			EOL = false;
 			scan_expect_operands();
 			GetSym();
 			expr = expr_parse();		/* may output error */
-			if (sym.tok != TK_END && num_errors == get_num_errors())
+			if (sym.tok != TK_NEWLINE && num_errors == get_num_errors())
 				error_syntax();
 		}
 		src_pop();
 	}
 	restore_scan_state();
 	
+	str_free(expr_text_nl);
+
 	return expr;
 }
 
@@ -459,7 +466,6 @@ static void parseline(ParseCtx *ctx)
 {
 	int start_num_errors;
 
-	next_PC();				/* update assembler program counter */
 	EOL = false;			/* reset END OF LINE flag */
 
 	start_num_errors = get_num_errors();
@@ -476,7 +482,6 @@ static void parseline(ParseCtx *ctx)
 
 		Skipline();
 	}
-	list_end_line();				/* Write current source line to list file */
 }
 
 bool parse_file(const char *filename)
@@ -490,12 +495,15 @@ bool parse_file(const char *filename)
 	{
 		if (src_open(filename, opts.inc_path))
 		{
+			// display name of file before parsing it
 			if (opts.verbose)
-				printf("Reading '%s' = '%s'\n", path_canon(filename), path_canon(src_filename()));	/* display name of file */
+				printf("Reading '%s' = '%s'\n", path_canon(filename), path_canon(src_filename()));	
 
 			sym.tok = TK_NIL;
 			while (sym.tok != TK_END)
-				parseline(ctx);				/* before parsing it */
+				parseline(ctx);
+
+			list_end_line();					// end pending list
 
 			os = (OpenStruct *)utarray_back(ctx->open_structs);
 			if (os != NULL)
