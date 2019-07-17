@@ -105,6 +105,15 @@ void error_redefined_macro(const char *name)
 	
 	STR_DELETE(msg);
 }
+void error_macro_defcont_without_define(void)
+{
+	STR_DEFINE(msg, STR_SIZE);
+
+	Str_append_sprintf( msg, "#defcont without #define" );
+	do_error( ErrError, Str_data(msg) );
+	
+	STR_DELETE(msg);
+}
 void error_syntax(void)
 {
 	STR_DEFINE(msg, STR_SIZE);

@@ -196,6 +196,42 @@ check_text_file("test.lis", <<'END', "list file");
 5     0001              
 END
 
+#------------------------------------------------------------------------------
+z80asm(<<'END', "-b -l");
+#define continuation_line 1 \
+END
+check_bin_file("test.bin", "");
+check_text_file("test.lis", <<'END', "list file");
+1     0000              #define continuation_line 1 \
+2     0000              
+END
+
+#------------------------------------------------------------------------------
+z80asm(<<'END', "", 1, "", <<'ERR');
+#defcont 	add hl,hl
+END
+Error at file 'test.asm' line 1: #defcont without #define
+ERR
+
+#------------------------------------------------------------------------------
+z80asm(<<'END', "-b -l");
+#define 	mult8
+#defcont 	add hl,hl
+#defcont 	add hl,hl
+#defcont 	add hl,hl
+	ld hl,3
+	mult8
+END
+check_bin_file("test.bin", pack("C*", 0x21, 3, 0, 0x29, 0x29, 0x29));
+check_text_file("test.lis", <<'END', "list file");
+1     0000              #define 	mult8
+2     0000              #defcont 	add hl,hl
+3     0000              #defcont 	add hl,hl
+4     0000              #defcont 	add hl,hl
+5     0000  21 03 00    	ld hl,3
+6     0003  29 29 29    	mult8
+7     0006              
+END
 
 if (0) {
 

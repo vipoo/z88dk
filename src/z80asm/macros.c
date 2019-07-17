@@ -34,6 +34,7 @@ typedef struct DefMacro
 } DefMacro;
 
 static DefMacro *def_macros = NULL;		// global list of #define macros
+static DefMacro* last_def_macro = NULL;	// last #define macro defined, used by #defcont
 static argv_t *in_lines = NULL;			// line stream from input
 static argv_t *out_lines = NULL;		// line stream to ouput
 static str_t *current_line = NULL;		// current returned line
@@ -53,6 +54,7 @@ static DefMacro *DefMacro_add(char *name)
 	elem->text = str_new();
 	HASH_ADD_KEYPTR(hh, def_macros, elem->name, strlen(name), elem);
 
+	last_def_macro = elem;
 	return elem;
 }
 
@@ -99,6 +101,7 @@ void clear_macros()
 		DefMacro_delete_elem(elem);
 	}
 	def_macros = NULL;
+	last_def_macro = NULL;
 	in_defgroup = false;
 
 	argv_clear(in_lines);
@@ -251,7 +254,9 @@ static bool collect_macro_text1(char** p, DefMacro* macro, str_t* text)
 		str_data(text)[str_len(text)] = '\0';
 	}
 
-	str_set_str(macro->text, text);
+	if (str_len(macro->text) > 0)
+		str_append_n(macro->text, "\n", 1);
+	str_append_str(macro->text, text);
 
 	return true;
 #undef P
@@ -359,7 +364,7 @@ static void macro_expand(DefMacro *macro, char **p, str_t *out)
 	str_append(out, str_data(macro->text));
 }
 
-// translate commands (e.g. EQU, '=') after macro expansion
+// translate commands  
 static void translate_commands(char* in)
 {
 	str_t* out = str_new();
@@ -378,6 +383,23 @@ static void translate_commands(char* in)
 	
 	str_free(out);
 	str_free(name);
+}
+
+// send commands to output after macro expansion
+// split by newlines, parse each line for special commands to translate (e.g. EQU, '=')
+static void send_to_output(char* text)
+{
+	str_t* line = str_new();
+	char* p0 = text;
+	char* p1;
+	while ((p1 = strchr(p0, '\n')) != NULL) {
+		str_set_n(line, p0, p1 + 1 - p0);
+		translate_commands(str_data(line));
+		p0 = p1 + 1;
+	}
+	if (*p0 != '\0')
+		translate_commands(p0);
+	str_free(line);
 }
 
 // parse #define
@@ -424,6 +446,33 @@ static bool collect_hash_define(char* in)
 	}
 
 end:
+	str_free(name);
+	return found;
+}
+
+// parse #defcont
+static bool collect_hash_defcont1(char* in, str_t* name)
+{
+	char* p = in;
+	if (*p++ != '#') 
+		return false; 
+	if (!collect_ident(&p, "defcont")) 
+		return false;
+	if (!last_def_macro) { 
+		error_macro_defcont_without_define();
+		return true; 
+	}
+	if (!collect_macro_text(&p, last_def_macro)) {
+		error_syntax();
+		return true;
+	}
+	return true;
+}
+
+static bool collect_hash_defcont(char* in)
+{
+	str_t* name = str_new();
+	bool found = collect_hash_defcont1(in, name);
 	str_free(name);
 	return found;
 }
@@ -519,7 +568,7 @@ static void statement_expand_macros(char* in)
 			else if (*p == '\\') {								// statement separator
 				p++;
 				str_append_n(out, "\n", 1);
-				translate_commands(str_data(out));
+				send_to_output(str_data(out));
 				statement_expand_macros(p); p += strlen(p);		// recurse for next satetement in line
 				str_clear(out);
 			}
@@ -538,7 +587,7 @@ static void statement_expand_macros(char* in)
 				else {											// statement separator
 					p++;
 					str_append_n(out, "\n", 1);
-					translate_commands(str_data(out));
+					send_to_output(str_data(out));
 					statement_expand_macros(p); p += strlen(p);	// recurse for next satetement in line
 					str_clear(out);
 				}
@@ -549,7 +598,7 @@ static void statement_expand_macros(char* in)
 			last_was_ident = false;
 		}
 	}
-	translate_commands(str_data(out));
+	send_to_output(str_data(out));
 
 	str_free(out);
 	str_free(name);
@@ -561,13 +610,16 @@ static void parse()
 	char* in = str_data(current_line);
 	if (collect_hash_define(in))
 		return;
-	if (collect_hash_undef(in))
+	else if (collect_hash_undef(in))
 		return;
-	if (collect_hash_any(in))
+	else if (collect_hash_defcont(in))
 		return;
-
-	// expand macros in each input statement
-	statement_expand_macros(in);
+	else if (collect_hash_any(in))
+		return;
+	else {
+		// expand macros in each input statement
+		statement_expand_macros(in);
+	}
 }
 
 // get line and call parser
