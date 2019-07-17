@@ -233,6 +233,48 @@ check_text_file("test.lis", <<'END', "list file");
 7     0006              
 END
 
+#------------------------------------------------------------------------------
+z80asm(<<'END', "-b -l");
+#define aaa 22
+#define bbb 20
+#define ccc aaa+bbb
+	defb ccc
+END
+check_bin_file("test.bin", pack("C*", 42));
+check_text_file("test.lis", <<'END', "list file");
+1     0000              #define aaa 22
+2     0000              #define bbb 20
+3     0000              #define ccc aaa+bbb
+4     0000  2A          	defb ccc
+5     0001              
+END
+
+#------------------------------------------------------------------------------
+z80asm(<<'END', "-b -l");
+#define aaa bbb
+#define bbb ccc
+#define ccc 1
+	defb aaa
+END
+check_bin_file("test.bin", pack("C*", 1));
+check_text_file("test.lis", <<'END', "list file");
+1     0000              #define aaa bbb
+2     0000              #define bbb ccc
+3     0000              #define ccc 1
+4     0000  01          	defb aaa
+5     0001              
+END
+
+#------------------------------------------------------------------------------
+z80asm(<<'END', "", 1, "", <<'ERR');
+#define aaa bbb
+#define bbb ccc
+#define ccc aaa
+	defb aaa
+END
+Error at file 'test.asm' line 4: recursion expanding macro 'aaa'
+ERR
+
 if (0) {
 
 #------------------------------------------------------------------------------

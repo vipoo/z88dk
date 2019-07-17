@@ -30,6 +30,7 @@ typedef struct DefMacro
 	const char	*name;					// string kept in strpool.h
 	argv_t		*params;				// list of formal parameters
 	str_t		*text;					// replacement text
+	bool		 expanding;				// true if inside macro expansion for this macro
 	UT_hash_handle hh;      			// hash table
 } DefMacro;
 
@@ -52,6 +53,7 @@ static DefMacro *DefMacro_add(char *name)
 	elem->name = spool_add(name);
 	elem->params = argv_new();
 	elem->text = str_new();
+	elem->expanding = false;
 	HASH_ADD_KEYPTR(hh, def_macros, elem->name, strlen(name), elem);
 
 	last_def_macro = elem;
@@ -88,6 +90,7 @@ static DefMacro *DefMacro_lookup(char *name)
 void init_macros()
 {
 	def_macros = NULL;
+	last_def_macro = NULL;
 	in_defgroup = false;
 	in_lines = argv_new();
 	out_lines = argv_new();
@@ -354,14 +357,63 @@ static bool collect_equ(char **in, str_t *name)
 }
 
 // collect arguments and expand macro
-static void macro_expand(DefMacro *macro, char **p, str_t *out)
+static void macro_expand(DefMacro* macro, char** in_p, str_t* out);
+static void macro_expand1(DefMacro* macro, char** in_p, str_t* out, str_t* name)
 {
+	// collect macro arguments from in_p
+#define P (*in_p)
 	if (utarray_len(macro->params) > 0) {
-		// collect arguments
 		xassert(0);
 	}
+#undef P
 
-	str_append(out, str_data(macro->text));
+	// get macro text, expand sub-macros
+	char* p = str_data(macro->text);
+	while (*p != '\0') {
+		if ((Is_ident_prefix(p[0]) && Is_ident_start(p[1])) || Is_ident_start(p[0])) {	// identifier
+			// maybe at start of macro call
+			collect_name(&p, name);
+			DefMacro* macro = DefMacro_lookup(str_data(name));
+			if (macro)
+				macro_expand(macro, &p, out);
+			else {
+				// try after prefix
+				if (Is_ident_prefix(str_data(name)[0])) {
+					str_append_n(out, str_data(name), 1);
+					macro = DefMacro_lookup(str_data(name) + 1);
+					if (macro)
+						macro_expand(macro, &p, out);
+					else
+						str_append_n(out, str_data(name) + 1, str_len(name) - 1);
+				}
+				else {
+					str_append_n(out, str_data(name), str_len(name));
+				}
+			}
+		}
+		else if (collect_quoted_string(&p, out)) {				// string
+		}
+		else {
+			str_append_n(out, p, 1); p++;
+		}
+	}
+}
+
+static void macro_expand(DefMacro *macro, char **in_p, str_t *out)
+{
+	// avoid infinite recursion
+	if (macro->expanding) {
+		error_macro_recursion(macro->name);
+		return;
+	}
+	macro->expanding = true;
+
+	str_t* name = str_new();
+
+	macro_expand1(macro, in_p, out, name);
+
+	str_free(name);
+	macro->expanding = false;
 }
 
 // translate commands  
@@ -403,49 +455,45 @@ static void send_to_output(char* text)
 }
 
 // parse #define
-static bool collect_hash_define(char* in)
+static bool collect_hash_define1(char* in, str_t* name)
 {
-	bool found = false;
-	str_t* name = str_new();
 	char* p = in;
-
-	if (*p != '#')						// #
-		goto end;
-
-	p++;			
-
-	if (!collect_ident(&p, "define"))	// define
-		goto end;
-
-	found = true;				
-
-	if (!collect_name(&p, name)) {		// NAME
+	if (*p++ != '#')
+		return false;
+	if (!collect_ident(&p, "define"))
+		return false;
+	if (!collect_name(&p, name)) {
 		error_syntax();
-		goto end;
+		return true;
 	}
 
 	// create macro, error if duplicate
 	DefMacro* macro = DefMacro_add(str_data(name));
 	if (!macro) {
 		error_redefined_macro(str_data(name));
-		goto end;
+		return true;
 	}
-
 #if 0
 	// get macro params
 	if (!collect_formal_params(&p, macro)) {
 		error_syntax();
-		goto end;
+		return true;
 	}
 #endif
 
 	// get macro text
 	if (!collect_macro_text(&p, macro)) {
 		error_syntax();
-		goto end;
+		return true;
 	}
 
-end:
+	return true;
+}
+
+static bool collect_hash_define(char* in)
+{
+	str_t* name = str_new();
+	bool found = collect_hash_define1(in, name);
 	str_free(name);
 	return found;
 }
@@ -478,37 +526,32 @@ static bool collect_hash_defcont(char* in)
 }
 
 // parse #undef
-static bool collect_hash_undef(char* in)
+static bool collect_hash_undef1(char* in, str_t* name)
 {
-	bool found = false;
-	str_t* name = str_new();
 	char* p = in;
-
-	if (*p != '#')						// #
-		goto end;
-
-	p++;
-
-	if (!collect_ident(&p, "undef"))	// undef
-		goto end;
-
-	found = true;
-
-	// get macro name
-	if (!collect_name(&p, name)) {		// NAME
+	if (*p++ != '#')
+		return false;
+	if (!collect_ident(&p, "undef"))
+		return false;
+	if (!collect_name(&p, name)) {
 		error_syntax();
-		goto end;
+		return true;
 	}
 
 	// assert end of line
 	if (!collect_eol(&p)) {
 		error_syntax();
-		goto end;
+		return true;
 	}
 
-	DefMacro_delete(str_data(name));
-	
-end:
+	DefMacro_delete(str_data(name));		// delete if found, ignore if not found
+	return true;
+}
+
+static bool collect_hash_undef(char* in)
+{
+	str_t* name = str_new();
+	bool found = collect_hash_undef1(in, name);
 	str_free(name);
 	return found;
 }

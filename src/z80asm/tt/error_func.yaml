@@ -72,7 +72,12 @@ errors:
     func	: error_macro_defcont_without_define
     args	: void
     message	: '"#defcont without #define"'
-	
+
+  - type	: ErrError
+    func	: error_macro_recursion
+    args	: 'const char* name'
+    message	: "\"recursion expanding macro '%s'\", name"
+
   # Assembly errors
   - type	: ErrError
     func	: error_syntax

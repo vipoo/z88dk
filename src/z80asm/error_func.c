@@ -114,6 +114,15 @@ void error_macro_defcont_without_define(void)
 	
 	STR_DELETE(msg);
 }
+void error_macro_recursion(const char* name)
+{
+	STR_DEFINE(msg, STR_SIZE);
+
+	Str_append_sprintf( msg, "recursion expanding macro '%s'", name );
+	do_error( ErrError, Str_data(msg) );
+	
+	STR_DELETE(msg);
+}
 void error_syntax(void)
 {
 	STR_DEFINE(msg, STR_SIZE);

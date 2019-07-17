@@ -14,6 +14,7 @@ extern void warn_symbol_different(const char *name, const char *used);
 extern void warn_expr_in_parens(void);
 extern void error_redefined_macro(const char *name);
 extern void error_macro_defcont_without_define(void);
+extern void error_macro_recursion(const char* name);
 extern void error_syntax(void);
 extern void error_syntax_expr(void);
 extern void error_invalid_squoted_string(void);
