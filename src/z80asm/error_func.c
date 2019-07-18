@@ -123,6 +123,42 @@ void error_macro_recursion(const char* name)
 	
 	STR_DELETE(msg);
 }
+void error_missing_close_paren(void)
+{
+	STR_DEFINE(msg, STR_SIZE);
+
+	Str_append_sprintf( msg, "missing close parenthesis" );
+	do_error( ErrError, Str_data(msg) );
+	
+	STR_DELETE(msg);
+}
+void error_missing_close_angle_bracket(void)
+{
+	STR_DEFINE(msg, STR_SIZE);
+
+	Str_append_sprintf( msg, "missing close angle bracket" );
+	do_error( ErrError, Str_data(msg) );
+	
+	STR_DELETE(msg);
+}
+void error_missing_macro_arguments(void)
+{
+	STR_DEFINE(msg, STR_SIZE);
+
+	Str_append_sprintf( msg, "missing macro arguments" );
+	do_error( ErrError, Str_data(msg) );
+	
+	STR_DELETE(msg);
+}
+void error_extra_macro_arguments(void)
+{
+	STR_DEFINE(msg, STR_SIZE);
+
+	Str_append_sprintf( msg, "extra macro arguments" );
+	do_error( ErrError, Str_data(msg) );
+	
+	STR_DELETE(msg);
+}
 void error_syntax(void)
 {
 	STR_DEFINE(msg, STR_SIZE);

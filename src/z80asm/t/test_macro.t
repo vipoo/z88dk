@@ -275,18 +275,103 @@ END
 Error at file 'test.asm' line 4: recursion expanding macro 'aaa'
 ERR
 
-if (0) {
+#------------------------------------------------------------------------------
+z80asm(<<'END', "-b -l");
+#define SCREEN_ADDR(row,column,scan) \
+		0x4000 + \
+		((row & 0x18) << 8) + \
+		((row & 0x07) << 5) + \
+		(column) + (scan << 8)
+	ld de, SCREEN_ADDR(0,0,0);comment
+	ld de, SCREEN_ADDR 0,0,0; comment
+	ld de, SCREEN_ADDR 0,1,0; comment
+	ld de, SCREEN_ADDR 1,0,0; comment
+	ld de, SCREEN_ADDR 0,0,1; comment
+END
+check_bin_file("test.bin", pack("C*", 
+							0x11, 0x00, 0x40,
+							0x11, 0x00, 0x40,
+							0x11, 0x01, 0x40,
+							0x11, 0x20, 0x40,
+							0x11, 0x00, 0x41));
+check_text_file("test.lis", <<'END', "list file");
+1     0000              #define SCREEN_ADDR(row,column,scan) \
+2     0000              		0x4000 + \
+3     0000              		((row & 0x18) << 8) + \
+4     0000              		((row & 0x07) << 5) + \
+5     0000              		(column) + (scan << 8)
+6     0000  11 00 40    	ld de, SCREEN_ADDR(0,0,0);comment
+7     0003  11 00 40    	ld de, SCREEN_ADDR 0,0,0; comment
+8     0006  11 01 40    	ld de, SCREEN_ADDR 0,1,0; comment
+9     0009  11 20 40    	ld de, SCREEN_ADDR 1,0,0; comment
+10    000C  11 00 41    	ld de, SCREEN_ADDR 0,0,1; comment
+11    000F              
+END
 
 #------------------------------------------------------------------------------
 z80asm(<<'END', "-b -l");
-#define SCREEN_ADDR(row,column,scan) 0x4000 + ((row & 0x18) << 8) + ((row & 0x07) << 5) + (column) + (scan << 8)
-	ld de, SCREEN_ADDR(0,0,0)
+#define aa(x,y) (x+y)
+#define bb(a,b) aa(a,b)*aa(a,b)
+	defb bb(2,4)
 END
-check_bin_file("test.bin", pack("C*", 1..8));
+check_bin_file("test.bin", pack("C*", 36));
 check_text_file("test.lis", <<'END', "list file");
+1     0000              #define aa(x,y) (x+y)
+2     0000              #define bb(a,b) aa(a,b)*aa(a,b)
+3     0000  24          	defb bb(2,4)
+4     0001              
 END
 
-}
+#------------------------------------------------------------------------------
+z80asm(<<'END', "-b -l");
+#define aa(x,y) (x+y)
+#define bb(a,b) aa(a,b)*aa a,b
+	defb bb 2,4;
+END
+check_bin_file("test.bin", pack("C*", 36));
+check_text_file("test.lis", <<'END', "list file");
+1     0000              #define aa(x,y) (x+y)
+2     0000              #define bb(a,b) aa(a,b)*aa a,b
+3     0000  24          	defb bb 2,4;
+4     0001              
+END
+
+#------------------------------------------------------------------------------
+z80asm(<<'END', "", 1, "", <<'ERR');
+#define aaa(a,b)	a+b
+	defb aaa
+END
+Error at file 'test.asm' line 2: missing macro arguments
+ERR
+
+#------------------------------------------------------------------------------
+z80asm(<<'END', "-b -l");
+#define aa(x,y) (x+y)
+	defb "aa(2,3)"
+END
+check_bin_file("test.bin", pack("C*", 0x61, 0x61, 0x28, 0x32, 0x2C, 0x33, 0x29));
+check_text_file("test.lis", <<'END', "list file");
+1     0000              #define aa(x,y) (x+y)
+2     0000  61 61 28 32 2C 33 29 
+                        	defb "aa(2,3)"
+3     0007              
+END
+
+#------------------------------------------------------------------------------
+z80asm(<<'END', "-b -l");
+#define aa(x) x
+	defb aa(<1,2,3>),4
+	defb aa(<5,6,7>)
+	defb aa<8,9,10>
+END
+check_bin_file("test.bin", pack("C*", 1..10));
+check_text_file("test.lis", <<'END', "list file");
+1     0000              #define aa(x) x
+2     0000  01 02 03 04 	defb aa(<1,2,3>),4
+3     0004  05 06 07    	defb aa(<5,6,7>)
+4     0007  08 09 0A    	defb aa<8,9,10>
+5     000A              
+END
 
 unlink_testfiles();
 done_testing();

@@ -389,8 +389,6 @@ int z80asm_main( int argc, char *argv[] )
 			m_free(reloctable);
 	}
 
-	free_macros();
-
     if ( get_num_errors() )
     {
         return 1;	/* signal error */

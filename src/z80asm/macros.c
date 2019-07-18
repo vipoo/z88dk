@@ -14,6 +14,7 @@ Assembly macros.
 #include "str.h"
 #include "strutil.h"
 #include "uthash.h"
+#include "utlist.h"
 #include "types.h"
 #include "die.h"
 #include <ctype.h>
@@ -22,88 +23,138 @@ Assembly macros.
 #define Is_ident_start(x)	(isalpha(x) || (x)=='_')
 #define Is_ident_cont(x)	(isalnum(x) || (x)=='_')
 
+#define SkipSpaces(p)		while (*(p) != '\n' && isspace(*(p))) (p)++;
+
 //-----------------------------------------------------------------------------
 //	#define macros
 //-----------------------------------------------------------------------------
-typedef struct DefMacro
+typedef struct Macro
 {
 	const char	*name;					// string kept in strpool.h
 	argv_t		*params;				// list of formal parameters
 	str_t		*text;					// replacement text
 	bool		 expanding;				// true if inside macro expansion for this macro
 	UT_hash_handle hh;      			// hash table
-} DefMacro;
+} Macro;
 
-static DefMacro *def_macros = NULL;		// global list of #define macros
-static DefMacro* last_def_macro = NULL;	// last #define macro defined, used by #defcont
-static argv_t *in_lines = NULL;			// line stream from input
-static argv_t *out_lines = NULL;		// line stream to ouput
-static str_t *current_line = NULL;		// current returned line
+typedef struct Macros
+{
+	Macro	*table;						// hash of macro name => Macro
+	struct Macros* next;				// linked list
+} Macros;
+
+//-----------------------------------------------------------------------------
+//	global data
+//-----------------------------------------------------------------------------
+
+static Macros* macros = NULL;			// top of macro stack
+static Macro* last_def_macro = NULL;	// last #define macro defined, used by #defcont
+static argv_t* in_lines = NULL;			// line stream from input
+static argv_t* out_lines = NULL;		// line stream to ouput
+static str_t* current_line = NULL;		// current returned line
 static bool in_defgroup;				// no EQU transformation in defgroup
 static getline_t cur_getline_func = NULL; // callback to read a line from input
 
-static DefMacro *DefMacro_add(char *name)
+//-----------------------------------------------------------------------------
+//	ADT
+//-----------------------------------------------------------------------------
+static Macro* Macro_add(char* name)
 {
-	DefMacro *elem;
-	HASH_FIND(hh, def_macros, name, strlen(name), elem);
-	if (elem) 
+	Macro* elem;
+	HASH_FIND(hh, macros->table, name, strlen(name), elem);
+	if (elem)
 		return NULL;		// duplicate
 
-	elem = m_new(DefMacro);
+	elem = m_new(Macro);
 	elem->name = spool_add(name);
 	elem->params = argv_new();
 	elem->text = str_new();
 	elem->expanding = false;
-	HASH_ADD_KEYPTR(hh, def_macros, elem->name, strlen(name), elem);
+	HASH_ADD_KEYPTR(hh, macros->table, elem->name, strlen(name), elem);
 
 	last_def_macro = elem;
 	return elem;
 }
 
-static void DefMacro_delete_elem(DefMacro *elem)
+static void Macro_delete_elem(Macro *elem)
 {
 	if (elem) {
 		argv_free(elem->params);
 		str_free(elem->text);
-		HASH_DEL(def_macros, elem);
+		HASH_DEL(macros->table, elem);
 		m_free(elem);
 	}
+
+	last_def_macro = NULL;
 }
 
-static void DefMacro_delete(char *name)
+static void Macro_delete(char *name)
 {
-	DefMacro *elem;
-	HASH_FIND(hh, def_macros, name, strlen(name), elem);
-	DefMacro_delete_elem(elem);		// it is OK to undef a non-existing macro
+	Macro *elem;
+	HASH_FIND(hh, macros->table, name, strlen(name), elem);
+	Macro_delete_elem(elem);		// it is OK to undef a non-existing macro
 }
 
-static DefMacro *DefMacro_lookup(char *name)
+// lookup macro in all tables
+static Macro *Macro_lookup(char *name)
 {
-	DefMacro *elem;
-	HASH_FIND(hh, def_macros, name, strlen(name), elem);
-	return elem;
+	Macro* macro_elem;
+	Macros* macros_elem = macros;
+	while (macros_elem != NULL) {
+		HASH_FIND(hh, macros_elem->table, name, strlen(name), macro_elem);
+		if (macro_elem != NULL)
+			return macro_elem;
+		macros_elem = macros_elem->next;
+	}
+	return NULL;
+}
+
+static void Macros_push()
+{
+	Macros* elem = m_new(Macros);
+	elem->table = NULL;
+	LL_PREPEND(macros, elem);
+}
+
+static void Macros_pop()
+{
+	Macro* elem, * tmp;
+	HASH_ITER(hh, macros->table, elem, tmp) {
+		Macro_delete_elem(elem);
+	}
+
+	last_def_macro = NULL;
+
+	Macros* head = macros;
+	LL_DELETE(macros, head);
+	m_free(head);
 }
 
 //-----------------------------------------------------------------------------
 //	module API
 //-----------------------------------------------------------------------------
+static void free_macros(void);
+
 void init_macros()
 {
-	def_macros = NULL;
+	Macros_push();
+
 	last_def_macro = NULL;
 	in_defgroup = false;
 	in_lines = argv_new();
 	out_lines = argv_new();
 	current_line = str_new();
+
+	xatexit(free_macros);
 }
 
 void clear_macros()
 {
-	DefMacro *elem, *tmp;
-	HASH_ITER(hh, def_macros, elem, tmp) {
-		DefMacro_delete_elem(elem);
+	Macro *elem, *tmp;
+	HASH_ITER(hh, macros->table, elem, tmp) {
+		Macro_delete_elem(elem);
 	}
-	def_macros = NULL;
+
 	last_def_macro = NULL;
 	in_defgroup = false;
 
@@ -112,9 +163,10 @@ void clear_macros()
 	str_clear(current_line);
 }
 
-void free_macros()
+static void free_macros(void)
 {
 	clear_macros();
+	Macros_pop();
 
 	argv_free(in_lines);
 	argv_free(out_lines);
@@ -124,6 +176,10 @@ void free_macros()
 //-----------------------------------------------------------------------------
 //	parser
 //-----------------------------------------------------------------------------
+
+static void macro_expand(Macro* macro, char** in_p, str_t* out);
+static bool collect_macro_call(char** in, str_t* out);
+static bool collect_number(char** in, str_t* out);
 
 // fill input stream
 static void fill_input()
@@ -185,7 +241,7 @@ static bool collect_name(char **in, str_t *out)
 	char *p = *in;
 
 	str_clear(out);
-	while (isspace(*p)) p++;
+	SkipSpaces(p);
 
 	if (Is_ident_prefix(p[0]) && Is_ident_start(p[1])) {
 		str_append_n(out, p, 2); p += 2;
@@ -204,17 +260,17 @@ static bool collect_name(char **in, str_t *out)
 }
 
 // collect formal parameters
-static bool collect_formal_params1(char** p, DefMacro* macro, str_t* param)
+static bool collect_formal_params1(char** p, Macro* macro, str_t* param)
 {
 #define P (*p)
 	if (*P == '(') P++; else return true;			// (
-	while (isspace(*P)) P++;						// blanks
+	SkipSpaces(P);									// blanks
 	if (*P == ')') { P++; return true; }			// )
 	
 	while (true) {
 		if (!collect_name(&P, param)) return false;	// NAME
 		argv_push(macro->params, str_data(param));
-		while (isspace(*P)) P++;					// blanks
+		SkipSpaces(P);								// blanks
 	
 		if (*P == ')') { P++; return true; }		// )
 		else if (*P == ',') { P++; }				// ,
@@ -223,7 +279,7 @@ static bool collect_formal_params1(char** p, DefMacro* macro, str_t* param)
 #undef P
 }
 
-static bool collect_formal_params(char **p, DefMacro *macro)
+static bool collect_formal_params(char **p, Macro *macro)
 {
 	str_t* param = str_new();
 	bool found = collect_formal_params1(p, macro, param);
@@ -231,16 +287,158 @@ static bool collect_formal_params(char **p, DefMacro *macro)
 	return found;
 }
 
-// collect macro text
-static bool collect_macro_text1(char** p, DefMacro* macro, str_t* text)
+// collect macro arguments, define macros for each (a new scope has been created)
+static bool collect_macro_argument_i(char** p, str_t* text)
 {
 #define P (*p)
 	str_clear(text);
-	while (isspace(*P)) P++;
-	while (*P) {
-		if (*P == ';' || *P == '\n')
-			break;
-		else if (collect_quoted_string(&P, text)) {
+
+	SkipSpaces(P);
+	if (*P == '<') {
+		P++;
+		char* end = P;
+		while (*end != '>' && *end != '\n' && *end != '\0')
+			end++;
+		if (*end == '>') {
+			str_append_n(text, P, end - P);
+			P = end + 1;
+			return true;
+		}
+		else {
+			P = end;
+			error_missing_close_angle_bracket();
+			return false;
+		}
+	}
+	else {
+		int open_parens = 0;
+
+		while (*P != '\0' && *P != ';' && *P != '\n') {
+			if (collect_number(&P, text)) {
+			}
+			else if (collect_macro_call(&P, text)) {
+			}
+			else if (collect_quoted_string(&P, text)) {
+			}
+			else if (*P == '(') {
+				str_append_n(text, P, 1); P++;
+				open_parens++;
+			}
+			else if (*P == ')') {
+				if (open_parens == 0)
+					return true;
+				else {
+					str_append_n(text, P, 1); P++;
+					open_parens--;
+				}
+			}
+			else if (*P == ',') {
+				if (open_parens == 0)
+					return true;
+				else {
+					str_append_n(text, P, 1); P++;
+				}
+			}
+			else {
+				str_append_n(text, P, 1); P++;
+			}
+		}
+
+		if (open_parens != 0) {
+			error_missing_close_paren();
+			return false;
+		}
+		else
+			return true;
+	}
+#undef P
+}
+
+static bool collect_macro_arguments1(char** p, Macro* macro, str_t* text)
+{
+#define P (*p)
+	SkipSpaces(P);
+	bool args_in_parens = false;
+	if (*P == '(') {
+		P++;
+		SkipSpaces(P);
+		args_in_parens = true;
+	}
+
+	for (size_t i = 0; i < utarray_len(macro->params); i++) {
+		// check for empty parameter or end of list
+		SkipSpaces(P);
+		bool empty_param = false;
+		if (*P == ',') {
+			empty_param = true;
+		}
+		else {
+			if (args_in_parens) {
+				if (*P == ')') 
+					empty_param = true;
+			}
+			else {
+				if (*P == '\0' || *P == ';' || *P == '\n')
+					empty_param = true;
+			}
+		}
+
+		// collect parameter value
+		if (!empty_param) {
+			if (!collect_macro_argument_i(p, text))
+				return false;
+			str_chomp(text);
+		}
+		else
+			str_clear(text);
+
+		// define macro in current scope
+		Macro* param_macro = Macro_add(argv_get(macro->params, i));
+		str_set_str(param_macro->text, text);
+
+		// collect separator
+		SkipSpaces(P);
+		if (i != utarray_len(macro->params) - 1) {
+			if (*P == ',')
+				P++;
+			else {
+				error_missing_macro_arguments();
+				return false;
+			}
+		}
+	}
+
+	SkipSpaces(P);
+	if (args_in_parens) {
+		if (*P == ')')
+			P++;
+		else
+			error_missing_close_paren();
+	}
+	else {
+		if (*P != '\0' && *P != ';' && *P != '\n')
+			error_extra_macro_arguments();
+	}
+	return true;
+#undef P
+}
+
+static bool collect_macro_arguments(char** p, Macro* macro)
+{
+	str_t* text = str_new();
+	bool found = collect_macro_arguments1(p, macro, text);
+	str_free(text);
+	return found;
+}
+
+// collect macro text
+static bool collect_macro_text1(char** p, Macro* macro, str_t* text)
+{
+#define P (*p)
+	str_clear(text);
+	SkipSpaces(P);
+	while (*P != '\0' && *P != ';' && *P != '\n') {
+		if (collect_quoted_string(&P, text)) {
 		}
 		else if (P[0] == '\\' && P[1] == '\n') {		// continuation line
 			str_append_n(text, " ", 1);
@@ -251,12 +449,7 @@ static bool collect_macro_text1(char** p, DefMacro* macro, str_t* text)
 			str_append_n(text, P, 1); P++;
 		}
 	}
-
-	while (str_len(text) > 0 && isspace(str_data(text)[str_len(text) - 1])) {
-		str_len(text)--;
-		str_data(text)[str_len(text)] = '\0';
-	}
-
+	str_chomp(text);
 	if (str_len(macro->text) > 0)
 		str_append_n(macro->text, "\n", 1);
 	str_append_str(macro->text, text);
@@ -265,7 +458,7 @@ static bool collect_macro_text1(char** p, DefMacro* macro, str_t* text)
 #undef P
 }
 
-static bool collect_macro_text(char **p, DefMacro *macro)
+static bool collect_macro_text(char **p, Macro *macro)
 {
 	str_t* text = str_new();
 	bool found = collect_macro_text1(p, macro, text);
@@ -278,8 +471,8 @@ static bool collect_eol(char **p)
 {
 #define P (*p)
 
-	while (isspace(*P)) P++; // consumes also \n and \r
-	if (*P == ';' || *P == '\0')
+	SkipSpaces(P);
+	if (*P == ';' || *P == '\n' || *P == '\0')
 		return true;
 	else
 		return false;
@@ -300,12 +493,143 @@ static bool collect_ident(char **in, char *ident)
 	return false;
 }
 
+// collect a possible macro name, expand if a macro exists
+static void collect_macro_call1(char** in, str_t* out, str_t* name)
+{
+#define P (*in)
+	// maybe at start of macro call
+	collect_name(&P, name);
+	Macro* macro = Macro_lookup(str_data(name));
+	if (macro)
+		macro_expand(macro, &P, out);
+	else {
+		// try after prefix
+		if (Is_ident_prefix(str_data(name)[0])) {
+			str_append_n(out, str_data(name), 1);
+			macro = Macro_lookup(str_data(name) + 1);
+			if (macro)
+				macro_expand(macro, &P, out);
+			else
+				str_append_n(out, str_data(name) + 1, str_len(name) - 1);
+		}
+		else {
+			str_append_n(out, str_data(name), str_len(name));
+		}
+	}
+#undef P
+}
+
+static bool collect_macro_call(char** in, str_t* out)
+{
+#define P (*in)
+	if ((Is_ident_prefix(P[0]) && Is_ident_start(P[1])) || Is_ident_start(P[0])) {	// identifier
+		str_t* name = str_new();
+		collect_macro_call1(in, out, name);
+		str_free(name);
+		return true;
+	}
+	else
+		return false;
+#undef P
+}
+
+static bool collect_number(char** in, str_t* out)
+{
+#define P (*in)
+	if (P[0] == '0' && tolower(P[1]) == 'x') {
+		char* end = P + 2;
+		while (isxdigit(*end)) end++;
+		str_append_n(out, P, end - P);
+		P = end;
+		return true;
+	}
+	else if (P[0] == '0' && tolower(P[1]) == 'b') {
+		char* end = P + 2;
+		while (isdigit(*end) && *end < '2') end++;
+		str_append_n(out, P, end - P);
+		P = end;
+		return true;
+	}
+	else if (P[0] == '0' && (tolower(P[1]) == 'q' || tolower(P[1]) == 'o')) {
+		char* end = P + 2;
+		while (isdigit(*end) && *end < '8') end++;
+		str_append_n(out, P, end - P);
+		P = end;
+		return true;
+	}
+	else if ((P[0] == '$' || P[0] == '#') && isxdigit(P[1])) {
+		char* end = P + 1;
+		char max_digit = '0';
+		while (isalnum(*end)) {
+			if (tolower(*end) > max_digit)
+				max_digit = tolower(*end);
+			end++;
+		}
+		if (max_digit <= 'f') {
+			str_append_n(out, P, end - P);
+			P = end;
+			return true;
+		}
+		else
+			return false;
+	}
+	else if ((P[0] == '%' || P[0] == '@') && isdigit(P[1]) && P[1] < '2') {
+		char* end = P + 1;
+		char max_digit = '0';
+		while (isalnum(*end)) {
+			if (tolower(*end) > max_digit)
+				max_digit = tolower(*end);
+			end++;
+		}
+		if (max_digit <= '1') {
+			str_append_n(out, P, end - P);
+			P = end;
+			return true;
+		}
+		else
+			return false;
+	}
+	else if (isdigit(P[0])) {
+		char* end = P;
+		char max_digit = '0';
+		while (isalnum(*end)) {
+			if (tolower(*end) > max_digit)
+				max_digit = tolower(*end);
+			end++;
+		}
+		if (max_digit <= '9') {
+			str_append_n(out, P, end - P);
+			P = end;
+			return true;
+		}
+		else if (max_digit == 'h') {
+			bool all_hex = true;
+			for (char* p = P; p < end; p++) {
+				if (!isxdigit(*p))
+					all_hex = false;
+			}
+			if (all_hex) {
+				str_append_n(out, P, end - P);
+				P = end;
+				return true;
+			}
+			else
+				return false;
+		}
+		else
+			return false;
+	}
+	else
+		return false;
+#undef P
+}
+
 // is this a "NAME EQU xxx" or "NAME = xxx"?
 static bool collect_equ(char **in, str_t *name)
 {
 	char *p = *in;
 
-	while (isspace(*p)) p++;
+	SkipSpaces(p);
 
 	if (in_defgroup) {
 		while (*p != '\0' && *p != ';') {
@@ -342,7 +666,7 @@ static bool collect_equ(char **in, str_t *name)
 			p++;
 		}
 
-		while (isspace(*p)) p++;
+		SkipSpaces(p);
 
 		if (*p == '=') {
 			*in = p + 1;
@@ -357,41 +681,24 @@ static bool collect_equ(char **in, str_t *name)
 }
 
 // collect arguments and expand macro
-static void macro_expand(DefMacro* macro, char** in_p, str_t* out);
-static void macro_expand1(DefMacro* macro, char** in_p, str_t* out, str_t* name)
+static void macro_expand1(Macro* macro, char** in_p, str_t* out, str_t* name)
 {
 	// collect macro arguments from in_p
 #define P (*in_p)
 	if (utarray_len(macro->params) > 0) {
-		xassert(0);
+		if (!collect_macro_arguments(&P, macro))
+			return;
 	}
 #undef P
 
 	// get macro text, expand sub-macros
 	char* p = str_data(macro->text);
 	while (*p != '\0') {
-		if ((Is_ident_prefix(p[0]) && Is_ident_start(p[1])) || Is_ident_start(p[0])) {	// identifier
-			// maybe at start of macro call
-			collect_name(&p, name);
-			DefMacro* macro = DefMacro_lookup(str_data(name));
-			if (macro)
-				macro_expand(macro, &p, out);
-			else {
-				// try after prefix
-				if (Is_ident_prefix(str_data(name)[0])) {
-					str_append_n(out, str_data(name), 1);
-					macro = DefMacro_lookup(str_data(name) + 1);
-					if (macro)
-						macro_expand(macro, &p, out);
-					else
-						str_append_n(out, str_data(name) + 1, str_len(name) - 1);
-				}
-				else {
-					str_append_n(out, str_data(name), str_len(name));
-				}
-			}
+		if (collect_macro_call(&p, out)) {			// identifier
 		}
-		else if (collect_quoted_string(&p, out)) {				// string
+		else if (collect_number(&p, out)) {			// number
+		}
+		else if (collect_quoted_string(&p, out)) {	// string
 		}
 		else {
 			str_append_n(out, p, 1); p++;
@@ -399,7 +706,7 @@ static void macro_expand1(DefMacro* macro, char** in_p, str_t* out, str_t* name)
 	}
 }
 
-static void macro_expand(DefMacro *macro, char **in_p, str_t *out)
+static void macro_expand(Macro *macro, char **in_p, str_t *out)
 {
 	// avoid infinite recursion
 	if (macro->expanding) {
@@ -407,6 +714,7 @@ static void macro_expand(DefMacro *macro, char **in_p, str_t *out)
 		return;
 	}
 	macro->expanding = true;
+	Macros_push();				// new scope to defino parameters as local macros
 
 	str_t* name = str_new();
 
@@ -414,6 +722,7 @@ static void macro_expand(DefMacro *macro, char **in_p, str_t *out)
 
 	str_free(name);
 	macro->expanding = false;
+	Macros_pop();				// drop scope
 }
 
 // translate commands  
@@ -468,18 +777,17 @@ static bool collect_hash_define1(char* in, str_t* name)
 	}
 
 	// create macro, error if duplicate
-	DefMacro* macro = DefMacro_add(str_data(name));
+	Macro* macro = Macro_add(str_data(name));
 	if (!macro) {
 		error_redefined_macro(str_data(name));
 		return true;
 	}
-#if 0
+
 	// get macro params
 	if (!collect_formal_params(&p, macro)) {
 		error_syntax();
 		return true;
 	}
-#endif
 
 	// get macro text
 	if (!collect_macro_text(&p, macro)) {
@@ -544,7 +852,7 @@ static bool collect_hash_undef1(char* in, str_t* name)
 		return true;
 	}
 
-	DefMacro_delete(str_data(name));		// delete if found, ignore if not found
+	Macro_delete(str_data(name));		// delete if found, ignore if not found
 	return true;
 }
 
@@ -577,27 +885,9 @@ static void statement_expand_macros(char* in)
 
 	char* p = in;
 	while (*p != '\0') {
-		if ((Is_ident_prefix(p[0]) && Is_ident_start(p[1])) || Is_ident_start(p[0])) {	// identifier
-			// maybe at start of macro call
-			collect_name(&p, name);
-			DefMacro* macro = DefMacro_lookup(str_data(name));
-			if (macro)
-				macro_expand(macro, &p, out);
-			else {
-				// try after prefix
-				if (Is_ident_prefix(str_data(name)[0])) {
-					str_append_n(out, str_data(name), 1);
-					macro = DefMacro_lookup(str_data(name) + 1);
-					if (macro)
-						macro_expand(macro, &p, out);
-					else
-						str_append_n(out, str_data(name) + 1, str_len(name) - 1);
-				}
-				else {
-					str_append_n(out, str_data(name), str_len(name));
-				}
-			}
-
+		if (collect_number(&p, out)) {
+		}
+		else if (collect_macro_call(&p, out)) {						// identifier
 			// flags to identify ':' after first label
 			count_ident++;
 			last_was_ident = true;
@@ -688,41 +978,3 @@ char *macros_getline(getline_t getline_func)
 	return line;
 }
 
-#if 0
-
-extern DefMacro *DefMacro_new();
-extern void DefMacro_free(DefMacro **self);
-extern DefMacro *DefMacro_add(DefMacro **self, char *name, char *text);
-extern void DefMacro_add_param(DefMacro *macro, char *param);
-extern DefMacro *DefMacro_parse(DefMacro **self, char *line);
-
-/*-----------------------------------------------------------------------------
-*   #define macros
-*----------------------------------------------------------------------------*/
-
-void DefMacro_free(DefMacro ** self)
-{
-}
-
-void DefMacro_add_param(DefMacro *macro, char *param)
-{
-	argv_push(macro->params, param);
-}
-
-// parse #define macro[(arg,arg,...)] text
-// return NULL if no #define, or macro pointer if #define found and parsed
-DefMacro *DefMacro_parse(DefMacro **self, char *line)
-{
-	char *p = line;
-	while (*p != '\0' && isspace(*p)) p++;			// blanks
-	if (*p != '#') return NULL;						// #
-	p++; while (*p != '\0' && isspace(*p)) p++;		// blanks
-	if (strncmp(p, "define", 6) != 0) return NULL;	// define
-	p += 6;
-
-
-	return NULL;
-}
-
-
-#endif

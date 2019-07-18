@@ -913,8 +913,6 @@ t_compile_module($init, <<'END', $objs);
 	T_GET(TK_IX, "ix");
 	T_END();
 
-	free_macros();
-
 	return 0;
 
 END

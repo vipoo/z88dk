@@ -14,6 +14,5 @@ typedef char *(*getline_t)();
 
 extern void init_macros();
 extern void clear_macros();
-extern void free_macros();
 extern char *macros_getline(getline_t getline_func);
 
