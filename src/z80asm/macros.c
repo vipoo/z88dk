@@ -196,6 +196,7 @@ static void macro_expand(Macro* macro, char** in_p, str_t* out);
 static bool collect_macro_call(char** in, str_t* out);
 static bool collect_number(char** in, str_t* out);
 static bool collect_stringize(char** in, str_t* out);
+static bool collect_concatenate(char** in, str_t* out);
 
 // fill input stream
 static void fill_input()
@@ -341,6 +342,8 @@ static bool collect_macro_argument_i(char** p, str_t* text)
 			else if (collect_macro_call(&P, text)) {
 			}
 			else if (collect_quoted_string(&P, text)) {
+			}
+			else if (collect_concatenate(&P, text)) {
 			}
 			else if (collect_stringize(&P, text)) {
 			}
@@ -569,7 +572,7 @@ static bool collect_macro_call(char** in, str_t* out)
 #undef P
 }
 
-// collect stringize operator
+// collect string-ize '#' operator
 static bool collect_stringize1(char** in, str_t* out, str_t* text)
 {
 	char* p = *in + 1;	// '#' already matched
@@ -612,6 +615,22 @@ static bool collect_stringize(char** in, str_t* out)
 		return false;
 #undef P
 }
+
+// collect concatenate '##' operator
+static bool collect_concatenate(char** in, str_t* out)
+{
+#define P (*in)
+	if (P[0] == '#' && P[1]=='#') {
+		P += 2;
+		SkipSpaces(P);		// skip to next token
+		str_chomp(out);		// remove blanks after previous token
+		return true;
+	}
+	else
+		return false;
+#undef P
+}
+
 
 static bool collect_number(char** in, str_t* out)
 {
@@ -779,6 +798,8 @@ static void macro_expand1(Macro* macro, char** in_p, str_t* out, str_t* name)
 		else if (collect_number(&p, out)) {			// number
 		}
 		else if (collect_quoted_string(&p, out)) {	// string
+		}
+		else if (collect_concatenate(&p, out)) {
 		}
 		else if (collect_stringize(&p, out)) {
 		}
@@ -976,6 +997,9 @@ static void statement_expand_macros(char* in)
 			last_was_ident = true;
 		}
 		else if (collect_quoted_string(&p, out)) {				// string
+			last_was_ident = false;
+		}
+		else if (collect_concatenate(&p, out)) {
 			last_was_ident = false;
 		}
 		else if (collect_stringize(&p, out)) {

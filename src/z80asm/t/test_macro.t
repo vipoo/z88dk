@@ -922,5 +922,34 @@ check_text_file("test.lis", <<'END', "list file");
 3     0015              
 END
 
+
+#------------------------------------------------------------------------------
+# ##-operator
+z80asm(<<'END', "-b -l -E");
+#define aaa 2
+#define bbb 3
+	defb aaa ## bbb
+END
+
+check_text_file("test.i", <<'END', "preproc file");
+;	LINE 1, "test.asm"
+;	#define aaa 2
+;	LINE 2, "test.asm"
+;	#define bbb 3
+;	LINE 3, "test.asm"
+;		defb aaa ## bbb
+	LINE 3, "test.asm"
+		defb 23
+END
+
+check_bin_file("test.bin", pack("C*", 23));
+
+check_text_file("test.lis", <<'END', "list file");
+1     0000              #define aaa 2
+2     0000              #define bbb 3
+3     0000  17          	defb aaa ## bbb
+4     0001              
+END
+
 unlink_testfiles();
 done_testing();
