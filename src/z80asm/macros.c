@@ -11,6 +11,7 @@ Assembly macros.
 #include "macros.h"
 #include "alloc.h"
 #include "errors.h"
+#include "options.h"
 #include "str.h"
 #include "strutil.h"
 #include "uthash.h"
@@ -54,6 +55,7 @@ static argv_t* out_lines = NULL;		// line stream to ouput
 static str_t* current_line = NULL;		// current returned line
 static bool in_defgroup;				// no EQU transformation in defgroup
 static getline_t cur_getline_func = NULL; // callback to read a line from input
+static FILE* preproc_fp = NULL;			// preprocessing output file
 
 //-----------------------------------------------------------------------------
 //	ADT
@@ -148,8 +150,13 @@ void init_macros()
 	xatexit(free_macros);
 }
 
-void clear_macros()
+static void clear_macros()
 {
+	if (preproc_fp != NULL) {
+		xfclose(preproc_fp);
+		preproc_fp = NULL;
+	}
+
 	Macro *elem, *tmp;
 	HASH_ITER(hh, macros->table, elem, tmp) {
 		Macro_delete_elem(elem);
@@ -173,6 +180,14 @@ static void free_macros(void)
 	str_free(current_line);
 }
 
+void init_preproc(const char* i_filename)
+{
+	clear_macros();
+	if (opts.opt_preprocess) {
+		preproc_fp = xfopen(i_filename, "w");
+	}
+}
+
 //-----------------------------------------------------------------------------
 //	parser
 //-----------------------------------------------------------------------------
@@ -188,8 +203,14 @@ static void fill_input()
 	if (argv_len(in_lines) == 0) {
 		if (cur_getline_func != NULL) {
 			char* line = cur_getline_func();
-			if (line)
+			if (line != NULL) {
 				argv_push(in_lines, line);
+				if (preproc_fp) {
+					fprintf(preproc_fp, ";\tLINE %d, \"%s\"\n;\t%s",
+						get_error_line(), get_error_file(),
+						line);
+				}
+			}
 		}
 	}
 }
@@ -1043,6 +1064,13 @@ char *macros_getline(getline_t getline_func)
 	cur_getline_func = getline_func;
 	char* line = macros_getline1();
 	cur_getline_func = NULL;
+
+	if (line != NULL && preproc_fp != NULL) {
+		fprintf(preproc_fp, "\tLINE %d, \"%s\"\n\t%s",
+			get_error_line(), get_error_file(),
+			line);
+	}
+
 	return line;
 }
 

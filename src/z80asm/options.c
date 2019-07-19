@@ -33,6 +33,7 @@
 
 /* default file name extensions */
 #define FILEEXT_ASM     ".asm"    
+#define FILEEXT_I		".i"  
 #define FILEEXT_LIST    ".lis"    
 #define FILEEXT_OBJ     ".o"	  
 #define FILEEXT_DEF     ".def"    
@@ -617,8 +618,9 @@ static void exit_help( void )
     puts( "" );
     puts( "  File types recognized or created by z80asm:" );
 	printf("    %-6s = source file\n", FILEEXT_ASM);
+	printf("    %-6s = preprocessed file\n", FILEEXT_I);
 	printf("    %-6s = object file\n", FILEEXT_OBJ);
-    printf( "    %-6s = list file\n", FILEEXT_LIST );
+	printf( "    %-6s = list file\n", FILEEXT_LIST );
     printf( "    %-6s = Z80 binary file\n", FILEEXT_BIN );
     printf( "    %-6s = symbols file\n", FILEEXT_SYM );
     printf( "    %-6s = map file\n", FILEEXT_MAP );
@@ -817,6 +819,12 @@ static const char *path_prepend_output_dir(const char *filename)
 	else {
 		return filename;
 	}
+}
+
+const char* get_preproc_filename(const char* filename)
+{
+	init_module();
+	return path_prepend_output_dir(path_replace_ext(filename, FILEEXT_I));
 }
 
 const char *get_list_filename(const char *filename )

@@ -180,8 +180,9 @@ static void do_assemble(const char *src_filename )
 {
     int start_errors = get_num_errors();     /* count errors in this source file */
 	const char *obj_filename = get_obj_filename(src_filename);
+	const char *i_filename = get_preproc_filename(src_filename);
 
-	clear_macros();
+	init_preproc(i_filename);
 
 	/* create list file */
 	if (opts.list)

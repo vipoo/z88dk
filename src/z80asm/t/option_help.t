@@ -33,6 +33,7 @@ Usage:
 
   File types recognized or created by z80asm:
     .asm   = source file
+    .i     = preprocessed file
     .o     = object file
     .lis   = list file
     .bin   = Z80 binary file
@@ -83,6 +84,7 @@ Output File Options:
   -l, --list             Create listing file.lis
   -m, --map              Create address map file.map
   -g, --globaldef        Create global definition file.def
+  -E, --preproc          Create preprocessing output file.i
 
 Appmake Options:
   +zx81                  Generate ZX81 .P file, origin at 16514

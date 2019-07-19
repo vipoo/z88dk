@@ -32,6 +32,7 @@ OPT_VAR( bool,		relocatable, false	)
 OPT_VAR( bool,      reloc_info, false   )	/* generate .reloc file */
 OPT_VAR( bool,		library,	false	)	/* true if linking with libs */
 OPT_VAR( bool,		opt_speed,	false   )
+OPT_VAR( bool,		opt_preprocess, false )	/* true to save preprocessing output */
 
 OPT_VAR(appmake_t, appmake, APPMAKE_NONE)
 OPT_VAR(const char *, appmake_opts, "")
@@ -106,6 +107,7 @@ OPT(OptSet, &opts.symtable, "-s", "--symtable", "Create symbol table file" FILEE
 OPT(OptSet, &opts.list, "-l", "--list", "Create listing file" FILEEXT_LIST, "")
 OPT(OptSet, &opts.map, "-m", "--map", "Create address map file" FILEEXT_MAP, "")
 OPT(OptSet, &opts.globaldef, "-g", "--globaldef", "Create global definition file" FILEEXT_DEF, "")
+OPT(OptSet, &opts.opt_preprocess, "-E", "--preproc", "Create preprocessing output file" FILEEXT_I, "")
 
 OPT_TITLE("Appmake Options:")
 OPT(OptCall, option_appmake_zx81, "", "+zx81", "Generate ZX81 .P file, origin at " ZX81_ORIGIN_S, "")

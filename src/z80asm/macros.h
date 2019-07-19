@@ -13,6 +13,6 @@ Assembly macros.
 typedef char *(*getline_t)();
 
 extern void init_macros();
-extern void clear_macros();
+extern void init_preproc(const char* i_filename);
 extern char *macros_getline(getline_t getline_func);
 
