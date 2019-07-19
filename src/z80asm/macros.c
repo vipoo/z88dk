@@ -1,9 +1,9 @@
 /*
 Z88DK Z80 Macro Assembler
 
-Copyright (C) Paulo Custodio, 2011-2017
+Copyright (C) Paulo Custodio, 2011-2019
 License: The Artistic License 2.0, http://www.perlfoundation.org/artistic_license_2_0
-Repository: https://github.com/pauloscustodio/z88dk-z80asm
+Repository: https://github.com/z88dk/z88dk
 
 Assembly macros.
 */
@@ -58,7 +58,7 @@ static getline_t cur_getline_func = NULL; // callback to read a line from input
 static FILE* preproc_fp = NULL;			// preprocessing output file
 
 //-----------------------------------------------------------------------------
-//	ADT
+//	Macro ADT
 //-----------------------------------------------------------------------------
 static Macro* Macro_add(char* name)
 {
