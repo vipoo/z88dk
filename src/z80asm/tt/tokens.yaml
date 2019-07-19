@@ -41,9 +41,6 @@ tokens:
   - name    : LOG_NOT
     regexp  : "!"
 
-  - name    : CONST_EXPR
-    regexp  : "#"
-
   - name    : MOD
     regexp  : "%"
 

@@ -32,8 +32,12 @@ extern UT_icd ut_exprs_icd;
 *----------------------------------------------------------------------------*/
 typedef enum 
 { 
-	ASMPC_OP, NUMBER_OP, SYMBOL_OP, CONST_EXPR_OP, 
+	ASMPC_OP, NUMBER_OP, SYMBOL_OP, 
 	UNARY_OP, BINARY_OP, TERNARY_OP,
+#if 0
+	// collides with new string-ize operator
+	CONST_EXPR_OP, 
+#endif
 } op_type_t;
 
 typedef enum { ASSOC_NONE, ASSOC_LEFT, ASSOC_RIGHT } assoc_t;

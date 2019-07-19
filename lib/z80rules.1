@@ -1,4 +1,4 @@
-	ld	a,#(0 % 256)
+	ld	a,+(0 % 256)
 =
 	xor	a
 
@@ -7,7 +7,7 @@
 	ld	(%1),a
 	ld	hl,%2
 =
-	ld	a,#(%0 % 256)
+	ld	a,+(%0 % 256)
 	ld	(%1),a
 	ld	hl,%2
 
@@ -17,38 +17,38 @@
 .%0
 
 	ex	de,hl
-	ld	l,#(8 % 256)
+	ld	l,+(8 % 256)
 	call	l_asr_u
 =
 	ld	l,h
 	ld	h,0
 
 	ex	de,hl
-	ld	l,#(8 % 256)
+	ld	l,+(8 % 256)
 	call	l_asr
 =
 	ld	a,h
 	call	l_sxt
 
 	ex	de,hl
-	ld	l,#(0 % 256)
+	ld	l,+(0 % 256)
 	call	l_asr%1
 =
 
 	ex	de,hl
-	ld	l,#(8 % 256)
+	ld	l,+(8 % 256)
 	call	l_asl
 =
 	ld	h,l
 	ld	l,0
 
 	ex	de,hl
-	ld	l,#(0 % 256)
+	ld	l,+(0 % 256)
 	call	l_asl
 =
 
 	ex	de,hl
-	ld	l,#(1 % 256)
+	ld	l,+(1 % 256)
 	call	l_asl
 =
 	add	hl,hl
@@ -320,16 +320,16 @@
 	jp	z,%1
 
 ;;; Fixes up a bug in these rules
-	ld	(hl),#(%1 %% 256)
+	ld	(hl),+(%1 %% 256)
 	ld	l,(hl)
 	ld	h,0
 	inc	de
 	ld	a,h
 	ld	(de),a
 =
-	ld	(hl),#(%1 % 256)
+	ld	(hl),+(%1 % 256)
 	inc	hl
-	ld	(hl),#(%1 / 256)
+	ld	(hl),+(%1 / 256)
 	ld	hl,%1
 
 ;;; This rule causes above bug, can't stop it from firing though
@@ -338,7 +338,7 @@
 	ld	a,l
 	ld	(de),a
 =
-	ld	(hl),#(%1 % 256)
+	ld	(hl),+(%1 % 256)
 	ld	l,(hl)
 	ld	h,0
 
@@ -693,7 +693,7 @@
 	ld	de,%2
 	call	l_long_as%3
 =
-	ld	l,#(%1 % 256)
+	ld	l,+(%1 % 256)
 	call	l_long_as%3
 
 	push	hl
@@ -715,7 +715,7 @@
 	ld	hl,%1	;const
 	call	l_as%2
 =
-	ld	l,#(%1 % 256)
+	ld	l,+(%1 % 256)
 	call	l_as%2
 
 	ld	de,%1	;const
@@ -723,7 +723,7 @@
 	call	l_as%2
 =
 	ex	de,hl
-	ld	l,#(%1 % 256)
+	ld	l,+(%1 % 256)
 	call	l_as%2
 
 	ex	de,hl
@@ -908,7 +908,7 @@
 	pop	hl
 	call	l_long_aslo
 
-	ld	a,#(16 % 256)
+	ld	a,+(16 % 256)
 	call	l_long_aslo
 =
 	ex	de,hl
@@ -1086,7 +1086,7 @@
 	ld	hl,%3
 =
 	ld	a,(hl)
-	cp	#(%1 % 256)
+	cp	+(%1 % 256)
 	jp	nz,%2
 	ld	hl,%3
 
@@ -1098,7 +1098,7 @@
 	ld	hl,%3
 =
 	ld	a,(hl)
-	cp	#(%1 % 256)
+	cp	+(%1 % 256)
 	jp	z,%2
 	ld	hl,%3
 
@@ -1110,7 +1110,7 @@
 	ld	hl,%3
 =
 	ld	a,(hl)
-	cp	#(%1 % 256)
+	cp	+(%1 % 256)
 	jp	nz,%2
 	ld	hl,%3
 
@@ -1424,7 +1424,7 @@
 	ld	l,h
 	ld	h,a
 =
-	ld	hl,#( (%1/256) + (%1 % 256 )*256 )
+	ld	hl,+( (%1/256) + (%1 % 256 )*256 )
 
 	ld	hl,0	;const
 	add	hl,sp
@@ -1453,7 +1453,7 @@
 .%1
 	ld	hl,%2
 
-	ld	(hl),#(%1 % 256)
+	ld	(hl),+(%1 % 256)
 	ld	l,(hl)
 	ld	h,0
 	pop	de
@@ -1461,7 +1461,7 @@
 	ld	(de),a
 	ld	hl,%2
 =
-	ld	a,#(%1 % 256)
+	ld	a,+(%1 % 256)
 	ld	(hl),a
 	pop	de
 	ld	(de),a
@@ -1471,10 +1471,10 @@
 	inc	hl
 	push	hl
 	dec	hl
-	ld	(hl),#(%1 % 256)
+	ld	(hl),+(%1 % 256)
 =
 	pop	hl
-	ld	(hl),#(%1 % 256)
+	ld	(hl),+(%1 % 256)
 	inc	hl
 	push	hl
 	dec	hl
@@ -1507,7 +1507,7 @@
 	call	l_and
 =
 	ld	a,(hl)
-	and	#(%1 % 256)
+	and	+(%1 % 256)
 	ld	l,a
 	ld	h,0
 
@@ -1865,14 +1865,14 @@
 
 	ld	hl,0	;const
 	add	hl,sp
-	add	a,#(%1 % 256)
+	add	a,+(%1 % 256)
 	ld	(hl),a
 	ld	l,a
 	ld	h,0
 =
 	pop	hl
 	ld	a,l
-	add	a,#(%1 % 256)
+	add	a,+(%1 % 256)
 	ld	l,a
 	push	hl
 	ld	h,0
@@ -1905,7 +1905,7 @@
 	ld	e,(hl)
 	inc	hl
 	ld	d,(hl)
-	ld	l,#(8 % 256)
+	ld	l,+(8 % 256)
 	call	l_asr_u
 =
 	inc	hl
@@ -1947,7 +1947,7 @@
 	rl	l
 =
 	ld	a,(hl)
-	cp	#( %1 % 256)
+	cp	+( %1 % 256)
 	ld	hl,0	;const
 	jr	nz,ASMPC+3
 	inc	hl
@@ -1961,7 +1961,7 @@
 	ld	hl,%4
 =
 	ld	a,(hl)
-	cp	#(%1 % 256)
+	cp	+(%1 % 256)
 	ld	hl,%2
 	jp	z,%3
 	ld	hl,%4
@@ -2014,7 +2014,7 @@
 	ld	a,l
 	sub	e
 =
-	ld	a,#(%1 % 256)
+	ld	a,+(%1 % 256)
 	sub	(hl)
 
 	ld	e,(hl)
@@ -2024,7 +2024,7 @@
 	sub	l
 =
 	ld	a,(hl)
-	sub	#(%1 % 256)
+	sub	+(%1 % 256)
 
 	call	l_gchar
 	ld	de,%1	;const
@@ -2033,7 +2033,7 @@
 	sub	l
 =
 	ld	a,(hl)
-	sub	#(%1 % 256)
+	sub	+(%1 % 256)
 
 	xor	a
 	sub	(hl)
@@ -2057,7 +2057,7 @@
 	scf
 	jp	nc,%2
 =
-	cp	#(%1 % 256)
+	cp	+(%1 % 256)
 	jp	nz,%2
 
 	ld	l,(hl)
@@ -2401,7 +2401,7 @@
 =
 	dec	sp
 	pop	hl
-	ld	l,#(%1 % 256)
+	ld	l,+(%1 % 256)
 	push	hl
 
 	dec	sp
@@ -2413,7 +2413,7 @@
 	ld	l,#%2
 	push	hl
 =
-	ld	hl,#(( %1 * 256) + %2)
+	ld	hl,+(( %1 * 256) + %2)
 	push	hl
 
 %check 0 <= %1 <= 127
@@ -2434,7 +2434,7 @@
 	ld	a,l
 	call	l_sxt
 =
-	ld	a,#(%1 % 256)
+	ld	a,+(%1 % 256)
 	call	l_sxt
 
 	ex	de,hl
@@ -2481,9 +2481,9 @@
 	jp	%1,%2
 
 	ld	hl,_%1
-	ld	(hl),#(%2 % 256)
+	ld	(hl),+(%2 % 256)
 	inc	hl
-	ld	(hl),#(%2 / 256)
+	ld	(hl),+(%2 / 256)
 	ld	hl,%3
 =
 	ld	hl,%2	;const
@@ -3069,7 +3069,7 @@
 	ld	hl,1	;const
 	add	hl,sp
 	ld	a,(hl)
-	cp	#(%1 %% 256)
+	cp	+(%1 %% 256)
 
 	pop	hl
 	push	hl
@@ -3080,7 +3080,7 @@
 	ld	hl,0	;const
 	add	hl,sp
 	ld	a,(hl)
-	cp	#(%1 %% 256)
+	cp	+(%1 %% 256)
 
 	pop	bc
 	pop	hl
@@ -3250,7 +3250,7 @@
 	ld	hl,(_%1)
 	ld	h,0
 	ld	a,l
-	and	#(128 %% 256)
+	and	+(128 %% 256)
 	jp	z,%2
 	ld	hl,%3
 =
@@ -3575,12 +3575,12 @@
 =
 	pop	bc
 	ld	a,(hl)
-	and	#(%1 %% 256)
+	and	+(%1 %% 256)
 	ld	(bc),a
 	inc	bc
 	inc	hl
 	ld	a,(hl)
-	and	#(%1 / 256)
+	and	+(%1 / 256)
 	ld	(bc),a
 	ld	hl,%2
 
@@ -3807,14 +3807,14 @@
 	inc	hl
 	ld	h,(hl)
 	ld	l,a
-	ld	(hl),#(%1 %% 256)
+	ld	(hl),+(%1 %% 256)
 	inc	hl
-	ld	(hl),#(%1 / 256)
+	ld	(hl),+(%1 / 256)
 	ld	hl,%2
 
-	ld	(hl),#(0 % 256)
+	ld	(hl),+(0 % 256)
 	inc	hl
-	ld	(hl),#(0 / 256)
+	ld	(hl),+(0 / 256)
 =
 	xor	a
 	ld	(hl),a
@@ -3946,13 +3946,13 @@
 	ld	de,6
 	call	l_asr_u_hl_by_e
 	ld	a,l
-	and	#(3 %% 256)
+	and	+(3 %% 256)
 	ld	l,a
 =
 	ld	a,(hl)
 	rlca
 	rlca
-	and	#(3 %% 256)
+	and	+(3 %% 256)
 	ld	l,a
 	ld	h,0
 
@@ -4329,7 +4329,7 @@
 	ld	a,h
 	or	l
 
-	ld	a,#(%1 % 256)
+	ld	a,+(%1 % 256)
 	call	l_sxt
 =
 	ld	hl,%1
@@ -4395,7 +4395,7 @@
 	jp	%1z,%2
 
 	ld	a,h
-	and	#(255 %% 256)
+	and	+(255 %% 256)
 	ld	h,a
 =
 

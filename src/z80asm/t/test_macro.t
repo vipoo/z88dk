@@ -373,5 +373,68 @@ check_text_file("test.lis", <<'END', "list file");
 5     000A              
 END
 
+#------------------------------------------------------------------------------
+z80asm(<<'END', "-b -l");
+#define VERSION 1.23
+	defb # VERSION
+END
+check_bin_file("test.bin", "1.23");
+check_text_file("test.lis", <<'END', "list file");
+1     0000              #define VERSION 1.23
+2     0000  31 2E 32 33 	defb # VERSION
+3     0004              
+END
+
+#------------------------------------------------------------------------------
+z80asm(<<'END', "-b -l");
+#define aa(x) # x
+	defb aa(1.23)
+END
+check_bin_file("test.bin", "1.23");
+check_text_file("test.lis", <<'END', "list file");
+1     0000              #define aa(x) # x
+2     0000  31 2E 32 33 	defb aa(1.23)
+3     0004              
+END
+
+#------------------------------------------------------------------------------
+z80asm(<<'END', "-b -l");
+	defb # VERSION
+	defb #VERSION
+END
+check_bin_file("test.bin", "VERSION" x 2);
+check_text_file("test.lis", <<'END', "list file");
+1     0000  56 45 52 53 49 4F 4E 
+                        	defb # VERSION
+2     0007  56 45 52 53 49 4F 4E 
+                        	defb #VERSION
+3     000E              
+END
+
+#------------------------------------------------------------------------------
+z80asm(<<'END', "-b -l");
+	defb # 523
+END
+check_bin_file("test.bin", "523");
+check_text_file("test.lis", <<'END', "list file");
+1     0000  35 32 33    	defb # 523
+2     0003              
+END
+
+#------------------------------------------------------------------------------
+# z80asm: stringify numeric constant in defm #864
+# https://github.com/z88dk/z88dk/issues/864
+z80asm(<<'END', "-b -l");
+	defc CORE_VERSION = 14010
+	defm "Requires Core v", #CORE_VERSION, ' '+0x80
+END
+check_bin_file("test.bin", "Requires Core v14010".chr(ord(' ')+0x80));
+check_text_file("test.lis", <<'END', "list file");
+1     0000              	defc CORE_VERSION = 14010
+2     0000  52 65 71 75 69 72 65 73 20 43 6F 72 65 20 76 43 4F 52 45 5F 56 45 52 53 49 4F 4E A0 
+                        	defm "Requires Core v", #CORE_VERSION, ' '+0x80
+3     001C              
+END
+
 unlink_testfiles();
 done_testing();

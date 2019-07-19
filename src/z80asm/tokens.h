@@ -11,293 +11,292 @@
 #define _TK_TERN_COND	6
 #define _TK_NEWLINE	7
 #define _TK_LOG_NOT	8
-#define _TK_CONST_EXPR	9
-#define _TK_MOD	10
-#define _TK_BIN_AND	11
-#define _TK_LOG_AND	12
-#define _TK_LPAREN	13
-#define _TK_RPAREN	14
-#define _TK_MULTIPLY	15
-#define _TK_PLUS	16
-#define _TK_COMMA	17
-#define _TK_MINUS	18
-#define _TK_DOT	19
-#define _TK_DIVIDE	20
-#define _TK_COLON	21
-#define _TK_LESS	22
-#define _TK_LEFT_SHIFT	23
-#define _TK_LESS_EQ	24
-#define _TK_NOT_EQ	25
-#define _TK_EQUAL	26
-#define _TK_GREATER	27
-#define _TK_RIGHT_SHIFT	28
-#define _TK_GREATER_EQ	29
-#define _TK_QUESTION	30
-#define _TK_LSQUARE	31
-#define _TK_RSQUARE	32
-#define _TK_BIN_XOR	33
-#define _TK_POWER	34
-#define _TK_LCURLY	35
-#define _TK_BIN_OR	36
-#define _TK_LOG_OR	37
-#define _TK_RCURLY	38
-#define _TK_BIN_NOT	39
-#define _TK_IND_C	40
-#define _TK_IND_BC	41
-#define _TK_IND_DE	42
-#define _TK_IND_HL	43
-#define _TK_IND_SP	44
-#define _TK_IND_IX	45
-#define _TK_IND_IY	46
-#define _TK_ASMPC	47
-#define _TK_NZ	48
-#define _TK_Z	49
-#define _TK_NC	50
-#define _TK_C	51
-#define _TK_PO	52
-#define _TK_PE	53
-#define _TK_P	54
-#define _TK_M	55
-#define _TK_LZ	56
-#define _TK_LO	57
-#define _TK_NV	58
-#define _TK_V	59
-#define _TK_B	60
-#define _TK_D	61
-#define _TK_E	62
-#define _TK_H	63
-#define _TK_L	64
-#define _TK_A	65
-#define _TK_F	66
-#define _TK_I	67
-#define _TK_R	68
-#define _TK_IIR	69
-#define _TK_EIR	70
-#define _TK_XPC	71
-#define _TK_IXH	72
-#define _TK_IYH	73
-#define _TK_IXL	74
-#define _TK_IYL	75
-#define _TK_X	76
-#define _TK_BC	77
-#define _TK_DE	78
-#define _TK_HL	79
-#define _TK_IX	80
-#define _TK_IY	81
-#define _TK_AF	82
-#define _TK_SP	83
-#define _TK_B1	84
-#define _TK_C1	85
-#define _TK_D1	86
-#define _TK_E1	87
-#define _TK_H1	88
-#define _TK_L1	89
-#define _TK_A1	90
-#define _TK_F1	91
-#define _TK_BC1	92
-#define _TK_DE1	93
-#define _TK_HL1	94
-#define _TK_AF1	95
-#define _TK_A32	96
-#define _TK_DEHL	97
-#define _TK_ALIGN	98
-#define _TK_BINARY	99
-#define _TK_C_LINE	100
-#define _TK_DEFB	101
-#define _TK_DEFC	102
-#define _TK_DEFDB	103
-#define _TK_DEFGROUP	104
-#define _TK_DEFINE	105
-#define _TK_DEFM	106
-#define _TK_DEFQ	107
-#define _TK_DEFS	108
-#define _TK_DEFVARS	109
-#define _TK_DEFW	110
-#define _TK_DEPHASE	111
-#define _TK_ELIF	112
-#define _TK_ELIFDEF	113
-#define _TK_ELIFNDEF	114
-#define _TK_ELSE	115
-#define _TK_ENDIF	116
-#define _TK_EXTERN	117
-#define _TK_GLOBAL	118
-#define _TK_IF	119
-#define _TK_IFDEF	120
-#define _TK_IFNDEF	121
-#define _TK_INCLUDE	122
-#define _TK_LIB	123
-#define _TK_LINE	124
-#define _TK_LSTOFF	125
-#define _TK_LSTON	126
-#define _TK_MODULE	127
-#define _TK_ORG	128
-#define _TK_PHASE	129
-#define _TK_PUBLIC	130
-#define _TK_SECTION	131
-#define _TK_UNDEFINE	132
-#define _TK_XDEF	133
-#define _TK_XLIB	134
-#define _TK_XREF	135
-#define _TK_DS_B	136
-#define _TK_DS_W	137
-#define _TK_DS_P	138
-#define _TK_DS_Q	139
-#define _TK_ADC	140
-#define _TK_ADD	141
-#define _TK_AND	142
-#define _TK_BIT	143
-#define _TK_CALL	144
-#define _TK_CCF	145
-#define _TK_CCF1	146
-#define _TK_CP	147
-#define _TK_CPD	148
-#define _TK_CPDR	149
-#define _TK_CPI	150
-#define _TK_CPIR	151
-#define _TK_CPL	152
-#define _TK_DAA	153
-#define _TK_DEC	154
-#define _TK_DI	155
-#define _TK_DJNZ	156
-#define _TK_EI	157
-#define _TK_EX	158
-#define _TK_EXX	159
-#define _TK_HALT	160
-#define _TK_IM	161
-#define _TK_IN	162
-#define _TK_INC	163
-#define _TK_IND	164
-#define _TK_INDR	165
-#define _TK_INI	166
-#define _TK_INIR	167
-#define _TK_JP	168
-#define _TK_JR	169
-#define _TK_LD	170
-#define _TK_LDD	171
-#define _TK_LDDR	172
-#define _TK_LDI	173
-#define _TK_LDIR	174
-#define _TK_NEG	175
-#define _TK_NOP	176
-#define _TK_OR	177
-#define _TK_OTDR	178
-#define _TK_OTIR	179
-#define _TK_OUT	180
-#define _TK_OUTD	181
-#define _TK_OUTI	182
-#define _TK_POP	183
-#define _TK_PUSH	184
-#define _TK_RES	185
-#define _TK_RET	186
-#define _TK_RETI	187
-#define _TK_RETN	188
-#define _TK_RL	189
-#define _TK_RLA	190
-#define _TK_RLA1	191
-#define _TK_RLC	192
-#define _TK_RLCA	193
-#define _TK_RLCA1	194
-#define _TK_RLD	195
-#define _TK_RR	196
-#define _TK_RRA	197
-#define _TK_RRA1	198
-#define _TK_RRC	199
-#define _TK_RRCA	200
-#define _TK_RRCA1	201
-#define _TK_RRD	202
-#define _TK_RST	203
-#define _TK_SBC	204
-#define _TK_SCF	205
-#define _TK_SCF1	206
-#define _TK_SET	207
-#define _TK_SLA	208
-#define _TK_SLL	209
-#define _TK_SLI	210
-#define _TK_SRA	211
-#define _TK_SRL	212
-#define _TK_SUB	213
-#define _TK_XOR	214
-#define _TK_SWAPNIB	215
-#define _TK_SWAP	216
-#define _TK_OUTINB	217
-#define _TK_LDIX	218
-#define _TK_LDIRX	219
-#define _TK_LDDX	220
-#define _TK_LDDRX	221
-#define _TK_LDIRSCALE	222
-#define _TK_LDPIRX	223
-#define _TK_LDWS	224
-#define _TK_FILL	225
-#define _TK_FILLDE	226
-#define _TK_MIRROR	227
-#define _TK_NEXTREG	228
-#define _TK_PIXELDN	229
-#define _TK_PIXELAD	230
-#define _TK_SETAE	231
-#define _TK_TEST	232
-#define _TK_MMU	233
-#define _TK_MMU0	234
-#define _TK_MMU1	235
-#define _TK_MMU2	236
-#define _TK_MMU3	237
-#define _TK_MMU4	238
-#define _TK_MMU5	239
-#define _TK_MMU6	240
-#define _TK_MMU7	241
-#define _TK_CU_WAIT	242
-#define _TK_CU_MOVE	243
-#define _TK_CU_STOP	244
-#define _TK_CU_NOP	245
-#define _TK_DMA_WR0	246
-#define _TK_DMA_WR1	247
-#define _TK_DMA_WR2	248
-#define _TK_DMA_WR3	249
-#define _TK_DMA_WR4	250
-#define _TK_DMA_WR5	251
-#define _TK_DMA_WR6	252
-#define _TK_DMA_CMD	253
-#define _TK_BSLA	254
-#define _TK_BSRA	255
-#define _TK_BSRL	256
-#define _TK_BSRF	257
-#define _TK_BRLC	258
-#define _TK_SLP	259
-#define _TK_MLT	260
-#define _TK_IN0	261
-#define _TK_OUT0	262
-#define _TK_OTIM	263
-#define _TK_OTIMR	264
-#define _TK_OTDM	265
-#define _TK_OTDMR	266
-#define _TK_TST	267
-#define _TK_TSTIO	268
-#define _TK_ALTD	269
-#define _TK_BOOL	270
-#define _TK_IOE	271
-#define _TK_IOI	272
-#define _TK_IPRES	273
-#define _TK_IPSET	274
-#define _TK_IDET	275
-#define _TK_LDDSR	276
-#define _TK_LDISR	277
-#define _TK_LDP	278
-#define _TK_LSDR	279
-#define _TK_LSIR	280
-#define _TK_LSDDR	281
-#define _TK_LSIDR	282
-#define _TK_MUL	283
-#define _TK_IP	284
-#define _TK_SU	285
-#define _TK_RDMODE	286
-#define _TK_SETUSR	287
-#define _TK_SURES	288
-#define _TK_SYSCALL	289
-#define _TK_UMA	290
-#define _TK_UMS	291
-#define _TK_CALL_OZ	292
-#define _TK_CALL_PKG	293
-#define _TK_FPP	294
-#define _TK_INVOKE	295
+#define _TK_MOD	9
+#define _TK_BIN_AND	10
+#define _TK_LOG_AND	11
+#define _TK_LPAREN	12
+#define _TK_RPAREN	13
+#define _TK_MULTIPLY	14
+#define _TK_PLUS	15
+#define _TK_COMMA	16
+#define _TK_MINUS	17
+#define _TK_DOT	18
+#define _TK_DIVIDE	19
+#define _TK_COLON	20
+#define _TK_LESS	21
+#define _TK_LEFT_SHIFT	22
+#define _TK_LESS_EQ	23
+#define _TK_NOT_EQ	24
+#define _TK_EQUAL	25
+#define _TK_GREATER	26
+#define _TK_RIGHT_SHIFT	27
+#define _TK_GREATER_EQ	28
+#define _TK_QUESTION	29
+#define _TK_LSQUARE	30
+#define _TK_RSQUARE	31
+#define _TK_BIN_XOR	32
+#define _TK_POWER	33
+#define _TK_LCURLY	34
+#define _TK_BIN_OR	35
+#define _TK_LOG_OR	36
+#define _TK_RCURLY	37
+#define _TK_BIN_NOT	38
+#define _TK_IND_C	39
+#define _TK_IND_BC	40
+#define _TK_IND_DE	41
+#define _TK_IND_HL	42
+#define _TK_IND_SP	43
+#define _TK_IND_IX	44
+#define _TK_IND_IY	45
+#define _TK_ASMPC	46
+#define _TK_NZ	47
+#define _TK_Z	48
+#define _TK_NC	49
+#define _TK_C	50
+#define _TK_PO	51
+#define _TK_PE	52
+#define _TK_P	53
+#define _TK_M	54
+#define _TK_LZ	55
+#define _TK_LO	56
+#define _TK_NV	57
+#define _TK_V	58
+#define _TK_B	59
+#define _TK_D	60
+#define _TK_E	61
+#define _TK_H	62
+#define _TK_L	63
+#define _TK_A	64
+#define _TK_F	65
+#define _TK_I	66
+#define _TK_R	67
+#define _TK_IIR	68
+#define _TK_EIR	69
+#define _TK_XPC	70
+#define _TK_IXH	71
+#define _TK_IYH	72
+#define _TK_IXL	73
+#define _TK_IYL	74
+#define _TK_X	75
+#define _TK_BC	76
+#define _TK_DE	77
+#define _TK_HL	78
+#define _TK_IX	79
+#define _TK_IY	80
+#define _TK_AF	81
+#define _TK_SP	82
+#define _TK_B1	83
+#define _TK_C1	84
+#define _TK_D1	85
+#define _TK_E1	86
+#define _TK_H1	87
+#define _TK_L1	88
+#define _TK_A1	89
+#define _TK_F1	90
+#define _TK_BC1	91
+#define _TK_DE1	92
+#define _TK_HL1	93
+#define _TK_AF1	94
+#define _TK_A32	95
+#define _TK_DEHL	96
+#define _TK_ALIGN	97
+#define _TK_BINARY	98
+#define _TK_C_LINE	99
+#define _TK_DEFB	100
+#define _TK_DEFC	101
+#define _TK_DEFDB	102
+#define _TK_DEFGROUP	103
+#define _TK_DEFINE	104
+#define _TK_DEFM	105
+#define _TK_DEFQ	106
+#define _TK_DEFS	107
+#define _TK_DEFVARS	108
+#define _TK_DEFW	109
+#define _TK_DEPHASE	110
+#define _TK_ELIF	111
+#define _TK_ELIFDEF	112
+#define _TK_ELIFNDEF	113
+#define _TK_ELSE	114
+#define _TK_ENDIF	115
+#define _TK_EXTERN	116
+#define _TK_GLOBAL	117
+#define _TK_IF	118
+#define _TK_IFDEF	119
+#define _TK_IFNDEF	120
+#define _TK_INCLUDE	121
+#define _TK_LIB	122
+#define _TK_LINE	123
+#define _TK_LSTOFF	124
+#define _TK_LSTON	125
+#define _TK_MODULE	126
+#define _TK_ORG	127
+#define _TK_PHASE	128
+#define _TK_PUBLIC	129
+#define _TK_SECTION	130
+#define _TK_UNDEFINE	131
+#define _TK_XDEF	132
+#define _TK_XLIB	133
+#define _TK_XREF	134
+#define _TK_DS_B	135
+#define _TK_DS_W	136
+#define _TK_DS_P	137
+#define _TK_DS_Q	138
+#define _TK_ADC	139
+#define _TK_ADD	140
+#define _TK_AND	141
+#define _TK_BIT	142
+#define _TK_CALL	143
+#define _TK_CCF	144
+#define _TK_CCF1	145
+#define _TK_CP	146
+#define _TK_CPD	147
+#define _TK_CPDR	148
+#define _TK_CPI	149
+#define _TK_CPIR	150
+#define _TK_CPL	151
+#define _TK_DAA	152
+#define _TK_DEC	153
+#define _TK_DI	154
+#define _TK_DJNZ	155
+#define _TK_EI	156
+#define _TK_EX	157
+#define _TK_EXX	158
+#define _TK_HALT	159
+#define _TK_IM	160
+#define _TK_IN	161
+#define _TK_INC	162
+#define _TK_IND	163
+#define _TK_INDR	164
+#define _TK_INI	165
+#define _TK_INIR	166
+#define _TK_JP	167
+#define _TK_JR	168
+#define _TK_LD	169
+#define _TK_LDD	170
+#define _TK_LDDR	171
+#define _TK_LDI	172
+#define _TK_LDIR	173
+#define _TK_NEG	174
+#define _TK_NOP	175
+#define _TK_OR	176
+#define _TK_OTDR	177
+#define _TK_OTIR	178
+#define _TK_OUT	179
+#define _TK_OUTD	180
+#define _TK_OUTI	181
+#define _TK_POP	182
+#define _TK_PUSH	183
+#define _TK_RES	184
+#define _TK_RET	185
+#define _TK_RETI	186
+#define _TK_RETN	187
+#define _TK_RL	188
+#define _TK_RLA	189
+#define _TK_RLA1	190
+#define _TK_RLC	191
+#define _TK_RLCA	192
+#define _TK_RLCA1	193
+#define _TK_RLD	194
+#define _TK_RR	195
+#define _TK_RRA	196
+#define _TK_RRA1	197
+#define _TK_RRC	198
+#define _TK_RRCA	199
+#define _TK_RRCA1	200
+#define _TK_RRD	201
+#define _TK_RST	202
+#define _TK_SBC	203
+#define _TK_SCF	204
+#define _TK_SCF1	205
+#define _TK_SET	206
+#define _TK_SLA	207
+#define _TK_SLL	208
+#define _TK_SLI	209
+#define _TK_SRA	210
+#define _TK_SRL	211
+#define _TK_SUB	212
+#define _TK_XOR	213
+#define _TK_SWAPNIB	214
+#define _TK_SWAP	215
+#define _TK_OUTINB	216
+#define _TK_LDIX	217
+#define _TK_LDIRX	218
+#define _TK_LDDX	219
+#define _TK_LDDRX	220
+#define _TK_LDIRSCALE	221
+#define _TK_LDPIRX	222
+#define _TK_LDWS	223
+#define _TK_FILL	224
+#define _TK_FILLDE	225
+#define _TK_MIRROR	226
+#define _TK_NEXTREG	227
+#define _TK_PIXELDN	228
+#define _TK_PIXELAD	229
+#define _TK_SETAE	230
+#define _TK_TEST	231
+#define _TK_MMU	232
+#define _TK_MMU0	233
+#define _TK_MMU1	234
+#define _TK_MMU2	235
+#define _TK_MMU3	236
+#define _TK_MMU4	237
+#define _TK_MMU5	238
+#define _TK_MMU6	239
+#define _TK_MMU7	240
+#define _TK_CU_WAIT	241
+#define _TK_CU_MOVE	242
+#define _TK_CU_STOP	243
+#define _TK_CU_NOP	244
+#define _TK_DMA_WR0	245
+#define _TK_DMA_WR1	246
+#define _TK_DMA_WR2	247
+#define _TK_DMA_WR3	248
+#define _TK_DMA_WR4	249
+#define _TK_DMA_WR5	250
+#define _TK_DMA_WR6	251
+#define _TK_DMA_CMD	252
+#define _TK_BSLA	253
+#define _TK_BSRA	254
+#define _TK_BSRL	255
+#define _TK_BSRF	256
+#define _TK_BRLC	257
+#define _TK_SLP	258
+#define _TK_MLT	259
+#define _TK_IN0	260
+#define _TK_OUT0	261
+#define _TK_OTIM	262
+#define _TK_OTIMR	263
+#define _TK_OTDM	264
+#define _TK_OTDMR	265
+#define _TK_TST	266
+#define _TK_TSTIO	267
+#define _TK_ALTD	268
+#define _TK_BOOL	269
+#define _TK_IOE	270
+#define _TK_IOI	271
+#define _TK_IPRES	272
+#define _TK_IPSET	273
+#define _TK_IDET	274
+#define _TK_LDDSR	275
+#define _TK_LDISR	276
+#define _TK_LDP	277
+#define _TK_LSDR	278
+#define _TK_LSIR	279
+#define _TK_LSDDR	280
+#define _TK_LSIDR	281
+#define _TK_MUL	282
+#define _TK_IP	283
+#define _TK_SU	284
+#define _TK_RDMODE	285
+#define _TK_SETUSR	286
+#define _TK_SURES	287
+#define _TK_SYSCALL	288
+#define _TK_UMA	289
+#define _TK_UMS	290
+#define _TK_CALL_OZ	291
+#define _TK_CALL_PKG	292
+#define _TK_FPP	293
+#define _TK_INVOKE	294
 
 #ifndef NO_TOKEN_ENUM
 typedef enum tokid_t
@@ -311,292 +310,291 @@ typedef enum tokid_t
 	TK_TERN_COND	= 6,
 	TK_NEWLINE	= 7,
 	TK_LOG_NOT	= 8,
-	TK_CONST_EXPR	= 9,
-	TK_MOD	= 10,
-	TK_BIN_AND	= 11,
-	TK_LOG_AND	= 12,
-	TK_LPAREN	= 13,
-	TK_RPAREN	= 14,
-	TK_MULTIPLY	= 15,
-	TK_PLUS	= 16,
-	TK_COMMA	= 17,
-	TK_MINUS	= 18,
-	TK_DOT	= 19,
-	TK_DIVIDE	= 20,
-	TK_COLON	= 21,
-	TK_LESS	= 22,
-	TK_LEFT_SHIFT	= 23,
-	TK_LESS_EQ	= 24,
-	TK_NOT_EQ	= 25,
-	TK_EQUAL	= 26,
-	TK_GREATER	= 27,
-	TK_RIGHT_SHIFT	= 28,
-	TK_GREATER_EQ	= 29,
-	TK_QUESTION	= 30,
-	TK_LSQUARE	= 31,
-	TK_RSQUARE	= 32,
-	TK_BIN_XOR	= 33,
-	TK_POWER	= 34,
-	TK_LCURLY	= 35,
-	TK_BIN_OR	= 36,
-	TK_LOG_OR	= 37,
-	TK_RCURLY	= 38,
-	TK_BIN_NOT	= 39,
-	TK_IND_C	= 40,
-	TK_IND_BC	= 41,
-	TK_IND_DE	= 42,
-	TK_IND_HL	= 43,
-	TK_IND_SP	= 44,
-	TK_IND_IX	= 45,
-	TK_IND_IY	= 46,
-	TK_ASMPC	= 47,
-	TK_NZ	= 48,
-	TK_Z	= 49,
-	TK_NC	= 50,
-	TK_C	= 51,
-	TK_PO	= 52,
-	TK_PE	= 53,
-	TK_P	= 54,
-	TK_M	= 55,
-	TK_LZ	= 56,
-	TK_LO	= 57,
-	TK_NV	= 58,
-	TK_V	= 59,
-	TK_B	= 60,
-	TK_D	= 61,
-	TK_E	= 62,
-	TK_H	= 63,
-	TK_L	= 64,
-	TK_A	= 65,
-	TK_F	= 66,
-	TK_I	= 67,
-	TK_R	= 68,
-	TK_IIR	= 69,
-	TK_EIR	= 70,
-	TK_XPC	= 71,
-	TK_IXH	= 72,
-	TK_IYH	= 73,
-	TK_IXL	= 74,
-	TK_IYL	= 75,
-	TK_X	= 76,
-	TK_BC	= 77,
-	TK_DE	= 78,
-	TK_HL	= 79,
-	TK_IX	= 80,
-	TK_IY	= 81,
-	TK_AF	= 82,
-	TK_SP	= 83,
-	TK_B1	= 84,
-	TK_C1	= 85,
-	TK_D1	= 86,
-	TK_E1	= 87,
-	TK_H1	= 88,
-	TK_L1	= 89,
-	TK_A1	= 90,
-	TK_F1	= 91,
-	TK_BC1	= 92,
-	TK_DE1	= 93,
-	TK_HL1	= 94,
-	TK_AF1	= 95,
-	TK_A32	= 96,
-	TK_DEHL	= 97,
-	TK_ALIGN	= 98,
-	TK_BINARY	= 99,
-	TK_C_LINE	= 100,
-	TK_DEFB	= 101,
-	TK_DEFC	= 102,
-	TK_DEFDB	= 103,
-	TK_DEFGROUP	= 104,
-	TK_DEFINE	= 105,
-	TK_DEFM	= 106,
-	TK_DEFQ	= 107,
-	TK_DEFS	= 108,
-	TK_DEFVARS	= 109,
-	TK_DEFW	= 110,
-	TK_DEPHASE	= 111,
-	TK_ELIF	= 112,
-	TK_ELIFDEF	= 113,
-	TK_ELIFNDEF	= 114,
-	TK_ELSE	= 115,
-	TK_ENDIF	= 116,
-	TK_EXTERN	= 117,
-	TK_GLOBAL	= 118,
-	TK_IF	= 119,
-	TK_IFDEF	= 120,
-	TK_IFNDEF	= 121,
-	TK_INCLUDE	= 122,
-	TK_LIB	= 123,
-	TK_LINE	= 124,
-	TK_LSTOFF	= 125,
-	TK_LSTON	= 126,
-	TK_MODULE	= 127,
-	TK_ORG	= 128,
-	TK_PHASE	= 129,
-	TK_PUBLIC	= 130,
-	TK_SECTION	= 131,
-	TK_UNDEFINE	= 132,
-	TK_XDEF	= 133,
-	TK_XLIB	= 134,
-	TK_XREF	= 135,
-	TK_DS_B	= 136,
-	TK_DS_W	= 137,
-	TK_DS_P	= 138,
-	TK_DS_Q	= 139,
-	TK_ADC	= 140,
-	TK_ADD	= 141,
-	TK_AND	= 142,
-	TK_BIT	= 143,
-	TK_CALL	= 144,
-	TK_CCF	= 145,
-	TK_CCF1	= 146,
-	TK_CP	= 147,
-	TK_CPD	= 148,
-	TK_CPDR	= 149,
-	TK_CPI	= 150,
-	TK_CPIR	= 151,
-	TK_CPL	= 152,
-	TK_DAA	= 153,
-	TK_DEC	= 154,
-	TK_DI	= 155,
-	TK_DJNZ	= 156,
-	TK_EI	= 157,
-	TK_EX	= 158,
-	TK_EXX	= 159,
-	TK_HALT	= 160,
-	TK_IM	= 161,
-	TK_IN	= 162,
-	TK_INC	= 163,
-	TK_IND	= 164,
-	TK_INDR	= 165,
-	TK_INI	= 166,
-	TK_INIR	= 167,
-	TK_JP	= 168,
-	TK_JR	= 169,
-	TK_LD	= 170,
-	TK_LDD	= 171,
-	TK_LDDR	= 172,
-	TK_LDI	= 173,
-	TK_LDIR	= 174,
-	TK_NEG	= 175,
-	TK_NOP	= 176,
-	TK_OR	= 177,
-	TK_OTDR	= 178,
-	TK_OTIR	= 179,
-	TK_OUT	= 180,
-	TK_OUTD	= 181,
-	TK_OUTI	= 182,
-	TK_POP	= 183,
-	TK_PUSH	= 184,
-	TK_RES	= 185,
-	TK_RET	= 186,
-	TK_RETI	= 187,
-	TK_RETN	= 188,
-	TK_RL	= 189,
-	TK_RLA	= 190,
-	TK_RLA1	= 191,
-	TK_RLC	= 192,
-	TK_RLCA	= 193,
-	TK_RLCA1	= 194,
-	TK_RLD	= 195,
-	TK_RR	= 196,
-	TK_RRA	= 197,
-	TK_RRA1	= 198,
-	TK_RRC	= 199,
-	TK_RRCA	= 200,
-	TK_RRCA1	= 201,
-	TK_RRD	= 202,
-	TK_RST	= 203,
-	TK_SBC	= 204,
-	TK_SCF	= 205,
-	TK_SCF1	= 206,
-	TK_SET	= 207,
-	TK_SLA	= 208,
-	TK_SLL	= 209,
-	TK_SLI	= 210,
-	TK_SRA	= 211,
-	TK_SRL	= 212,
-	TK_SUB	= 213,
-	TK_XOR	= 214,
-	TK_SWAPNIB	= 215,
-	TK_SWAP	= 216,
-	TK_OUTINB	= 217,
-	TK_LDIX	= 218,
-	TK_LDIRX	= 219,
-	TK_LDDX	= 220,
-	TK_LDDRX	= 221,
-	TK_LDIRSCALE	= 222,
-	TK_LDPIRX	= 223,
-	TK_LDWS	= 224,
-	TK_FILL	= 225,
-	TK_FILLDE	= 226,
-	TK_MIRROR	= 227,
-	TK_NEXTREG	= 228,
-	TK_PIXELDN	= 229,
-	TK_PIXELAD	= 230,
-	TK_SETAE	= 231,
-	TK_TEST	= 232,
-	TK_MMU	= 233,
-	TK_MMU0	= 234,
-	TK_MMU1	= 235,
-	TK_MMU2	= 236,
-	TK_MMU3	= 237,
-	TK_MMU4	= 238,
-	TK_MMU5	= 239,
-	TK_MMU6	= 240,
-	TK_MMU7	= 241,
-	TK_CU_WAIT	= 242,
-	TK_CU_MOVE	= 243,
-	TK_CU_STOP	= 244,
-	TK_CU_NOP	= 245,
-	TK_DMA_WR0	= 246,
-	TK_DMA_WR1	= 247,
-	TK_DMA_WR2	= 248,
-	TK_DMA_WR3	= 249,
-	TK_DMA_WR4	= 250,
-	TK_DMA_WR5	= 251,
-	TK_DMA_WR6	= 252,
-	TK_DMA_CMD	= 253,
-	TK_BSLA	= 254,
-	TK_BSRA	= 255,
-	TK_BSRL	= 256,
-	TK_BSRF	= 257,
-	TK_BRLC	= 258,
-	TK_SLP	= 259,
-	TK_MLT	= 260,
-	TK_IN0	= 261,
-	TK_OUT0	= 262,
-	TK_OTIM	= 263,
-	TK_OTIMR	= 264,
-	TK_OTDM	= 265,
-	TK_OTDMR	= 266,
-	TK_TST	= 267,
-	TK_TSTIO	= 268,
-	TK_ALTD	= 269,
-	TK_BOOL	= 270,
-	TK_IOE	= 271,
-	TK_IOI	= 272,
-	TK_IPRES	= 273,
-	TK_IPSET	= 274,
-	TK_IDET	= 275,
-	TK_LDDSR	= 276,
-	TK_LDISR	= 277,
-	TK_LDP	= 278,
-	TK_LSDR	= 279,
-	TK_LSIR	= 280,
-	TK_LSDDR	= 281,
-	TK_LSIDR	= 282,
-	TK_MUL	= 283,
-	TK_IP	= 284,
-	TK_SU	= 285,
-	TK_RDMODE	= 286,
-	TK_SETUSR	= 287,
-	TK_SURES	= 288,
-	TK_SYSCALL	= 289,
-	TK_UMA	= 290,
-	TK_UMS	= 291,
-	TK_CALL_OZ	= 292,
-	TK_CALL_PKG	= 293,
-	TK_FPP	= 294,
-	TK_INVOKE	= 295,
+	TK_MOD	= 9,
+	TK_BIN_AND	= 10,
+	TK_LOG_AND	= 11,
+	TK_LPAREN	= 12,
+	TK_RPAREN	= 13,
+	TK_MULTIPLY	= 14,
+	TK_PLUS	= 15,
+	TK_COMMA	= 16,
+	TK_MINUS	= 17,
+	TK_DOT	= 18,
+	TK_DIVIDE	= 19,
+	TK_COLON	= 20,
+	TK_LESS	= 21,
+	TK_LEFT_SHIFT	= 22,
+	TK_LESS_EQ	= 23,
+	TK_NOT_EQ	= 24,
+	TK_EQUAL	= 25,
+	TK_GREATER	= 26,
+	TK_RIGHT_SHIFT	= 27,
+	TK_GREATER_EQ	= 28,
+	TK_QUESTION	= 29,
+	TK_LSQUARE	= 30,
+	TK_RSQUARE	= 31,
+	TK_BIN_XOR	= 32,
+	TK_POWER	= 33,
+	TK_LCURLY	= 34,
+	TK_BIN_OR	= 35,
+	TK_LOG_OR	= 36,
+	TK_RCURLY	= 37,
+	TK_BIN_NOT	= 38,
+	TK_IND_C	= 39,
+	TK_IND_BC	= 40,
+	TK_IND_DE	= 41,
+	TK_IND_HL	= 42,
+	TK_IND_SP	= 43,
+	TK_IND_IX	= 44,
+	TK_IND_IY	= 45,
+	TK_ASMPC	= 46,
+	TK_NZ	= 47,
+	TK_Z	= 48,
+	TK_NC	= 49,
+	TK_C	= 50,
+	TK_PO	= 51,
+	TK_PE	= 52,
+	TK_P	= 53,
+	TK_M	= 54,
+	TK_LZ	= 55,
+	TK_LO	= 56,
+	TK_NV	= 57,
+	TK_V	= 58,
+	TK_B	= 59,
+	TK_D	= 60,
+	TK_E	= 61,
+	TK_H	= 62,
+	TK_L	= 63,
+	TK_A	= 64,
+	TK_F	= 65,
+	TK_I	= 66,
+	TK_R	= 67,
+	TK_IIR	= 68,
+	TK_EIR	= 69,
+	TK_XPC	= 70,
+	TK_IXH	= 71,
+	TK_IYH	= 72,
+	TK_IXL	= 73,
+	TK_IYL	= 74,
+	TK_X	= 75,
+	TK_BC	= 76,
+	TK_DE	= 77,
+	TK_HL	= 78,
+	TK_IX	= 79,
+	TK_IY	= 80,
+	TK_AF	= 81,
+	TK_SP	= 82,
+	TK_B1	= 83,
+	TK_C1	= 84,
+	TK_D1	= 85,
+	TK_E1	= 86,
+	TK_H1	= 87,
+	TK_L1	= 88,
+	TK_A1	= 89,
+	TK_F1	= 90,
+	TK_BC1	= 91,
+	TK_DE1	= 92,
+	TK_HL1	= 93,
+	TK_AF1	= 94,
+	TK_A32	= 95,
+	TK_DEHL	= 96,
+	TK_ALIGN	= 97,
+	TK_BINARY	= 98,
+	TK_C_LINE	= 99,
+	TK_DEFB	= 100,
+	TK_DEFC	= 101,
+	TK_DEFDB	= 102,
+	TK_DEFGROUP	= 103,
+	TK_DEFINE	= 104,
+	TK_DEFM	= 105,
+	TK_DEFQ	= 106,
+	TK_DEFS	= 107,
+	TK_DEFVARS	= 108,
+	TK_DEFW	= 109,
+	TK_DEPHASE	= 110,
+	TK_ELIF	= 111,
+	TK_ELIFDEF	= 112,
+	TK_ELIFNDEF	= 113,
+	TK_ELSE	= 114,
+	TK_ENDIF	= 115,
+	TK_EXTERN	= 116,
+	TK_GLOBAL	= 117,
+	TK_IF	= 118,
+	TK_IFDEF	= 119,
+	TK_IFNDEF	= 120,
+	TK_INCLUDE	= 121,
+	TK_LIB	= 122,
+	TK_LINE	= 123,
+	TK_LSTOFF	= 124,
+	TK_LSTON	= 125,
+	TK_MODULE	= 126,
+	TK_ORG	= 127,
+	TK_PHASE	= 128,
+	TK_PUBLIC	= 129,
+	TK_SECTION	= 130,
+	TK_UNDEFINE	= 131,
+	TK_XDEF	= 132,
+	TK_XLIB	= 133,
+	TK_XREF	= 134,
+	TK_DS_B	= 135,
+	TK_DS_W	= 136,
+	TK_DS_P	= 137,
+	TK_DS_Q	= 138,
+	TK_ADC	= 139,
+	TK_ADD	= 140,
+	TK_AND	= 141,
+	TK_BIT	= 142,
+	TK_CALL	= 143,
+	TK_CCF	= 144,
+	TK_CCF1	= 145,
+	TK_CP	= 146,
+	TK_CPD	= 147,
+	TK_CPDR	= 148,
+	TK_CPI	= 149,
+	TK_CPIR	= 150,
+	TK_CPL	= 151,
+	TK_DAA	= 152,
+	TK_DEC	= 153,
+	TK_DI	= 154,
+	TK_DJNZ	= 155,
+	TK_EI	= 156,
+	TK_EX	= 157,
+	TK_EXX	= 158,
+	TK_HALT	= 159,
+	TK_IM	= 160,
+	TK_IN	= 161,
+	TK_INC	= 162,
+	TK_IND	= 163,
+	TK_INDR	= 164,
+	TK_INI	= 165,
+	TK_INIR	= 166,
+	TK_JP	= 167,
+	TK_JR	= 168,
+	TK_LD	= 169,
+	TK_LDD	= 170,
+	TK_LDDR	= 171,
+	TK_LDI	= 172,
+	TK_LDIR	= 173,
+	TK_NEG	= 174,
+	TK_NOP	= 175,
+	TK_OR	= 176,
+	TK_OTDR	= 177,
+	TK_OTIR	= 178,
+	TK_OUT	= 179,
+	TK_OUTD	= 180,
+	TK_OUTI	= 181,
+	TK_POP	= 182,
+	TK_PUSH	= 183,
+	TK_RES	= 184,
+	TK_RET	= 185,
+	TK_RETI	= 186,
+	TK_RETN	= 187,
+	TK_RL	= 188,
+	TK_RLA	= 189,
+	TK_RLA1	= 190,
+	TK_RLC	= 191,
+	TK_RLCA	= 192,
+	TK_RLCA1	= 193,
+	TK_RLD	= 194,
+	TK_RR	= 195,
+	TK_RRA	= 196,
+	TK_RRA1	= 197,
+	TK_RRC	= 198,
+	TK_RRCA	= 199,
+	TK_RRCA1	= 200,
+	TK_RRD	= 201,
+	TK_RST	= 202,
+	TK_SBC	= 203,
+	TK_SCF	= 204,
+	TK_SCF1	= 205,
+	TK_SET	= 206,
+	TK_SLA	= 207,
+	TK_SLL	= 208,
+	TK_SLI	= 209,
+	TK_SRA	= 210,
+	TK_SRL	= 211,
+	TK_SUB	= 212,
+	TK_XOR	= 213,
+	TK_SWAPNIB	= 214,
+	TK_SWAP	= 215,
+	TK_OUTINB	= 216,
+	TK_LDIX	= 217,
+	TK_LDIRX	= 218,
+	TK_LDDX	= 219,
+	TK_LDDRX	= 220,
+	TK_LDIRSCALE	= 221,
+	TK_LDPIRX	= 222,
+	TK_LDWS	= 223,
+	TK_FILL	= 224,
+	TK_FILLDE	= 225,
+	TK_MIRROR	= 226,
+	TK_NEXTREG	= 227,
+	TK_PIXELDN	= 228,
+	TK_PIXELAD	= 229,
+	TK_SETAE	= 230,
+	TK_TEST	= 231,
+	TK_MMU	= 232,
+	TK_MMU0	= 233,
+	TK_MMU1	= 234,
+	TK_MMU2	= 235,
+	TK_MMU3	= 236,
+	TK_MMU4	= 237,
+	TK_MMU5	= 238,
+	TK_MMU6	= 239,
+	TK_MMU7	= 240,
+	TK_CU_WAIT	= 241,
+	TK_CU_MOVE	= 242,
+	TK_CU_STOP	= 243,
+	TK_CU_NOP	= 244,
+	TK_DMA_WR0	= 245,
+	TK_DMA_WR1	= 246,
+	TK_DMA_WR2	= 247,
+	TK_DMA_WR3	= 248,
+	TK_DMA_WR4	= 249,
+	TK_DMA_WR5	= 250,
+	TK_DMA_WR6	= 251,
+	TK_DMA_CMD	= 252,
+	TK_BSLA	= 253,
+	TK_BSRA	= 254,
+	TK_BSRL	= 255,
+	TK_BSRF	= 256,
+	TK_BRLC	= 257,
+	TK_SLP	= 258,
+	TK_MLT	= 259,
+	TK_IN0	= 260,
+	TK_OUT0	= 261,
+	TK_OTIM	= 262,
+	TK_OTIMR	= 263,
+	TK_OTDM	= 264,
+	TK_OTDMR	= 265,
+	TK_TST	= 266,
+	TK_TSTIO	= 267,
+	TK_ALTD	= 268,
+	TK_BOOL	= 269,
+	TK_IOE	= 270,
+	TK_IOI	= 271,
+	TK_IPRES	= 272,
+	TK_IPSET	= 273,
+	TK_IDET	= 274,
+	TK_LDDSR	= 275,
+	TK_LDISR	= 276,
+	TK_LDP	= 277,
+	TK_LSDR	= 278,
+	TK_LSIR	= 279,
+	TK_LSDDR	= 280,
+	TK_LSIDR	= 281,
+	TK_MUL	= 282,
+	TK_IP	= 283,
+	TK_SU	= 284,
+	TK_RDMODE	= 285,
+	TK_SETUSR	= 286,
+	TK_SURES	= 287,
+	TK_SYSCALL	= 288,
+	TK_UMA	= 289,
+	TK_UMS	= 290,
+	TK_CALL_OZ	= 291,
+	TK_CALL_PKG	= 292,
+	TK_FPP	= 293,
+	TK_INVOKE	= 294,
 } tokid_t;
 #endif

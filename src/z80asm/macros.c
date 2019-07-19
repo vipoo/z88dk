@@ -180,6 +180,7 @@ static void free_macros(void)
 static void macro_expand(Macro* macro, char** in_p, str_t* out);
 static bool collect_macro_call(char** in, str_t* out);
 static bool collect_number(char** in, str_t* out);
+static bool collect_stringize(char** in, str_t* out);
 
 // fill input stream
 static void fill_input()
@@ -319,6 +320,8 @@ static bool collect_macro_argument_i(char** p, str_t* text)
 			else if (collect_macro_call(&P, text)) {
 			}
 			else if (collect_quoted_string(&P, text)) {
+			}
+			else if (collect_stringize(&P, text)) {
 			}
 			else if (*P == '(') {
 				str_append_n(text, P, 1); P++;
@@ -494,39 +497,95 @@ static bool collect_ident(char **in, char *ident)
 }
 
 // collect a possible macro name, expand if a macro exists
-static void collect_macro_call1(char** in, str_t* out, str_t* name)
+static bool collect_macro_call1(char** in, str_t* out, str_t* name)
 {
-#define P (*in)
-	// maybe at start of macro call
-	collect_name(&P, name);
-	Macro* macro = Macro_lookup(str_data(name));
-	if (macro)
-		macro_expand(macro, &P, out);
-	else {
-		// try after prefix
-		if (Is_ident_prefix(str_data(name)[0])) {
-			str_append_n(out, str_data(name), 1);
+	char* p = *in;
+
+	if (Is_ident_prefix(p[0]) && Is_ident_start(p[1])) {		// prefix, name
+		collect_name(&p, name);
+		Macro* macro = Macro_lookup(str_data(name));
+		if (macro) {
+			macro_expand(macro, &p, out);
+			*in = p;
+			return true;
+		}
+		else {													// try after prefix
 			macro = Macro_lookup(str_data(name) + 1);
-			if (macro)
-				macro_expand(macro, &P, out);
-			else
-				str_append_n(out, str_data(name) + 1, str_len(name) - 1);
+			if (macro) {
+				str_append_n(out, str_data(name), 1);
+				macro_expand(macro, &p, out);
+				*in = p;
+				return true;
+			}
+		}
+		return false;											// prefix-name is not a macro call
+	}
+	else if (Is_ident_start(p[0])) {							// name
+		collect_name(&p, name);
+		Macro* macro = Macro_lookup(str_data(name));
+		if (macro) {
+			macro_expand(macro, &p, out);
+			*in = p;
+			return true;
 		}
 		else {
 			str_append_n(out, str_data(name), str_len(name));
+			*in = p;
+			return true;
 		}
 	}
-#undef P
+	else
+		return false;
 }
 
 static bool collect_macro_call(char** in, str_t* out)
 {
 #define P (*in)
-	if ((Is_ident_prefix(P[0]) && Is_ident_start(P[1])) || Is_ident_start(P[0])) {	// identifier
-		str_t* name = str_new();
-		collect_macro_call1(in, out, name);
-		str_free(name);
+	str_t* name = str_new();
+	bool found = collect_macro_call1(in, out, name);
+	str_free(name);
+	return found;
+#undef P
+}
+
+// collect stringize operator
+static bool collect_stringize1(char** in, str_t* out, str_t* text)
+{
+	char* p = *in + 1;	// '#' already matched
+	SkipSpaces(p);
+
+	// collect next token
+	if (collect_macro_call(&p, text)) {
+		*in = p;
+		str_append_n(out, "\"", 1);
+		for (char* t = str_data(text); *t; t++) {
+			if (*t == '"')
+				str_append_n(out, "\\\"", 2);
+			else
+				str_append_n(out, t, 1);
+		}
+		str_append_n(out, "\"", 1);
 		return true;
+	}
+	else if (collect_number(&p, text)) {
+		*in = p;
+		str_append_n(out, "\"", 1);
+		str_append(out, str_data(text));
+		str_append_n(out, "\"", 1);
+		return true;
+	}
+	else
+		return false;
+}
+
+static bool collect_stringize(char** in, str_t* out)
+{
+#define P (*in)
+	if (*P == '#') {
+		str_t* text = str_new();
+		bool found = collect_stringize1(in, out, text);
+		str_free(text);
+		return found;
 	}
 	else
 		return false;
@@ -699,6 +758,8 @@ static void macro_expand1(Macro* macro, char** in_p, str_t* out, str_t* name)
 		else if (collect_number(&p, out)) {			// number
 		}
 		else if (collect_quoted_string(&p, out)) {	// string
+		}
+		else if (collect_stringize(&p, out)) {
 		}
 		else {
 			str_append_n(out, p, 1); p++;
@@ -886,48 +947,55 @@ static void statement_expand_macros(char* in)
 	char* p = in;
 	while (*p != '\0') {
 		if (collect_number(&p, out)) {
+			last_was_ident = false;
 		}
-		else if (collect_macro_call(&p, out)) {						// identifier
+		else if (collect_macro_call(&p, out)) {					// identifier
 			// flags to identify ':' after first label
 			count_ident++;
 			last_was_ident = true;
 		}
-		else {
-			if (collect_quoted_string(&p, out)) {				// string
+		else if (collect_quoted_string(&p, out)) {				// string
+			last_was_ident = false;
+		}
+		else if (collect_stringize(&p, out)) {
+			last_was_ident = false;
+		}
+		else if (*p == ';') {
+			str_append_n(out, "\n", 1); p += strlen(p);			// skip comments
+			last_was_ident = false;
+		}
+		else if (*p == '\\') {									// statement separator
+			p++;
+			str_append_n(out, "\n", 1);
+			send_to_output(str_data(out));
+			statement_expand_macros(p); p += strlen(p);			// recurse for next satetement in line
+			str_clear(out);
+			last_was_ident = false;
+		}
+		else if (*p == '?') {
+			str_append_n(out, p, 1); p++;
+			count_question++;
+			last_was_ident = false;
+		}
+		else if (*p == ':') {
+			if (count_question > 0) {						// part of a ?: expression
+				str_append_n(out, p, 1); p++;
+				count_question--;
 			}
-			else if (*p == ';') {
-				str_append_n(out, "\n", 1); p += strlen(p);		// skip comments
+			else if (last_was_ident && count_ident == 1) {	// label marker
+				str_append_n(out, p, 1); p++;
 			}
-			else if (*p == '\\') {								// statement separator
+			else {											// statement separator
 				p++;
 				str_append_n(out, "\n", 1);
 				send_to_output(str_data(out));
-				statement_expand_macros(p); p += strlen(p);		// recurse for next satetement in line
+				statement_expand_macros(p); p += strlen(p);	// recurse for next satetement in line
 				str_clear(out);
 			}
-			else if (*p == '?') {
-				str_append_n(out, p, 1); p++;
-				count_question++;
-			}
-			else if (*p == ':') {
-				if (count_question > 0) {						// part of a ?: expression
-					str_append_n(out, p, 1); p++;
-					count_question--;
-				}
-				else if (last_was_ident && count_ident == 1) {	// label marker
-					str_append_n(out, p, 1); p++;
-				}
-				else {											// statement separator
-					p++;
-					str_append_n(out, "\n", 1);
-					send_to_output(str_data(out));
-					statement_expand_macros(p); p += strlen(p);	// recurse for next satetement in line
-					str_clear(out);
-				}
-			}
-			else {
-				str_append_n(out, p, 1); p++;
-			}
+			last_was_ident = false;
+		}
+		else {
+			str_append_n(out, p, 1); p++;
 			last_was_ident = false;
 		}
 	}

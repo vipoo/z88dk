@@ -254,10 +254,9 @@ t_compile_module($init, <<'END', $objs);
 
 
 	/* symbols */
-	SetTemporaryLine(" \r\f\v\t ; comment \n ! # % & && ( ) * + , - . / : ; comment ");
+	SetTemporaryLine(" \r\f\v\t ; comment \n ! % & && ( ) * + , - . / : ; comment ");
 	T_NEWLINE();
 	T_EXCLAM();
-	T_HASH();
 	T_PERCENT();
 	T_AND();
 	T_AND_AND();
