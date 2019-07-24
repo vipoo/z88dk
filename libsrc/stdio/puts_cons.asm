@@ -26,7 +26,9 @@
 	pop	hl
 	push	hl
 	push	bc
+IF !__CPU_INTEL__
 	push    ix
+ENDIF
 .puts0
 	ld	a,(hl)
 	and	a
@@ -48,6 +50,8 @@ ENDIF
 	push	de
 	call	fputc_cons
 	pop	de
+IF !__CPU_INTEL__
 	pop	ix
+ENDIF
 	ret
 

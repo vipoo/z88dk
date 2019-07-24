@@ -1,4 +1,5 @@
 
+; TODO: Rewrite this for 8080
    MODULE   __printf_handle_f
    PUBLIC   __printf_handle_f
    PUBLIC   __printf_handle_e
@@ -15,11 +16,25 @@
    EXTERN   CLIB_32BIT_FLOATS
    EXTERN   CLIB_64BIT_FLOATS
 
+   EXTERN   __printf_issccz80
+   EXTERN   __printf_get_precision
+   EXTERN   __printf_set_buffer_length
+   EXTERN   __printf_set_ftoe
+   EXTERN   __printf_check_ftoe
+
 __printf_handle_e:
+IF __CPU_INTEL__
+	call	__printf_set_ftoe
+ELSE
         set   5,(ix-4)
+ENDIF
 __printf_handle_f:
         push    hl              ;save fmt
+IF __CPU_INTEL__
+	call	__printf_issccz80
+ELSE
         bit   0,(ix+6)
+ENDIF
         jr nz,is_sccz80
 
         ex      de,hl           ;hl=where tp pick up from
@@ -35,7 +50,9 @@ __printf_handle_f:
         ld      h,b
         ld      l,a
 
+IF !__CPU_INTEL__
         push  ix    ;save callers
+ENDIF
         ld      a,CLIB_32BIT_FLOATS
         and     a
 	jr	z,sdcc_48bit_floats
@@ -69,7 +86,9 @@ is_sccz80:
         inc     de
         inc     de
 
+IF !__CPU_INTEL__
         push    ix              ;save ix - ftoa will corrupt it
+ENDIF
         ld      hl,-8
         add     hl,sp
         ld      sp,hl
@@ -93,7 +112,9 @@ try_sccz80_32bit_float:
         dec     hl
         dec     hl
         push    hl              ;Save ap for next time
+IF !__CPU_INTEL__
         push    ix    ;save callers
+ENDIF
         push    de		;(padding, unused)
         push    de		;(padding, unused)
         push    de		;MSW
@@ -110,7 +131,9 @@ is_sccz80_48bit_float:
         inc     de
         inc     de
 
+IF !__CPU_INTEL__
         push    ix              ;save ix - ftoa will corrupt it
+ENDIF
         ld      hl,-8
         add     hl,sp
         ld      sp,hl
@@ -119,8 +142,16 @@ is_sccz80_48bit_float:
         ldir                    ;stack parameter
 
 rejoin:
+IF __CPU_INTEL__
+	push	hl
+	call	__printf_get_precision
+	ld	c,l
+	ld	b,h
+	pop	hl
+ELSE
         ld      c,(ix-8)
         ld      b,(ix-7)
+ENDIF
         ld      a,b
         and     c
         inc     a
@@ -132,7 +163,11 @@ set_prec:
         push    hl
         ;ftoa(double number, int prec, char *buf)
         ld      hl,ftoa
+IF __CPU_INTEL__
+	call	__printf_check_ftoe
+ELSE
         bit     5,(ix-4)
+ENDIF
         jr      z,call_fp_converter
         ld      hl,ftoe
 call_fp_converter:
@@ -143,8 +178,14 @@ call_fp_converter:
         pop     bc      ;flt
         pop     bc      ;flt
         pop     bc      ;flt
+IF !__CPU_INTEL__
         pop     ix              ;get ix back
+ENDIF
         call    __printf_get_buffer_address
         call    strlen          ;get the length of it
+IF __CPU_INTEL__
+	call	__printf_set_buffer_length
+ELSE
         ld      (ix-10),l
+ENDIF
         jp      __printf_print_the_buffer

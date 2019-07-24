@@ -31,7 +31,9 @@ ___mbf32_setup_two:
 	ld	c,(hl)
 	inc	hl
 	ld	b,(hl)
+IF !__CPU_INTEL__
 	pop	hl
 	push	ix
 	push	hl
+ENDIF
 	ret
