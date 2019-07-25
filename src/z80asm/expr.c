@@ -50,11 +50,6 @@ static void ExprOp_init_number(     ExprOp *self, long value );
 static void ExprOp_init_symbol(     ExprOp *self, Symbol *symbol );
 static void ExprOp_init_operator(   ExprOp *self, tokid_t tok, op_type_t op_type );
 
-#if 0
-// collides with new string-ize operator
-static void ExprOp_init_const_expr( ExprOp *self );
-#endif
-
 /*-----------------------------------------------------------------------------
 *	Initialization
 *----------------------------------------------------------------------------*/
@@ -259,14 +254,6 @@ void ExprOp_init_symbol( ExprOp *self, Symbol *symbol )
 	self->d.symbol	= symbol;
 }
 
-#if 0
-// collides with new string-ize operator
-void ExprOp_init_const_expr( ExprOp *self )
-{
-	self->op_type = CONST_EXPR_OP;
-}
-#endif
-
 void ExprOp_init_operator( ExprOp *self, tokid_t tok, op_type_t op_type )
 {
 	Operator *op;
@@ -319,13 +306,6 @@ void ExprOp_compute(ExprOp *self, Expr *expr, bool not_defined_error)
 			expr->is_computed = false;
 
 		break;
-		
-#if 0
-	// collides with new string-ize operator
-	case CONST_EXPR_OP:
-		expr->type = TYPE_CONSTANT;		/* convert to constant expression */
-		break;
-#endif
 		
 	case ASMPC_OP:
 		if (get_phased_PC() >= 0) {
@@ -647,28 +627,7 @@ Expr *expr_parse( void )
 {
 	Expr *self = OBJ_NEW( Expr );
 
-#if 0
-	// collides with new string-ize operator
-    bool is_const_expr = false;
-    if ( sym.tok == TK_CONST_EXPR )		/* leading '#' : ignore relocatable address expression */
-    {
-		Str_append_n(self->text, sym.tstart, sym.tlen);
-
-		GetSym();               
-        is_const_expr = true;
-    }
-#endif
-
-    if ( Expr_parse_ternary_cond( self ) )
-    {
-#if 0
-		// collides with new string-ize operator
-		/* convert to constant expression */
-        if ( is_const_expr )
-			ExprOp_init_const_expr( ExprOpArray_push( self->rpn_ops ) );
-#endif
-	}
-    else		
+    if ( ! Expr_parse_ternary_cond( self ) )
     {
 		/* syntax error in expression */
 		OBJ_DELETE( self );
@@ -716,10 +675,6 @@ long Expr_eval(Expr *self, bool not_defined_error)
 			switch (expr_op->op_type)
 			{
 			case SYMBOL_OP:		type = MAX( type, expr_op->d.symbol->type ); break;
-#if 0
-			// collides with new string-ize operator
-			case CONST_EXPR_OP:	type = MAX( type, TYPE_CONSTANT ); break;
-#endif
 			case ASMPC_OP:		type = MAX( type, TYPE_ADDRESS ); break;
 			default:			; /* no change */
 			}
@@ -787,10 +742,6 @@ bool Expr_is_local_in_section(Expr *self, struct Module *module, struct Section 
 				return false;
 			break;
 
-#if 0
-		// collides with new string-ize operator
-		case CONST_EXPR_OP:
-#endif
 		case ASMPC_OP:
 		case NUMBER_OP:
 		case UNARY_OP:	
@@ -825,10 +776,6 @@ bool Expr_without_addresses(Expr *self)
 			num_addresses++;
 			break;
 
-#if 0
-		// collides with new string-ize operator
-		case CONST_EXPR_OP:
-#endif
 		case NUMBER_OP:
 		case UNARY_OP:
 		case BINARY_OP:
@@ -863,10 +810,6 @@ bool Expr_is_recusive(Expr *self, const char *name)
 				return true;
 			break;
 
-#if 0
-		// collides with new string-ize operator
-		case CONST_EXPR_OP:
-#endif
 		case ASMPC_OP:
 		case NUMBER_OP:
 		case UNARY_OP:

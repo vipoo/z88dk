@@ -34,10 +34,6 @@ typedef enum
 { 
 	ASMPC_OP, NUMBER_OP, SYMBOL_OP, 
 	UNARY_OP, BINARY_OP, TERNARY_OP,
-#if 0
-	// collides with new string-ize operator
-	CONST_EXPR_OP, 
-#endif
 } op_type_t;
 
 typedef enum { ASSOC_NONE, ASSOC_LEFT, ASSOC_RIGHT } assoc_t;
@@ -78,8 +74,6 @@ typedef struct ExprOp				/* hold one operation or operand */
 		/* SYMBOL_OP */
 		Symbol *symbol;				/* symbol in symbol table */
 
-		/* CONST_EXPR_OP - no data */
-		
 		/* UNARY_OP, BINARY_OP, TERNARY_OP */
 		Operator *op;				/* static struct, retrieved by Operator_get() */
 	} d;

@@ -58,10 +58,7 @@ TOKEN(TK_LOG_NOT, "!", )
 
 /* no token for "\"" */
 
-#if 0
-// collides with new string-ize operator
-TOKEN(TK_CONST_EXPR, "#", )
-#endif
+/* no token for "#" */
 
 /* no token for "$" */
 
