@@ -20,6 +20,11 @@ Assembly macros.
 #include "die.h"
 #include <ctype.h>
 
+//-----------------------------------------------------------------------------
+//	global config
+//-----------------------------------------------------------------------------
+bool macros_active = true;
+
 #define Is_ident_prefix(x)	((x)=='.' || (x)=='#' || (x)=='$' || (x)=='%' || (x)=='@')
 #define Is_ident_start(x)	(isalpha(x) || (x)=='_')
 #define Is_ident_cont(x)	(isalnum(x) || (x)=='_')
@@ -1085,16 +1090,21 @@ char* macros_getline1()
 
 char *macros_getline(getline_t getline_func)
 {
-	cur_getline_func = getline_func;
-	char* line = macros_getline1();
-	cur_getline_func = NULL;
+	if (macros_active) {
+		cur_getline_func = getline_func;
+		char* line = macros_getline1();
+		cur_getline_func = NULL;
 
-	if (line != NULL && preproc_fp != NULL) {
-		fprintf(preproc_fp, "\tLINE %d, \"%s\"\n\t%s",
-			get_error_line(), get_error_file(),
-			line);
+		if (line != NULL && preproc_fp != NULL) {
+			fprintf(preproc_fp, "\tLINE %d, \"%s\"\n\t%s",
+				get_error_line(), get_error_file(),
+				line);
+		}
+
+		return line;
 	}
-
-	return line;
+	else {
+		return getline_func();
+	}
 }
 

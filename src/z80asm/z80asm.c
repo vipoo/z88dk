@@ -335,7 +335,11 @@ int z80asm_main( int argc, char *argv[] )
 	/* parse command line and call-back via assemble_file() */
 	/* If filename starts with '@', reads the file as a list of filenames
 	*	and assembles each one in turn */
+
+	macros_active = false;				// do not expand macros while processing .lst files
 	parse_argv(argc, argv);
+	macros_active = true;				// but do expand during parsing of asm files
+
 	if (!get_num_errors()) {
 		for (char **pfile = argv_front(opts.files); *pfile; pfile++)
 			assemble_file(*pfile);
