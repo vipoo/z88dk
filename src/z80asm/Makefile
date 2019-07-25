@@ -148,10 +148,11 @@ clean::
 
 test: $(TARGET) z80asm_lib
 	$(MAKE) dev
+	$(MAKE) test_z80asm
 	$(MAKE) z80asm_lib
-	#$(MAKE) -C dev\z80asm_lib test
 	$(MAKE) prove_c
 	$(MAKE) prove_perl
+	$(MAKE) -C dev\z80asm_lib test
 
 testlib:
 	$(MAKE) -C lib test
@@ -180,6 +181,20 @@ clean::
 clean::
 	$(RM) $(TARGET) $(LOCAL_LIB)/$(TARGET) test* $(LOCAL_LIB)/test*
 	$(RM) t/*.tmp $(LOCAL_LIB)/t/*.tmp t/dev/*.tmp
+
+#------------------------------------------------------------------------------
+# new tests
+#------------------------------------------------------------------------------
+Z80ASM_TESTS_SRC	= t/test.c $(wildcard t/t_*.c)
+Z80ASM_TESTS_OBJ	= $(Z80ASM_TESTS_SRC:.c=.o)
+DEPENDS				+= $(Z80ASM_TESTS_SRC:.c=.d)
+
+test_z80asm: t/libtestlib.a $(Z80ASM_TESTS_OBJ) t/test.def
+	$(CC) $(CFLAGS) $(Z80ASM_TESTS_OBJ) -o t/test$(EXESUFFIX) $(LDFLAGS) -Lt -ltestlib
+	t/test$(EXESUFFIX)
+
+t/test.def: t/make_tests.pl $(Z80ASM_TESTS_SRC)
+	perl t/make_tests.pl
 
 #------------------------------------------------------------------------------
 # build with msvc - need to build manualy, devenv not available in Express

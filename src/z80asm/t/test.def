@@ -1,0 +1,5 @@
+#if !EXEC_TEST
+extern void test_asmpp();
+test_asmpp();
+#endif
+
