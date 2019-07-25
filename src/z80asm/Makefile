@@ -152,7 +152,7 @@ test: $(TARGET) z80asm_lib
 	$(MAKE) z80asm_lib
 	$(MAKE) prove_c
 	$(MAKE) prove_perl
-	$(MAKE) -C dev\z80asm_lib test
+	$(MAKE) -C dev/z80asm_lib test
 
 testlib:
 	$(MAKE) -C lib test
