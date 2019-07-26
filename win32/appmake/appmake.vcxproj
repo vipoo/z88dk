@@ -176,8 +176,6 @@
     <ClCompile Include="..\..\src\appmake\fat.c" />
     <ClCompile Include="..\..\src\appmake\ff.c" />
     <ClCompile Include="..\..\src\appmake\fp1100.c" />
-    <ClCompile Include="..\..\src\appmake\fp1100.c" />
-    <ClCompile Include="..\..\src\appmake\fp1100.c" />
     <ClCompile Include="..\..\src\appmake\galaksija.c" />
     <ClCompile Include="..\..\src\appmake\glue.c" />
     <ClCompile Include="..\..\src\appmake\hex.c" />
@@ -196,8 +194,8 @@
     <ClCompile Include="..\..\src\appmake\nec.c" />
     <ClCompile Include="..\..\src\appmake\newbrain.c" />
     <ClCompile Include="..\..\src\appmake\newext.c" />
-    <ClCompile Include="..\..\src\appmake\pasopia.c" />
     <ClCompile Include="..\..\src\appmake\p2000.c" />
+    <ClCompile Include="..\..\src\appmake\pasopia7.c" />
     <ClCompile Include="..\..\src\appmake\pc88.c" />
     <ClCompile Include="..\..\src\appmake\px.c" />
     <ClCompile Include="..\..\src\appmake\residos.c" />

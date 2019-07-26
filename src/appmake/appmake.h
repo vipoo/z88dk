@@ -505,7 +505,7 @@ struct {
 
 
 #define myexit(buf, code) exit_log(code, buf)
-extern void         exit_log(int code, char *fmt, ...) __NORETURN;
+extern void         exit_log(int code, char *fmt, ...) ;
 extern long         parameter_search(const char *filen,const  char *ext,const char *target);
 extern FILE        *fopen_bin(const char *fname,const  char *crtfile);
 extern long         get_org_addr(char *crtfile);
