@@ -234,3 +234,40 @@ int exec_asmpp_file_open_error_2()
 {
 	return exec_asmpp_file_open_error(true);
 }
+
+void test_asmpp_getline_lst()
+{
+	tst_spew(FILE1,
+		"  \n"
+		"  \r\n"
+		"  \r"
+		"  file 1  \n"
+		"  # comment 1  \r\n"
+		"  file 2  \r"
+		"  ; comment 2  \n"
+		"  file 3");
+	OK(file_exists(FILE1));
+
+	pp_push(); {
+		OK(pp_open(FILE1));
+
+		char* line = pp_getline_lst();
+		ASSERT(line);
+		STR_IS(line, "file 1");
+
+		line = pp_getline_lst();
+		ASSERT(line);
+		STR_IS(line, "file 2");
+
+		line = pp_getline_lst();
+		ASSERT(line);
+		STR_IS(line, "file 3");
+
+		line = pp_getline_lst();
+		NOK(line);
+	}
+	pp_pop();
+
+	xremove(FILE1);
+	NOK(file_exists(FILE1));
+}

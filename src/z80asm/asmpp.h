@@ -43,8 +43,7 @@ bool pp_open(const char* filename);
 // returns a pointer to an internal buffer
 char* pp_getline();
 
-// read next line from list file
-// skips comment lines
+// read next file from list file, strips blanks and ignores comments
 char* pp_getline_lst();
 
 // read next line from source file

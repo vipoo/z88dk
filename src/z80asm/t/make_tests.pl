@@ -10,6 +10,7 @@ if (@ARGV) {
 		if (/^ \s* void \s+ (test_\w*) \s* \( \s* \) /x) {
 			print $f <<"END";
 #if !EXEC_TEST
+DIAG("$1");
 extern void $1();
 $1();
 #endif

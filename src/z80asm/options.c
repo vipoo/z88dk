@@ -384,20 +384,13 @@ static const char *search_source(const char *filename)
 
 static void process_file(char *filename )
 {
-	cstr_strip(filename);
 	switch (filename[0])
 	{
-	case '\0':		/* no file */
-		break;
-
 	case '@':		/* file list */
 		filename++;						/* point to after '@' */
 		cstr_strip(filename);
 		filename = (char *)expand_environment_variables(filename);
 		expand_list_glob(filename);
-		break;
-	case ';':     /* comment */
-	case '#':
 		break;
 	default:
 		filename = (char *)expand_environment_variables(filename);
