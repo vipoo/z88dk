@@ -29,7 +29,7 @@ typedef struct FileStackElem
 	FILE	*file;					/* open file */
 	const char *filename;				/* source file name, held in strpool */
 	const char *line_filename;			/* source file name of LINE statement, held in strpool */
-	int		 line_nr;				/* current line number, i.e. last returned */
+	int		 line_num;				/* current line number, i.e. last returned */
 	int		 line_inc;				/* increment on each line read */
 	bool	 is_c_source;			/* true if C_LINE was called */
 } FileStackElem;
@@ -58,10 +58,10 @@ new_line_cb_t set_new_line_cb( new_line_cb_t func )
 }
 
 /* call callback */
-static void call_new_line_cb(const char *filename, int line_nr, const char *text )
+static void call_new_line_cb(const char *filename, int line_num, const char *text )
 {
 	if ( new_line_cb != NULL )
-		new_line_cb( filename, line_nr, text );
+		new_line_cb( filename, line_num, text );
 }
 
 /*-----------------------------------------------------------------------------
@@ -169,7 +169,7 @@ bool SrcFile_open( SrcFile *self, const char *filename, UT_array *dir_list )
 
 	/* init current line */
     Str_clear( self->line );
-    self->line_nr = 0;
+    self->line_num = 0;
 	self->line_inc = 1;
 	self->is_c_source = false;
 
@@ -247,8 +247,8 @@ char *SrcFile_getline( SrcFile *self )
         Str_append_char( self->line, '\n' );
 
 	/* signal new line, even empty one, to show end line in list */
-    self->line_nr += self->line_inc;
-	call_new_line_cb( self->line_filename, self->line_nr, Str_data(self->line) );
+    self->line_num += self->line_inc;
+	call_new_line_cb( self->line_filename, self->line_num, Str_data(self->line) );
 
 	/* check for end of file
 	   even if EOF found, we need to return any chars in line first */
@@ -313,7 +313,7 @@ void SrcFile_ungetline( SrcFile *self, const char *lines )
 
 /* return the current file name and line number */
 const char *SrcFile_filename( SrcFile *self ) { return self->line_filename; }
-int         SrcFile_line_nr(  SrcFile *self ) { return self->line_nr; }
+int         SrcFile_line_nr(  SrcFile *self ) { return self->line_num; }
 
 bool ScrFile_is_c_source(SrcFile * self)
 {
@@ -325,9 +325,9 @@ void SrcFile_set_filename(SrcFile * self, const char * filename)
 	self->line_filename = str_pool_add(filename);
 }
 
-void SrcFile_set_line_nr(SrcFile * self, int line_nr, int line_inc)
+void SrcFile_set_line_nr(SrcFile * self, int line_num, int line_inc)
 {
-	self->line_nr = line_nr - line_inc;
+	self->line_num = line_num - line_inc;
 	self->line_inc = line_inc;
 }
 
@@ -347,7 +347,7 @@ void SrcFile_push( SrcFile *self )
 	elem->file		= self->file;
 	elem->filename = self->filename;
 	elem->line_filename = self->line_filename;
-	elem->line_nr   = self->line_nr;
+	elem->line_num   = self->line_num;
 	elem->line_inc = self->line_inc;
 	elem->is_c_source = self->is_c_source;
 
@@ -357,7 +357,7 @@ void SrcFile_push( SrcFile *self )
 	/* keep previous file name and location so that errors detected during
 	*  macro expansion are shown on the correct line
 	*	self->filename	= NULL;
-	*	self->line_nr 	= 0;
+	*	self->line_num 	= 0;
 	*/
 }
 
@@ -375,7 +375,7 @@ bool SrcFile_pop( SrcFile *self )
 	self->file		= elem->file;
 	self->filename = elem->filename;
 	self->line_filename = elem->line_filename;
-	self->line_nr   = elem->line_nr;
+	self->line_num   = elem->line_num;
 	self->line_inc = elem->line_inc;
 	self->is_c_source = elem->is_c_source;
 

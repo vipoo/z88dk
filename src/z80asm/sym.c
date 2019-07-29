@@ -59,8 +59,10 @@ Symbol *Symbol_create(const char *name, long value, sym_type_t type, sym_scope_t
 	self->scope = scope;
 	self->module = module;
 	self->section = section;
-	self->filename = g_asm_location.filename;
-	self->line_nr = g_asm_location.line_num;
+	if (g_c_location.filename) 
+		self->location = g_c_location;
+	else 
+		self->location = g_asm_location;
 
     return self;              						/* pointer to new symbol */
 }

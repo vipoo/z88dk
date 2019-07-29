@@ -12,6 +12,7 @@ see http://www.engr.mun.ca/~theo/Misc/exp_parsing.htm
 
 #pragma once
 
+#include "asmpp.h"
 #include "array.h"
 #include "class.h"
 #include "classlist.h"
@@ -122,11 +123,10 @@ CLASS( Expr )
 
 	struct Module  *module;			/* module where expression is patched (weak ref) */
 	struct Section *section;		/* section where expression is patched (weak ref) */
-	int		 asmpc;				/* ASMPC value during linking */
-    int		 code_pos;			/* Address to patch expression value */
+	int		 asmpc;					/* ASMPC value during linking */
+    int		 code_pos;				/* Address to patch expression value */
 
-	const char	*filename;			/* file and line where expression defined, string in strpool */
-    int			 line_nr;			/* source line */
+	location_t	 location;			/* file and line where expression defined, string in strpool */
     long		 listpos;			/* position in listing file to patch (in pass 2), -1 if not listing */
 END_CLASS;
 

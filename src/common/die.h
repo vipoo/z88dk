@@ -23,7 +23,7 @@
 #include <dirent.h>
 
 // check OS retval
-extern int check_retval(int retval, const char *file, const char *source_file, int line_nr);
+extern int check_retval(int retval, const char *file, const char *source_file, int line_num);
 #define Check_retval(rv, file)	check_retval((rv), (file), __FILE__, __LINE__)
 
 #define xremove(file)		Check_retval(remove(file), (file))

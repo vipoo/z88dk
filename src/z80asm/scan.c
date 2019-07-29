@@ -76,12 +76,6 @@ static void init_sym(void)
 	sym.tok = sym.tok_opcode = TK_END;
 	sym.tstart = ""; 
 	sym.tlen = 0;
-#if 0
-	sym.text = "";
-	sym.string = NULL;
-	sym.filename = NULL;
-	sym.line_nr = 0;
-#endif
 	sym.number = 0;
 }
 

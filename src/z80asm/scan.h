@@ -24,14 +24,6 @@ typedef struct sym_t
 	tokid_t	 tok_opcode;	/* e.g. TK_IX, when tok = TK_NAME and token is "ix" */
 	char	*tstart;		/* start of recognized token with input buffer */
 	int 	 tlen;			/* length of recognized token with input buffer */
-#if 0
-	char	*text;			/* characters of the retrieved token for lexemes
-							*  used in the expression parser */
-	char	*string;		/* identifier to return with TK_NAME and TK_LABEL, or
-							*  double-quoted string without quotes to return with a TK_STRING */
-	char	*filename;		/* filename where token found, in strpool */
-	int 	 line_nr;		/* line number where token found */
-#endif
 	int		 number;		/* number to return with TK_NUMBER */
 } Sym;
 

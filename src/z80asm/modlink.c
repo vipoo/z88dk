@@ -57,7 +57,7 @@ static void ReadNames_1(const char *filename, FILE *file,
     int scope, symbol_char;
 	sym_type_t type = TYPE_UNKNOWN;
     long value;
-	long line_nr;
+	long line_num;
 	Symbol *sym = NULL;
 
     while (true)
@@ -75,7 +75,7 @@ static void ReadNames_1(const char *filename, FILE *file,
 
 		// read symbol definition location
 		xfread_bcount_str(def_filename, file);
-		line_nr = xfread_dword(file);
+		line_num = xfread_dword(file);
 
 		new_section( str_data(section_name) );		/* define CURRENTSECTION */
 
@@ -97,10 +97,8 @@ static void ReadNames_1(const char *filename, FILE *file,
         }
 
 		// set symbol definition
-		if (sym) {
-			sym->filename = str_pool_add(str_data(def_filename));
-			sym->line_nr = line_nr;
-		}
+		if (sym) 
+			sym->location = (location_t){ str_pool_add(str_data(def_filename)), line_num };
     }
 }
 
@@ -121,7 +119,7 @@ void ReadNames(const char *filename, FILE *file)
 
 /* set environment to compute expression */
 static void set_asmpc_env(Module *module, const char *section_name,
-	const char *filename, int line_nr,
+	const char *filename, int line_num,
 	int asmpc,
 	bool module_relative_addr)
 {
@@ -131,7 +129,7 @@ static void set_asmpc_env(Module *module, const char *section_name,
 	set_cur_module( module );
 
 	/* source file and line number */
-	g_asm_location = (location_t){ str_pool_add(filename),line_nr };
+	g_asm_location = (location_t){ str_pool_add(filename),line_num };
 
 	/* assembler PC as absolute address */
 	new_section( section_name );
@@ -150,7 +148,7 @@ static void set_asmpc_env(Module *module, const char *section_name,
 static void set_expr_env( Expr *expr, bool module_relative_addr )
 {
 	set_asmpc_env( expr->module, expr->section->name, 
-				   expr->filename, expr->line_nr, 
+				   expr->location.filename, expr->location.line_num,
 				   expr->asmpc,
 				   module_relative_addr );
 }
@@ -160,7 +158,7 @@ static void read_cur_module_exprs_1(ExprList *exprs, FILE *file, char *filename,
 	str_t *expr_text, str_t *last_filename, str_t *source_filename, 
 	str_t *section_name, str_t *target_name)
 {
-	int line_nr;
+	int line_num;
 	int type;
     Expr *expr;
     int asmpc, code_pos;
@@ -178,7 +176,7 @@ static void read_cur_module_exprs_1(ExprList *exprs, FILE *file, char *filename,
 		else
 			str_set( last_filename, str_data(source_filename) );
 
-		line_nr = xfread_dword(file);
+		line_num = xfread_dword(file);
 
 		/* patch location */
 		xfread_bcount_str(section_name, file);
@@ -200,7 +198,7 @@ static void read_cur_module_exprs_1(ExprList *exprs, FILE *file, char *filename,
 
 		/* parse and store expression in the list */
 		set_asmpc_env( CURRENTMODULE, str_data(section_name), 
-					   str_data(source_filename), line_nr, 
+					   str_data(source_filename), line_num, 
 					   asmpc,
 					   false );
         if ( ( expr = expr_parse() ) != NULL )
@@ -226,8 +224,7 @@ static void read_cur_module_exprs_1(ExprList *exprs, FILE *file, char *filename,
 			expr->section	= CURRENTSECTION;
 			expr->asmpc		= asmpc;
 			expr->code_pos	= code_pos;
-			expr->filename	= str_pool_add( str_data(source_filename) );
-			expr->line_nr	= line_nr;
+			expr->location = (location_t){ str_pool_add(str_data(source_filename)),line_num };
 			expr->listpos	= -1;
 
 			ExprList_push( & exprs, expr );
@@ -661,7 +658,7 @@ static bool linked_module(struct libfile *lib, FILE *file, long obj_fpos, StrHas
 			xfread_dword(file);			/* value */
 			xfread_bcount_str(symbol_name, file);
 			xfread_bcount_str(def_filename, file);
-			xfread_dword(file);			/* line_nr */
+			xfread_dword(file);			/* line_num */
 
 			if (scope == 'G' && StrHash_exists(extern_syms, str_data(symbol_name)))
 				found_symbol = true;

@@ -14,7 +14,7 @@
 // die
 //-----------------------------------------------------------------------------
 
-int check_retval(int retval, const char *file, const char *source_file, int line_nr)
+int check_retval(int retval, const char *file, const char *source_file, int line_num)
 {
 	if (retval) {
 		perror(file);

@@ -128,7 +128,7 @@ static void print_section(str_t *section)
 	}
 }
 
-static void print_filename_line_nr(str_t *filename, int line_nr)
+static void print_filename_line_nr(str_t *filename, int line_num)
 {
 	if (opt_obj_list) {
 		printf(" (file ");
@@ -136,8 +136,8 @@ static void print_filename_line_nr(str_t *filename, int line_nr)
 			printf("%s", str_data(filename));
 		else
 			printf("\"\"");
-		if (line_nr > 0)
-			printf(":%d", line_nr);
+		if (line_num > 0)
+			printf(":%d", line_num);
 		printf(")");
 	}
 }
@@ -180,7 +180,7 @@ symbol_t *symbol_new()
 	self->value = 0;
 	self->section = NULL;
 	self->filename = str_new();
-	self->line_nr = 0;
+	self->line_num = 0;
 
 	self->next = self->prev = NULL;
 
@@ -208,7 +208,7 @@ expr_t *expr_new()
 	self->target_name = str_new();
 
 	self->filename = str_new();
-	self->line_nr = 0;
+	self->line_num = 0;
 
 	self->next = self->prev = NULL;
 
@@ -422,7 +422,7 @@ static void objfile_read_symbols(objfile_t *obj, FILE *fp, long fpos_start, long
 
 		if (obj->version >= 9) {			// add definition location
 			xfread_bcount_str(symbol->filename, fp);
-			symbol->line_nr = xfread_dword(fp);
+			symbol->line_num = xfread_dword(fp);
 		}
 
 		if (opt_obj_list) {
@@ -434,7 +434,7 @@ static void objfile_read_symbols(objfile_t *obj, FILE *fp, long fpos_start, long
 					print_section(symbol->section->name);
 
 				if (obj->version >= 9)
-					print_filename_line_nr(symbol->filename, symbol->line_nr);
+					print_filename_line_nr(symbol->filename, symbol->line_num);
 
 				printf("\n");
 			}
@@ -500,7 +500,7 @@ static void objfile_read_exprs(objfile_t *obj, FILE *fp, long fpos_start, long f
 			if (last_filename == NULL || str_len(expr->filename) > 0)
 				last_filename = expr->filename;
 
-			expr->line_nr = xfread_dword(fp);
+			expr->line_num = xfread_dword(fp);
 		}
 
 		if (obj->version >= 5)
@@ -544,7 +544,7 @@ static void objfile_read_exprs(objfile_t *obj, FILE *fp, long fpos_start, long f
 			print_section(expr->section->name);
 
 		if (show_expr && obj->version >= 4)
-			print_filename_line_nr(last_filename, expr->line_nr);
+			print_filename_line_nr(last_filename, expr->line_num);
 
 		if (show_expr)
 			printf("\n");
@@ -634,7 +634,7 @@ static long objfile_write_exprs1(objfile_t *obj, FILE *fp, str_t *last_filename,
 				xfwrite_wcount_str(empty, fp);
 			}
 
-			xfwrite_dword(expr->line_nr, fp);				// source line number
+			xfwrite_dword(expr->line_num, fp);				// source line number
 			xfwrite_bcount_str(expr->section->name, fp);	// section name
 
 			xfwrite_word(expr->asmpc, fp);					// ASMPC
@@ -681,7 +681,7 @@ static long objfile_write_symbols(objfile_t *obj, FILE *fp)
 			xfwrite_dword(symbol->value, fp);		// value
 			xfwrite_bcount_str(symbol->name, fp);	// name
 			xfwrite_bcount_str(symbol->filename, fp);// filename
-			xfwrite_dword(symbol->line_nr, fp);		// definition line
+			xfwrite_dword(symbol->line_num, fp);		// definition line
 		}
 	}
 

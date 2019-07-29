@@ -74,16 +74,16 @@ static long write_expr( FILE *fp )
 		xfwrite_byte(range, fp);				/* range of expression */
 
 		/* store file name if different from last, folowed by source line number */
-		if ( expr->filename != NULL &&
-			 strcmp( Str_data(last_sourcefile), expr->filename ) != 0 )
+		if ( expr->location.filename != NULL &&
+			 strcmp( Str_data(last_sourcefile), expr->location.filename ) != 0 )
 		{
-			xfwrite_wcount_cstr(expr->filename, fp);
-			Str_set( last_sourcefile, expr->filename );
+			xfwrite_wcount_cstr(expr->location.filename, fp);
+			Str_set( last_sourcefile, expr->location.filename );
 		}
 		else
 			xfwrite_wcount_cstr("", fp);
 
-		xfwrite_dword(expr->line_nr, fp);				/* source line number */
+		xfwrite_dword(expr->location.line_num, fp);		/* source line number */
 
 		xfwrite_bcount_cstr(expr->section->name, fp);	/* section name */
 
@@ -135,8 +135,8 @@ static int write_symbols_symtab( FILE *fp, SymbolHash *symtab )
 			xfwrite_bcount_cstr(sym->name, fp);
 
 			// write symbol definition location
-			xfwrite_bcount_cstr(sym->filename ? sym->filename : "", fp);
-			xfwrite_dword(sym->line_nr, fp);
+			xfwrite_bcount_cstr(sym->location.filename ? sym->location.filename : "", fp);
+			xfwrite_dword(sym->location.line_num, fp);
 
 			written++;
 		}

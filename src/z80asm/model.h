@@ -36,7 +36,7 @@ extern int   src_line_nr( void );
 extern bool  scr_is_c_source(void);
 
 extern void src_set_filename(const char *filename);
-extern void src_set_line_nr(int line_nr, int line_inc);
+extern void src_set_line_nr(int line_num, int line_inc);
 extern void src_set_c_source(void);
 
 extern void  src_push( void );

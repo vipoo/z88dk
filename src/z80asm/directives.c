@@ -155,33 +155,33 @@ void asm_LSTOFF(void)
 /*-----------------------------------------------------------------------------
 *   directives with number argument
 *----------------------------------------------------------------------------*/
-void asm_LINE(int line_nr, const char *filename)
+void asm_LINE(int line_num, const char *filename)
 {
 	STR_DEFINE(name, STR_SIZE);
 
 	src_set_filename(filename);
-	src_set_line_nr(line_nr, 1);
-	pp_set_current_location((location_t) { str_pool_add(filename), line_nr - 1 });
+	src_set_line_nr(line_num, 1);
+	pp_set_current_location((location_t) { str_pool_add(filename), line_num - 1 });
 
 	STR_DELETE(name);
 }
 
-void asm_C_LINE(int line_nr, const char *filename)
+void asm_C_LINE(int line_num, const char *filename)
 {
 	// if C_LINE was passed without a filename, infer C filename from the ASM one
 	if (!filename || !*filename)
 		filename = get_c_filename(g_asm_location.filename);
 
 	src_set_filename(filename);
-	src_set_line_nr(line_nr, 0);		// do not increment line numbers
+	src_set_line_nr(line_num, 0);		// do not increment line numbers
 	src_set_c_source();
 	
-	g_c_location = (location_t){ str_pool_add(filename), line_nr };
+	g_c_location = (location_t){ str_pool_add(filename), line_num };
 
 	if (opts.debug_info) {
 		STR_DEFINE(name, STR_SIZE);
 
-		Str_sprintf(name, "__C_LINE_%ld", line_nr);
+		Str_sprintf(name, "__C_LINE_%ld", line_num);
 		if (!find_local_symbol(Str_data(name)))
 			asm_LABEL(Str_data(name));
 

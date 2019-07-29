@@ -42,7 +42,7 @@ Z80pass2( void )
 		pp_clear_locations();
 		g_error_module_name = NULL;
 
-		g_asm_location = (location_t){ str_pool_add(expr->filename), expr->line_nr };
+		g_asm_location = expr->location;
 
 		/* Define code location; BUG_0048 */
 		set_cur_section( expr->section );

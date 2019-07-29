@@ -25,7 +25,7 @@ Repository: https://github.com/z88dk/z88dk
 *   Call-back interace to declare a new line has been read, telling the
 * 	file name and line number
 *----------------------------------------------------------------------------*/
-typedef void (*new_line_cb_t)(const char *filename, int line_nr, const char *text );
+typedef void (*new_line_cb_t)(const char *filename, int line_num, const char *text );
 
 /* set call-back when reading a new line; return old call-back */
 extern new_line_cb_t set_new_line_cb( new_line_cb_t func );
@@ -45,7 +45,7 @@ CLASS( SrcFile )
 	FILE	*file;					/* open file */
 	const char *filename;			/* source file name, held in strpool */
 	const char *line_filename;		/* source file name of LINE statement, held in strpool */
-	int		 line_nr;				/* current line number, i.e. last returned */
+	int		 line_num;				/* current line number, i.e. last returned */
 	int		 line_inc;				/* increment on each line read */
 	Str		*line;					/* current input line, i.e. last returned */
 	bool	is_c_source;			/* true if C_LINE was called */
@@ -88,7 +88,7 @@ extern bool        ScrFile_is_c_source(SrcFile *self);
 
 
 extern void SrcFile_set_filename(SrcFile *self, const char *filename);
-extern void SrcFile_set_line_nr(SrcFile *self, int line_nr, int line_inc);
+extern void SrcFile_set_line_nr(SrcFile *self, int line_num, int line_inc);
 extern void SrcFile_set_c_source(SrcFile *self);
 
 /* stack of input files manipulation:

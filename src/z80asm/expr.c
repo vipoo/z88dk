@@ -372,11 +372,10 @@ void Expr_init (Expr *self)
 
 	self->module	= CURRENTMODULE;
 	self->section	= CURRENTSECTION;
-	self->asmpc = get_phased_PC() >= 0 ? get_phased_PC() : get_PC();	/* BUG_0048 */
+	self->asmpc		= get_phased_PC() >= 0 ? get_phased_PC() : get_PC();	/* BUG_0048 */
     self->code_pos	= get_cur_module_size();	/* BUG_0015 */
 
-	self->filename	= g_asm_location.filename;
-	self->line_nr	= g_asm_location.line_num;
+	self->location	= g_asm_location;
 	self->listpos	= -1;
 }
 

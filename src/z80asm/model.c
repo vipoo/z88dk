@@ -27,18 +27,18 @@ static SrcFile			*g_src_input;			/* input handle for reading source lines */
 /*-----------------------------------------------------------------------------
 *   Call-back called when reading each new line from source
 *----------------------------------------------------------------------------*/
-static void new_line_cb(const char *filename, int line_nr, const char *text )
+static void new_line_cb(const char *filename, int line_num, const char *text )
 {
 	g_asm_location.filename = str_pool_add(filename);		/* error file */
 
 	if ( filename != NULL )
 	{
 		/* interface with error - set error location */
-		g_asm_location.line_num = line_nr;
+		g_asm_location.line_num = line_num;
 		
         /* interface with list */
 		if (opts.cur_list)
-			list_start_line(get_phased_PC() >= 0 ? get_phased_PC() : get_PC(), filename, line_nr, text);
+			list_start_line(get_phased_PC() >= 0 ? get_phased_PC() : get_PC(), filename, line_num, text);
 	}
 }
 
@@ -115,10 +115,10 @@ void src_set_filename(const char * filename)
 	SrcFile_set_filename(g_src_input, filename);
 }
 
-void src_set_line_nr(int line_nr, int line_inc)
+void src_set_line_nr(int line_num, int line_inc)
 {
 	init_module();
-	SrcFile_set_line_nr(g_src_input, line_nr, line_inc);
+	SrcFile_set_line_nr(g_src_input, line_num, line_inc);
 }
 
 void src_set_c_source(void)

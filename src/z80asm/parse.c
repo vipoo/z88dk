@@ -39,8 +39,7 @@ static UT_icd ut_Sym_icd = { sizeof(Sym), NULL, NULL, NULL };
 typedef struct OpenStruct
 {
 	tokid_t	open_tok;			// open token - TK_IF, TK_ELSE, ...
-	const char *filename;		// file and line where token found
-	int		line_nr;
+	location_t location;		// file and line where token found
 	bool	active : 1;			// in true branch of conditional compilation
 	bool	parent_active : 1;	// in true branch of parent's conditional compilation
 	bool	elif_was_true : 1;	// true if any of the IF/ELIF branches returned true
@@ -305,8 +304,7 @@ static void start_struct(ParseCtx *ctx, tokid_t open_tok, bool condition)
 	memset(&os, 0, sizeof(OpenStruct));
 
 	os.open_tok = open_tok;
-	os.filename = g_asm_location.filename;
-	os.line_nr = g_asm_location.line_num;
+	os.location = g_asm_location;
 	os.active = condition;
 	if (os.active)
 		os.elif_was_true = true;
@@ -406,7 +404,7 @@ static void asm_ELSE(ParseCtx *ctx)
 			break;
 
 		default:
-			error_unbalanced_struct_at(os->filename, os->line_nr);
+			error_unbalanced_struct_at(os->location.filename, os->location.line_num);
 		}
 	}
 }
@@ -451,7 +449,7 @@ static void asm_ENDIF(ParseCtx *ctx)
 			break;
 
 		default:
-			error_unbalanced_struct_at(os->filename, os->line_nr);
+			error_unbalanced_struct_at(os->location.filename, os->location.line_num);
 		}
 	}
 }
@@ -509,7 +507,7 @@ bool parse_file(const char *filename)
 
 			os = (OpenStruct *)utarray_back(ctx->open_structs);
 			if (os != NULL)
-				error_unbalanced_struct_at(os->filename, os->line_nr);
+				error_unbalanced_struct_at(os->location.filename, os->location.line_num);
 		}
 	}
 	pp_pop();

@@ -109,8 +109,10 @@ Symbol *_define_sym(const char *name, long value, sym_type_t type, sym_scope_t s
 		sym->is_defined = true;
         sym->module = module;
 		sym->section = section;
-		sym->filename = g_asm_location.filename;
-		sym->line_nr = g_asm_location.line_num;
+		if (g_c_location.filename)
+			sym->location = g_c_location;
+		else
+			sym->location = g_asm_location;
     }
     else											/* already defined */
     {
@@ -315,9 +317,11 @@ static Symbol *define_local_symbol(const char *name, long value, sym_type_t type
 		sym->is_defined = true;
         sym->module  = CURRENTMODULE;						/* owner of symbol is always creator */
 		sym->section = CURRENTSECTION;
-		sym->filename = g_asm_location.filename;
-		sym->line_nr = g_asm_location.line_num;
-    }
+		if (g_c_location.filename)
+			sym->location = g_c_location;
+		else
+			sym->location = g_asm_location;
+	}
 
 	return sym;
 }
@@ -351,8 +355,10 @@ Symbol *define_symbol(const char *name, long value, sym_type_t type)
 		sym->is_defined = true;
 		sym->module = CURRENTMODULE;		/* owner of symbol is always creator */
 		sym->section = CURRENTSECTION;
-		sym->filename = g_asm_location.filename;
-		sym->line_nr = g_asm_location.line_num;
+		if (g_c_location.filename)
+			sym->location = g_c_location;
+		else
+			sym->location = g_asm_location;
 	}
 
 	return sym;
@@ -607,8 +613,8 @@ static void _write_symbol_file(const char *filename, Module *module, bool(*cond)
 			Str_append_sprintf(line, ", %s", (module == NULL && sym->module != NULL) ? sym->module->modname : "");
 			Str_append_sprintf(line, ", %s", sym->section->name);
 			Str_append_sprintf(line, ", ");
-			if (sym->filename && sym->filename[0]) {
-				Str_append_sprintf(line, "%s:%d", sym->filename, sym->line_nr);
+			if (sym->location.filename && sym->location.filename[0]) {
+				Str_append_sprintf(line, "%s:%d", sym->location.filename, sym->location.line_num);
 			}
 		}
 		cstr_strip(Str_data(line));
@@ -674,7 +680,7 @@ void check_undefined_symbols(SymbolHash *symtab)
 		if (sym->scope == SCOPE_PUBLIC && !sym->is_defined) {
 			pp_clear_locations();
 			g_error_module_name = NULL;
-			g_asm_location = (location_t){ str_pool_add(sym->filename), sym->line_nr };
+			g_asm_location = sym->location;
 			error_not_defined(sym->name);
 		}
 	}
