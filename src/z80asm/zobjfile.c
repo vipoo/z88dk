@@ -15,7 +15,6 @@ Handle object file contruction, reading and writing
 #include "errors.h"
 #include "libfile.h"
 #include "options.h"
-#include "model.h"
 #include "zobjfile.h"
 #include "str.h"
 #include "strutil.h"

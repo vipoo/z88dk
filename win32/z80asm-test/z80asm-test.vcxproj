@@ -145,12 +145,10 @@
     <ClCompile Include="..\..\src\z80asm\lib\dbg.c" />
     <ClCompile Include="..\..\src\z80asm\lib\list.c" />
     <ClCompile Include="..\..\src\z80asm\lib\minunit.c" />
-    <ClCompile Include="..\..\src\z80asm\lib\srcfile.c" />
     <ClCompile Include="..\..\src\z80asm\lib\str.c" />
     <ClCompile Include="..\..\src\z80asm\lib\strhash.c" />
     <ClCompile Include="..\..\src\z80asm\listfile.c" />
     <ClCompile Include="..\..\src\z80asm\macros.c" />
-    <ClCompile Include="..\..\src\z80asm\model.c" />
     <ClCompile Include="..\..\src\z80asm\modlink.c" />
     <ClCompile Include="..\..\src\z80asm\module.c" />
     <ClCompile Include="..\..\src\z80asm\opcodes.c" />

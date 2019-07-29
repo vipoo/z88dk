@@ -12,8 +12,6 @@ Assembly macros.
 
 #include <stdbool.h>
 
-extern bool macros_active;
-
 typedef char *(*getline_t)();
 
 extern void init_macros();

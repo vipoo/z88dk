@@ -24,8 +24,6 @@ Assembly macros.
 //-----------------------------------------------------------------------------
 //	global config
 //-----------------------------------------------------------------------------
-bool macros_active = true;
-
 #define Is_ident_prefix(x)	((x)=='.' || (x)=='#' || (x)=='$' || (x)=='%' || (x)=='@')
 #define Is_ident_start(x)	(isalpha(x) || (x)=='_')
 #define Is_ident_cont(x)	(isalnum(x) || (x)=='_')
@@ -1091,21 +1089,16 @@ char* macros_getline1()
 
 char *macros_getline(getline_t getline_func)
 {
-	if (macros_active) {
-		cur_getline_func = getline_func;
-		char* line = macros_getline1();
-		cur_getline_func = NULL;
+	cur_getline_func = getline_func;
+	char* line = macros_getline1();
+	cur_getline_func = NULL;
 
-		if (line != NULL && preproc_fp != NULL) {
-			fprintf(preproc_fp, "\tLINE %d, \"%s\"\n\t%s",
-				g_asm_location.line_num, g_asm_location.filename,
-				line);
-		}
+	if (line != NULL && preproc_fp != NULL) {
+		fprintf(preproc_fp, "\tLINE %d, \"%s\"\n\t%s",
+			g_asm_location.line_num, g_asm_location.filename,
+			line);
+	}
 
-		return line;
-	}
-	else {
-		return getline_func();
-	}
+	return line;
 }
 

@@ -16,7 +16,7 @@ see http://www.engr.mun.ca/~theo/Misc/exp_parsing.htm
 #include "expr.h"
 #include "errors.h"
 #include "init.h"
-#include "model.h"
+#include "module.h"
 #include "strhash.h"
 #include "strutil.h"
 #include "sym.h"

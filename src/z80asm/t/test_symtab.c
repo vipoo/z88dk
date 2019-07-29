@@ -10,7 +10,6 @@ Repository: https://github.com/z88dk/z88dk
 */
 
 #include "listfile.h"
-#include "model.h"
 #include "module.h"
 #include "options.h"
 #include "sym.h"

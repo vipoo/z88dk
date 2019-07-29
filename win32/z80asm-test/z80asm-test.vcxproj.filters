@@ -56,9 +56,6 @@
     <ClCompile Include="..\..\src\z80asm\macros.c">
       <Filter>Source Files\main</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\z80asm\model.c">
-      <Filter>Source Files\main</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\z80asm\modlink.c">
       <Filter>Source Files\main</Filter>
     </ClCompile>
@@ -108,9 +105,6 @@
       <Filter>Source Files\main</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\z80asm\lib\minunit.c">
-      <Filter>Source Files\main</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\z80asm\lib\srcfile.c">
       <Filter>Source Files\main</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\z80asm\lib\str.c">

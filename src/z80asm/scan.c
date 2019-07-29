@@ -14,7 +14,6 @@ Scanner. Scanning engine is built by ragel from scan_rules.rl.
 #include "errors.h"
 #include "init.h"
 #include "list.h"
-#include "model.h"
 #include "options.h"
 #include "scan.h"
 #include "str.h"

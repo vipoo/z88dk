@@ -12,9 +12,9 @@ Define CPU opcodes
 #include "directives.h"
 #include "expr.h"
 #include "codearea.h"
-#include "model.h"
 #include "opcodes.h"
 #include "parse.h"
+#include "symtab.h"
 #include "z80asm.h"
 
 #include <assert.h>

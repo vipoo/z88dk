@@ -14,7 +14,6 @@ Assembly directives.
 #include "directives.h"
 #include "errors.h"
 #include "fileutil.h"
-#include "model.h"
 #include "module.h"
 #include "parse.h"
 #include "strutil.h"
@@ -54,7 +53,7 @@ void asm_cond_LABEL(Str *label)
 		Str_len(label) = 0;
 	}
 
-	if (opts.debug_info && !scr_is_c_source()) {
+	if (opts.debug_info && !g_c_location.filename) {
 		STR_DEFINE(name, STR_SIZE);
 
 		Str_sprintf(name, "__ASM_LINE_%ld", g_asm_location.line_num);
@@ -157,13 +156,7 @@ void asm_LSTOFF(void)
 *----------------------------------------------------------------------------*/
 void asm_LINE(int line_num, const char *filename)
 {
-	STR_DEFINE(name, STR_SIZE);
-
-	src_set_filename(filename);
-	src_set_line_nr(line_num, 1);
 	pp_set_current_location((location_t) { str_pool_add(filename), line_num - 1 });
-
-	STR_DELETE(name);
 }
 
 void asm_C_LINE(int line_num, const char *filename)
@@ -172,10 +165,6 @@ void asm_C_LINE(int line_num, const char *filename)
 	if (!filename || !*filename)
 		filename = get_c_filename(g_asm_location.filename);
 
-	src_set_filename(filename);
-	src_set_line_nr(line_num, 0);		// do not increment line numbers
-	src_set_c_source();
-	
 	g_c_location = (location_t){ str_pool_add(filename), line_num };
 
 	if (opts.debug_info) {
