@@ -8,6 +8,8 @@ Z88DK Z80 Module Assembler Change Log
 - 2019-07-20 Support Intel 8080 with Zilog syntax (--cpu=8080) (thank you @suborb)
 - 2019-07-22 Support Intel 8080/8085 with Intel syntax, except Jump Positive (jp conflicts with Zilog jump) and Call Positive (cp conflicts with Zilog compare). Support alternative j_p and c_p for Jump Positive and Call Positive.
 
+- XXXX-XX-XX Better support to C_LINE - show both the C and ASM error lines in error messages.
+
 2018
 ----
 - 2018-01-25 Allow a label in INCLUDE and BINARY

@@ -12,6 +12,8 @@ Repository: https://github.com/z88dk/z88dk
 
 #include "array.h"
 
+#include <assert.h>
+
 DEF_ARRAY(Byte);
 DEF_ARRAY(Word);
 DEF_ARRAY(int);

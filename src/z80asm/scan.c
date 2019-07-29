@@ -9,6 +9,7 @@ Repository: https://github.com/z88dk/z88dk
 Scanner. Scanning engine is built by ragel from scan_rules.rl.
 */
 
+#include "asmpp.h"
 #include "alloc.h"
 #include "errors.h"
 #include "init.h"
@@ -19,6 +20,8 @@ Scanner. Scanning engine is built by ragel from scan_rules.rl.
 #include "str.h"
 #include "utarray.h"
 #include "die.h"
+
+#include <assert.h>
 #include <ctype.h>
 
 /*-----------------------------------------------------------------------------
@@ -214,12 +217,12 @@ static long scan_num ( char *text, int length, int base )
 		}
 		else 
 		{
-			xassert(0); /* invalid digit - should not be reached */
+			assert(0); /* invalid digit - should not be reached */
 		}
 
 		if (digit >= base) 
 		{
-			xassert(0); /* digit out of range - should not be reached */
+			assert(0); /* digit out of range - should not be reached */
 		}
 		
 		value = value * base + digit;
@@ -251,7 +254,7 @@ static bool get_sym_string( void )
 
 	/* mark token start */
 	quote = *p++;
-	xassert( quote == '"' || quote == '\'' );
+	assert( quote == '"' || quote == '\'' );
 	ts = p;
 
 	/* search for end quote or end of string */
@@ -330,7 +333,7 @@ static bool fill_buffer( void )
 		else 
 		{
 			/* get next line from input source file */
-			line = src_getline();
+			line = pp_getline_asm();
 			if ( line == NULL )
 				return false;
 

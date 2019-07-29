@@ -144,6 +144,6 @@ ARRAY(long);
 	void T##Array_pop(T##Array *self)										\
 	{																		\
 		size_t size = T##Array_size(self);									\
-		xassert( size > 0 );												\
+		assert( size > 0 );												\
 		T##Array_set_size(self, size - 1);									\
 	}

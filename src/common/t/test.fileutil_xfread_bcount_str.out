@@ -1,4 +1,4 @@
 stdout:
 stderr:
-failed to read 255 bytes from file 'test.out'
+Failed to read 255 bytes from file
 exit: 1

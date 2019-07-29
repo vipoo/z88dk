@@ -115,14 +115,14 @@ unlink_testfiles();
 z80asm(<<'END', "", 1, "", <<'ERR');
 	defgroup 
 END
-Error at file 'test.asm' line 2: missing {} block
+Error at file 'test.asm' line 1: missing {} block
 ERR
 
 unlink_testfiles();
 z80asm(<<'END', "", 1, "", <<'ERR');
 	defgroup  {
 END
-Error at file 'test.asm' line 2: {} block not closed
+Error at file 'test.asm' line 1: {} block not closed
 ERR
 
 # BUG_0032 : DEFGROUP ignores name after assignment

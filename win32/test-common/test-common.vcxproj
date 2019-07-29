@@ -157,10 +157,10 @@
     <ClCompile Include="..\..\src\common\optparse.c" />
     <ClCompile Include="..\..\src\common\strutil.c" />
     <ClCompile Include="..\..\src\common\t\test.c" />
-    <ClCompile Include="..\..\src\common\t\t_die.c" />
     <ClCompile Include="..\..\src\common\t\t_fileutil.c" />
     <ClCompile Include="..\..\src\common\t\t_strutil.c" />
     <ClCompile Include="..\..\src\common\t\t_types.c" />
+    <ClCompile Include="..\..\src\z80asm\utils.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\ext\optparse\optparse.h" />

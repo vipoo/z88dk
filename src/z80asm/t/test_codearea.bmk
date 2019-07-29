@@ -181,7 +181,7 @@ Number of modules = 1
 *0. "", start = 0, size = 17
     bytes = $01 $02 $03 $04 $05 $06 $07 $08 $09 $0A $0B $0C $68 $65 $6C $6C $6F
 --------------------------------------------------------------------------------
-append_file_contents( file, -1 ); (line 192)
+append_file_contents( bin_file.file, -1 ); (line 192)
 
 Number of sections = 1, total size = 20
 *1. "", size = 20, addr = 0, origin = -1, align = 1, asmpc = 17, opcode_size = 3
@@ -207,7 +207,7 @@ Number of modules = 1
     bytes = $01 $02 $03 $04 $05 $06 $07 $08 $09 $0A $0B $0C $68 $65 $6C $6C $6F
             $F1 $F2 $F3
 --------------------------------------------------------------------------------
-append_file_contents( file, -1 ); (line 196)
+append_file_contents( bin_file.file, -1 ); (line 196)
 
 Number of sections = 1, total size = 20
 *1. "", size = 20, addr = 0, origin = -1, align = 1, asmpc = 20, opcode_size = 0
@@ -233,7 +233,7 @@ Number of modules = 1
     bytes = $01 $02 $03 $04 $05 $06 $07 $08 $09 $0A $0B $0C $68 $65 $6C $6C $6F
             $F1 $F2 $F3
 --------------------------------------------------------------------------------
-append_file_contents( file, 1 ); (line 201)
+append_file_contents( bin_file.file, 1 ); (line 201)
 
 Number of sections = 1, total size = 21
 *1. "", size = 21, addr = 0, origin = -1, align = 1, asmpc = 20, opcode_size = 1
@@ -259,7 +259,7 @@ Number of modules = 1
     bytes = $01 $02 $03 $04 $05 $06 $07 $08 $09 $0A $0B $0C $68 $65 $6C $6C $6F
             $F1 $F2 $F3 $F1
 --------------------------------------------------------------------------------
-append_file_contents( file, 1 ); (line 206)
+append_file_contents( bin_file.file, 1 ); (line 206)
 
 Number of sections = 1, total size = 22
 *1. "", size = 22, addr = 0, origin = -1, align = 1, asmpc = 21, opcode_size = 1
@@ -337,7 +337,7 @@ Number of modules = 1
     bytes = $0C $0B $0A $09 $08 $07 $06 $05 $04 $03 $0B $0C $68 $65 $6C $6C $6F
             $F1 $F2 $F3 $F1 $F3
 --------------------------------------------------------------------------------
-patch_file_contents( file, 10, -1 ); (line 217)
+patch_file_contents( bin_file.file, 10, -1 ); (line 217)
 
 Number of sections = 1, total size = 22
 *1. "", size = 22, addr = 0, origin = -1, align = 1, asmpc = 22, opcode_size = 0
@@ -350,7 +350,7 @@ Number of modules = 1
     bytes = $0C $0B $0A $09 $08 $07 $06 $05 $04 $03 $F1 $F2 $F3 $65 $6C $6C $6F
             $F1 $F2 $F3 $F1 $F3
 --------------------------------------------------------------------------------
-patch_file_contents( file, 13, -1 ); (line 221)
+patch_file_contents( bin_file.file, 13, -1 ); (line 221)
 
 Number of sections = 1, total size = 22
 *1. "", size = 22, addr = 0, origin = -1, align = 1, asmpc = 22, opcode_size = 0
@@ -363,7 +363,7 @@ Number of modules = 1
     bytes = $0C $0B $0A $09 $08 $07 $06 $05 $04 $03 $F1 $F2 $F3 $F2 $F3 $6C $6F
             $F1 $F2 $F3 $F1 $F3
 --------------------------------------------------------------------------------
-patch_file_contents( file, 15, 2 ); (line 225)
+patch_file_contents( bin_file.file, 15, 2 ); (line 225)
 
 Number of sections = 1, total size = 22
 *1. "", size = 22, addr = 0, origin = -1, align = 1, asmpc = 22, opcode_size = 0
@@ -376,7 +376,7 @@ Number of modules = 1
     bytes = $0C $0B $0A $09 $08 $07 $06 $05 $04 $03 $F1 $F2 $F3 $F2 $F3 $F1 $F2
             $F1 $F2 $F3 $F1 $F3
 --------------------------------------------------------------------------------
-patch_file_contents( file, 21, -1 ); (line 229)
+patch_file_contents( bin_file.file, 21, -1 ); (line 229)
 
 Number of sections = 1, total size = 24
 *1. "", size = 24, addr = 0, origin = -1, align = 1, asmpc = 22, opcode_size = 2
@@ -1510,7 +1510,7 @@ Number of modules = 1
     "bss", start = 0, size = 1
     bytes = $03
 --------------------------------------------------------------------------------
-fwrite_module_code( file, &code_size ); (line 315)
+fwrite_module_code( bin_file.file, &code_size ); (line 315)
 
 Number of sections = 4, total size = 1
  1. "", size = 0, addr = 0, origin = -1, align = 1, asmpc = 0, opcode_size = 0
@@ -1781,7 +1781,7 @@ Number of modules = 2
     "bss", start = 1, size = 0
     bytes =
 --------------------------------------------------------------------------------
-fwrite_module_code( file, &code_size ); (line 323)
+fwrite_module_code( bin_file.file, &code_size ); (line 323)
 
 Number of sections = 4, total size = 2
  1. "", size = 0, addr = 0, origin = -1, align = 1, asmpc = 0, opcode_size = 0
@@ -2116,7 +2116,7 @@ Number of modules = 3
     "bss", start = 1, size = 0
     bytes =
 --------------------------------------------------------------------------------
-fwrite_module_code( file, &code_size ); (line 331)
+fwrite_module_code( bin_file.file, &code_size ); (line 331)
 
 Number of sections = 4, total size = 3
  1. "", size = 0, addr = 0, origin = -1, align = 1, asmpc = 0, opcode_size = 0

@@ -1,7 +1,6 @@
 /*
 Z88DK Z80 Macro Assembler
 
-Copyright (C) Gunther Strube, InterLogic 1993-99
 Copyright (C) Paulo Custodio, 2011-2019
 License: The Artistic License 2.0, http://www.perlfoundation.org/artistic_license_2_0
 Repository: https://github.com/z88dk/z88dk
@@ -10,219 +9,150 @@ Error handling.
 */
 
 #include "errors.h"
+#include "asmpp.h"
 #include "fileutil.h"
-#include "options.h"
-#include "srcfile.h"
-#include "str.h"
-#include "strutil.h"
-#include "strhash.h"
-#include "types.h"
-#include "init.h"
+#include "utils.h"
+#include "utstring.h"
+
+#include <stdbool.h>
 #include <stdio.h>
 
-/*-----------------------------------------------------------------------------
-*   Singleton data
-*----------------------------------------------------------------------------*/
-typedef struct Errors
+//-----------------------------------------------------------------------------
+// global data
+//-----------------------------------------------------------------------------
+int g_error_count = 0;
+const char* g_error_module_name = NULL;
+
+// static data
+static FILE* g_error_file = NULL;
+static const char* g_error_filename = NULL;
+
+//-----------------------------------------------------------------------------
+// initialize
+//-----------------------------------------------------------------------------
+static void error_deinit(void)
 {
-    int			 count;				/* total errors */
-	const char	*filename;			/* location of error: name of source file */
-	const char	*module;			/* location of error: name of module */
-    int			 line;				/* location of error: line number */
-} Errors;
-
-static Errors errors;				/* count errors and locations */
-
-
-typedef struct ErrorFile
-{
-    FILE		*file;				/* currently open error file */
-	const char	*filename;			/* name of error file */
-} ErrorFile;
-
-static ErrorFile error_file;		/* currently open error file */
-
-/*-----------------------------------------------------------------------------
-*   Initialize and Terminate module
-*----------------------------------------------------------------------------*/
-DEFINE_init_module()
-{
-    /* init Errors */
-    reset_error_count();			/* clear error count */
-    set_error_null();               /* clear location of error messages */
-
-	/* init file error handling */
-	set_incl_recursion_err_cb( error_include_recursion );
+	close_error_file();
 }
 
-DEFINE_dtor_module()
+static void error_init()
 {
-    /* close error file, delete it if no errors */
-    close_error_file();
+	static bool inited = false;
+	if (!inited) {
+		atexit(error_deinit);
+		inited = true;
+	}
 }
 
-void errors_init( void ) 
+//-----------------------------------------------------------------------------
+// error file
+//-----------------------------------------------------------------------------
+void open_error_file(const char* filename)
 {
-	init_module();
+	error_init();
+
+	// close current file if any
+	close_error_file();
+
+	g_error_filename = str_pool_add(filename);
+	g_error_file = xfopen(g_error_filename, "a");
 }
 
-/*-----------------------------------------------------------------------------
-*	define the next FILE, LINENO, MODULE to use in error messages
-*	error_xxx(), fatal_xxx(), warn_xxx()
-*----------------------------------------------------------------------------*/
-void set_error_null( void )
+void close_error_file(void)
 {
-    init_module();
-    errors.filename = errors.module = NULL;
-    errors.line = 0;
-}
+	error_init();
 
-void set_error_file(const char *filename )
-{
-    init_module();
-    errors.filename = spool_add( filename );	/* may be NULL */
-}
-
-void set_error_module(const char *modulename )
-{
-    init_module();
-    errors.module = spool_add( modulename );	/* may be NULL */
-}
-
-void set_error_line( int lineno )
-{
-    init_module();
-    errors.line = lineno;
-}
-
-const char *get_error_file(void)
-{
-	init_module();
-	return errors.filename;
-}
-
-int get_error_line(void)
-{
-	init_module();
-	return errors.line;
-}
-
-/*-----------------------------------------------------------------------------
-*	reset count of errors and return current count
-*----------------------------------------------------------------------------*/
-void reset_error_count( void )
-{
-    init_module();
-    errors.count = 0;
-}
-
-int get_num_errors( void )
-{
-    init_module();
-    return errors.count;
-}
-
-/*-----------------------------------------------------------------------------
-*	Open file to receive all errors / warnings from now on
-*	File is appended, to allow assemble	and link errors to be joined in the same file.
-*----------------------------------------------------------------------------*/
-void open_error_file(const char *src_filename )
-{
-	const char *filename = get_err_filename( src_filename );
-
-    init_module();
-
-    /* close current file if any */
-    close_error_file();
-
-    error_file.filename = spool_add( filename );
-	error_file.file = xfopen(error_file.filename, "a");		// TODO: remove error file at start of assembly
-}
-
-void close_error_file( void )
-{
-    init_module();
-
-    /* close current file if any */
-	if (error_file.file != NULL)
+	// close current file if any
+	if (g_error_file != NULL)
 	{
-		xfclose(error_file.file);
+		fclose(g_error_file);
 
-		/* delete file if no errors found */
-		if (error_file.filename != NULL && file_size(error_file.filename) == 0)
-			remove(error_file.filename);
+		// delete file if empty
+		if (g_error_filename != NULL && file_size(g_error_filename) == 0)
+			remove(g_error_filename);
 	}
 
-    /* reset */
-    error_file.file		= NULL;
-    error_file.filename	= NULL;        /* filename kept in strpool, no leak */
+	// reset
+	g_error_file = NULL;
+	g_error_filename = NULL;        // filename kept in strpool, no leak
 }
 
-static void puts_error_file( char *string )
+static void puts_error_file(char* string)
 {
-    init_module();
+	error_init();
 
-    if ( error_file.file != NULL )
-        fputs( string, error_file.file );
+	if (g_error_file != NULL)
+		fputs(string, g_error_file);
 }
 
-/*-----------------------------------------------------------------------------
-*   Output error message
-*----------------------------------------------------------------------------*/
-void do_error( enum ErrType err_type, char *message )
+//-----------------------------------------------------------------------------
+// emit errors
+//-----------------------------------------------------------------------------
+void do_error(enum ErrType err_type, char* message)
 {
-	STR_DEFINE(msg, STR_SIZE);
-    size_t len_at, len_prefix;
+	UT_string* msg;
+	bool file_emitted = false;
+	
+	error_init();
+	utstring_new(msg);
+	
+	// Information messages have no prefix 
+	if (err_type != ErrInfo) {
+		utstring_printf(msg, err_type == ErrWarn ? "Warning" : "Error");
 
-    init_module();
+		// output C filename
+		if (g_c_location.filename != NULL && *g_c_location.filename != '\0') {
+			file_emitted = true;
+			utstring_printf(msg, " at file '%s'", g_c_location.filename);
+			if (g_c_location.line_num > 0)
+				utstring_printf(msg, " line %d", g_c_location.line_num);
+		}
 
-    /* init empty message */
-    Str_clear( msg );
+		// output ASM filename
+		if (g_asm_location.filename != NULL && *g_asm_location.filename != '\0') {
+			if (file_emitted)
+				utstring_printf(msg, ",");
+			else 
+				utstring_printf(msg, " at");
+			file_emitted = true;
+			utstring_printf(msg, " file '%s'", g_asm_location.filename);
+			if (g_asm_location.line_num > 0)
+				utstring_printf(msg, " line %d", g_asm_location.line_num);
+		}
 
-    /* Information messages have no prefix */
-    if ( err_type != ErrInfo )
-    {
-        Str_append( msg, err_type == ErrWarn ? "Warning" : "Error" );
+		// output module
+		if (g_error_module_name != NULL && *g_error_module_name != '\0') {
+			if (file_emitted)
+				utstring_printf(msg, ",");
+			else
+				utstring_printf(msg, " at");
+			file_emitted = true;
+			utstring_printf(msg, " module '%s'", g_error_module_name);
+		}
 
-        /* prepare to remove " at" if no prefix */
-        len_at = Str_len(msg);
-        Str_append( msg, " at" );
-        len_prefix = Str_len(msg);
+		utstring_printf(msg, ": ");
+	}
 
-        /* output filename */
-        if ( errors.filename && *errors.filename )
-            Str_append_sprintf( msg, " file '%s'", errors.filename );
+	// output error message
+	utstring_printf(msg, "%s\n", message);
 
-        /* output module */
-        if ( errors.module != NULL && *errors.module )
-            Str_append_sprintf( msg, " module '%s'", errors.module );
+	// send to stderr and error file
+	fputs(utstring_body(msg), stderr);
+	puts_error_file(utstring_body(msg));
 
-        /* output line number */
-        if ( errors.line > 0 )
-            Str_append_sprintf( msg, " line %d", errors.line );
+	// count number of errors
+	if (err_type == ErrError)
+		g_error_count++;
 
-        /* remove at if no prefix */
-        if ( len_prefix == Str_len(msg) )	/* no prefix loaded to string */
-        {
-            Str_data(msg)[ len_at ] = '\0';	/* go back 3 chars to before at */
-            Str_sync_len( msg );
-        }
-
-        Str_append( msg, ": " );
-    }
-
-    /* output error message */
-    Str_append( msg, message );
-    Str_append_char( msg, '\n' );
-
-    /* CH_0001 : Assembly error messages should appear on stderr */
-    fputs( Str_data(msg), stderr );
-
-    /* send to error file */
-    puts_error_file( Str_data(msg) );
-
-    if ( err_type == ErrError )
-        errors.count++;		/* count number of errors */
-
-	STR_DELETE(msg);
+	utstring_free(msg);
 }
+
+#define X(type,func,params,fmt_args) \
+	void func(params) {		\
+		UT_string* msg;		\
+		utstring_new(msg);	\
+		utstring_printf(msg, fmt_args);		\
+		do_error(type, utstring_body(msg));	\
+		utstring_free(msg);	\
+	}
+#include "errors_def.h"

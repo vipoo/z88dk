@@ -63,8 +63,8 @@
     <ClCompile Include="..\..\src\common\t\t_types.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\common\t\t_die.c">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="..\..\src\z80asm\utils.c">
+      <Filter>Source Files\ext</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

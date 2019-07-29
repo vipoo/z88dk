@@ -7,6 +7,7 @@ License: The Artistic License 2.0, http://www.perlfoundation.org/artistic_licens
 Repository: https://github.com/z88dk/z88dk
 */
 
+#include "asmpp.h"
 #include "alloc.h"
 #include "codearea.h"
 #include "errors.h"
@@ -21,6 +22,8 @@ Repository: https://github.com/z88dk/z88dk
 #include "sym.h"
 #include "symbol.h"
 #include "z80asm.h"
+
+#include <assert.h>
 #include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -95,7 +98,7 @@ static void ReadNames_1(const char *filename, FILE *file,
 
 		// set symbol definition
 		if (sym) {
-			sym->filename = spool_add(str_data(def_filename));
+			sym->filename = str_pool_add(str_data(def_filename));
 			sym->line_nr = line_nr;
 		}
     }
@@ -128,8 +131,7 @@ static void set_asmpc_env(Module *module, const char *section_name,
 	set_cur_module( module );
 
 	/* source file and line number */
-	set_error_file( filename );
-	set_error_line( line_nr );
+	g_asm_location = (location_t){ str_pool_add(filename),line_nr };
 
 	/* assembler PC as absolute address */
 	new_section( section_name );
@@ -213,8 +215,8 @@ static void read_cur_module_exprs_1(ExprList *exprs, FILE *file, char *filename,
 			case 'L': expr->range = RANGE_DWORD;		break;
 			case 'J': expr->range = RANGE_JR_OFFSET;	break;
 			case '=': expr->range = RANGE_WORD;
-					  xassert( str_len(target_name) > 0 );
-					  expr->target_name = spool_add( str_data(target_name) );	/* define expression as EQU */
+					  assert( str_len(target_name) > 0 );
+					  expr->target_name = str_pool_add( str_data(target_name) );	/* define expression as EQU */
 					  break;
 			default:
 				error_not_obj_file( filename );
@@ -224,7 +226,7 @@ static void read_cur_module_exprs_1(ExprList *exprs, FILE *file, char *filename,
 			expr->section	= CURRENTSECTION;
 			expr->asmpc		= asmpc;
 			expr->code_pos	= code_pos;
-			expr->filename	= spool_add( str_data(source_filename) );
+			expr->filename	= str_pool_add( str_data(source_filename) );
 			expr->line_nr	= line_nr;
 			expr->listpos	= -1;
 
@@ -268,7 +270,8 @@ static void read_module_exprs( ExprList *exprs )
 
         fptr_base = curlink->modulestart;
 
-        set_error_null();
+        pp_clear_locations();
+		g_error_module_name = NULL;
 
         /* open relocatable file for reading */
         file = fopen( curlink->objfilename, "rb" );	
@@ -298,7 +301,8 @@ static void read_module_exprs( ExprList *exprs )
     }
     while ( curlink != NULL );
 
-    set_error_null();
+	pp_clear_locations();
+	g_error_module_name = NULL;
 }
 
 /* compute equ expressions and remove them from the list 
@@ -357,7 +361,7 @@ static int compute_equ_exprs_once( ExprList *exprs, bool show_error, bool module
 		{
 			/* remove current expression, advance iterator */
 			expr2 = ExprList_remove( exprs, &iter );
-			xassert( expr == expr2 );
+			assert( expr == expr2 );
 
 			OBJ_DELETE( expr );	
 		}
@@ -399,7 +403,7 @@ static void patch_exprs( ExprList *exprs )
 	while ( iter != NULL )
 	{
 		expr = iter->obj;
-		xassert( expr->target_name == NULL );		/* EQU expressions are already computed */
+		assert( expr->target_name == NULL );		/* EQU expressions are already computed */
 
 		set_expr_env( expr, false );
 		value = Expr_eval(expr, true);
@@ -483,14 +487,14 @@ static void patch_exprs( ExprList *exprs )
 				patch_byte(expr->code_pos, (byte_t)value);
 				break;
 
-			default: xassert(0);
+			default: assert(0);
             }
 
 		}
 
 		/* remove current expression, advance iterator */
 		expr2 = ExprList_remove( exprs, &iter );
-		xassert( expr == expr2 );
+		assert( expr == expr2 );
 
 		OBJ_DELETE( expr );	
 	}
@@ -511,7 +515,7 @@ static void relocate_symbols_symtab( SymbolHash *symtab )
         sym = (Symbol *) iter->value;
 		if ( sym->type == TYPE_ADDRESS ) 
 		{
-			xassert( sym->module );				/* owner should exist except for -D defines */
+			assert( sym->module );				/* owner should exist except for -D defines */
 			
 			/* set base address for symbol */
 			set_cur_module(  sym->module );
@@ -768,10 +772,10 @@ void link_modules( void )
 
 		/* open error file on first module */
 		if (CURRENTMODULE == first_obj_module)
-			open_error_file(CURRENTMODULE->filename);
+			open_error_file(get_err_filename(CURRENTMODULE->filename));
 
-		set_error_null();
-		set_error_module(CURRENTMODULE->modname);
+		pp_clear_locations();
+		g_error_module_name = str_pool_add(CURRENTMODULE->modname);
 
 		/* overwrite '.asm' extension with * '.o' */
 		const char *obj_filename = get_obj_filename(CURRENTMODULE->filename);
@@ -786,52 +790,54 @@ void link_modules( void )
 
 	/* link libraries */
 	/* consol_obj_file do not include libraries */
-	if (!get_num_errors() && !opts.consol_obj_file && opts.library)
+	if (!g_error_count && !opts.consol_obj_file && opts.library)
 		link_libraries(extern_syms);
 
-	set_error_null();
+	pp_clear_locations();
+	g_error_module_name = NULL;
 
 	/* allocate segment addresses and compute absolute addresses of symbols */
 	/* in consol_obj_file sections are zero-based */
-	if (!get_num_errors() && !opts.consol_obj_file)	
+	if (!g_error_count && !opts.consol_obj_file)	
 		sections_alloc_addr();
 
 	/* relocate address symbols */
-	if (!get_num_errors())
+	if (!g_error_count)
 		relocate_symbols();
 
 	/* define assembly size */
-	if (!get_num_errors() && !opts.consol_obj_file)
+	if (!g_error_count && !opts.consol_obj_file)
 		define_location_symbols();
 
 	if (opts.consol_obj_file) {
-		if (!get_num_errors())
+		if (!g_error_count)
 			merge_modules(extern_syms);
 	}
 	else {
 		/* collect expressions from all modules */
 		exprs = OBJ_NEW(ExprList);
-		if (!get_num_errors())
+		if (!g_error_count)
 			read_module_exprs(exprs);
 
 		/* compute all EQU expressions */
-		if (!get_num_errors())
+		if (!g_error_count)
 			compute_equ_exprs(exprs, true, false);
 
 		/* patch all other expressions */
-		if (!get_num_errors())
+		if (!g_error_count)
 			patch_exprs(exprs);
 
 		OBJ_DELETE(exprs);
 	}
 
-	set_error_null();
+	pp_clear_locations();
+	g_error_module_name = NULL;
 
 	ReleaseLinkInfo();              /* Release module link information */
 
 	close_error_file();
 
-	if (!get_num_errors()) {
+	if (!g_error_count) {
 		if (opts.map)
 			write_map_file();
 
@@ -912,7 +918,7 @@ static int LinkModule_1(const char *filename, long fptr_base, str_t *section_nam
 				fseek(file, fptr_base + p, SEEK_SET);			/* set file pointer to point at external name declaration */
 				xfread_bcount_str(name, file);					/* read library reference name */
 				p += 1 + str_len(name);							/* point to next name */
-				name_p = spool_add(str_data(name));
+				name_p = str_pool_add(str_data(name));
 				StrHash_set(&extern_syms, name_p, (void*)name_p);		/* remember all extern references */
 			}
 			str_free(name);
@@ -943,10 +949,10 @@ LinkLibModule(struct libfile *library, long curmodule, const char *modname, StrH
 
 	/* create new module to link library */
 	lib_module = set_cur_module( new_module() );
-	lib_module->modname = spool_add( modname );
+	lib_module->modname = str_pool_add( modname );
 
-    if ( opts.verbose )
-        printf( "Linking library module '%s'\n", modname );
+	if ( opts.verbose )
+		printf( "Linking library module '%s'\n", modname );
 
 	flag = LinkModule(library->libfilename, curmodule, extern_syms);       /* link module & read names */
 
@@ -958,32 +964,38 @@ LinkLibModule(struct libfile *library, long curmodule, const char *modname, StrH
 void
 CreateBinFile( void )
 {
-	FILE *binaryfile, *inital_binaryfile;
-	FILE *relocfile, *initial_relocfile;
-	const char *filename;
+	open_file_t bin_file = { NULL,NULL };
+	open_file_t reloc_file = { NULL,NULL };
+	open_file_t initial_bin_file = { NULL,NULL };
+
+	bool have_reloc_file = false;
+
 	bool is_relocatable = ( opts.relocatable && totaladdr != 0 );
 
-    if ( opts.bin_file )        /* use predined output filename from command line */
-        filename = opts.bin_file;
-    else						/* create output filename, based on project filename */
-        filename = get_bin_filename( get_first_module(NULL)->filename );		/* add '.bin' extension */
+	if (opts.bin_file)			/* use predined output filename from command line */
+		bin_file.filename = str_pool_add(opts.bin_file);
+	else						/* create output filename, based on project filename */
+		bin_file.filename = get_bin_filename(get_first_module(NULL)->filename);		/* add '.bin' extension */
 
     /* binary output to filename.bin */
 	if (opts.verbose)
-		printf("Creating binary '%s'\n", path_canon(filename));
+		printf("Creating binary '%s'\n", path_canon(bin_file.filename));
 
-    binaryfile = xfopen( filename, "wb" );
-	inital_binaryfile = binaryfile;
+	bin_file.file = xfopen(bin_file.filename, "wb");
+	initial_bin_file = bin_file;
 
-	relocfile = opts.relocatable ? NULL : opts.reloc_info ? xfopen(get_reloc_filename(filename), "wb") : NULL;
-	initial_relocfile = relocfile;
+	if (!opts.relocatable && opts.reloc_info) {
+		reloc_file.filename = get_reloc_filename(bin_file.filename);
+		reloc_file.file = xfopen(reloc_file.filename, "wb");
+		have_reloc_file = true;
+	}
 
-	if (binaryfile)
+	if (bin_file.file)
 	{
 		if (is_relocatable)
 		{
 			/* relocate routine */
-			xfwrite_bytes((char *)reloc_routine, sizeof_relocroutine, binaryfile);
+			xfwrite_bytes((char *)reloc_routine, sizeof_relocroutine, bin_file.file);
 
 			*(reloctable + 0) = (byte_t)totaladdr % 256U;
 			*(reloctable + 1) = (byte_t)totaladdr / 256U;  /* total of relocation elements */
@@ -991,24 +1003,23 @@ CreateBinFile( void )
 			*(reloctable + 3) = (byte_t)sizeof_reloctable / 256U; /* total size of relocation table elements */
 
 			/* write relocation table, inclusive 4 byte header */
-			xfwrite_bytes(reloctable, sizeof_reloctable + 4, binaryfile);
+			xfwrite_bytes(reloctable, sizeof_reloctable + 4, bin_file.file);
 
 			printf("Relocation header is %d bytes.\n", (int)(sizeof_relocroutine + sizeof_reloctable + 4));
 		}
 
-		fwrite_codearea(filename, &binaryfile, &relocfile);		/* write code as one big chunk */
+		fwrite_codearea(&bin_file, &reloc_file);		/* write code as one big chunk */
 
 		/* delete output file if empty, except main output file */
-		if (binaryfile == inital_binaryfile)
-			xfclose(binaryfile);
-		else
-			xfclose_remove_empty(binaryfile);
+		xfclose(bin_file.file);
+		if (have_reloc_file)
+			xfclose(reloc_file.file);
 
-		if (relocfile != NULL) {
-			if (relocfile == initial_relocfile)
-				xfclose(relocfile);
-			else
-				xfclose_remove_empty(relocfile);
+		if (strcmp(bin_file.filename, initial_bin_file.filename) != 0 &&
+			file_size(bin_file.filename) == 0) {
+			xremove(bin_file.filename);
+			if (have_reloc_file)
+				xremove(reloc_file.filename);
 		}
 	}
 }
@@ -1132,14 +1143,14 @@ static void rename_module_local_symbols(Module *module)
 	for (sym_it = SymbolHash_first(module->local_symtab); sym_it != NULL; sym_it = SymbolHash_next(sym_it)) {
 		sym = (Symbol *)sym_it->value;
 
-		old_name = spool_add(sym->name);
+		old_name = str_pool_add(sym->name);
 		Str_sprintf(new_name, "%s_%s", module->modname, old_name);
-		StrHash_set(&old_syms, old_name, (void*)spool_add(Str_data(new_name)));
+		StrHash_set(&old_syms, old_name, (void*)str_pool_add(Str_data(new_name)));
 	}
 
 	/* change symbol names */
 	for (name_it = StrHash_first(old_syms); name_it != NULL; name_it = StrHash_next(name_it)) {
-		value = spool_add(name_it->value);
+		value = str_pool_add(name_it->value);
 
 		sym = SymbolHash_extract(module->local_symtab, name_it->key);
 		sym->name = value;
@@ -1156,7 +1167,7 @@ static void rename_module_local_symbols(Module *module)
 
 		if (expr->target_name) {
 			replace_names(new_text, expr->target_name, old_syms);
-			expr->target_name = spool_add(Str_data(new_text));
+			expr->target_name = str_pool_add(Str_data(new_text));
 		}
 	}
 
@@ -1174,7 +1185,7 @@ static void merge_local_symbols(StrHash *extern_syms)
 	StrHashElem *elem, *next;
 	int start;
 
-	first_module = get_first_module(NULL); xassert(first_module != NULL);
+	first_module = get_first_module(NULL); assert(first_module != NULL);
 
 	for (module = get_first_module(&it); module != NULL; module = get_next_module(&it)) {
 		/* remove local symbols that are not defined */
@@ -1271,7 +1282,7 @@ static void create_extern_symbols(StrHash *extern_syms)
 static void merge_modules(StrHash *extern_syms)
 {
 	Module *first_module;
-	first_module = get_first_module(NULL); xassert(first_module != NULL);
+	first_module = get_first_module(NULL); assert(first_module != NULL);
 
 	/* read each module's expression list */
 	set_cur_module(first_module);

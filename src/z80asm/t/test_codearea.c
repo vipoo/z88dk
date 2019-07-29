@@ -139,8 +139,8 @@ static void test_sections( void )
 {
 	Section *section_blank, *section_code, *section_data;
 	int module_id;
-	FILE *file;
-	FILE *reloc = NULL;
+	open_file_t bin_file = {NULL,"test.bin"};
+	open_file_t reloc_file = {NULL,NULL};
 	byte_t *p;
 	int code_size;
 
@@ -182,28 +182,28 @@ static void test_sections( void )
 	assert( p[4] == 0 );
 	T( memcpy( p, "hello", 5 ) );
 
-	assert( (file = fopen("test.bin", "wb")) != NULL );
-	fwrite("\xF1\xF2\xF3", 1, 3, file );
-	fclose( file );
+	assert( (bin_file.file = fopen(bin_file.filename, "wb")) != NULL );
+	fwrite("\xF1\xF2\xF3", 1, 3, bin_file.file );
+	fclose( bin_file.file );
 	
 	/* read whole file */
-	assert( (file = fopen("test.bin", "rb")) != NULL );
+	assert( (bin_file.file = fopen(bin_file.filename, "rb")) != NULL );
 
-	T( append_file_contents( file, -1 ) );
+	T( append_file_contents( bin_file.file, -1 ) );
 	T( next_PC() );
 
 	/* read zero bytes */
-	T( append_file_contents( file, -1 ) );
+	T( append_file_contents( bin_file.file, -1 ) );
 	T( next_PC() );
 
 	/* read 1 byte from start */
-	fseek( file, 0, SEEK_SET );
-	T( append_file_contents( file, 1 ) );
+	fseek( bin_file.file, 0, SEEK_SET );
+	T( append_file_contents( bin_file.file, 1 ) );
 	T( next_PC() );
 
 	/* read 1 byte fom middle */
-	fseek( file, 2, SEEK_SET );
-	T( append_file_contents( file, 1 ) );
+	fseek( bin_file.file, 2, SEEK_SET );
+	T( append_file_contents( bin_file.file, 1 ) );
 	T( next_PC() );
 
 	/* patch */
@@ -213,25 +213,25 @@ static void test_sections( void )
 	T( patch_value( 7, 0x030405, 3 ) );
 
 	/* patch whole file */
-	fseek( file, 0, SEEK_SET );
-	T( patch_file_contents( file, 10, -1 ) );
+	fseek( bin_file.file, 0, SEEK_SET );
+	T( patch_file_contents( bin_file.file, 10, -1 ) );
 
 	/* patch part of file */
-	fseek( file, 1, SEEK_SET );
-	T( patch_file_contents( file, 13, -1 ) );
+	fseek( bin_file.file, 1, SEEK_SET );
+	T( patch_file_contents( bin_file.file, 13, -1 ) );
 
 	/* patch part of file */
-	fseek( file, 0, SEEK_SET );
-	T( patch_file_contents( file, 15, 2 ) );
+	fseek( bin_file.file, 0, SEEK_SET );
+	T( patch_file_contents( bin_file.file, 15, 2 ) );
 
 	/* patch expands buffer */
-	fseek( file, 0, SEEK_SET );
-	T( patch_file_contents( file, 21, -1 ) );
+	fseek( bin_file.file, 0, SEEK_SET );
+	T( patch_file_contents( bin_file.file, 21, -1 ) );
 
 	T( next_PC() );
 
-	fclose( file );
-	remove("test.bin");
+	fclose( bin_file.file );
+	remove(bin_file.filename);
 
 	/* create module 1 - only bytes in "code" */
 	T( module_id = new_module_id() );
@@ -286,10 +286,10 @@ static void test_sections( void )
 	/* write each module */
 #define T_MODULE(n,size) \
 	T( set_cur_module_id( n ) ); \
-	assert( (file = fopen("test.bin", "wb")) != NULL ); \
-	assert( fwrite_module_code( file, &code_size ) ); \
+	assert( (bin_file.file = fopen(bin_file.filename, "wb")) != NULL ); \
+	assert( fwrite_module_code( bin_file.file, &code_size ) ); \
 	assert( size == code_size ); \
-	fclose( file ); \
+	fclose( bin_file.file ); \
 	dump_file("module " #n );
 
 	T_MODULE( 0, 24);
@@ -299,9 +299,9 @@ static void test_sections( void )
 #undef T_MODULE
 
 	/* write whole code area */
-	assert( (file = fopen("test.bin", "wb")) != NULL ); 
-	fwrite_codearea( "test.bin", &file, &reloc ); 
-	fclose( file );
+	assert( (bin_file.file = fopen(bin_file.filename, "wb")) != NULL ); 
+	fwrite_codearea(&bin_file, &reloc_file); 
+	fclose( bin_file.file );
 	dump_file("code area ");
 
 	/* test reordering of sections */
@@ -311,25 +311,25 @@ static void test_sections( void )
 	T( module_id = new_module_id() ); assert( module_id == 0 );
 	T( new_section("code") ); T( new_section("data") );	T( new_section("bss") );
 	T( new_section("bss") ); T( append_byte(3) ); T( next_PC() );
-	assert( (file = fopen("test.bin", "wb")) != NULL ); 
-	T( fwrite_module_code( file, &code_size ) );
-	fclose( file );
+	assert( (bin_file.file = fopen(bin_file.filename, "wb")) != NULL ); 
+	T( fwrite_module_code( bin_file.file, &code_size ) );
+	fclose( bin_file.file );
 	dump_file("code area ");
 
 	T( module_id = new_module_id() ); assert( module_id == 1 );
 	T( new_section("code") ); T( new_section("data") );	T( new_section("bss") );
 	T( new_section("data") ); T( append_byte(2) ); T( next_PC() );
-	assert( (file = fopen("test.bin", "wb")) != NULL ); 
-	T( fwrite_module_code( file, &code_size ) );
-	fclose( file );
+	assert( (bin_file.file = fopen(bin_file.filename, "wb")) != NULL ); 
+	T( fwrite_module_code( bin_file.file, &code_size ) );
+	fclose( bin_file.file );
 	dump_file("code area ");
 
 	T( module_id = new_module_id() ); assert( module_id == 2 );
 	T( new_section("code") ); T( new_section("data") );	T( new_section("bss") );
 	T( new_section("code") ); T( append_byte(1) ); T( next_PC() );
-	assert( (file = fopen("test.bin", "wb")) != NULL ); 
-	T( fwrite_module_code( file, &code_size ) );
-	fclose( file );
+	assert( (bin_file.file = fopen(bin_file.filename, "wb")) != NULL ); 
+	T( fwrite_module_code( bin_file.file, &code_size ) );
+	fclose( bin_file.file );
 	dump_file("code area ");
 
 	/* link */
@@ -340,9 +340,9 @@ static void test_sections( void )
 	T( get_first_section(NULL)->origin = -1; sections_alloc_addr() );
 
 	/* write bin file */
-	assert( (file = fopen("test.bin", "wb")) != NULL ); 
-	fwrite_codearea( "test.bin", &file, &reloc ); 
-	fclose( file );
+	assert( (bin_file.file = fopen(bin_file.filename, "wb")) != NULL ); 
+	fwrite_codearea(&bin_file, &reloc_file); 
+	fclose( bin_file.file );
 	dump_file("code area ");
 }
 

@@ -19,13 +19,13 @@ CFLAGS		+= -Wall -std=gnu11 -MMD \
 -I../../ext/regex \
 -I../../ext/optparse 
 
-SRCS 		:= \
-$(wildcard *.c) \
-$(wildcard t/*.c) \
-$(wildcard ../../ext/regex/reg*.c) \
-$(wildcard ../../ext/Unity/src/*.c)
+SRCS 		:= 	$(wildcard *.c) \
+				$(wildcard t/*.c) \
+				../z80asm/utils.c \
+				$(wildcard ../../ext/regex/reg*.c) \
+				$(wildcard ../../ext/Unity/src/*.c)
 
-OBJS		:= $(SRCS:.c=.o) \
+OBJS		:= 	$(SRCS:.c=.o) \
 				$(UNIXem_OBJS)
 
 # -DUNITY_EXCLUDE_SETJMP_H for compilation in Linux

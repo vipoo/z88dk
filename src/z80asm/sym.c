@@ -9,6 +9,7 @@ Repository: https://github.com/z88dk/z88dk
 One symbol from the assembly code - label or constant.
 */
 
+#include "asmpp.h"
 #include "errors.h"
 #include "listfile.h"
 #include "options.h"
@@ -52,14 +53,14 @@ Symbol *Symbol_create(const char *name, long value, sym_type_t type, sym_scope_t
 {
     Symbol *self 	= OBJ_NEW( Symbol );
 
-	self->name = spool_add(name);			/* name in strpool, not freed */
+	self->name = str_pool_add(name);			/* name in strpool, not freed */
 	self->value = value;
 	self->type = type;
 	self->scope = scope;
 	self->module = module;
 	self->section = section;
-	self->filename = get_error_file();
-	self->line_nr = get_error_line();
+	self->filename = g_asm_location.filename;
+	self->line_nr = g_asm_location.line_num;
 
     return self;              						/* pointer to new symbol */
 }
@@ -80,7 +81,7 @@ const char *Symbol_fullname( Symbol *sym )
         Str_append( name, sym->module->modname );
     }
 
-    ret = spool_add( Str_data(name) );
+    ret = str_pool_add( Str_data(name) );
 
 	STR_DELETE(name);
 

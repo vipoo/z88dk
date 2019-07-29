@@ -46,7 +46,7 @@ END
 		ld
 END
 	run("z80asm test.asm", 1, "", <<END);
-Error at file 'test_dir${slash}test.c' line 1: syntax error
+Error at file 'test_dir${slash}test.c' line 1, file 'test.asm' line 2: syntax error
 END
 
 }

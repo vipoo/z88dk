@@ -191,7 +191,7 @@ spew("test.asm", "
 	defvars 0							;; error: missing {} block
 ");
 run("z80asm -b test.asm", 1, "", <<END);
-Error at file 'test.asm' line 3: missing {} block
+Error at file 'test.asm' line 2: missing {} block
 END
 
 
@@ -200,7 +200,7 @@ spew("test.asm", "
 	defvars 0 {							;; error: {} block not closed
 ");
 run("z80asm -b test.asm", 1, "", <<END);
-Error at file 'test.asm' line 3: {} block not closed
+Error at file 'test.asm' line 2: {} block not closed
 END
 
 

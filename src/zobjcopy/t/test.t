@@ -722,8 +722,8 @@ sub run {
 	
 	ok 1, $cmd;
 	my($out, $err, $exit, @dummy) = capture {system $cmd};
-	is $out, $exp_out, $cmd;
-	is $err, $exp_err, $cmd;
+	is normalize_eol($out), normalize_eol($exp_out), $cmd;
+	is normalize_eol($err), normalize_eol($exp_err), $cmd;
 	is !!$exit, !!$exp_exit, $cmd;
 	
 	return $ok && Test::More->builder->is_passing;
@@ -759,4 +759,10 @@ sub check_z80nm {
 	$options //= "-a";
 	return check_zobjcopy_nm("z80nm $options", $file, $bmk);
 
+}
+
+sub normalize_eol {
+	my($line) = @_;
+	$line =~ s/\r\n|\r/\n/g;
+	return $line;
 }

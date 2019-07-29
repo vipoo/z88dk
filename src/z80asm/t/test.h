@@ -14,8 +14,8 @@ Repository: https://github.com/z88dk/z88dk
 #include <stdio.h>
 
 extern char* tst_prog_name;
-extern char* tst_last_exec_out;
-extern char* tst_last_exec_err;
+extern char* tst_exec_out;
+extern char* tst_exec_err;
 
 void tst_spew(const char* filename, const char* text);
 char* tst_slurp_alloc(const char* filename);		// user must free pointer

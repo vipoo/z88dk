@@ -69,6 +69,7 @@ extern void parse_argv( int argc, char *argv[] );
 *	Extensions may be changed by options.
 *----------------------------------------------------------------------------*/
 extern const char *get_asm_filename(const char *filename );
+extern const char *get_c_filename(const char *filename );
 extern const char *get_preproc_filename(const char *filename );
 extern const char *get_list_filename(const char *filename );
 extern const char *get_obj_filename(const char *filename );

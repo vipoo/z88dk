@@ -19,6 +19,8 @@ Repository: https://github.com/z88dk/z88dk
 #include "fileutil.h"
 #include "die.h"
 
+#include <assert.h>
+
 /*-----------------------------------------------------------------------------
 *   Type stored in file_stack
 *----------------------------------------------------------------------------*/
@@ -98,7 +100,7 @@ void SrcFile_init( SrcFile *self )
 
 void SrcFile_copy( SrcFile *self, SrcFile *other )
 {
-    xassert(0);
+    assert(0);
 }
 
 void SrcFile_fini( SrcFile *self )
@@ -320,7 +322,7 @@ bool ScrFile_is_c_source(SrcFile * self)
 
 void SrcFile_set_filename(SrcFile * self, const char * filename)
 {
-	self->line_filename = spool_add(filename);
+	self->line_filename = str_pool_add(filename);
 }
 
 void SrcFile_set_line_nr(SrcFile * self, int line_nr, int line_inc)

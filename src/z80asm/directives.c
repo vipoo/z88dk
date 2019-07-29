@@ -9,6 +9,7 @@ Repository: https://github.com/z88dk/z88dk
 Assembly directives.
 */
 
+#include "asmpp.h"
 #include "codearea.h"
 #include "directives.h"
 #include "errors.h"
@@ -21,6 +22,8 @@ Assembly directives.
 #include "symtab.h"
 #include "z80asm.h"
 #include "die.h"
+
+#include <assert.h>
 
 static void check_org_align();
 
@@ -54,7 +57,7 @@ void asm_cond_LABEL(Str *label)
 	if (opts.debug_info && !scr_is_c_source()) {
 		STR_DEFINE(name, STR_SIZE);
 
-		Str_sprintf(name, "__ASM_LINE_%ld", get_error_line());
+		Str_sprintf(name, "__ASM_LINE_%ld", g_asm_location.line_num);
 		if (!find_local_symbol(Str_data(name)))
 			asm_LABEL(Str_data(name));
 
@@ -77,7 +80,7 @@ void asm_DEFGROUP_start(int next_value)
 /* define one constant with the next value, increment the value */
 void asm_DEFGROUP_define_const(const char *name)
 {
-	xassert(name != NULL);
+	assert(name != NULL);
 	
 	if (DEFGROUP_PC > 0xFFFF || DEFGROUP_PC < -0x8000)
 		error_int_range(DEFGROUP_PC);
@@ -121,7 +124,7 @@ void asm_DEFVARS_define_const(const char *name, int elem_size, int count)
 	int var_size = elem_size * count;
 	int next_pc = *DEFVARS_PC + var_size;
 
-	xassert(name != NULL);
+	assert(name != NULL);
 
 	if (var_size > 0xFFFF)
 		error_int_range(var_size);
@@ -158,21 +161,23 @@ void asm_LINE(int line_nr, const char *filename)
 
 	src_set_filename(filename);
 	src_set_line_nr(line_nr, 1);
-	set_error_file(filename);
-	set_error_line(line_nr);
+	pp_set_current_location((location_t) { str_pool_add(filename), line_nr - 1 });
 
 	STR_DELETE(name);
 }
 
 void asm_C_LINE(int line_nr, const char *filename)
 {
+	// if C_LINE was passed without a filename, infer C filename from the ASM one
+	if (!filename || !*filename)
+		filename = get_c_filename(g_asm_location.filename);
+
 	src_set_filename(filename);
 	src_set_line_nr(line_nr, 0);		// do not increment line numbers
 	src_set_c_source();
 	
-	set_error_file(filename);
-	set_error_line(line_nr);
-	
+	g_c_location = (location_t){ str_pool_add(filename), line_nr };
+
 	if (opts.debug_info) {
 		STR_DEFINE(name, STR_SIZE);
 
@@ -226,7 +231,7 @@ void asm_BINARY(const char *filename)
 *----------------------------------------------------------------------------*/
 void asm_MODULE(const char *name)
 {
-	CURRENTMODULE->modname = spool_add(name);		/* replace previous module name */
+	CURRENTMODULE->modname = str_pool_add(name);		/* replace previous module name */
 }
 
 void asm_MODULE_default(void)
@@ -305,7 +310,7 @@ void asm_DEFC(const char *name, Expr *expr)
 		else {
 			/* store in object file to be computed at link time */
 			expr->range = RANGE_WORD;
-			expr->target_name = spool_add(name);
+			expr->target_name = str_pool_add(name);
 
 			ExprList_push(&CURRENTMODULE->exprs, expr);
 
@@ -405,7 +410,7 @@ static void check_org_align()
 *----------------------------------------------------------------------------*/
 static Expr *asm_DMA_shift_exprs(UT_array *exprs)
 {
-	xassert(utarray_len(exprs) > 0);
+	assert(utarray_len(exprs) > 0);
 
 	Expr *expr = *((Expr **)utarray_front(exprs));	// copy first element
 	*((Expr **)utarray_front(exprs)) = NULL;		// do not destroy
@@ -476,7 +481,7 @@ static void asm_DMA_command_1(int cmd, UT_array *exprs)
 		case 0x08: asm_DEFB_expr(asm_DMA_shift_exprs(exprs)); break;		// bit 3
 		case 0x10: asm_DEFB_expr(asm_DMA_shift_exprs(exprs)); break; 		// bit 4
 		case 0x18: asm_DEFW(asm_DMA_shift_exprs(exprs)); break; 			// bits 3,4
-		default: xassert(0);
+		default: assert(0);
 		}
 
 		// parse wr0 parameters: check bits 5,6
@@ -489,7 +494,7 @@ static void asm_DMA_command_1(int cmd, UT_array *exprs)
 		case 0x20: asm_DEFB_expr(asm_DMA_shift_exprs(exprs)); break;		// bit 5
 		case 0x40: asm_DEFB_expr(asm_DMA_shift_exprs(exprs)); break;		// bit 6
 		case 0x60: asm_DEFW(asm_DMA_shift_exprs(exprs)); break;				// bits 5,6
-		default: xassert(0);
+		default: assert(0);
 		}
 
 		break;
@@ -753,7 +758,7 @@ static void asm_DMA_command_1(int cmd, UT_array *exprs)
 		break;
 
 	default:
-		xassert(0);
+		assert(0);
 	}
 
 	// check for extra arguments
@@ -768,7 +773,7 @@ void asm_DMA_command(int cmd, UT_array *exprs)
 		return;
 	}
 
-	xassert(utarray_len(exprs) > 0);
+	assert(utarray_len(exprs) > 0);
 	asm_DMA_command_1(cmd, exprs);
 	utarray_clear(exprs);			// clear any expr left over in case of error
 }

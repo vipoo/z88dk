@@ -9,6 +9,7 @@ Repository: https://github.com/z88dk/z88dk
 Define ragel-based parser. 
 */
 
+#include "asmpp.h"
 #include "class.h"
 #include "codearea.h"
 #include "directives.h"
@@ -24,6 +25,7 @@ Define ragel-based parser.
 #include "symtab.h"
 #include "utarray.h"
 #include "die.h"
+#include <assert.h>
 #include <ctype.h>
 
 /*-----------------------------------------------------------------------------
@@ -89,18 +91,18 @@ struct Expr *parse_expr(const char *expr_text)
 
 	save_scan_state();
 	{
-		src_push();
+		pp_push();
 		{
 			SetTemporaryLine(str_data(expr_text_nl));
-			num_errors = get_num_errors();
+			num_errors = g_error_count;
 			EOL = false;
 			scan_expect_operands();
 			GetSym();
 			expr = expr_parse();		/* may output error */
-			if (sym.tok != TK_NEWLINE && num_errors == get_num_errors())
+			if (sym.tok != TK_NEWLINE && num_errors == g_error_count)
 				error_syntax();
 		}
-		src_pop();
+		pp_pop();
 	}
 	restore_scan_state();
 	
@@ -204,7 +206,7 @@ const char *autolabel(void)
 	const char *ret;
 
 	Str_sprintf(label, "__autolabel_%04d", ++n);
-	ret = spool_add(Str_data(label));
+	ret = str_pool_add(Str_data(label));
 
 	STR_DELETE(label);
 	return ret;
@@ -259,7 +261,7 @@ static void read_token(ParseCtx *ctx)
 
 	default:;
 //		if (!*(sym_copy.text))
-//			xassert(*(sym_copy.text));
+//			assert(*(sym_copy.text));
 	}
 //	sym_copy.string = token_strings_add(sym.string);
 	utarray_push_back(ctx->tokens, &sym_copy);
@@ -303,8 +305,8 @@ static void start_struct(ParseCtx *ctx, tokid_t open_tok, bool condition)
 	memset(&os, 0, sizeof(OpenStruct));
 
 	os.open_tok = open_tok;
-	os.filename = get_error_file();
-	os.line_nr = get_error_line();
+	os.filename = g_asm_location.filename;
+	os.line_nr = g_asm_location.line_num;
 	os.active = condition;
 	if (os.active)
 		os.elif_was_true = true;
@@ -468,16 +470,16 @@ static void parseline(ParseCtx *ctx)
 
 	EOL = false;			/* reset END OF LINE flag */
 
-	start_num_errors = get_num_errors();
+	start_num_errors = g_error_count;
 
 	scan_expect_opcode();
 	GetSym();
 
-	if (get_num_errors() != start_num_errors)		/* detect errors in GetSym() */
+	if (g_error_count != start_num_errors)		/* detect errors in GetSym() */
 		Skipline();
 	else if (!parse_statement(ctx))
 	{
-		if (get_num_errors() == start_num_errors)	/* no error output yet */
+		if (g_error_count == start_num_errors)	/* no error output yet */
 			error_syntax();
 
 		Skipline();
@@ -488,34 +490,36 @@ bool parse_file(const char *filename)
 {
 	ParseCtx *ctx;
 	OpenStruct *os;
-	int num_errors = get_num_errors();
+	int num_errors = g_error_count;
 
 	ctx = ParseCtx_new();
-	src_push();
+	pp_push();
 	{
-		if (src_open(filename, opts.inc_path))
+		if (pp_open(filename))
 		{
 			// display name of file before parsing it
 			if (opts.verbose)
-				printf("Reading '%s' = '%s'\n", path_canon(filename), path_canon(src_filename()));	
+				printf("Reading '%s' = '%s'\n",
+					path_canon(filename),
+					path_canon(pp_get_current_location().filename));
 
 			sym.tok = TK_NIL;
 			while (sym.tok != TK_END)
 				parseline(ctx);
-
-			list_end_line();					// end pending list
 
 			os = (OpenStruct *)utarray_back(ctx->open_structs);
 			if (os != NULL)
 				error_unbalanced_struct_at(os->filename, os->line_nr);
 		}
 	}
-	src_pop();
-	sym.tok = TK_NEWLINE;						/* when called recursively, need to make tok != TK_NIL */
+	pp_pop();
+	sym.tok = TK_NEWLINE;							// when called recursively, need to make tok != TK_NIL
 
 	ParseCtx_delete(ctx);
 
-	return num_errors == get_num_errors();
+	g_asm_location = pp_get_current_location();		// revert to location of parent
+
+	return num_errors == g_error_count;
 }
 
 /*-----------------------------------------------------------------------------

@@ -9,6 +9,7 @@ Repository: https://github.com/z88dk/z88dk
 Global data model.
 */
 
+#include "asmpp.h"
 #include "model.h"
 #include "codearea.h"
 #include "errors.h"
@@ -28,12 +29,12 @@ static SrcFile			*g_src_input;			/* input handle for reading source lines */
 *----------------------------------------------------------------------------*/
 static void new_line_cb(const char *filename, int line_nr, const char *text )
 {
-    set_error_file( filename );		/* error file */
+	g_asm_location.filename = str_pool_add(filename);		/* error file */
 
 	if ( filename != NULL )
 	{
 		/* interface with error - set error location */
-		set_error_line(line_nr);
+		g_asm_location.line_num = line_nr;
 		
         /* interface with list */
 		if (opts.cur_list)
@@ -46,8 +47,6 @@ static void new_line_cb(const char *filename, int line_nr, const char *text )
 *----------------------------------------------------------------------------*/
 DEFINE_init_module()
 {
-	errors_init();						/* setup error handler */
-
 	/* setup input handler */
 	g_src_input = OBJ_NEW( SrcFile );
 	set_new_line_cb( new_line_cb );
@@ -92,13 +91,13 @@ void src_ungetline(const char *lines )
 	SrcFile_ungetline( g_src_input, lines );
 }
 
-const char *src_filename( void )
+const char *XXXsrc_filename( void )
 {
 	init_module();
 	return SrcFile_filename( g_src_input );
 }
 
-int src_line_nr( void )
+int XXXsrc_line_nr( void )
 {
 	init_module();
 	return SrcFile_line_nr( g_src_input );

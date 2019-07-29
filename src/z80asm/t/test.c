@@ -20,8 +20,8 @@ static int count_run = 0;
 static int count_failed = 0;
 
 char* tst_prog_name = NULL;
-char* tst_last_exec_out = NULL;
-char* tst_last_exec_err = NULL;
+char* tst_exec_out = NULL;
+char* tst_exec_err = NULL;
 
 // replace in place, replace eol chars by newline
 static char* normalize_eol(char* str)
@@ -55,7 +55,7 @@ void tst_spew(const char* filename, const char* text)
 	else {
 		size_t size = strlen(text);
 		size_t written = fwrite(text, sizeof(char), size, fp);
-		OK(size == written);
+		assert(size == written);
 
 		fclose(fp);
 	}
@@ -73,13 +73,13 @@ char* tst_slurp_alloc(const char* filename)
 		fseek(fp, 0, SEEK_END);
 		long size = ftell(fp);
 		fseek(fp, 0, SEEK_SET);
-		OK(size >= 0);
+		assert(size >= 0);
 
 		char* text = malloc(size + 1);
 		assert(text);
 
 		size_t read = fread(text, sizeof(char), size, fp);
-		OK(size == read);
+		assert(size == read);
 		text[read] = '\0';
 
 		fclose(fp);
@@ -103,7 +103,7 @@ void tst_is_ok(bool value, const char* filename, int line_num)
 	count_run++;
 
 	if (value) {
-		printf("ok %d\n", count_run);
+		//printf("ok %d\n", count_run);
 	}
 	else {
 		printf("not ok %d\n", count_run);
@@ -172,8 +172,8 @@ bool tst_exec(const char* test_name)
 	snprintf(cmd, sizeof(cmd), "%s %s >test.out 2>test.err", tst_prog_name, test_name);
 	int rv = system(cmd);
 
-	free(tst_last_exec_out); tst_last_exec_out = slurp_remove("test.out");
-	free(tst_last_exec_err); tst_last_exec_err = slurp_remove("test.err");
+	free(tst_exec_out); tst_exec_out = slurp_remove("test.out");
+	free(tst_exec_err); tst_exec_err = slurp_remove("test.err");
 
 	if (rv == 0)
 		return true;
@@ -209,8 +209,8 @@ int main(int argc, char* argv[])
 
 	// free
 	free(tst_prog_name);
-	free(tst_last_exec_out);
-	free(tst_last_exec_err);
+	free(tst_exec_out);
+	free(tst_exec_err);
 
 	if (!count_failed)
 		return EXIT_SUCCESS;

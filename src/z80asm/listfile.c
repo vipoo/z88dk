@@ -94,7 +94,7 @@ void ListFile_open( ListFile *self, const char *list_file )
     ListFile_close( self, false );
 
     /* open the file */
-    self->filename	= spool_add( list_file );
+    self->filename	= str_pool_add( list_file );
     self->file		= xfopen( list_file, "w" );
     self->source_list_ended = false;
 
@@ -163,7 +163,7 @@ void ListFile_start_line( ListFile *self, int address,
         self->address = address;
         Str_clear( self->bytes );
 
-        self->source_file = spool_add( source_file );
+        self->source_file = str_pool_add( source_file );
         self->source_line_nr = source_line_nr;
 
         /* normalize the line end (BUG_0031) */

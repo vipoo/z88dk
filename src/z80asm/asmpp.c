@@ -9,7 +9,13 @@ Repository: https://github.com/z88dk/z88dk
 */
 
 #include "asmpp.h"
-#include "errcheck.h"
+#include "codearea.h"
+#include "errors.h"
+#include "fileutil.h"
+#include "listfile.h"
+#include "macros.h"
+#include "options.h"
+#include "utils.h"
 
 #include <malloc.h>
 #include <stdio.h>
@@ -19,11 +25,31 @@ Repository: https://github.com/z88dk/z88dk
 #include <utstring.h>
 
 //-----------------------------------------------------------------------------
+// local types
+//-----------------------------------------------------------------------------
+typedef struct input_t {
+	FILE*		file;
+	location_t	location;
+	UT_string*	line;
+	bool		eof;
+
+	struct input_t* next;		// next in stack
+} input_t;
+
+//-----------------------------------------------------------------------------
+// global data
+//-----------------------------------------------------------------------------
+location_t g_asm_location, g_c_location;
+
+// static data
+static input_t* g_input = NULL;
+
+//-----------------------------------------------------------------------------
 // initialize
 //-----------------------------------------------------------------------------
 static void pp_pop_all();
 
-static void pp_exit(void)
+static void pp_deinit(void)
 {
 	pp_pop_all();
 }
@@ -32,7 +58,7 @@ static void pp_init()
 {
 	static bool inited = false;
 	if (!inited) {
-		atexit(pp_exit);
+		atexit(pp_deinit);
 		inited = true;
 	}
 }
@@ -40,54 +66,102 @@ static void pp_init()
 //-----------------------------------------------------------------------------
 // input from file
 //-----------------------------------------------------------------------------
-typedef struct input_t {
-	char*		filename;
-	FILE*		file;
-	int			line_num;
-	UT_string*	line;
+bool pp_file_in_stack(const char* filename);
 
-	struct input_t* next;		// next in stack
-} input_t;
+location_t pp_get_current_location()
+{
+	if (g_input)
+		return g_input->location;
+	else
+		return (location_t) { NULL, 0 };
+}
 
-static input_t* pp_input = NULL;
+void pp_set_current_location(location_t location)
+{
+	if (g_input)
+		g_input->location = location;
+}
 
-void pp_push(const char* filename)
+void pp_clear_locations()
+{
+	g_asm_location = (location_t){ NULL,0 };
+	g_c_location = (location_t){ NULL,0 };
+}
+
+void pp_push()
 {
 	pp_init();
 
-	input_t* elem	= chk_calloc(1, sizeof(input_t));
-	elem->filename	= chk_strdup(filename);
-	elem->file		= chk_fopen(filename, "rb");
-	elem->line_num	= 0;
+	input_t* elem = xcalloc(1, sizeof(input_t));
+	elem->file = NULL;
+	elem->location.filename	= NULL;
+	elem->location.line_num	= 0;
+	elem->eof = false;
 	utstring_new(elem->line);
-	LL_PREPEND(pp_input, elem);
+	LL_PREPEND(g_input, elem);
 }
 
 void pp_pop()
 {
-	if (pp_input) {
-		input_t* elem = pp_input;
-		LL_DELETE(pp_input, elem);
+	if (g_input) {
+		input_t* elem = g_input;
+		LL_DELETE(g_input, elem);
 		
-		free(elem->filename);
 		if (elem->file) fclose(elem->file);
 		utstring_free(elem->line);
-		free(elem);
+		xfree(elem);
 	}
+
+	if (!g_input) {			// if stack is now empty
+		g_asm_location = (location_t){ NULL,0 };
+		g_c_location = (location_t){ NULL,0 };
+	}
+}
+
+bool pp_open(const char* filename)
+{
+	if (!g_input) 					// not initialized
+		return false;
+
+	if (g_input->file) 				// file is open
+		fclose(g_input->file);
+
+	// search file in include path
+	const char* filename_found = str_pool_add(path_search(filename, opts.inc_path));
+
+	// check for recursive includes, return false if found
+	if (pp_file_in_stack(filename_found)) {
+		error_include_recursion(filename);
+		return false;
+	}
+
+	// try to open the file, error if cannot (binary mode for cross-platform eols)
+	FILE* file = fopen(filename_found, "rb");
+	if (!file) {
+		error_read_file(filename);
+		return false;
+	}
+
+	// init current level
+	g_input->file = file;
+	g_input->location = (location_t){ filename_found, 0 };
+
+	return true;
 }
 
 static void pp_pop_all()
 {
-	while (pp_input)
+	while (g_input)
 		pp_pop();
 }
 
 bool pp_file_in_stack(const char* filename)
 {
-	input_t* p = pp_input;
+	input_t* p = g_input;
 	while (p != NULL) {
-		if (strcmp(filename, p->filename) == 0)
-			return true;
+		if (p->location.filename)
+			if (strcmp(filename, p->location.filename) == 0)
+				return true;
 		p = p->next;
 	}
 	return false;
@@ -95,21 +169,21 @@ bool pp_file_in_stack(const char* filename)
 
 char* pp_getline()
 {
-	if (!pp_input) return NULL;		// no file in stack
-	if (!pp_input->file) return NULL;	// file not open
+	if (!g_input) return NULL;			// no file in stack
+	if (!g_input->file) return NULL;	// file not open
 	
-	utstring_clear(pp_input->line);	// clear result string
+	utstring_clear(g_input->line);		// clear result string
 
 	// read until end-of-line
 	int c1, c2;
 	char c;
 	bool found_newline = false;
-	while (!found_newline && (c1 = getc(pp_input->file)) != EOF) {
+	while (!found_newline && (c1 = getc(g_input->file)) != EOF) {
 		switch (c1) {
 		case '\r': 
-			c2 = getc(pp_input->file);
+			c2 = getc(g_input->file);
 			if (c2 != '\n' && c2 != EOF)
-				ungetc(c2, pp_input->file);
+				ungetc(c2, g_input->file);
 			c1 = '\n';
 			// fall through		
 		case '\n':
@@ -117,38 +191,68 @@ char* pp_getline()
 			// fall through		
 		default:
 			c = (char)c1;
-			utstring_bincpy(pp_input->line, &c, 1);
+			utstring_bincpy(g_input->line, &c, 1);
 		}
 	}
 
 	// terminate string
-	if (utstring_len(pp_input->line) > 0 && !found_newline)
-		utstring_bincpy(pp_input->line, "\n", 1);
+	if (utstring_len(g_input->line) > 0 && !found_newline)
+		utstring_bincpy(g_input->line, "\n", 1);
 
-	if (utstring_len(pp_input->line) > 0) {
-		pp_input->line_num++;
-		return utstring_body(pp_input->line);
+	if (utstring_len(g_input->line) > 0) {
+		g_input->location.line_num++;
+		g_asm_location = g_input->location;
+		return utstring_body(g_input->line);
 	}
 	else {
-		fclose(pp_input->file);
-		pp_input->file = NULL;
+		fclose(g_input->file);
+		g_input->file = NULL;
 		return NULL;
 	}
 }
 
-const char* pp_filename()
+char* pp_getline_lst()
 {
-	if (pp_input)
-		return pp_input->filename;
-	else
-		return NULL;
+	while (true) {
+		char* line = pp_getline();
+		if (!line)
+			return NULL;
+
+		utstring_strip(g_input->line);
+		line = utstring_body(g_input->line);
+
+		if (line[0] != '\0' && line[0] != '#' && line[0] != ';')
+			return line;
+	}
 }
 
-int pp_line_num()
+static char* src_getline1(void)
 {
-	if (pp_input)
-		return pp_input->line_num;
-	else
-		return 0;
+	next_PC();							// update assembler program counter
+	list_end_line();					// end pending list from previous input line
+
+	char* line = pp_getline();			// read next input from file
+	
+	if (opts.cur_list) {				// interface with list
+		if (line) {
+			list_start_line(get_phased_PC() >= 0 ? get_phased_PC() : get_PC(),
+				g_asm_location.filename, g_asm_location.line_num, line);
+		}
+		else {
+			if (!g_input->eof) {		// first time a NULL is retrieved - show last list line
+				list_start_line(get_phased_PC() >= 0 ? get_phased_PC() : get_PC(),
+					g_asm_location.filename, g_asm_location.line_num + 1, "");
+				list_end_line();
+
+				g_input->eof = true;
+			}
+		}
+	}
+
+	return line;
 }
 
+char* pp_getline_asm()
+{
+	return macros_getline(src_getline1);
+}

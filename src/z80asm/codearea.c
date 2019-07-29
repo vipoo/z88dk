@@ -17,6 +17,8 @@ Manage the code area in memory
 #include "strutil.h"
 #include "z80asm.h"
 #include "die.h"
+
+#include <assert.h>
 #include <memory.h>
 
 /*-----------------------------------------------------------------------------
@@ -140,7 +142,7 @@ Section *new_section( const char *name )
 	if ( g_cur_section == NULL )
 	{
 		g_cur_section = OBJ_NEW( Section );
-		g_cur_section->name = spool_add( name );
+		g_cur_section->name = str_pool_add( name );
 		SectionHash_set( & g_sections, name, g_cur_section );
 		
 		/* set first and last sections */
@@ -221,8 +223,8 @@ int get_cur_module_id( void )
 void set_cur_module_id( int module_id )
 {
 	init_module();
-	xassert( module_id >= 0 );
-	xassert( module_id <= get_last_module_id() );
+	assert( module_id >= 0 );
+	assert( module_id <= get_last_module_id() );
 	g_cur_module = module_id;
 }
 
@@ -254,7 +256,7 @@ static int section_module_start( Section *section, int module_id )
 
 		/* update address with current code index */
 		item = intArray_item( section->module_start, module_id );
-		xassert( get_section_size( section ) >= addr );
+		assert( get_section_size( section ) >= addr );
 
 		addr = *item = get_section_size( section );
 	}
@@ -413,7 +415,7 @@ static byte_t *alloc_space( int addr, int num_bytes )
 
 	/* cannot expand unless last module */
 	if ( get_cur_module_id() != get_last_module_id() )
-		xassert( addr + num_bytes <= old_size );
+		assert( addr + num_bytes <= old_size );
 
 	check_space( base_addr + addr, num_bytes );
 
@@ -573,9 +575,13 @@ bool fwrite_module_code(FILE *file, int* p_code_size)
 /*-----------------------------------------------------------------------------
 *   read/write whole code area to an open file
 *----------------------------------------------------------------------------*/
-void fwrite_codearea(const char *filename, FILE **pbinfile, FILE **prelocfile)
+void fwrite_codearea(open_file_t* bin_file, open_file_t* reloc_file)
 {
-	STR_DEFINE(new_name, FILENAME_MAX);
+	UT_string* new_filename;
+	utstring_new(new_filename);
+	const char* intial_filename = str_pool_add(bin_file->filename);
+	bool have_reloc_file = reloc_file->file != NULL;
+
 	Section *section;
 	SectionHashElem *iter;
 	int section_size;
@@ -606,22 +612,34 @@ void fwrite_codearea(const char *filename, FILE **pbinfile, FILE **prelocfile)
 					(section != get_first_section(NULL) && section->origin >= 0))
 				{
 					if (opts.appmake)
-						warn_org_ignored(get_obj_filename(filename), section->name);
+						warn_org_ignored(get_obj_filename(bin_file->filename), section->name);
 					else {
-						Str_set(new_name, path_remove_ext(filename));	/* "test" */
-						Str_append_char(new_name, '_');
-						Str_append(new_name, section->name);
+						// close old files, remove both if binary empty
+						xfclose(bin_file->file);
+						if (have_reloc_file)
+							xfclose(reloc_file->file);
 
-                        xfclose_remove_empty(*pbinfile);
+						if (file_size(bin_file->filename) == 0) {
+							xremove(bin_file->filename);
+							if (have_reloc_file)
+								xremove(reloc_file->filename);
+						}
+						
+						// build new file name: binary_section.bin
+						utstring_clear(new_filename);
+						utstring_printf(new_filename, "%s_%s",
+							path_remove_ext(intial_filename), section->name);
+
+						bin_file->filename = get_bin_filename(utstring_body(new_filename));
 
 						if (opts.verbose)
-							printf("Creating binary '%s'\n", path_canon(get_bin_filename(Str_data(new_name))));
+							printf("Creating binary '%s'\n", path_canon(bin_file->filename));
 
-						*pbinfile = xfopen(get_bin_filename(Str_data(new_name)), "wb");
+						bin_file->file = xfopen(bin_file->filename, "wb");
 
-						if (*prelocfile) {
-                            xfclose_remove_empty(*prelocfile);
-							*prelocfile = xfopen(get_reloc_filename(Str_data(new_name)), "wb");
+						if (have_reloc_file) {
+							reloc_file->filename = get_reloc_filename(utstring_body(new_filename));
+							reloc_file->file = xfopen(reloc_file->filename, "wb");
 							cur_section_block_size = 0;
 						}
 
@@ -630,12 +648,12 @@ void fwrite_codearea(const char *filename, FILE **pbinfile, FILE **prelocfile)
 				}
 			}
 
-			xfwrite_bytes((char *)ByteArray_item(section->bytes, 0), section_size, *pbinfile);
+			xfwrite_bytes((char *)ByteArray_item(section->bytes, 0), section_size, bin_file->file);
 
-			if (*prelocfile) {
+			if (have_reloc_file) {
 				unsigned i;
 				for (i = 0; i < intArray_size(section->reloc); i++) {
-					xfwrite_word(*(intArray_item(section->reloc, i)) + cur_section_block_size, *prelocfile);
+					xfwrite_word(*(intArray_item(section->reloc, i)) + cur_section_block_size, reloc_file->file);
 				}
 			}
 
@@ -645,7 +663,7 @@ void fwrite_codearea(const char *filename, FILE **pbinfile, FILE **prelocfile)
 		cur_addr += section_size;
 	}
 
-	STR_DELETE(new_name);
+	utstring_free(new_filename);
 }
 
 /*-----------------------------------------------------------------------------

@@ -8,6 +8,7 @@ Repository: https://github.com/z88dk/z88dk
 Assembly macros.
 */
 
+#include "asmpp.h"
 #include "macros.h"
 #include "alloc.h"
 #include "errors.h"
@@ -73,7 +74,7 @@ static Macro* Macro_add(char* name)
 		return NULL;		// duplicate
 
 	elem = m_new(Macro);
-	elem->name = spool_add(name);
+	elem->name = str_pool_add(name);
 	elem->params = argv_new();
 	elem->text = str_new();
 	elem->expanding = false;
@@ -213,7 +214,7 @@ static void fill_input()
 				argv_push(in_lines, line);
 				if (preproc_fp) {
 					fprintf(preproc_fp, ";\tLINE %d, \"%s\"\n;\t%s",
-						get_error_line(), get_error_file(),
+						g_asm_location.line_num, g_asm_location.filename,
 						line);
 				}
 			}
@@ -1097,7 +1098,7 @@ char *macros_getline(getline_t getline_func)
 
 		if (line != NULL && preproc_fp != NULL) {
 			fprintf(preproc_fp, "\tLINE %d, \"%s\"\n\t%s",
-				get_error_line(), get_error_file(),
+				g_asm_location.line_num, g_asm_location.filename,
 				line);
 		}
 

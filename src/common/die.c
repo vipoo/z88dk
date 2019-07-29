@@ -13,23 +13,6 @@
 //-----------------------------------------------------------------------------
 // die
 //-----------------------------------------------------------------------------
-void die(char *msg, ...)
-{
-    va_list argptr;
-    
-	va_start(argptr, msg);
-	vfprintf(stderr, msg, argptr);
-	va_end(argptr);
-
-    exit(EXIT_FAILURE);
-}
-
-void *check_alloc(void *p, const char *file, int line_nr)
-{
-	if (!p)
-		die("memory allocation error at %s:%d\n", file, line_nr);
-	return p;
-}
 
 int check_retval(int retval, const char *file, const char *source_file, int line_nr)
 {

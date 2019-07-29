@@ -91,8 +91,8 @@ StrHashElem *StrHash_find( StrHash *self, const char *key )
     StrHashElem *elem;
     size_t  	 num_chars;
 
-    if ( self == NULL || key == NULL )
-        return NULL;
+	if ( self == NULL || key == NULL )
+		return NULL;
 
 	key = StrHash_norm_key( self, key );
     num_chars = strlen( key );
@@ -136,7 +136,7 @@ void StrHash_set( StrHash **pself, const char *key, void *value )
 		key = StrHash_norm_key( *pself, key );
         
 		elem = m_new( StrHashElem );
-        elem->key = spool_add( key );
+        elem->key = str_pool_add( key );
 
         /* add to hash, need to store elem->key instead of key, as it is invariant */
         num_chars = strlen( key );

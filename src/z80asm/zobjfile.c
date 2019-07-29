@@ -21,6 +21,8 @@ Handle object file contruction, reading and writing
 #include "strutil.h"
 #include "die.h"
 
+#include <assert.h>
+
 /*-----------------------------------------------------------------------------
 *   Object header
 *----------------------------------------------------------------------------*/
@@ -37,7 +39,7 @@ static long write_expr( FILE *fp )
 	STR_DEFINE(last_sourcefile, STR_SIZE);		/* keep last source file referred to in object */
 	ExprListElem *iter;
     Expr *expr;
-	char range;
+	char range = '\0';
 	const char *target_name;
 	long expr_ptr;
 
@@ -66,7 +68,7 @@ static long write_expr( FILE *fp )
 			case RANGE_BYTE_UNSIGNED:	range = 'U'; break;
 			case RANGE_BYTE_SIGNED:		range = 'S'; break;
 			case RANGE_JR_OFFSET:		range = 'J'; break;
-			default:					xassert(0);
+			default:					assert(0);
 			}
 		}
 		xfwrite_byte(range, fp);				/* range of expression */
@@ -103,7 +105,7 @@ static int write_symbols_symtab( FILE *fp, SymbolHash *symtab )
     SymbolHashElem *iter;
     Symbol         *sym;
 	int written = 0;
-	char scope, type;
+	char scope = '\0', type = '\0';
 
     for ( iter = SymbolHash_first( symtab ); iter; iter = SymbolHash_next( iter ) )
     {
@@ -122,7 +124,7 @@ static int write_symbols_symtab( FILE *fp, SymbolHash *symtab )
 			case TYPE_CONSTANT:	type = 'C'; break;
 			case TYPE_ADDRESS:	type = 'A'; break;
 			case TYPE_COMPUTED:	type = '='; break;
-			default: xassert(0);
+			default: assert(0);
 			}
 
 			xfwrite_byte(scope, fp);
@@ -286,7 +288,7 @@ void OFile_init( OFile *self )
 	self->code_ptr = -1;
 }
 
-void OFile_copy( OFile *self, OFile *other ) { xassert(0); }
+void OFile_copy( OFile *self, OFile *other ) { assert(0); }
 
 void OFile_fini( OFile *self )
 {
@@ -337,7 +339,7 @@ OFile *OFile_read_header( FILE *file, size_t start_ptr )
     /* read module name */
     fseek( file, start_ptr + self->modname_ptr, SEEK_SET );
     xfread_bcount_str(modname, file);
-    self->modname		= spool_add(str_data(modname));
+    self->modname		= str_pool_add(str_data(modname));
 
 	str_free(modname);
 
@@ -374,7 +376,7 @@ static OFile *_OFile_open_read(const char *filename, bool test_mode )
 
 		return NULL;
 	}
-	self->filename = spool_add( filename );
+	self->filename = str_pool_add( filename );
 
 	/* return object */
 	return self;

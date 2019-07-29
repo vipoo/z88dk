@@ -12,13 +12,14 @@ endif
 include ../Make.common
 
 SRCS 		:= $(wildcard *.c) \
-../common/die.c \
-../common/objfile.c \
-../common/fileutil.c \
-../common/strutil.c \
-$(wildcard ../../ext/regex/reg*.c)
+			../common/die.c \
+			../common/objfile.c \
+			../common/fileutil.c \
+			../common/strutil.c \
+			../z80asm/utils.c \
+			$(wildcard ../../ext/regex/reg*.c)
 
-OBJS	:= $(SRCS:.c=.o) \
+OBJS	:= 	$(SRCS:.c=.o) \
 			$(UNIXem_OBJS)
 
 DEPENDS	:= $(SRCS:.c=.d)

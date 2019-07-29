@@ -37,7 +37,7 @@ END
 run("z80asm -b -m test.asm test1.asm");
 check_text_file("test.map", <<'END');
 main                            = $0000 ; addr, local, , test, , test.asm:3
-func                            = $0004 ; addr, public, , test1, , test1.c:1
+func                            = $0004 ; addr, public, , test1, , test1.asm:4
 __head                          = $0000 ; const, public, def, , ,
 __tail                          = $000A ; const, public, def, , ,
 __size                          = $000A ; const, public, def, , ,
@@ -49,9 +49,9 @@ main                            = $0000 ; addr, local, , test, , test.asm:3
 __ASM_LINE_3                    = $0000 ; addr, local, , test, , test.asm:3
 __ASM_LINE_4                    = $0000 ; addr, local, , test, , test.asm:4
 __ASM_LINE_5                    = $0003 ; addr, local, , test, , test.asm:5
-__C_LINE_1                      = $0004 ; addr, local, , test1, , test1.c:1
-__C_LINE_2                      = $0008 ; addr, local, , test1, , test1.c:2
-func                            = $0004 ; addr, public, , test1, , test1.c:1
+__C_LINE_1                      = $0004 ; addr, local, , test1, , test1.asm:3
+__C_LINE_2                      = $0008 ; addr, local, , test1, , test1.asm:8
+func                            = $0004 ; addr, public, , test1, , test1.asm:4
 __head                          = $0000 ; const, public, def, , ,
 __tail                          = $000A ; const, public, def, , ,
 __size                          = $000A ; const, public, def, , ,

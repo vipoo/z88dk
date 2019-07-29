@@ -8,6 +8,7 @@
 #include "../config.h"
 #include "../portability.h"
 
+#include "asmpp.h"
 #include "errors.h"
 #include "fileutil.h"
 #include "hist.h"
@@ -22,6 +23,7 @@
 #include "z80asm.h"
 #include "die.h"
 
+#include <assert.h>
 #include <ctype.h>
 #include <errno.h>
 #include <limits.h>
@@ -33,6 +35,7 @@
 
 /* default file name extensions */
 #define FILEEXT_ASM     ".asm"    
+#define FILEEXT_C		".c"    
 #define FILEEXT_I		".i"  
 #define FILEEXT_LIST    ".lis"    
 #define FILEEXT_OBJ     ".o"	  
@@ -163,23 +166,23 @@ static void process_env_options()
 
 void parse_argv( int argc, char *argv[] )
 {
-    int arg;
+    int arg = 0;
 
     init_module();
 
-    if ( argc == 1 )
-        exit_copyright();					/* exit if no arguments */
+	if ( argc == 1 )
+		exit_copyright();					/* exit if no arguments */
 
-	if (!get_num_errors())
+	if (!g_error_count)
 		process_env_options();				/* process options from Z80ASM environment variable */
 
-	if (!get_num_errors())
+	if (!g_error_count)
 		process_options( &arg, argc, argv );/* process all options, set arg to next */
 
-	if (!get_num_errors() && arg >= argc)
+	if (!g_error_count && arg >= argc)
 		error_no_src_file();				/* no source file */
 
-	if ( ! get_num_errors() )
+	if ( ! g_error_count )
         process_files( arg, argc, argv );	/* process each source file */
 
 	make_output_dir();						/* create output directory if needed */
@@ -310,7 +313,7 @@ static void process_opt( int *parg, int argc, char *argv[] )
 					break;
 
 				default:
-					xassert(0);
+					assert(0);
 				}
 
 				return;
@@ -431,42 +434,42 @@ void expand_list_glob(const char *filename)
 
 		for (char **p = argv_front(files); *p; p++) {
 			char *filename = *p;
-			src_push();
+			pp_push();
 			{
 				char *line;
 
 				// append the directoy of the list file to the include path	and remove it at the end
 				argv_push(opts.inc_path, path_dir(filename));
 
-				if (src_open(filename, NULL)) {
-					while ((line = src_getline()) != NULL)
+				if (pp_open(filename)) {
+					while ((line = pp_getline_lst()) != NULL)
 						process_file(line);
 				}
 
 				// finished assembly, remove dirname from include path
 				argv_pop(opts.inc_path);
 			}
-			src_pop();
+			pp_pop();
 		}
 		argv_free(files);
 	}
 	else {
-		src_push();
+		pp_push();
 		{
 			char *line;
 
 			// append the directoy of the list file to the include path	and remove it at the end
 			argv_push(opts.inc_path, path_dir(filename));
 
-			if (src_open(filename, NULL)) {
-				while ((line = src_getline()) != NULL)
+			if (pp_open(filename)) {
+				while ((line = pp_getline_lst()) != NULL)
 					process_file(line);
 			}
 
 			// finished assembly, remove dirname from include path
 			argv_pop(opts.inc_path);
 		}
-		src_pop();
+		pp_pop();
 	}
 }
 
@@ -499,7 +502,7 @@ static const char *expand_environment_variables(const char *arg)
 
 				snprintf(varname, sizeof(varname), "%.*s", (int)(end - ptr + 1), ptr);
 				nval = replace_str(value, varname, rep);
-				free(value);
+				xfree(value);
 				value = nval;
 				start = value + (ptr - start);
 			}
@@ -510,8 +513,8 @@ static const char *expand_environment_variables(const char *arg)
 		}
 	}
 
-	ret = spool_add(value);		// free memory, return pooled string
-	free(value);
+	ret = str_pool_add(value);		// free memory, return pooled string
+	xfree(value);
 	return ret;
 }
 
@@ -826,7 +829,7 @@ static void define_assembly_defines()
 	    define_static_def_sym("__CPU_INTEL__", 1);
 		break;
 	default:
-		xassert(0);
+		assert(0);
 	}
 
 	if (opts.swap_ix_iy) {
@@ -849,7 +852,7 @@ static const char *path_prepend_output_dir(const char *filename)
 		else
 			snprintf(path, sizeof(path), "%s/%s", 
 				opts.output_directory, filename);
-		return spool_add(path);
+		return str_pool_add(path);
 	}
 	else {
 		return filename;
@@ -910,9 +913,14 @@ const char *get_reloc_filename(const char *filename)
 	return path_prepend_output_dir(path_replace_ext(filename, FILEEXT_RELOC));
 }
 
-const char *get_asm_filename(const char *filename)
+const char* get_asm_filename(const char* filename)
 {
 	return path_replace_ext(filename, FILEEXT_ASM);
+}
+
+const char* get_c_filename(const char* filename)
+{
+	return path_replace_ext(filename, FILEEXT_C);
 }
 
 const char *get_obj_filename(const char *filename )
@@ -1011,7 +1019,7 @@ static const char *search_z80asm_lib()
 
 	/* Build libary file name */
 	Str_sprintf(lib_name_str, Z80ASM_LIB, opts.cpu_name, SWAP_IX_IY_NAME);
-	lib_name = spool_add(Str_data(lib_name_str));
+	lib_name = str_pool_add(Str_data(lib_name_str));
 
 	/* try to read from current directory */
 	if (check_library(lib_name))
@@ -1019,7 +1027,7 @@ static const char *search_z80asm_lib()
 
 	/* try to read from PREFIX/lib */
 	Str_sprintf(f, "%s/lib/%s", PREFIX, lib_name);
-	ret = spool_add(Str_data(f));
+	ret = str_pool_add(Str_data(f));
 	if (check_library(ret))
 		return ret;
 

@@ -41980,14 +41980,14 @@ static int get_start_state(ParseCtx *ctx)
   scan_expect_operands();
   return parser_en_dma_params;
  default:
-  xassert(0);
+  assert(0);
  }
  return 0;
 }
 static bool _parse_statement_1(ParseCtx *ctx, Str *name, Str *stmt_label)
 {
  int value1 = 0;
- int start_num_errors = get_num_errors();
+ int start_num_errors = g_error_count;
  int expr_value = 0;
  bool expr_error = false;
  bool expr_in_parens = false;
@@ -42772,7 +42772,7 @@ _match:
    if (expr_error)
     error_expected_const_expr();
    else
-    asm_LINE(expr_value, get_error_file());
+    asm_LINE(expr_value, g_asm_location.filename);
   }
 	break;
 	case 171:
@@ -42788,7 +42788,7 @@ _match:
    if (expr_error)
     error_expected_const_expr();
    else
-    asm_C_LINE(expr_value, get_error_file());
+    asm_C_LINE(expr_value, g_c_location.filename);
   }
 	break;
 	case 173:
@@ -83261,7 +83261,7 @@ _again:
    return false;
   if ( ctx->cs >= 11901 )
    return true;
-  if (get_num_errors() != start_num_errors)
+  if (g_error_count != start_num_errors)
    break;
  }
  return false;

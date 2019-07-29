@@ -3,3 +3,175 @@ extern void test_asmpp();
 test_asmpp();
 #endif
 
+#if !EXEC_TEST
+extern void test_asmpp_empty_file();
+test_asmpp_empty_file();
+#endif
+
+#if !EXEC_TEST
+extern void test_asmpp_recursive_includes();
+test_asmpp_recursive_includes();
+#endif
+
+#if EXEC_TEST
+if (strcmp(test, "exec_asmpp_recursive_includes_1") == 0) {
+    extern int exec_asmpp_recursive_includes_1();
+    int rv = exec_asmpp_recursive_includes_1();
+    exit(rv);
+}
+#endif
+
+#if EXEC_TEST
+if (strcmp(test, "exec_asmpp_recursive_includes_2") == 0) {
+    extern int exec_asmpp_recursive_includes_2();
+    int rv = exec_asmpp_recursive_includes_2();
+    exit(rv);
+}
+#endif
+
+#if !EXEC_TEST
+extern void test_asmpp_file_open_error();
+test_asmpp_file_open_error();
+#endif
+
+#if EXEC_TEST
+if (strcmp(test, "exec_asmpp_file_open_error_1") == 0) {
+    extern int exec_asmpp_file_open_error_1();
+    int rv = exec_asmpp_file_open_error_1();
+    exit(rv);
+}
+#endif
+
+#if EXEC_TEST
+if (strcmp(test, "exec_asmpp_file_open_error_2") == 0) {
+    extern int exec_asmpp_file_open_error_2();
+    int rv = exec_asmpp_file_open_error_2();
+    exit(rv);
+}
+#endif
+
+#if !EXEC_TEST
+extern void test_errors_output();
+test_errors_output();
+#endif
+
+#if EXEC_TEST
+if (strcmp(test, "exec_errors_output") == 0) {
+    extern int exec_errors_output();
+    int rv = exec_errors_output();
+    exit(rv);
+}
+#endif
+
+#if !EXEC_TEST
+extern void test_errors_file();
+test_errors_file();
+#endif
+
+#if EXEC_TEST
+if (strcmp(test, "exec_errors_file") == 0) {
+    extern int exec_errors_file();
+    int rv = exec_errors_file();
+    exit(rv);
+}
+#endif
+
+#if !EXEC_TEST
+extern void test_die();
+test_die();
+#endif
+
+#if EXEC_TEST
+if (strcmp(test, "exec_die") == 0) {
+    extern int exec_die();
+    int rv = exec_die();
+    exit(rv);
+}
+#endif
+
+#if !EXEC_TEST
+extern void test_xmalloc();
+test_xmalloc();
+#endif
+
+#if !EXEC_TEST
+extern void test_xcalloc();
+test_xcalloc();
+#endif
+
+#if !EXEC_TEST
+extern void test_xrealloc();
+test_xrealloc();
+#endif
+
+#if !EXEC_TEST
+extern void test_xstrdup();
+test_xstrdup();
+#endif
+
+#if !EXEC_TEST
+extern void test_xnew();
+test_xnew();
+#endif
+
+#if !EXEC_TEST
+extern void test_str_pool();
+test_str_pool();
+#endif
+
+#if !EXEC_TEST
+extern void test_utstring_toupper();
+test_utstring_toupper();
+#endif
+
+#if !EXEC_TEST
+extern void test_utstring_tolower();
+test_utstring_tolower();
+#endif
+
+#if !EXEC_TEST
+extern void test_utstring_chomp();
+test_utstring_chomp();
+#endif
+
+#if !EXEC_TEST
+extern void test_utstring_strip();
+test_utstring_strip();
+#endif
+
+#if !EXEC_TEST
+extern void test_xfopen();
+test_xfopen();
+#endif
+
+#if !EXEC_TEST
+extern void test_xfopen_error();
+test_xfopen_error();
+#endif
+
+#if EXEC_TEST
+if (strcmp(test, "exec_xfopen_error") == 0) {
+    extern int exec_xfopen_error();
+    int rv = exec_xfopen_error();
+    exit(rv);
+}
+#endif
+
+#if !EXEC_TEST
+extern void test_xremove();
+test_xremove();
+#endif
+
+#if EXEC_TEST
+if (strcmp(test, "exec_xremove") == 0) {
+    extern int exec_xremove();
+    int rv = exec_xremove();
+    exit(rv);
+}
+#endif
+
+#if !EXEC_TEST
+extern void test_file_checks();
+test_file_checks();
+#endif
+

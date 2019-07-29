@@ -7,11 +7,14 @@ License: The Artistic License 2.0, http://www.perlfoundation.org/artistic_licens
 Repository: https://github.com/z88dk/z88dk
 */
 
+#include "asmpp.h"
 #include "limits.h"
 #include "listfile.h"
 #include "modlink.h"
 #include "symbol.h"
 #include "die.h"
+
+#include <assert.h>
 
 /* external functions */
 
@@ -36,9 +39,10 @@ Z80pass2( void )
 		expr = iter->obj;
 
         /* set error location */
-		set_error_null();
-        set_error_file( expr->filename );
-        set_error_line( expr->line_nr );
+		pp_clear_locations();
+		g_error_module_name = NULL;
+
+		g_asm_location = (location_t){ str_pool_add(expr->filename), expr->line_nr };
 
 		/* Define code location; BUG_0048 */
 		set_cur_section( expr->section );
@@ -130,7 +134,7 @@ Z80pass2( void )
                 break;
 
 			default:
-				xassert(0);
+				assert(0);
             }
         }
 
@@ -151,7 +155,7 @@ Z80pass2( void )
 		{
 			/* remove current expression, advance iterator */
 			expr2 = ExprList_remove( CURRENTMODULE->exprs, &iter );
-			xassert( expr == expr2 );
+			assert( expr == expr2 );
 
 			OBJ_DELETE( expr );	
 		}
@@ -162,14 +166,14 @@ Z80pass2( void )
 	check_undefined_symbols(global_symtab);
 
 	/* clean error location */
-    set_error_null();
-    //set_error_module( CURRENTMODULE->modname );
+	pp_clear_locations();
+	g_error_module_name = NULL;
 
 	/* create object file */
-	if ( ! get_num_errors() )
+	if ( ! g_error_count )
 		write_obj_file( CURRENTMODULE->filename );
 
-    if ( ! get_num_errors() && opts.symtable )
+    if ( ! g_error_count && opts.symtable )
 		write_sym_file(CURRENTMODULE);
 }
 

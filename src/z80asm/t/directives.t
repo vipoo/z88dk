@@ -292,8 +292,8 @@ ok ! -f "test.lis", "test.lis does not exist";
 #------------------------------------------------------------------------------
 z80asm(asm => "IF 		;; error: syntax error");
 z80asm(asm => "IF 1+	;; error: syntax error");
-z80asm(asm => "IF 1",
-	   error => "Error at file 'test.asm' line 2: unbalanced control structure started at file 'test.asm' line 1");
+z80asm(asm => "IF 1\n; 2\n; 3\n",
+	   error => "Error at file 'test.asm' line 3: unbalanced control structure started at file 'test.asm' line 1");
 z80asm(asm => "ELSE 	;; error: unbalanced control structure");
 z80asm(asm => "ENDIF 	;; error: unbalanced control structure");
 
@@ -305,13 +305,13 @@ z80asm(asm => <<'END',
 END
 );
 
-write_file("test.inc", "IF 1\n");
+write_file("test.inc", "IF 1\n; 2\n");
 z80asm(asm => 'INCLUDE "test.inc"',
 	   error => "Error at file 'test.inc' line 2: unbalanced control structure started at file 'test.inc' line 1");
 
 z80asm(asm => "IFDEF	;; error: syntax error");
 z80asm(asm => "IFDEF 1	;; error: syntax error");
-z80asm(asm => "IFDEF hello",
+z80asm(asm => "IFDEF hello\n; 2\n",
 	   error => "Error at file 'test.asm' line 2: unbalanced control structure started at file 'test.asm' line 1");
 
 z80asm(asm => <<'END',
@@ -322,13 +322,13 @@ z80asm(asm => <<'END',
 END
 );
 
-write_file("test.inc", "IFDEF hello\n");
+write_file("test.inc", "IFDEF hello\n; 2\n");
 z80asm(asm => 'INCLUDE "test.inc"',
 	   error => "Error at file 'test.inc' line 2: unbalanced control structure started at file 'test.inc' line 1");
 
 z80asm(asm => "IFNDEF	;; error: syntax error");
 z80asm(asm => "IFNDEF 1	;; error: syntax error");
-z80asm(asm => "IFNDEF hello",
+z80asm(asm => "IFNDEF hello\n; 2\n",
 	   error => "Error at file 'test.asm' line 2: unbalanced control structure started at file 'test.asm' line 1");
 
 z80asm(asm => <<'END',
@@ -339,6 +339,6 @@ z80asm(asm => <<'END',
 END
 );
 
-write_file("test.inc", "IFNDEF hello\n");
+write_file("test.inc", "IFNDEF hello\n; 2\n");
 z80asm(asm => 'INCLUDE "test.inc"',
 	   error => "Error at file 'test.inc' line 2: unbalanced control structure started at file 'test.inc' line 1");

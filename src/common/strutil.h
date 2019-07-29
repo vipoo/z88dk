@@ -100,7 +100,3 @@ extern char *argv_get(argv_t *argv, size_t idx);
 // grows array if needed to make index valid, fills empty values with NULL
 extern void argv_set(argv_t *argv, size_t idx, const char *str);
 
-//-----------------------------------------------------------------------------
-// string pool
-//-----------------------------------------------------------------------------
-extern const char *spool_add(const char *str);

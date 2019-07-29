@@ -14,6 +14,7 @@ Manage the code area in memory
 #include "types.h"
 #include "class.h"
 #include "classhash.h"
+#include "utils.h"
 
 #include <stdio.h>
 
@@ -162,7 +163,7 @@ extern bool fwrite_module_code(FILE *file, int* p_code_size);
 /*-----------------------------------------------------------------------------
 *   write whole code area to an open file
 *----------------------------------------------------------------------------*/
-extern void fwrite_codearea(const char *filename, FILE **pbinfile, FILE **prelocfile );
+extern void fwrite_codearea(open_file_t* bin_file, open_file_t* reloc_file);
 
 /*-----------------------------------------------------------------------------
 *   Assembly directives

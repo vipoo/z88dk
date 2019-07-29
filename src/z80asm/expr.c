@@ -10,6 +10,7 @@ Expression parser based on the shunting-yard algoritm,
 see http://www.engr.mun.ca/~theo/Misc/exp_parsing.htm
 */
 
+#include "asmpp.h"
 #include "array.h"
 #include "codearea.h"
 #include "expr.h"
@@ -21,6 +22,8 @@ see http://www.engr.mun.ca/~theo/Misc/exp_parsing.htm
 #include "sym.h"
 #include "symtab.h"
 #include "die.h"
+
+#include <assert.h>
 
 /*-----------------------------------------------------------------------------
 *	UT_array of Expr*
@@ -131,11 +134,11 @@ static const char *operator_hash_key( tokid_t tok, op_type_t op_type )
 	char key[3];		/* byte 1 = tok; byte 2 = op_type; byte 3 = '\0' */
 
 	/* assert we can map symbol and type in a string */
-	xassert( tok     > 0 && tok     < 256 );
-	xassert( op_type > 0 && op_type < 256 );
+	assert( tok     > 0 && tok     < 256 );
+	assert( op_type > 0 && op_type < 256 );
 	key[0] = (char) tok; key[1] = (char) op_type; key[2] = '\0';
 
-	return spool_add(key);
+	return str_pool_add(key);
 }
 
 /* init operator_hash - create one Operator for each, add to hash table */
@@ -200,7 +203,7 @@ long Calc_pop( void )
 	INIT_OBJ(longArray, &calc_stack);		/* freed by class */
 
 	top = longArray_top(calc_stack);
-	xassert( top != NULL );
+	assert( top != NULL );
 	value = *top;
 
 	longArray_pop(calc_stack);
@@ -258,7 +261,7 @@ void ExprOp_init_operator( ExprOp *self, tokid_t tok, op_type_t op_type )
 {
 	Operator *op;
 
-	op = Operator_get( tok, op_type ); xassert( op != NULL );
+	op = Operator_get( tok, op_type ); assert( op != NULL );
 
 	self->op_type	= op_type;
 	self->d.op		= op;
@@ -324,7 +327,7 @@ void ExprOp_compute(ExprOp *self, Expr *expr, bool not_defined_error)
 	case TERNARY_OP:Calc_compute_ternary( self->d.op->calc.ternary ); break;
 	
 	default:
-		xassert(0);
+		assert(0);
 	}
 }
 
@@ -343,10 +346,10 @@ int range_size( range_t range )
 	case RANGE_WORD:			return 2;
 	case RANGE_WORD_BE:			return 2;
 	case RANGE_DWORD:			return 4;
-	default: xassert(0);
+	default: assert(0);
 	}
 
-	xassert(0);
+	assert(0);
 	return -1;	/* not reached */
 }
 
@@ -372,8 +375,8 @@ void Expr_init (Expr *self)
 	self->asmpc = get_phased_PC() >= 0 ? get_phased_PC() : get_PC();	/* BUG_0048 */
     self->code_pos	= get_cur_module_size();	/* BUG_0015 */
 
-	self->filename	= src_filename();
-	self->line_nr	= src_line_nr();
+	self->filename	= g_asm_location.filename;
+	self->line_nr	= g_asm_location.line_num;
 	self->listpos	= -1;
 }
 
@@ -679,7 +682,7 @@ long Expr_eval(Expr *self, bool not_defined_error)
 			default:			; /* no change */
 			}
 		}
-		xassert( type != TYPE_COMPUTED );
+		assert( type != TYPE_COMPUTED );
 		self->type = type;
 	}
 
@@ -750,7 +753,7 @@ bool Expr_is_local_in_section(Expr *self, struct Module *module, struct Section 
 			break;
 
 		default:
-			xassert(0);
+			assert(0);
 		}
 	}
 	return true;
@@ -783,7 +786,7 @@ bool Expr_without_addresses(Expr *self)
 			break;
 
 		default:
-			xassert(0);
+			assert(0);
 		}
 	}
 
@@ -818,7 +821,7 @@ bool Expr_is_recusive(Expr *self, const char *name)
 			break;
 
 		default:
-			xassert(0);
+			assert(0);
 		}
 	}
 	return false;

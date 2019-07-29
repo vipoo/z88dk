@@ -6,6 +6,7 @@
 #include "unity.h"
 #include "die.h"
 
+#include <assert.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -20,7 +21,7 @@ int main(int argc, char *argv[])
 {
 	if (argc == 2) {
 #include "test1.hh"
-		xassert(0);
+		assert(0);
 	}
 	else {
 		UNITY_BEGIN();

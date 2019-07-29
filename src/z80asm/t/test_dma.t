@@ -120,7 +120,7 @@ z80asm(<<'ASM', "-b -mz80n", 1, "", <<'ERR');
 	ld a,1
 	dma.wr0 1, 
 ASM
-Error at file 'test.asm' line 3: syntax error
+Error at file 'test.asm' line 2: syntax error
 ERR
 
 z80asm(<<'ASM', "-b -mz80n", 1, "", <<'ERR');

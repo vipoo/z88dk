@@ -6,7 +6,9 @@
 #include "fileutil.h"
 #include "die.h"
 #include "strutil.h"
+#include "../z80asm/utils.h"
 
+#include <assert.h>
 #include <ctype.h>
 #include <string.h>
 #include <dirent.h>
@@ -98,7 +100,7 @@ static const char *path_canon_sep(const char *path, char win32_sep)
 		*p++ = win32_sep;
 #endif
 
-	const char *ret = spool_add(str_data(canon));
+	const char *ret = str_pool_add(str_data(canon));
 	str_free(canon);
 	return ret;
 }
@@ -130,7 +132,7 @@ const char *path_combine(const char *path1, const char *path2)
 
 	str_path_canon(path);
 
-	const char *ret = spool_add(str_data(path));
+	const char *ret = str_pool_add(str_data(path));
 	str_free(path);
 	return ret;
 }
@@ -155,7 +157,7 @@ const char *path_replace_ext(const char *path1, const char *new_ext)
 		str_append(path, ".");
 	str_append(path, new_ext);
 
-	const char *ret = spool_add(str_data(path));
+	const char *ret = str_pool_add(str_data(path));
 	str_free(path);
 	return ret;
 }
@@ -189,7 +191,7 @@ const char *path_dir(const char *path1)
 	if (str_len(path) == 0)			// dir is now empty
 		str_set(path, ".");
 	
-	const char *ret = spool_add(str_data(path));
+	const char *ret = str_pool_add(str_data(path));
 	str_free(path);
 	return ret;
 }
@@ -201,7 +203,7 @@ const char *path_file(const char *path1)
 	if (*p == '/')
 		p++;
 
-	const char *ret = spool_add(p);
+	const char *ret = str_pool_add(p);
 	str_free(path);
 	return ret;
 }
@@ -215,9 +217,9 @@ const char *path_ext(const char *path)
 	while (p > path && *p != '.' && !isslash(p[-1]))
 		p--;
 	if (*p == '.' && p > path && !isslash(p[-1]))
-		return spool_add(p);
+		return str_pool_add(p);
 	else
-		return spool_add("");
+		return str_pool_add("");
 }
 
 //-----------------------------------------------------------------------------
@@ -249,7 +251,7 @@ static void file_deinit(void)
 static void add_open_file(FILE *stream, const char *filename)
 {
 	file_init();
-	xassert(stream);
+	assert(stream);
 	argv_set(open_files, fileno(stream), filename);
 }
 
@@ -267,43 +269,6 @@ static char *get_filename(FILE *fp)
 //-----------------------------------------------------------------------------
 // file IO
 //-----------------------------------------------------------------------------
-FILE *xfopen(const char *filename, const char *mode)
-{
-	FILE *stream = fopen(filename, mode);
-	if (!stream) {
-		perror(filename);
-		exit(EXIT_FAILURE);
-	}
-	add_open_file(stream, filename);
-	return stream;
-}
-
-void xfclose(FILE *stream)
-{
-	int rv = fclose(stream);
-	if (rv != 0)
-		die("file '%s' close failed\n", get_filename(stream));
-}
-
-void xfclose_remove_empty(FILE *stream)
-{
-	char *filename = get_filename(stream);
-
-	xfseek(stream, 0, SEEK_END);
-	long size = ftell(stream);
-	xfclose(stream);
-
-	if (size == 0 && filename != NULL)
-		remove(filename);
-}
-
-void xfwrite(const void *ptr, size_t size, size_t count, FILE *stream)
-{
-	size_t num = fwrite(ptr, size, count, stream);
-	if (num != count)
-		die("failed to write %u bytes to file '%s'\n", size*count, get_filename(stream));
-}
-
 void xfwrite_cstr(const char *str, FILE *stream)
 {
 	xfwrite_bytes(str, strlen(str), stream);
@@ -376,13 +341,6 @@ void xfwrite_dword(int value, FILE *stream)
 	dword[2] = value & 0xFF; value >>= 8;
 	dword[3] = value & 0xFF; value >>= 8;
 	xfwrite_bytes(dword, sizeof(dword), stream);
-}
-
-void xfread(void *ptr, size_t size, size_t count, FILE *stream)
-{
-	size_t num = fread(ptr, size, count, stream);
-	if (num != count)
-		die("failed to read %u bytes from file '%s'\n", size*count, get_filename(stream));
 }
 
 void xfread_str(size_t size, str_t *str, FILE *stream)
@@ -477,7 +435,7 @@ str_t *file_slurp(const char *filename)
 
 	xfseek(fp, 0, SEEK_END);
 	long size = ftell(fp);
-	xassert(size >= 0);
+	assert(size >= 0);
 	xfseek(fp, 0, SEEK_SET);
 
 	str_t *text = str_new();
@@ -584,7 +542,7 @@ static void path_find_glob_1(argv_t *files, const char *pattern)
 			}
 		}
 		else {
-			xassert(0);
+			assert(0);
 		}
 		globfree(&glob_files);
 	}
@@ -610,7 +568,7 @@ static void path_find_glob_1(argv_t *files, const char *pattern)
 			}
 		}
 		else {
-			xassert(0);
+			assert(0);
 		}
 		globfree(&glob_files);
 	}
@@ -651,36 +609,6 @@ void path_rmdir(const char *path)
 
 		xrmdir(path);
 	}
-}
-
-//-----------------------------------------------------------------------------
-// file checks
-//-----------------------------------------------------------------------------
-bool file_exists(const char *filename)
-{
-	struct stat sb;
-	if ((stat(filename, &sb) == 0) && (sb.st_mode & S_IFREG))
-		return true;
-	else
-		return false;
-}
-
-bool dir_exists(const char *dirname)
-{
-	struct stat sb;
-	if ((stat(dirname, &sb) == 0) && (sb.st_mode & S_IFDIR))
-		return true;
-	else
-		return false;
-}
-
-long file_size(const char *filename)
-{
-	struct stat sb;
-	if ((stat(filename, &sb) == 0) && (sb.st_mode & S_IFREG))
-		return sb.st_size;
-	else
-		return -1;
 }
 
 //-----------------------------------------------------------------------------

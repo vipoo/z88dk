@@ -41,16 +41,16 @@ z80asm(<<'END', "", 1, "", <<'END');
 
 	ld
 END
-Error at file 'test.asm' line 10: syntax error
+Error at file 'test.c' line 10, file 'test.asm' line 4: syntax error
 END
 
 z80asm(<<'END', "", 1, "", <<'END');
-	c_line 10, "test.c"
+	c_line 10, "test21.c"
 
 
 	ld
 END
-Error at file 'test.c' line 10: syntax error
+Error at file 'test21.c' line 10, file 'test.asm' line 4: syntax error
 END
 
 z80asm(<<'END', "", 1, "", <<'END');

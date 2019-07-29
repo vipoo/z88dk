@@ -13,6 +13,7 @@ b) performance - avltree 50% slower when loading the symbols from the ZX 48 ROM 
    see t\developer\benchmark_symtab.t
 */
 
+#include "asmpp.h"
 #include "errors.h"
 #include "listfile.h"
 #include "fileutil.h"
@@ -23,6 +24,8 @@ b) performance - avltree 50% slower when loading the symbols from the ZX 48 ROM 
 #include "str.h"
 #include "z80asm.h"
 #include "die.h"
+
+#include <assert.h>
 
 /*-----------------------------------------------------------------------------
 *   Global Symbol Tables
@@ -106,8 +109,8 @@ Symbol *_define_sym(const char *name, long value, sym_type_t type, sym_scope_t s
 		sym->is_defined = true;
         sym->module = module;
 		sym->section = section;
-		sym->filename = get_error_file();
-		sym->line_nr = get_error_line();
+		sym->filename = g_asm_location.filename;
+		sym->line_nr = g_asm_location.line_num;
     }
     else											/* already defined */
     {
@@ -312,8 +315,8 @@ static Symbol *define_local_symbol(const char *name, long value, sym_type_t type
 		sym->is_defined = true;
         sym->module  = CURRENTMODULE;						/* owner of symbol is always creator */
 		sym->section = CURRENTSECTION;
-		sym->filename = get_error_file();
-		sym->line_nr = get_error_line();
+		sym->filename = g_asm_location.filename;
+		sym->line_nr = g_asm_location.line_num;
     }
 
 	return sym;
@@ -348,8 +351,8 @@ Symbol *define_symbol(const char *name, long value, sym_type_t type)
 		sym->is_defined = true;
 		sym->module = CURRENTMODULE;		/* owner of symbol is always creator */
 		sym->section = CURRENTSECTION;
-		sym->filename = get_error_file();
-		sym->line_nr = get_error_line();
+		sym->filename = g_asm_location.filename;
+		sym->line_nr = g_asm_location.line_num;
 	}
 
 	return sym;
@@ -423,7 +426,7 @@ void declare_global_symbol(const char *name)
 			sym->scope = SCOPE_GLOBAL;
 
 			global_sym = SymbolHash_extract(CURRENTMODULE->local_symtab, name);
-			xassert(global_sym == sym);
+			assert(global_sym == sym);
 
 			SymbolHash_set(&global_symtab, name, sym);
 		}
@@ -431,7 +434,7 @@ void declare_global_symbol(const char *name)
 		{
 			/* local, global - no possible path, as if local & not global,
 			symbol is moved local -> global */
-			xassert(0);
+			assert(0);
 		}
 	}
 }
@@ -487,7 +490,7 @@ void declare_public_symbol(const char *name)
 			sym->scope = SCOPE_PUBLIC;
 
 			global_sym = SymbolHash_extract(CURRENTMODULE->local_symtab, name);
-			xassert(global_sym == sym);
+			assert(global_sym == sym);
 
 			SymbolHash_set(&global_symtab, name, sym);
 		}
@@ -495,7 +498,7 @@ void declare_public_symbol(const char *name)
 		{
 			/* local, global - no possible path, as if local & not global,
 			   symbol is moved local -> global */
-			xassert(0);
+			assert(0);
 		}
 	}
 }
@@ -548,7 +551,7 @@ void declare_extern_symbol(const char *name)
 				sym->scope = SCOPE_EXTERN;
 				
 				ext_sym = SymbolHash_extract( CURRENTMODULE->local_symtab, name );
-				xassert(ext_sym == sym);
+				assert(ext_sym == sym);
 
                 SymbolHash_set( &global_symtab, name, sym );
             }
@@ -669,11 +672,12 @@ void check_undefined_symbols(SymbolHash *symtab)
 		sym = (Symbol *)iter->value;
 
 		if (sym->scope == SCOPE_PUBLIC && !sym->is_defined) {
-			set_error_null();
-			set_error_file(sym->filename);
-			set_error_line(sym->line_nr);
+			pp_clear_locations();
+			g_error_module_name = NULL;
+			g_asm_location = (location_t){ str_pool_add(sym->filename), sym->line_nr };
 			error_not_defined(sym->name);
 		}
 	}
-	set_error_null();
+	pp_clear_locations();
+	g_error_module_name = NULL;
 }

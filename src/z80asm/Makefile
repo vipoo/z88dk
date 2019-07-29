@@ -39,7 +39,6 @@ TEST_SRC_LIB	:= t/testlib.c
 # variables
 #------------------------------------------------------------------------------
 TARGET 			= $(PROJ)$(EXESUFFIX)
-MSVC_TARGET 	= ../../win32/Debug/$(TARGET)
 
 OPT 			= -O3
 
@@ -133,7 +132,7 @@ clean::
 all: t/libtestlib.a
 
 t/libtestlib.a : $(OBJS) $(TEST_SRC_LIB:.c=.o)
-	ar rcs t/libtestlib.a $(OBJS:$(PROJ).o=) $(TEST_SRC_LIB:.c=.o)
+	ar rcs t/libtestlib.a $(OBJS) $(TEST_SRC_LIB:.c=.o)
 
 $(TEST_SRC_MAIN:.c=.o) : t/libtestlib.a
 
@@ -161,9 +160,6 @@ prove_c: t/libtestlib.a $(TEST_SRC_MAIN:.c=.o) $(TEST_SRC_MAIN:.c=.out)
 
 prove_perl: $(TARGET)
 	perl -S prove t/*.t
-
-testmsvc : $(MSVC_TARGET)
-	$(MAKE) Z80ASM_EXE=$(MSVC_TARGET) prove
 
 clean::
 	$(RM) zcc_opt.def zcc_proj.lst
@@ -195,14 +191,6 @@ test_z80asm: t/libtestlib.a $(Z80ASM_TESTS_OBJ) t/test.def
 
 t/test.def: t/make_tests.pl $(Z80ASM_TESTS_SRC)
 	perl t/make_tests.pl
-
-#------------------------------------------------------------------------------
-# build with msvc - need to build manualy, devenv not available in Express
-#------------------------------------------------------------------------------
-$(MSVC_TARGET) : $(wildcard *.c) $(wildcard *.h)
-	@echo Build $(PROJ) inside Microsoft Visual C++ 2010 Express
-	@exit 1
-
 
 #------------------------------------------------------------------------------
 # Dependencies

@@ -363,7 +363,7 @@ error:
 		if ( block->destructor )			/* destroy children */
 			block->destructor( memptr );	/* user destructor */
 
-		free( block );						/* destroy itself */
+		xfree( block );						/* destroy itself */
 	}
 }
 

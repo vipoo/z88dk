@@ -89,7 +89,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\src\common;..\..\src\z80asm\lib;..\..\ext\UNIXem\include;..\..\ext\uthash\src;..\..\ext\regex</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\src\common;..\..\src\z80asm\lib;..\..\ext\UNIXem\include;..\..\ext\uthash\src;..\..\ext\regex;..\..\ext\optparse</AdditionalIncludeDirectories>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
@@ -130,7 +130,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\src\common;..\..\src\z80asm\lib;..\..\ext\UNIXem\include;..\..\ext\uthash\src;..\..\ext\regex</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\src\common;..\..\src\z80asm\lib;..\..\ext\UNIXem\include;..\..\ext\uthash\src;..\..\ext\regex;..\..\ext\optparse</AdditionalIncludeDirectories>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
@@ -185,10 +185,15 @@
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\src\common\die.c" />
+    <ClCompile Include="..\..\src\common\fileutil.c" />
+    <ClCompile Include="..\..\src\common\objfile.c" />
+    <ClCompile Include="..\..\src\common\optparse.c" />
+    <ClCompile Include="..\..\src\common\strutil.c" />
+    <ClCompile Include="..\..\src\z80asm\asmpp.c" />
     <ClCompile Include="..\..\src\z80asm\codearea.c" />
     <ClCompile Include="..\..\src\z80asm\directives.c" />
     <ClCompile Include="..\..\src\z80asm\errors.c" />
-    <ClCompile Include="..\..\src\z80asm\error_func.c" />
     <ClCompile Include="..\..\src\z80asm\expr.c" />
     <ClCompile Include="..\..\src\z80asm\hist.c" />
     <ClCompile Include="..\..\src\z80asm\libfile.c" />
@@ -207,6 +212,7 @@
     <ClCompile Include="..\..\src\z80asm\model.c" />
     <ClCompile Include="..\..\src\z80asm\modlink.c" />
     <ClCompile Include="..\..\src\z80asm\module.c" />
+    <ClCompile Include="..\..\src\z80asm\utils.c" />
     <ClCompile Include="..\..\src\z80asm\zobjfile.c" />
     <ClCompile Include="..\..\src\z80asm\opcodes.c" />
     <ClCompile Include="..\..\src\z80asm\options.c" />
@@ -220,10 +226,10 @@
   <ItemGroup>
     <ClInclude Include="..\..\src\config.h" />
     <ClInclude Include="..\..\src\portability.h" />
+    <ClInclude Include="..\..\src\z80asm\asmpp.h" />
     <ClInclude Include="..\..\src\z80asm\codearea.h" />
     <ClInclude Include="..\..\src\z80asm\directives.h" />
     <ClInclude Include="..\..\src\z80asm\errors.h" />
-    <ClInclude Include="..\..\src\z80asm\error_func.h" />
     <ClInclude Include="..\..\src\z80asm\expr.h" />
     <ClInclude Include="..\..\src\z80asm\expr_def.h" />
     <ClInclude Include="..\..\src\z80asm\hist.h" />
@@ -246,6 +252,7 @@
     <ClInclude Include="..\..\src\z80asm\model.h" />
     <ClInclude Include="..\..\src\z80asm\modlink.h" />
     <ClInclude Include="..\..\src\z80asm\module.h" />
+    <ClInclude Include="..\..\src\z80asm\utils.h" />
     <ClInclude Include="..\..\src\z80asm\zobjfile.h" />
     <ClInclude Include="..\..\src\z80asm\opcodes.h" />
     <ClInclude Include="..\..\src\z80asm\options.h" />
@@ -271,11 +278,11 @@
     <None Include="..\..\src\z80asm\tt\tokens.yaml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\regex\regex.vcxproj">
+      <Project>{bd9576eb-a8c0-4e05-ace3-563277ab90bc}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\UNIXem\UNIXem.vcxproj">
       <Project>{7d0213a3-87fa-4f56-a5d6-cc23682acad8}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\z80asm-common\z80asm-common.vcxproj">
-      <Project>{00bce225-fe40-4c33-b15e-c8fb6ada74eb}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

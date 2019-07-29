@@ -12,19 +12,41 @@ Repository: https://github.com/z88dk/z88dk
 
 #include <stdbool.h>
 
-// push the file to the input stack
-// exits if file cannot be opened
-void pp_push(const char* filename);
+// line information
+typedef struct location_t {
+	const char*	filename;		// kept in string pool
+	int			line_num;
+} location_t;
 
-// pop the file from the input stack
+// last ASM and C line read
+extern location_t g_asm_location, g_c_location;
+
+// get/set the current ASM line information; after reading line is incremented 
+// and info copied to global g_asm_location
+location_t pp_get_current_location();
+void pp_set_current_location(location_t location);
+
+// clear locations
+void pp_clear_locations();
+
+// create a new input scope on top of the stack
+void pp_push();
+
+// drop the input scope from the top of the stack
 void pp_pop();
 
-// check if the file is already in the input stack
-bool pp_file_in_stack(const char* filename);
+// open a file to be read in the current input scope, return false on error
+// searches include path and checks for recursive includes
+bool pp_open(const char* filename);
 
 // read the next input line from the file at the top of the stack, return NULL on end of file
 // returns a pointer to an internal buffer
 char* pp_getline();
-const char* pp_filename();	// NULL if no file open
-int pp_line_num();			// 0 if no file open
 
+// read next line from list file
+// skips comment lines
+char* pp_getline_lst();
+
+// read next line from source file
+// call preprocessor before returning result
+char* pp_getline_asm();

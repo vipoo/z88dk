@@ -25,8 +25,9 @@ CFLAGS		+= -Wall -std=gnu11 -MMD \
 INSTALL 	?= install
 
 SRCS 		:= $(wildcard *.c) \
-$(wildcard ../common/*.c) \
-$(wildcard ../../ext/regex/reg*.c)
+			../z80asm/utils.c \
+			$(wildcard ../common/*.c) \
+			$(wildcard ../../ext/regex/reg*.c)
 
 OBJS_ALL	:= $(SRCS:.c=.o) \
 			$(UNIXem_OBJS)
