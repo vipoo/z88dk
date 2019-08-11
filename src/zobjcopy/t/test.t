@@ -120,8 +120,8 @@ ok run("zobjcopy test.o",							"", "error: no output file\n",							1);
 path("test.o")->spew_raw($objfile[1]);	
 	
 ok run("zobjcopy -v test.o test2.o", <<"...");
-Reading file 'test.o': object version 1
-Writing file 'test2.o': object version $OBJ_FILE_VERSION
+Reading 'test.o': object version 1
+Writing 'test2.o': object version $OBJ_FILE_VERSION
 ...
 
 unlink "test.o", "test2.o";
@@ -159,7 +159,7 @@ path("test.o")->spew_raw($objfile[$OBJ_FILE_VERSION]);
 unlink "test2.o";
 
 ok run("zobjcopy test.o --verbose -s text=text --section data=data test2.o", <<"...");
-Reading file 'test.o': object version $OBJ_FILE_VERSION
+Reading 'test.o': object version $OBJ_FILE_VERSION
 File 'test.o': rename sections that match 'text' to 'text'
 Block 'Z80RMF$OBJ_FILE_VERSION'
   skip section ""
@@ -175,7 +175,7 @@ Block 'Z80RMF$OBJ_FILE_VERSION'
   skip section base
   rename section data_1 -> data
   rename section data_2 -> data
-Writing file 'test2.o': object version $OBJ_FILE_VERSION
+Writing 'test2.o': object version $OBJ_FILE_VERSION
 ...
 ok check_zobjcopy("test2.o", 	sprintf("t/bmk_obj_%02d_sections1.txt", $OBJ_FILE_VERSION));
 unlink "test.o", "test2.o";
@@ -184,7 +184,7 @@ path("test.lib")->spew_raw($libfile[$OBJ_FILE_VERSION]);
 unlink "test2.lib";
 
 ok run("zobjcopy test.lib --verbose -s text=text --section data=data test2.lib", <<"...");
-Reading file 'test.lib': library version $OBJ_FILE_VERSION
+Reading 'test.lib': library version $OBJ_FILE_VERSION
 File 'test.lib': rename sections that match 'text' to 'text'
 Block 'Z80RMF$OBJ_FILE_VERSION'
   skip section ""
@@ -213,7 +213,7 @@ Block 'Z80RMF$OBJ_FILE_VERSION'
   skip section base
   rename section data_1 -> data
   rename section data_2 -> data
-Writing file 'test2.lib': library version $OBJ_FILE_VERSION
+Writing 'test2.lib': library version $OBJ_FILE_VERSION
 ...
 ok check_zobjcopy("test2.lib", 	sprintf("t/bmk_lib_%02d_sections1.txt", $OBJ_FILE_VERSION));
 unlink "test.lib", "test2.lib";
@@ -222,7 +222,7 @@ path("test.o")->spew_raw($objfile[$OBJ_FILE_VERSION]);
 unlink "test2.o";
 
 ok run("zobjcopy -v test.o -s .=ram test2.o", <<"...");
-Reading file 'test.o': object version $OBJ_FILE_VERSION
+Reading 'test.o': object version $OBJ_FILE_VERSION
 File 'test.o': rename sections that match '.' to 'ram'
 Block 'Z80RMF$OBJ_FILE_VERSION'
   skip section ""
@@ -231,7 +231,7 @@ Block 'Z80RMF$OBJ_FILE_VERSION'
   rename section base -> ram
   rename section data_1 -> ram
   rename section data_2 -> ram
-Writing file 'test2.o': object version $OBJ_FILE_VERSION
+Writing 'test2.o': object version $OBJ_FILE_VERSION
 ...
 ok check_zobjcopy("test2.o", 	sprintf("t/bmk_obj_%02d_sections2.txt", $OBJ_FILE_VERSION));
 unlink "test.o", "test2.o";
@@ -240,7 +240,7 @@ path("test.o")->spew_raw($objfile[$OBJ_FILE_VERSION]);
 unlink "test2.o";
 
 ok run("zobjcopy -v test.o -s ^text=rom_text -s ^data=ram_data test2.o", <<"...");
-Reading file 'test.o': object version $OBJ_FILE_VERSION
+Reading 'test.o': object version $OBJ_FILE_VERSION
 File 'test.o': rename sections that match '^text' to 'rom_text'
 Block 'Z80RMF$OBJ_FILE_VERSION'
   skip section ""
@@ -256,7 +256,7 @@ Block 'Z80RMF$OBJ_FILE_VERSION'
   skip section base
   rename section data_1 -> ram_data
   rename section data_2 -> ram_data
-Writing file 'test2.o': object version $OBJ_FILE_VERSION
+Writing 'test2.o': object version $OBJ_FILE_VERSION
 ...
 ok check_zobjcopy("test2.o", 	sprintf("t/bmk_obj_%02d_sections3.txt", $OBJ_FILE_VERSION));
 unlink "test.o", "test2.o";
@@ -265,7 +265,7 @@ path("test.o")->spew_raw($objfile[$OBJ_FILE_VERSION]);
 unlink "test2.o";
 
 ok run("zobjcopy -v test.o -s ^data=base test2.o", <<"...");
-Reading file 'test.o': object version $OBJ_FILE_VERSION
+Reading 'test.o': object version $OBJ_FILE_VERSION
 File 'test.o': rename sections that match '^data' to 'base'
 Block 'Z80RMF$OBJ_FILE_VERSION'
   skip section ""
@@ -274,7 +274,7 @@ Block 'Z80RMF$OBJ_FILE_VERSION'
   rename section base -> base
   rename section data_1 -> base
   rename section data_2 -> base
-Writing file 'test2.o': object version $OBJ_FILE_VERSION
+Writing 'test2.o': object version $OBJ_FILE_VERSION
 ...
 ok check_zobjcopy("test2.o", 	sprintf("t/bmk_obj_%02d_sections4.txt", $OBJ_FILE_VERSION));
 unlink "test.o", "test2.o";
@@ -283,7 +283,7 @@ path("test.o")->spew_raw($objfile[$OBJ_FILE_VERSION]);
 unlink "test2.o";
 
 ok run("zobjcopy -v test.o -s ^data=base -s ^text=base test2.o", <<"...");
-Reading file 'test.o': object version $OBJ_FILE_VERSION
+Reading 'test.o': object version $OBJ_FILE_VERSION
 File 'test.o': rename sections that match '^data' to 'base'
 Block 'Z80RMF$OBJ_FILE_VERSION'
   skip section ""
@@ -298,7 +298,7 @@ Block 'Z80RMF$OBJ_FILE_VERSION'
   rename section text_1 -> base
   rename section text_2 -> base
   rename section base -> base
-Writing file 'test2.o': object version $OBJ_FILE_VERSION
+Writing 'test2.o': object version $OBJ_FILE_VERSION
 ...
 ok check_zobjcopy("test2.o", 	sprintf("t/bmk_obj_%02d_sections5.txt", $OBJ_FILE_VERSION));
 unlink "test.o", "test2.o";
@@ -308,7 +308,7 @@ unlink "test2.o";
 
 ok run("zobjcopy test.o --verbose --filler 0x55 -s text=text test2.o", <<"...");
 Filler byte: \$55
-Reading file 'test.o': object version $OBJ_FILE_VERSION
+Reading 'test.o': object version $OBJ_FILE_VERSION
 File 'test.o': rename sections that match 'text' to 'text'
 Block 'Z80RMF$OBJ_FILE_VERSION'
   skip section ""
@@ -317,7 +317,7 @@ Block 'Z80RMF$OBJ_FILE_VERSION'
   skip section base
   skip section data_1
   skip section data_2
-Writing file 'test2.o': object version $OBJ_FILE_VERSION
+Writing 'test2.o': object version $OBJ_FILE_VERSION
 ...
 ok check_zobjcopy("test2.o", 	sprintf("t/bmk_obj_%02d_sections6.txt", $OBJ_FILE_VERSION));
 unlink "test.o", "test2.o";
@@ -327,7 +327,7 @@ unlink "test2.o";
 
 ok run("zobjcopy test.o --verbose -F 127 -s text=text test2.o", <<"...");
 Filler byte: \$7F
-Reading file 'test.o': object version $OBJ_FILE_VERSION
+Reading 'test.o': object version $OBJ_FILE_VERSION
 File 'test.o': rename sections that match 'text' to 'text'
 Block 'Z80RMF$OBJ_FILE_VERSION'
   skip section ""
@@ -336,7 +336,7 @@ Block 'Z80RMF$OBJ_FILE_VERSION'
   skip section base
   skip section data_1
   skip section data_2
-Writing file 'test2.o': object version $OBJ_FILE_VERSION
+Writing 'test2.o': object version $OBJ_FILE_VERSION
 ...
 ok check_zobjcopy("test2.o", 	sprintf("t/bmk_obj_%02d_sections7.txt", $OBJ_FILE_VERSION));
 unlink "test.o", "test2.o";
@@ -345,7 +345,7 @@ path("test.o")->spew_raw($objfile[$OBJ_FILE_VERSION]);
 unlink "test2.o";
 
 ok run("zobjcopy test.o --verbose -s .=text --org text,0x8000 --align text,64 test2.o", <<"...");
-Reading file 'test.o': object version $OBJ_FILE_VERSION
+Reading 'test.o': object version $OBJ_FILE_VERSION
 File 'test.o': rename sections that match '.' to 'text'
 Block 'Z80RMF$OBJ_FILE_VERSION'
   skip section ""
@@ -362,7 +362,7 @@ File 'test.o': set section 'text' ALIGN to \$0040
 Block 'Z80RMF$OBJ_FILE_VERSION'
   skip section ""
   section text ALIGN -> \$0040
-Writing file 'test2.o': object version $OBJ_FILE_VERSION
+Writing 'test2.o': object version $OBJ_FILE_VERSION
 ...
 ok check_zobjcopy("test2.o", 	sprintf("t/bmk_obj_%02d_sections8.txt", $OBJ_FILE_VERSION));
 unlink "test.o", "test2.o";
@@ -371,7 +371,7 @@ path("test.o")->spew_raw($objfile[$OBJ_FILE_VERSION]);
 unlink "test2.o";
 
 ok run("zobjcopy test.o --verbose -s .=text -O text,0x8000 -A text,64 test2.o", <<"...");
-Reading file 'test.o': object version $OBJ_FILE_VERSION
+Reading 'test.o': object version $OBJ_FILE_VERSION
 File 'test.o': rename sections that match '.' to 'text'
 Block 'Z80RMF$OBJ_FILE_VERSION'
   skip section ""
@@ -388,7 +388,7 @@ File 'test.o': set section 'text' ALIGN to \$0040
 Block 'Z80RMF$OBJ_FILE_VERSION'
   skip section ""
   section text ALIGN -> \$0040
-Writing file 'test2.o': object version $OBJ_FILE_VERSION
+Writing 'test2.o': object version $OBJ_FILE_VERSION
 ...
 ok check_zobjcopy("test2.o", 	sprintf("t/bmk_obj_%02d_sections8.txt", $OBJ_FILE_VERSION));
 unlink "test.o", "test2.o";
@@ -400,14 +400,14 @@ path("test.o")->spew_raw($objfile[$OBJ_FILE_VERSION]);
 unlink "test2.o";
 
 ok run("zobjcopy test.o --verbose --add-prefix .,lib_ test2.o", <<"...");
-Reading file 'test.o': object version $OBJ_FILE_VERSION
+Reading 'test.o': object version $OBJ_FILE_VERSION
 File 'test.o': add prefix 'lib_' to symbols that match '.'
 Block 'Z80RMF$OBJ_FILE_VERSION'
   rename symbol main -> lib_main
   rename symbol _start -> lib__start
   rename symbol msg1 -> lib_msg1
   rename symbol msg2 -> lib_msg2
-Writing file 'test2.o': object version $OBJ_FILE_VERSION
+Writing 'test2.o': object version $OBJ_FILE_VERSION
 ...
 ok check_zobjcopy("test2.o", 	sprintf("t/bmk_obj_%02d_add-prefix1.txt", $OBJ_FILE_VERSION));
 unlink "test.o", "test2.o";
@@ -416,14 +416,14 @@ path("test.o")->spew_raw($objfile[$OBJ_FILE_VERSION]);
 unlink "test2.o";
 
 ok run("zobjcopy test.o --verbose -p m,lib_ test2.o", <<"...");
-Reading file 'test.o': object version $OBJ_FILE_VERSION
+Reading 'test.o': object version $OBJ_FILE_VERSION
 File 'test.o': add prefix 'lib_' to symbols that match 'm'
 Block 'Z80RMF$OBJ_FILE_VERSION'
   rename symbol main -> lib_main
   skip symbol _start
   rename symbol msg1 -> lib_msg1
   rename symbol msg2 -> lib_msg2
-Writing file 'test2.o': object version $OBJ_FILE_VERSION
+Writing 'test2.o': object version $OBJ_FILE_VERSION
 ...
 ok check_zobjcopy("test2.o", 	sprintf("t/bmk_obj_%02d_add-prefix2.txt", $OBJ_FILE_VERSION));
 unlink "test.o", "test2.o";
@@ -435,7 +435,7 @@ path("test.o")->spew_raw($objfile[$OBJ_FILE_VERSION]);
 unlink "test2.o";
 
 ok run("zobjcopy test.o --verbose --symbol ext1=ff_lib_ext1 -y ext=xxx -y msg1=MSG1 test2.o", <<"...");
-Reading file 'test.o': object version $OBJ_FILE_VERSION
+Reading 'test.o': object version $OBJ_FILE_VERSION
 File 'test.o': rename symbol 'ext1' to 'ff_lib_ext1'
 Block 'Z80RMF$OBJ_FILE_VERSION'
   rename symbol ext1 -> ff_lib_ext1
@@ -460,7 +460,7 @@ Block 'Z80RMF$OBJ_FILE_VERSION'
   skip symbol _start
   rename symbol msg1 -> MSG1
   skip symbol msg2
-Writing file 'test2.o': object version $OBJ_FILE_VERSION
+Writing 'test2.o': object version $OBJ_FILE_VERSION
 ...
 ok check_zobjcopy("test2.o", sprintf("t/bmk_obj_%02d_symbol1.txt", $OBJ_FILE_VERSION));
 unlink "test.o", "test2.o";
@@ -472,7 +472,7 @@ path("test.o")->spew_raw($objfile[$OBJ_FILE_VERSION]);
 unlink "test2.o";
 
 ok run("zobjcopy test.o --verbose --local \"^_\" -L msg test2.o", <<"...");
-Reading file 'test.o': object version $OBJ_FILE_VERSION
+Reading 'test.o': object version $OBJ_FILE_VERSION
 File 'test.o': make symbols that match '^_' local
 Block 'Z80RMF$OBJ_FILE_VERSION'
   skip symbol main
@@ -484,7 +484,7 @@ Block 'Z80RMF$OBJ_FILE_VERSION'
   skip symbol main
   change scope of symbol msg1 -> L
   change scope of symbol msg2 -> L
-Writing file 'test2.o': object version $OBJ_FILE_VERSION
+Writing 'test2.o': object version $OBJ_FILE_VERSION
 ...
 ok check_zobjcopy("test2.o", sprintf("t/bmk_obj_%02d_local1.txt", $OBJ_FILE_VERSION));
 unlink "test.o", "test2.o";
@@ -496,14 +496,14 @@ path("test.o")->spew_raw($objfile[$OBJ_FILE_VERSION]);
 unlink "test2.o";
 
 ok run("zobjcopy test.o --verbose --global start -G s test2.o", <<"...");
-Reading file 'test.o': object version $OBJ_FILE_VERSION
+Reading 'test.o': object version $OBJ_FILE_VERSION
 File 'test.o': make symbols that match 'start' global
 Block 'Z80RMF$OBJ_FILE_VERSION'
   change scope of symbol start1 -> G
   change scope of symbol start2 -> G
 File 'test.o': make symbols that match 's' global
 Block 'Z80RMF$OBJ_FILE_VERSION'
-Writing file 'test2.o': object version $OBJ_FILE_VERSION
+Writing 'test2.o': object version $OBJ_FILE_VERSION
 ...
 ok check_zobjcopy("test2.o", sprintf("t/bmk_obj_%02d_global1.txt", $OBJ_FILE_VERSION));
 unlink "test.o", "test2.o";
