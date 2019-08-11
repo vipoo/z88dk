@@ -21,9 +21,6 @@
     <ClCompile Include="..\..\src\z80asm\directives.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\z80asm\errors.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\z80asm\expr.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -99,9 +96,6 @@
     <ClCompile Include="..\..\src\z80asm\zobjfile.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\z80asm\asmpp.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\z80asm\utils.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -118,6 +112,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\common\strutil.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\z80asm\input.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -162,9 +159,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\z80asm\directives.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\z80asm\errors.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\z80asm\expr.h">
@@ -239,10 +233,13 @@
     <ClInclude Include="..\..\src\z80asm\zobjfile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\z80asm\asmpp.h">
+    <ClInclude Include="..\..\src\z80asm\utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\z80asm\utils.h">
+    <ClInclude Include="..\..\src\z80asm\errors_def.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\z80asm\input.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -253,19 +250,13 @@
     <None Include="..\..\src\z80asm\scan_rules.rl">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="..\..\src\z80asm\tt\error_func.c.tt">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\..\src\z80asm\tt\error_func.h.tt">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\..\src\z80asm\tt\error_func.yaml">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="..\..\src\z80asm\tt\tokens.h.tt">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="..\..\src\z80asm\tt\tokens.yaml">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\src\z80asm\scan_re.re">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

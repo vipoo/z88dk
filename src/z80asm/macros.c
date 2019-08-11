@@ -8,10 +8,9 @@ Repository: https://github.com/z88dk/z88dk
 Assembly macros.
 */
 
-#include "asmpp.h"
+#include "input.h"
 #include "macros.h"
 #include "alloc.h"
-#include "errors.h"
 #include "options.h"
 #include "str.h"
 #include "strutil.h"
@@ -207,12 +206,12 @@ static void fill_input()
 {
 	if (argv_len(in_lines) == 0) {
 		if (cur_getline_func != NULL) {
-			char* line = cur_getline_func();
+			const char* line = cur_getline_func();
 			if (line != NULL) {
 				argv_push(in_lines, line);
 				if (preproc_fp) {
 					fprintf(preproc_fp, ";\tLINE %d, \"%s\"\n;\t%s",
-						g_asm_location.line_num, g_asm_location.filename,
+						in_location(LocationAsm).line_num, in_location(LocationAsm).filename,
 						line);
 				}
 			}
@@ -1073,7 +1072,7 @@ static void parse()
 }
 
 // get line and call parser
-char* macros_getline1()
+const char* macros_getline1()
 {
 	while (true) {
 		if (shift_lines(out_lines)) 
@@ -1087,15 +1086,15 @@ char* macros_getline1()
 	}
 }
 
-char *macros_getline(getline_t getline_func)
+const char *macros_getline(getline_t getline_func)
 {
 	cur_getline_func = getline_func;
-	char* line = macros_getline1();
+	const char* line = macros_getline1();
 	cur_getline_func = NULL;
 
 	if (line != NULL && preproc_fp != NULL) {
 		fprintf(preproc_fp, "\tLINE %d, \"%s\"\n\t%s",
-			g_asm_location.line_num, g_asm_location.filename,
+			in_location(LocationAsm).line_num, in_location(LocationAsm).filename,
 			line);
 	}
 

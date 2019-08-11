@@ -36,7 +36,7 @@ Predefined constant: __CPU_Z80__ = $0001
 Predefined constant: __CPU_ZILOG__ = $0001
 Assembling 'test.asm' to 'test.o'
 Reading 'test.asm' = 'test.asm'
-Writing object file 'test.o'
+Writing object 'test.o'
 Module 'test' size: 3 bytes
 
 Code size: 3 bytes ($0000 to $0002)
@@ -490,7 +490,7 @@ t_z80asm_ok(0, $asm, $bin, "-i".$lib);
 # no -L, only file name : error
 write_file(asm_file(), $asm);
 t_z80asm_capture("-i".$lib_base." ".asm_file(), "", 
-		"Error: cannot read file 'test.lib'\n", 1);
+		"Error: cannot read 'test.lib'\n", 1);
 
 # -L : OK
 for my $options ('-L', '-L=', '--lib-path', '--lib-path=') {
@@ -513,7 +513,7 @@ unlink_testfiles($lib);
 $asm = "ld a,_value23";		# BUG_0045
 
 # no -D
-t_z80asm_error($asm, "Error at file 'test.asm' line 1: symbol '_value23' not defined");
+t_z80asm_error($asm, "Error at 'test.asm' line 1: symbol '_value23' not defined");
 
 # invalid -D
 for my $options ('-D23', '-Da*') {
@@ -855,16 +855,16 @@ t_z80asm_ok(0, "
 	
 ), "-mz180");
 
-t_z80asm_error("slp			", "Error at file 'test.asm' line 1: illegal identifier");
-t_z80asm_error("mlt bc		", "Error at file 'test.asm' line 1: illegal identifier");
-t_z80asm_error("in0 b,(10)	", "Error at file 'test.asm' line 1: illegal identifier");
-t_z80asm_error("out0 (10),b	", "Error at file 'test.asm' line 1: illegal identifier");
-t_z80asm_error("otim		", "Error at file 'test.asm' line 1: illegal identifier");
-t_z80asm_error("otimr		", "Error at file 'test.asm' line 1: illegal identifier");
-t_z80asm_error("otdm		", "Error at file 'test.asm' line 1: illegal identifier");
-t_z80asm_error("otdmr		", "Error at file 'test.asm' line 1: illegal identifier");
-t_z80asm_error("tstio 23	", "Error at file 'test.asm' line 1: illegal identifier");
-t_z80asm_error("tst b		", "Error at file 'test.asm' line 1: illegal identifier");
+t_z80asm_error("slp			", "Error at 'test.asm' line 1: illegal identifier");
+t_z80asm_error("mlt bc		", "Error at 'test.asm' line 1: illegal identifier");
+t_z80asm_error("in0 b,(10)	", "Error at 'test.asm' line 1: illegal identifier");
+t_z80asm_error("out0 (10),b	", "Error at 'test.asm' line 1: illegal identifier");
+t_z80asm_error("otim		", "Error at 'test.asm' line 1: illegal identifier");
+t_z80asm_error("otimr		", "Error at 'test.asm' line 1: illegal identifier");
+t_z80asm_error("otdm		", "Error at 'test.asm' line 1: illegal identifier");
+t_z80asm_error("otdmr		", "Error at 'test.asm' line 1: illegal identifier");
+t_z80asm_error("tstio 23	", "Error at 'test.asm' line 1: illegal identifier");
+t_z80asm_error("tst b		", "Error at 'test.asm' line 1: illegal identifier");
 
 #------------------------------------------------------------------------------
 # --cpu=r2k

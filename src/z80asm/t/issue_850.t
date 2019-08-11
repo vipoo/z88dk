@@ -33,7 +33,7 @@ spew("test.asm", <<'...');
 	jp main
 ...
 run('z80asm -b -itest.lib test.asm', 1, '', <<'...');
-Error at file 'test.asm' line 2: symbol 'main' not defined
+Error at 'test.asm' line 2: symbol 'main' not defined
 ...
 
 unlink_testfiles();

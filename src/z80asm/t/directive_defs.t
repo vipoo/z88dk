@@ -54,16 +54,16 @@ z80asm(<<'END', "", 1, "", <<'ERR');
 	defs 2,-129
 	defs 2,256
 END
-Error at file 'test.asm' line 2: expected constant expression
-Error at file 'test.asm' line 3: symbol 'undefined' not defined
-Error at file 'test.asm' line 3: expected constant expression
-Error at file 'test.asm' line 4: expected constant expression
-Error at file 'test.asm' line 5: symbol 'undefined' not defined
-Error at file 'test.asm' line 5: expected constant expression
-Error at file 'test.asm' line 6: integer '-1' out of range
-Error at file 'test.asm' line 7: integer '65537' out of range
-Error at file 'test.asm' line 8: integer '-129' out of range
-Error at file 'test.asm' line 9: integer '256' out of range
+Error at 'test.asm' line 2: expected constant expression
+Error at 'test.asm' line 3: symbol 'undefined' not defined
+Error at 'test.asm' line 3: expected constant expression
+Error at 'test.asm' line 4: expected constant expression
+Error at 'test.asm' line 5: symbol 'undefined' not defined
+Error at 'test.asm' line 5: expected constant expression
+Error at 'test.asm' line 6: integer '-1' out of range
+Error at 'test.asm' line 7: integer '65537' out of range
+Error at 'test.asm' line 8: integer '-129' out of range
+Error at 'test.asm' line 9: integer '256' out of range
 ERR
 
 unlink_testfiles();

@@ -33,14 +33,14 @@ m1	macro
 	nop
 	endm
 ...
-Error at file test.asm line 4: macro multiply defined
+Error at 'test.asm' line 4: macro multiply defined
 ...
 
 t_asmpp_error(<<'...', "", <<'...');
 m1	macro
 	nop
 ...
-Error at file test.asm line 1: missing ENDM
+Error at 'test.asm' line 1: missing ENDM
 ...
 
 for my $sep ("\t", ":", " :", ": ", " : ") {
@@ -54,7 +54,7 @@ m1	macro
 	
 	m1 a
 ...
-Error at file test.asm line 5: extra macro arguments
+Error at 'test.asm' line 5: extra macro arguments
 ...
 
 t_asmpp_ok(<<'...', "", "\xC5\xD5\xE5\xF5" x 5);
@@ -108,7 +108,7 @@ next:
 		m1
 		m1
 ...
-Error at file 'test.asm' line 7: symbol 'next' already defined
+Error at 'test.asm' line 7: symbol 'next' already defined
 ...
 
 t_asmpp_ok(<<'...', "", "\xC3\x03\x00\xC3\x06\x00");

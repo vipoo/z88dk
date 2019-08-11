@@ -13,7 +13,7 @@ One symbol from the assembly code - label or constant.
 
 #include "class.h"
 #include "types.h"
-#include "asmpp.h"
+#include "input.h"
 
 struct Module;
 struct Section;
@@ -69,7 +69,7 @@ CLASS( Symbol )
 	bool			is_global_def : 1;	/* true for __head, __tail, __size symbols */
 	struct Module  *module;				/* module which owns symbol (weak ref) */
 	struct Section *section;			/* section where expression is defined (weak ref) */
-	location_t		location;			/* location where defined */
+	Location		location;			/* location where defined */
 END_CLASS;
 
 /*-----------------------------------------------------------------------------

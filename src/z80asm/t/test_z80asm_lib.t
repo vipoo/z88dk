@@ -39,7 +39,7 @@ Predefined constant: __CPU_Z80__ = $0001
 Predefined constant: __CPU_ZILOG__ = $0001
 Assembling 'test.asm' to 'test.o'
 Reading 'test.asm' = 'test.asm'
-Writing object file 'test.o'
+Writing object 'test.o'
 Module 'test' size: 4 bytes
 
 Linking library module 'rld'
@@ -61,7 +61,7 @@ Predefined constant: __CPU_Z80__ = $0001
 Predefined constant: __CPU_ZILOG__ = $0001
 Assembling 'test.asm' to 'test.o'
 Reading 'test.asm' = 'test.asm'
-Writing object file 'test.o'
+Writing object 'test.o'
 Module 'test' size: 4 bytes
 
 Linking library module 'rld'
@@ -81,7 +81,7 @@ Predefined constant: __CPU_Z80__ = $0001
 Predefined constant: __CPU_ZILOG__ = $0001
 Assembling 'test.asm' to 'test.o'
 Reading 'test.asm' = 'test.asm'
-Writing object file 'test.o'
+Writing object 'test.o'
 Module 'test' size: 4 bytes
 
 Linking library module 'rld'
@@ -101,12 +101,12 @@ Predefined constant: __CPU_Z80__ = $0001
 Predefined constant: __CPU_ZILOG__ = $0001
 Assembling 'test.asm' to 'test.o'
 Reading 'test.asm' = 'test.asm'
-Writing object file 'test.o'
+Writing object 'test.o'
 Module 'test' size: 4 bytes
 
 Code size: 4 bytes ($0000 to $0003)
 OUT
-Error at file 'test.asm' line 2: symbol '__z80asm__rld' not defined
+Error at 'test.asm' line 2: symbol '__z80asm__rld' not defined
 ERR
 
 
@@ -164,7 +164,7 @@ Predefined constant: __CPU_${cpu}__ = \$0001
 Predefined constant: __CPU_${family}__ = \$0001$swap_ixiy
 Assembling 'test.asm' to 'test.o'
 Reading 'test.asm' = 'test.asm'
-Writing object file 'test.o'
+Writing object 'test.o'
 Module 'test' size: 4 bytes
 
 Linking library module 'rld'

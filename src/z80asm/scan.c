@@ -9,9 +9,8 @@ Repository: https://github.com/z88dk/z88dk
 Scanner. Scanning engine is built by ragel from scan_rules.rl.
 */
 
-#include "asmpp.h"
+#include "input.h"
 #include "alloc.h"
-#include "errors.h"
 #include "init.h"
 #include "list.h"
 #include "options.h"
@@ -312,12 +311,10 @@ void Skipline( void )
 *----------------------------------------------------------------------------*/
 static bool fill_buffer( void )
 {
-	char *line;
-
 	while ( *p == '\0' )
 	{
 		/* get last buffer from stack, if any */
-		line = List_pop( input_stack );
+		char* line = List_pop( input_stack );
 		if ( line != NULL )
 		{
 			set_scan_buf( line, false );	/* read from stack - assume not at BOL */
@@ -326,8 +323,8 @@ static bool fill_buffer( void )
 		else 
 		{
 			/* get next line from input source file */
-			line = pp_getline_asm();
-			if ( line == NULL )
+			const char* line = in_getline_asm();
+			if (line == NULL)
 				return false;
 
 			/* got new line */

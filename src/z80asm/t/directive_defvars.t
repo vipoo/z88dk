@@ -161,7 +161,7 @@ spew("test.asm", "
 	}
 ");
 run("z80asm -b test.asm", 1, "", <<END);
-Error at file 'test.asm' line 5: integer '65572' out of range
+Error at 'test.asm' line 5: integer '65572' out of range
 END
 
 
@@ -173,7 +173,7 @@ spew("test.asm", "
 	}
 ");
 run("z80asm -b test.asm", 1, "", <<END);
-Error at file 'test.asm' line 4: integer '65536' out of range
+Error at 'test.asm' line 4: integer '65536' out of range
 END
 
 
@@ -182,7 +182,7 @@ spew("test.asm", "
 	defvars 							;; error: syntax error
 ");
 run("z80asm -b test.asm", 1, "", <<END);
-Error at file 'test.asm' line 2: syntax error
+Error at 'test.asm' line 2: syntax error
 END
 
 
@@ -191,7 +191,7 @@ spew("test.asm", "
 	defvars 0							;; error: missing {} block
 ");
 run("z80asm -b test.asm", 1, "", <<END);
-Error at file 'test.asm' line 2: missing {} block
+Error at 'test.asm' line 3: missing {} block
 END
 
 
@@ -200,7 +200,7 @@ spew("test.asm", "
 	defvars 0 {							;; error: {} block not closed
 ");
 run("z80asm -b test.asm", 1, "", <<END);
-Error at file 'test.asm' line 2: {} block not closed
+Error at 'test.asm' line 3: {} block not closed
 END
 
 
@@ -277,7 +277,7 @@ z80asm(<<'END', "", 1, "", <<'ERR');
 		df1 ds.b 1
 	}
 END
-Error at file 'test.asm' line 2: expected constant expression
+Error at 'test.asm' line 2: expected constant expression
 ERR
 
 
@@ -290,7 +290,7 @@ z80asm(<<'END', "", 1, "", <<'ERR');
 		df1 ds.b 1
 	}
 END
-Error at file 'test.asm' line 2: expected constant expression
+Error at 'test.asm' line 2: expected constant expression
 ERR
 
 
@@ -301,8 +301,8 @@ z80asm(<<'END', "", 1, "", <<'ERR');
 		df2	ds.q 1
 	}
 END
-Error at file 'test.asm' line 1: symbol 'undefined' not defined
-Error at file 'test.asm' line 1: expected constant expression
+Error at 'test.asm' line 1: symbol 'undefined' not defined
+Error at 'test.asm' line 1: expected constant expression
 ERR
 
 
@@ -314,9 +314,9 @@ z80asm(<<'END', "", 1, "", <<'ERR');
 		df1 ds.b undefined
 	}
 END
-Error at file 'test.asm' line 3: expected constant expression
-Error at file 'test.asm' line 4: symbol 'undefined' not defined
-Error at file 'test.asm' line 4: expected constant expression
+Error at 'test.asm' line 3: expected constant expression
+Error at 'test.asm' line 4: symbol 'undefined' not defined
+Error at 'test.asm' line 4: expected constant expression
 ERR
 
 

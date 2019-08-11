@@ -171,7 +171,7 @@ z80asm(<<'END', "", 1, "", <<'ERR');
 #define nil nop
 	nil
 END
-Error at file 'test.asm' line 2: macro 'nil' redefined
+Error at 'test.asm' line 2: macro 'nil' redefined
 ERR
 
 #------------------------------------------------------------------------------
@@ -196,8 +196,8 @@ z80asm(<<'END', "", 1, "", <<'ERR');
 #define .3 nop
 #define 3 nop
 END
-Error at file 'test.asm' line 1: syntax error
-Error at file 'test.asm' line 2: syntax error
+Error at 'test.asm' line 1: syntax error
+Error at 'test.asm' line 2: syntax error
 ERR
 
 #------------------------------------------------------------------------------
@@ -478,7 +478,7 @@ END
 z80asm(<<'END', "", 1, "", <<'ERR');
 #defcont 	add hl,hl
 END
-Error at file 'test.asm' line 1: #defcont without #define
+Error at 'test.asm' line 1: #defcont without #define
 ERR
 
 #------------------------------------------------------------------------------
@@ -595,7 +595,7 @@ z80asm(<<'END', "", 1, "", <<'ERR');
 #define ccc aaa
 	defb aaa
 END
-Error at file 'test.asm' line 4: recursion expanding macro 'aaa'
+Error at 'test.asm' line 4: recursion expanding macro 'aaa'
 ERR
 
 #------------------------------------------------------------------------------
@@ -725,7 +725,7 @@ z80asm(<<'END', "", 1, "", <<'ERR');
 #define aaa(a,b)	a+b
 	defb aaa
 END
-Error at file 'test.asm' line 2: missing macro arguments
+Error at 'test.asm' line 2: missing macro arguments
 ERR
 
 #------------------------------------------------------------------------------

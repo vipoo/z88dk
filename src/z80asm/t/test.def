@@ -1,204 +1,65 @@
-#if !EXEC_TEST
-DIAG("test_asmpp");
-extern void test_asmpp();
-test_asmpp();
-#endif
-
-#if !EXEC_TEST
-DIAG("test_asmpp_empty_file");
-extern void test_asmpp_empty_file();
-test_asmpp_empty_file();
-#endif
-
-#if !EXEC_TEST
-DIAG("test_asmpp_recursive_includes");
-extern void test_asmpp_recursive_includes();
-test_asmpp_recursive_includes();
-#endif
-
-#if EXEC_TEST
-if (strcmp(test, "exec_asmpp_recursive_includes_1") == 0) {
-    extern int exec_asmpp_recursive_includes_1();
-    int rv = exec_asmpp_recursive_includes_1();
-    exit(rv);
-}
-#endif
-
-#if EXEC_TEST
-if (strcmp(test, "exec_asmpp_recursive_includes_2") == 0) {
-    extern int exec_asmpp_recursive_includes_2();
-    int rv = exec_asmpp_recursive_includes_2();
-    exit(rv);
-}
-#endif
-
-#if !EXEC_TEST
-DIAG("test_asmpp_file_open_error");
-extern void test_asmpp_file_open_error();
-test_asmpp_file_open_error();
-#endif
+void test_input(void);
+void test_input_empty_file(void);
+void test_input_recursive_includes(void);
+int  exec_input_recursive_includes(void);
+void test_in_file_open_error(void);
+int  exec_in_file_open_error(int);
+void test_error_output(void);
+int  exec_error_output(int);
+void test_error_file(void);
+int  exec_error_file(void);
+void test_error_file_empty(void);
+void test_die(void);
+int  exec_die(void);
+void test_xmalloc(void);
+void test_xcalloc(void);
+void test_xrealloc(void);
+void test_xstrdup(void);
+void test_xnew(void);
+void test_str_pool(void);
+void test_utstring_toupper(void);
+void test_utstring_tolower(void);
+void test_utstring_chomp(void);
+void test_utstring_strip(void);
+void test_xfopen(void);
+void test_xfopen_error(void);
+int  exec_xfopen_error(void);
+void test_xremove(void);
+int  exec_xremove(void);
+void test_file_checks(void);
 
 #if EXEC_TEST
-if (strcmp(test, "exec_asmpp_file_open_error_1") == 0) {
-    extern int exec_asmpp_file_open_error_1();
-    int rv = exec_asmpp_file_open_error_1();
-    exit(rv);
-}
-#endif
+if (strcmp(name, "exec_input_recursive_includes")==0) { int rv = exec_input_recursive_includes(); exit(rv); }
+if (strcmp(name, "exec_in_file_open_error")==0) { int rv = exec_in_file_open_error(arg); exit(rv); }
+if (strcmp(name, "exec_error_output")==0) { int rv = exec_error_output(arg); exit(rv); }
+if (strcmp(name, "exec_error_file")==0) { int rv = exec_error_file(); exit(rv); }
+if (strcmp(name, "exec_die")==0) { int rv = exec_die(); exit(rv); }
+if (strcmp(name, "exec_xfopen_error")==0) { int rv = exec_xfopen_error(); exit(rv); }
+if (strcmp(name, "exec_xremove")==0) { int rv = exec_xremove(); exit(rv); }
 
-#if EXEC_TEST
-if (strcmp(test, "exec_asmpp_file_open_error_2") == 0) {
-    extern int exec_asmpp_file_open_error_2();
-    int rv = exec_asmpp_file_open_error_2();
-    exit(rv);
-}
-#endif
+#else
+DIAG("test_input"); test_input();
+DIAG("test_input_empty_file"); test_input_empty_file();
+DIAG("test_input_recursive_includes"); test_input_recursive_includes();
+DIAG("test_in_file_open_error"); test_in_file_open_error();
+DIAG("test_error_output"); test_error_output();
+DIAG("test_error_file"); test_error_file();
+DIAG("test_error_file_empty"); test_error_file_empty();
+DIAG("test_die"); test_die();
+DIAG("test_xmalloc"); test_xmalloc();
+DIAG("test_xcalloc"); test_xcalloc();
+DIAG("test_xrealloc"); test_xrealloc();
+DIAG("test_xstrdup"); test_xstrdup();
+DIAG("test_xnew"); test_xnew();
+DIAG("test_str_pool"); test_str_pool();
+DIAG("test_utstring_toupper"); test_utstring_toupper();
+DIAG("test_utstring_tolower"); test_utstring_tolower();
+DIAG("test_utstring_chomp"); test_utstring_chomp();
+DIAG("test_utstring_strip"); test_utstring_strip();
+DIAG("test_xfopen"); test_xfopen();
+DIAG("test_xfopen_error"); test_xfopen_error();
+DIAG("test_xremove"); test_xremove();
+DIAG("test_file_checks"); test_file_checks();
 
-#if !EXEC_TEST
-DIAG("test_asmpp_getline_lst");
-extern void test_asmpp_getline_lst();
-test_asmpp_getline_lst();
 #endif
-
-#if !EXEC_TEST
-DIAG("test_errors_output");
-extern void test_errors_output();
-test_errors_output();
-#endif
-
-#if EXEC_TEST
-if (strcmp(test, "exec_errors_output") == 0) {
-    extern int exec_errors_output();
-    int rv = exec_errors_output();
-    exit(rv);
-}
-#endif
-
-#if !EXEC_TEST
-DIAG("test_errors_file");
-extern void test_errors_file();
-test_errors_file();
-#endif
-
-#if EXEC_TEST
-if (strcmp(test, "exec_errors_file") == 0) {
-    extern int exec_errors_file();
-    int rv = exec_errors_file();
-    exit(rv);
-}
-#endif
-
-#if !EXEC_TEST
-DIAG("test_die");
-extern void test_die();
-test_die();
-#endif
-
-#if EXEC_TEST
-if (strcmp(test, "exec_die") == 0) {
-    extern int exec_die();
-    int rv = exec_die();
-    exit(rv);
-}
-#endif
-
-#if !EXEC_TEST
-DIAG("test_xmalloc");
-extern void test_xmalloc();
-test_xmalloc();
-#endif
-
-#if !EXEC_TEST
-DIAG("test_xcalloc");
-extern void test_xcalloc();
-test_xcalloc();
-#endif
-
-#if !EXEC_TEST
-DIAG("test_xrealloc");
-extern void test_xrealloc();
-test_xrealloc();
-#endif
-
-#if !EXEC_TEST
-DIAG("test_xstrdup");
-extern void test_xstrdup();
-test_xstrdup();
-#endif
-
-#if !EXEC_TEST
-DIAG("test_xnew");
-extern void test_xnew();
-test_xnew();
-#endif
-
-#if !EXEC_TEST
-DIAG("test_str_pool");
-extern void test_str_pool();
-test_str_pool();
-#endif
-
-#if !EXEC_TEST
-DIAG("test_utstring_toupper");
-extern void test_utstring_toupper();
-test_utstring_toupper();
-#endif
-
-#if !EXEC_TEST
-DIAG("test_utstring_tolower");
-extern void test_utstring_tolower();
-test_utstring_tolower();
-#endif
-
-#if !EXEC_TEST
-DIAG("test_utstring_chomp");
-extern void test_utstring_chomp();
-test_utstring_chomp();
-#endif
-
-#if !EXEC_TEST
-DIAG("test_utstring_strip");
-extern void test_utstring_strip();
-test_utstring_strip();
-#endif
-
-#if !EXEC_TEST
-DIAG("test_xfopen");
-extern void test_xfopen();
-test_xfopen();
-#endif
-
-#if !EXEC_TEST
-DIAG("test_xfopen_error");
-extern void test_xfopen_error();
-test_xfopen_error();
-#endif
-
-#if EXEC_TEST
-if (strcmp(test, "exec_xfopen_error") == 0) {
-    extern int exec_xfopen_error();
-    int rv = exec_xfopen_error();
-    exit(rv);
-}
-#endif
-
-#if !EXEC_TEST
-DIAG("test_xremove");
-extern void test_xremove();
-test_xremove();
-#endif
-
-#if EXEC_TEST
-if (strcmp(test, "exec_xremove") == 0) {
-    extern int exec_xremove();
-    int rv = exec_xremove();
-    exit(rv);
-}
-#endif
-
-#if !EXEC_TEST
-DIAG("test_file_checks");
-extern void test_file_checks();
-test_file_checks();
-#endif
-
+#undef EXEC_TEST

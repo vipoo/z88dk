@@ -267,7 +267,7 @@ sub test_asm {
 		# test that all lines have been signalled as error
 		my @lines_error;
 		for (split(/\n/, $stderr)) {
-			if (/Error at file .*? line (\d+)/) {
+			if (/Error at .*? line (\d+)/) {
 				$lines_error[$1] = 1;
 			}
 #			elsif (/\d+ errors occurred during assembly/) {

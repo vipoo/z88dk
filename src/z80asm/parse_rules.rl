@@ -486,7 +486,7 @@ Define rules for a ragel-based parser.
 			if (expr_error)
 				error_expected_const_expr();
 			else
-				asm_LINE(expr_value, g_asm_location.filename); 
+				asm_LINE(expr_value, in_location(LocationAsm).filename); 
 		}
 		
 		| _TK_LINE const_expr _TK_COMMA string _TK_NEWLINE @{ 
@@ -500,7 +500,7 @@ Define rules for a ragel-based parser.
 			if (expr_error)
 				error_expected_const_expr();
 			else
-				asm_C_LINE(expr_value, g_c_location.filename); 
+				asm_C_LINE(expr_value, in_location(LocationC).filename); 
 		}
 		
 		| _TK_C_LINE const_expr _TK_COMMA string _TK_NEWLINE @{ 
@@ -614,7 +614,7 @@ static int get_start_state(ParseCtx *ctx)
 static bool _parse_statement_1(ParseCtx *ctx, Str *name, Str *stmt_label)
 {
 	int  value1 = 0;
-	int  start_num_errors = g_error_count;
+	int  start_num_errors = error_count();
 	int  expr_value = 0;			/* last computed expression value */
 	bool expr_error = false;		/* last computed expression error */
 	bool expr_in_parens = false;	/* true if expression has enclosing parens */
@@ -639,7 +639,7 @@ static bool _parse_statement_1(ParseCtx *ctx, Str *name, Str *stmt_label)
 			return true;
 			
 		/* assembly error? must test after check for end of parse */
-		if (g_error_count != start_num_errors) 
+		if (error_count() != start_num_errors) 
 			break;
 	}
 	

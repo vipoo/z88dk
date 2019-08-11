@@ -28,20 +28,20 @@ require './t/test_utils.pl';
 # CH_0012 : wrappers on OS calls to raise fatal error
 unlink_testfiles();
 t_z80asm_capture(asm_file(), "",
-		"Error: cannot read file '".asm_file()."'\n",
+		"Error: cannot read '".asm_file()."'\n",
 		1);
 
 unlink_testfiles();
 t_z80asm_error('
 	binary "'.inc_file().'"
 	',
-	"Error at file 'test.asm' line 2: cannot read file 'test.inc'",
+	"Error at 'test.asm' line 2: cannot read 'test.inc'",
 	"-l");
 
 unlink_testfiles();
 write_file(asm_file(), "nop");
 t_z80asm_capture("-b -ixxxx ".asm_file(), "",
-		"Error: cannot read file 'xxxx.lib'\n",
+		"Error: cannot read 'xxxx.lib'\n",
 		1);
 
 #------------------------------------------------------------------------------
@@ -52,7 +52,7 @@ write_binfile(o_file(), objfile( NAME => "test",
 								   EXPR => [ ["C", "test.asm",1, "", 0, 0, "", "*+VAL"] ] ));
 t_z80asm_capture("-b -d ".o_file(),
 				 "",
-				 "Error at file 'test.asm' line 1: syntax error in expression\n",
+				 "Error at 'test.asm' line 1: syntax error in expression\n",
 				 1);
 
 #------------------------------------------------------------------------------
@@ -153,24 +153,24 @@ write_file(asm1_file(), <<'ASM1');
 ASM1
 
 t_z80asm_capture("-b ".asm_file()." ".asm1_file(), "", <<'ERR', 0);
-Warning at file 'test.asm' line 4: integer '-129' out of range
-Warning at file 'test.asm' line 19: integer '256' out of range
-Warning at file 'test.asm' line 24: integer '-129' out of range
-Warning at file 'test.asm' line 39: integer '128' out of range
-Warning at file 'test.asm' line 44: integer '-32769' out of range
-Warning at file 'test.asm' line 59: integer '65536' out of range
-Warning at file 'test.asm' line 5: integer '-129' out of range
-Warning at file 'test.asm' line 6: integer '-129' out of range
-Warning at file 'test.asm' line 20: integer '256' out of range
-Warning at file 'test.asm' line 21: integer '256' out of range
-Warning at file 'test.asm' line 25: integer '-129' out of range
-Warning at file 'test.asm' line 26: integer '-129' out of range
-Warning at file 'test.asm' line 40: integer '128' out of range
-Warning at file 'test.asm' line 41: integer '128' out of range
-Warning at file 'test.asm' line 45: integer '-32769' out of range
-Warning at file 'test.asm' line 46: integer '-32769' out of range
-Warning at file 'test.asm' line 60: integer '65536' out of range
-Warning at file 'test.asm' line 61: integer '65536' out of range
+Warning at 'test.asm' line 4: integer '-129' out of range
+Warning at 'test.asm' line 19: integer '256' out of range
+Warning at 'test.asm' line 24: integer '-129' out of range
+Warning at 'test.asm' line 39: integer '128' out of range
+Warning at 'test.asm' line 44: integer '-32769' out of range
+Warning at 'test.asm' line 59: integer '65536' out of range
+Warning at 'test.asm' line 5: integer '-129' out of range
+Warning at 'test.asm' line 6: integer '-129' out of range
+Warning at 'test.asm' line 20: integer '256' out of range
+Warning at 'test.asm' line 21: integer '256' out of range
+Warning at 'test.asm' line 25: integer '-129' out of range
+Warning at 'test.asm' line 26: integer '-129' out of range
+Warning at 'test.asm' line 40: integer '128' out of range
+Warning at 'test.asm' line 41: integer '128' out of range
+Warning at 'test.asm' line 45: integer '-32769' out of range
+Warning at 'test.asm' line 46: integer '-32769' out of range
+Warning at 'test.asm' line 60: integer '65536' out of range
+Warning at 'test.asm' line 61: integer '65536' out of range
 ERR
 
 t_binary(read_binfile(bin_file()), pack("C*",
@@ -223,22 +223,22 @@ for ([jr => chr(0x18)], [djnz => chr(0x10)])
 
 	t_z80asm(
 		asm		=> "$jump ASMPC+2-129",
-		err		=> "Error at file 'test.asm' line 1: integer '-129' out of range",
+		err		=> "Error at 'test.asm' line 1: integer '-129' out of range",
 	);
 
 	t_z80asm(
 		asm		=> "$jump label : defc label = ASMPC-129",
-		linkerr	=> "Error at file 'test.asm' line 1: integer '-129' out of range",
+		linkerr	=> "Error at 'test.asm' line 1: integer '-129' out of range",
 	);
 
 	t_z80asm(
 		asm		=> "$jump ASMPC+2+128",
-		err		=> "Error at file 'test.asm' line 1: integer '128' out of range",
+		err		=> "Error at 'test.asm' line 1: integer '128' out of range",
 	);
 
 	t_z80asm(
 		asm		=> "$jump label : defc label = ASMPC+128",
-		linkerr	=> "Error at file 'test.asm' line 1: integer '128' out of range",
+		linkerr	=> "Error at 'test.asm' line 1: integer '128' out of range",
 	);
 
 	for my $org (0, 0x8000, 0xFFFE) {
@@ -274,15 +274,15 @@ for ([jr => chr(0x18)], [djnz => chr(0x10)])
 unlink_testfiles();
 t_z80asm_ok(0, "ld a,2*(1+2)", "\x3E\x06");
 t_z80asm_ok(0, "ld a,2*[1+2]", "\x3E\x06");
-t_z80asm_error("ld a,2*(1+2", 	"Error at file 'test.asm' line 1: syntax error in expression");
-t_z80asm_error("ld a,2*(1+2]", 	"Error at file 'test.asm' line 1: syntax error in expression");
-t_z80asm_error("ld a,2*[1+2", 	"Error at file 'test.asm' line 1: syntax error in expression");
-t_z80asm_error("ld a,2*[1+2)", 	"Error at file 'test.asm' line 1: syntax error in expression");
+t_z80asm_error("ld a,2*(1+2", 	"Error at 'test.asm' line 1: syntax error in expression");
+t_z80asm_error("ld a,2*(1+2]", 	"Error at 'test.asm' line 1: syntax error in expression");
+t_z80asm_error("ld a,2*[1+2", 	"Error at 'test.asm' line 1: syntax error in expression");
+t_z80asm_error("ld a,2*[1+2)", 	"Error at 'test.asm' line 1: syntax error in expression");
 
 #------------------------------------------------------------------------------
 # error_not_defined
 unlink_testfiles();
-t_z80asm_error("ld a,NOSYMBOL", "Error at file 'test.asm' line 1: symbol 'NOSYMBOL' not defined");
+t_z80asm_error("ld a,NOSYMBOL", "Error at 'test.asm' line 1: symbol 'NOSYMBOL' not defined");
 
 #------------------------------------------------------------------------------
 # error_not_defined_expr
@@ -293,7 +293,7 @@ t_z80asm_capture("-x".$lib." ".asm_file(), "", "", 0);
 ok -f $lib;
 write_file(asm_file(), "EXTERN main \n call main");
 t_z80asm_capture("-b -i".$lib." ".asm_file(), "",
-		"Error at file 'test.asm' line 2: symbol 'main' not defined\n",
+		"Error at 'test.asm' line 2: symbol 'main' not defined\n",
 		1);
 
 #------------------------------------------------------------------------------
@@ -321,27 +321,27 @@ unlink_testfiles();
 t_z80asm_ok(0, "defs 65535, 'a' \n defm \"a\" \n",
 	    "a" x 65536);
 t_z80asm_error("defs 65536, 'a' \n defm \"a\" \n",
-	       "Error at file 'test.asm' line 2: max. code size of 65536 bytes reached");
+	       "Error at 'test.asm' line 2: max. code size of 65536 bytes reached");
 
 t_z80asm_ok(0, "defs 65534, 'a' \n defm \"aa\" \n",
 	    "a" x 65536);
 t_z80asm_error("defs 65535, 'a' \n defm \"aa\" \n",
-	       "Error at file 'test.asm' line 2: max. code size of 65536 bytes reached");
+	       "Error at 'test.asm' line 2: max. code size of 65536 bytes reached");
 
 t_z80asm_ok(0, "defs 65534, 'a' \n defm 97, \"a\" \n",
 	    "a" x 65536);
 t_z80asm_error("defs 65535, 'a' \n defm 97, \"a\" \n",
-	       "Error at file 'test.asm' line 2: max. code size of 65536 bytes reached");
+	       "Error at 'test.asm' line 2: max. code size of 65536 bytes reached");
 
 t_z80asm_ok(0, "defs 65534, 'a' \n defm 97 , \"a\" \n",
 	    "a" x 65536);
 t_z80asm_error("defs 65535, 'a' \n defm 97 , \"a\" \n",
-	       "Error at file 'test.asm' line 2: max. code size of 65536 bytes reached");
+	       "Error at 'test.asm' line 2: max. code size of 65536 bytes reached");
 
 t_z80asm_ok(0, "defs 65534, 'a' \n defm \"a\" , 97 \n",
 	    "a" x 65536);
 t_z80asm_error("defs 65535, 'a' \n defm \"a\" , 97 \n",
-	       "Error at file 'test.asm' line 2: max. code size of 65536 bytes reached");
+	       "Error at 'test.asm' line 2: max. code size of 65536 bytes reached");
 
 # BINARY - tested in directives.t
 
@@ -363,7 +363,7 @@ t_z80asm_capture("-d -b ".asm_file()." ".asm1_file(), "",
 t_z80asm_ok(0, "defs 65535, 0xAA \n defb 0xAA \n",
 	    "\xAA" x 65536);
 t_z80asm_error("defs 65536, 0xAA \n defb 0xAA \n",
-	       "Error at file 'test.asm' line 2: max. code size of 65536 bytes reached");
+	       "Error at 'test.asm' line 2: max. code size of 65536 bytes reached");
 
 
 #------------------------------------------------------------------------------
@@ -377,7 +377,7 @@ t_z80asm_error("defs 65536, 0xAA \n defb 0xAA \n",
 unlink_testfiles();
 write_file(asm_file(), "nop");
 t_z80asm_capture(asm_file()." -IllegalFilename", "",
-		"Error: cannot read file '-IllegalFilename'\n", 1);
+		"Error: cannot read '-IllegalFilename'\n", 1);
 
 #------------------------------------------------------------------------------
 # error_org_redefined - tested in directives.t
@@ -395,7 +395,7 @@ t_z80asm(
 #t_z80asm_error("
 #	EXTERN loop
 #	jr loop
-#", "Error at file 'test.asm' line 3: relative jump address must be local");
+#", "Error at 'test.asm' line 3: relative jump address must be local");
 
 #------------------------------------------------------------------------------
 # error_obj_file_version
@@ -404,7 +404,7 @@ my $obj = objfile(NAME => "test", CODE => [["", -1, 1, "\x00"]] );
 substr($obj,6,2)="99";		# change version
 write_file(o_file(), $obj);
 t_z80asm_capture("-b  ".o_file(), "", <<"END", 1);
-Error: object file 'test.o' version 99, expected version 12
+Error: object 'test.o' version 99, expected version 12
 END
 
 #------------------------------------------------------------------------------
@@ -433,8 +433,8 @@ write_binfile(o_file(), objfile( NAME => "test",
 								   SYMBOLS => [ ["Z", "Z", "", 0, "ABCD", "", 0] ] ));
 t_z80asm_capture("-b -d ".o_file(),
 				 "",
-				 "Error at module 'test': file 'test.o' not an object file\n".
-				 "Error at module 'test': file 'test.o' not an object file\n",
+				 "Error at 'test': 'test.o' not an object file\n".
+				 "Error at 'test': 'test.o' not an object file\n",
 				 1);
 
 #------------------------------------------------------------------------------
@@ -443,7 +443,7 @@ unlink_testfiles();
 write_file(asm_file(), "nop");
 write_file(lib_file(), "not a library");
 t_z80asm_capture("-b -i".lib_file()." ".asm_file(), "",
-		"Error: file 'test.lib' not a library file\n",
+		"Error: 'test.lib' not a library file\n",
 		1);
 
 #------------------------------------------------------------------------------
@@ -454,7 +454,7 @@ substr($lib,6,2)="99";		# change version
 write_file(asm_file(), "nop");
 write_file(lib_file(), $lib);
 t_z80asm_capture("-b -i".lib_file()." ".asm_file(), "", <<"END", 1);
-Error: library file 'test.lib' version 99, expected version 12
+Error: library 'test.lib' version 99, expected version 12
 END
 
 #------------------------------------------------------------------------------
@@ -462,7 +462,7 @@ END
 unlink_testfiles();
 write_file("test.asm", "cp (16)");
 t_z80asm_capture("-b test.asm", "",
-		"Warning at file 'test.asm' line 1: interpreting indirect value as immediate\n",
+		"Warning at 'test.asm' line 1: interpreting indirect value as immediate\n",
 		0);
 t_binary(read_binfile("test.bin"), "\xFE\x10");
 
@@ -490,18 +490,18 @@ write_file("test.asm", <<'END');
 	rst	undefined
 END
 t_z80asm_capture("-b test.asm", "", <<'ERR', 1);
-Error at file 'test.asm' line 2: expected constant expression
-Error at file 'test.asm' line 3: expected constant expression
-Error at file 'test.asm' line 4: expected constant expression
-Error at file 'test.asm' line 5: expected constant expression
-Error at file 'test.asm' line 6: expected constant expression
-Error at file 'test.asm' line 7: symbol 'undefined' not defined
-Error at file 'test.asm' line 8: symbol 'undefined' not defined
-Error at file 'test.asm' line 9: symbol 'undefined' not defined
-Error at file 'test.asm' line 10: symbol 'undefined' not defined
-Error at file 'test.asm' line 10: expected constant expression
-Error at file 'test.asm' line 11: symbol 'undefined' not defined
-Error at file 'test.asm' line 11: expected constant expression
+Error at 'test.asm' line 2: expected constant expression
+Error at 'test.asm' line 3: expected constant expression
+Error at 'test.asm' line 4: expected constant expression
+Error at 'test.asm' line 5: expected constant expression
+Error at 'test.asm' line 6: expected constant expression
+Error at 'test.asm' line 7: symbol 'undefined' not defined
+Error at 'test.asm' line 8: symbol 'undefined' not defined
+Error at 'test.asm' line 9: symbol 'undefined' not defined
+Error at 'test.asm' line 10: symbol 'undefined' not defined
+Error at 'test.asm' line 10: expected constant expression
+Error at 'test.asm' line 11: symbol 'undefined' not defined
+Error at 'test.asm' line 11: expected constant expression
 ERR
 
 unlink_testfiles();

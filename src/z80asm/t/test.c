@@ -16,12 +16,17 @@ Repository: https://github.com/z88dk/z88dk
 #include <stdlib.h>
 #include <string.h>
 
+#ifdef _MSC_VER
+#define vsnprintf _vsnprintf
+#define  snprintf  _snprintf
+#endif
+
 static int count_run = 0;
 static int count_failed = 0;
 
-char* tst_prog_name = NULL;
-char* tst_exec_out = NULL;
-char* tst_exec_err = NULL;
+char* test_prog_name = NULL;
+char* test_exec_out = NULL;
+char* test_exec_err = NULL;
 
 // replace in place, replace eol chars by newline
 static char* normalize_eol(char* str)
@@ -45,7 +50,7 @@ static char* normalize_eol(char* str)
 	return str;
 }
 
-void tst_spew(const char* filename, const char* text)
+void test_spew(const char* filename, const char* text)
 {
 	FILE* fp = fopen(filename, "wb");
 	if (!fp) {
@@ -61,7 +66,7 @@ void tst_spew(const char* filename, const char* text)
 	}
 }
 
-char* tst_slurp_alloc(const char* filename)
+char* test_slurp_alloc(const char* filename)
 {
 	FILE* fp = fopen(filename, "rb");
 	if (!fp) {
@@ -98,7 +103,7 @@ static void print_summary()
 		printf("All tests successful.\n");
 }
 
-void tst_is_ok(bool value, const char* filename, int line_num) 
+void test_is_ok(bool value, const char* filename, int line_num) 
 {
 	count_run++;
 
@@ -112,34 +117,34 @@ void tst_is_ok(bool value, const char* filename, int line_num)
 	}
 }
 
-void tst_is_equal(int a, int b, const char* filename, int line_num)
+void test_is_equal(int a, int b, const char* filename, int line_num)
 {
-	tst_is_ok(a == b, filename, line_num);
+	test_is_ok(a == b, filename, line_num);
 	if (a != b) {
 		DIAG("%d", a);
 		DIAG("%d", b);
 	}
 }
 
-void tst_is_different(int a, int b, const char* filename, int line_num)
+void test_is_different(int a, int b, const char* filename, int line_num)
 {
-	tst_is_ok(a != b, filename, line_num);
+	test_is_ok(a != b, filename, line_num);
 	if (a == b) {
 		DIAG("%d", a);
 		DIAG("%d", b);
 	}
 }
 
-void tst_string_is(const char* a, const char* b, const char* filename, int line_num) 
+void test_string_is(const char* a, const char* b, const char* filename, int line_num) 
 {
-	tst_is_ok(a != NULL, filename, line_num);
-	tst_is_ok(b != NULL, filename, line_num);
+	test_is_ok(a != NULL, filename, line_num);
+	test_is_ok(b != NULL, filename, line_num);
 	if (a != NULL && b != NULL) {
 		char* a_ = normalize_eol(strdup(a));
 		char* b_ = normalize_eol(strdup(b));
 
 		bool ok = (strcmp(a_, b_) == 0);
-		tst_is_ok(ok, filename, line_num);
+		test_is_ok(ok, filename, line_num);
 
 		if (!ok) {
 			DIAG("<<<");
@@ -159,21 +164,23 @@ void tst_string_is(const char* a, const char* b, const char* filename, int line_
 
 static char* slurp_remove(const char* filename)
 {
-	char* text = normalize_eol(tst_slurp_alloc(filename));
+	char* text = normalize_eol(test_slurp_alloc(filename));
 	OK(0 == remove(filename));
 	return text;
 }
 
-bool tst_exec(const char* test_name) 
+bool test_exec(const char* name, int arg) 
 {
 	char cmd[1024];
-	assert(tst_prog_name);
+	assert(test_prog_name);
 
-	snprintf(cmd, sizeof(cmd), "%s %s >test.out 2>test.err", tst_prog_name, test_name);
+	snprintf(cmd, sizeof(cmd), 
+			"%s %s %d >test.out 2>test.err", 
+			test_prog_name, name, arg);
 	int rv = system(cmd);
 
-	free(tst_exec_out); tst_exec_out = slurp_remove("test.out");
-	free(tst_exec_err); tst_exec_err = slurp_remove("test.err");
+	free(test_exec_out); test_exec_out = slurp_remove("test.out");
+	free(test_exec_err); test_exec_err = slurp_remove("test.err");
 
 	if (rv == 0)
 		return true;
@@ -184,21 +191,22 @@ bool tst_exec(const char* test_name)
 int main(int argc, char* argv[])
 {
 	// init
-	tst_prog_name = strdup(argv[0]);
+	test_prog_name = strdup(argv[0]);
 
 	// run tests
-	if (argc == 2) {				// sub-test
-		const char* test = argv[1];
+	if (argc == 2 || argc == 3) {	// sub-test
+		const char* name = argv[1];
+		int arg = 0;
+		if (argc == 3)
+			arg = atoi(argv[2]);
 #define EXEC_TEST 1
 #include "test.def"
-#undef EXEC_TEST
-
+		DIAG("test '%s' not found", name);
 		return EXIT_FAILURE;		// should not be reached
 	}
 	else if (argc == 1) {			// main test
 #define EXEC_TEST 0
 #include "test.def"
-#undef EXEC_TEST
 	}
 	else {
 		DIAG("too many arguments");
@@ -208,9 +216,9 @@ int main(int argc, char* argv[])
 	print_summary();
 
 	// free
-	free(tst_prog_name);
-	free(tst_exec_out);
-	free(tst_exec_err);
+	free(test_prog_name);
+	free(test_exec_out);
+	free(test_exec_err);
 
 	if (!count_failed)
 		return EXIT_SUCCESS;

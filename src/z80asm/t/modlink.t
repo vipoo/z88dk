@@ -587,8 +587,8 @@ END
 my($stdout, $stderr, $return, @dummy) = capture { system "z80asm test.asm"; };
 is_text( $stdout, "" );
 is_text( $stderr, <<'END' );
-Error at file 'test.asm' line 5: symbol 'sd_write_block_2gb' not defined
-Error at file 'test.asm' line 1: symbol 'sd_write_block_2gb' not defined
+Error at 'test.asm' line 5: symbol 'sd_write_block_2gb' not defined
+Error at 'test.asm' line 1: symbol 'sd_write_block_2gb' not defined
 END
 is !!$return, !!1;
 

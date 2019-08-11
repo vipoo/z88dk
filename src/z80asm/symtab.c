@@ -13,8 +13,7 @@ b) performance - avltree 50% slower when loading the symbols from the ZX 48 ROM 
    see t\developer\benchmark_symtab.t
 */
 
-#include "asmpp.h"
-#include "errors.h"
+#include "input.h"
 #include "listfile.h"
 #include "fileutil.h"
 #include "options.h"
@@ -108,10 +107,11 @@ Symbol *_define_sym(const char *name, long value, sym_type_t type, sym_scope_t s
 		sym->is_defined = true;
         sym->module = module;
 		sym->section = section;
-		if (g_c_location.filename)
-			sym->location = g_c_location;
+
+		if (in_location(LocationC).filename)
+			sym->location = in_location(LocationC);
 		else
-			sym->location = g_asm_location;
+			sym->location = in_location(LocationAsm);
     }
     else											/* already defined */
     {
@@ -316,10 +316,11 @@ static Symbol *define_local_symbol(const char *name, long value, sym_type_t type
 		sym->is_defined = true;
         sym->module  = CURRENTMODULE;						/* owner of symbol is always creator */
 		sym->section = CURRENTSECTION;
-		if (g_c_location.filename)
-			sym->location = g_c_location;
+
+		if (in_location(LocationC).filename)
+			sym->location = in_location(LocationC);
 		else
-			sym->location = g_asm_location;
+			sym->location = in_location(LocationAsm);
 	}
 
 	return sym;
@@ -354,10 +355,11 @@ Symbol *define_symbol(const char *name, long value, sym_type_t type)
 		sym->is_defined = true;
 		sym->module = CURRENTMODULE;		/* owner of symbol is always creator */
 		sym->section = CURRENTSECTION;
-		if (g_c_location.filename)
-			sym->location = g_c_location;
+
+		if (in_location(LocationC).filename)
+			sym->location = in_location(LocationC);
 		else
-			sym->location = g_asm_location;
+			sym->location = in_location(LocationAsm);
 	}
 
 	return sym;
@@ -677,12 +679,10 @@ void check_undefined_symbols(SymbolHash *symtab)
 		sym = (Symbol *)iter->value;
 
 		if (sym->scope == SCOPE_PUBLIC && !sym->is_defined) {
-			pp_clear_locations();
-			g_error_module_name = NULL;
-			g_asm_location = sym->location;
+			in_clear_locations();
+			in_set_location(LocationAsm, sym->location);
 			error_not_defined(sym->name);
 		}
 	}
-	pp_clear_locations();
-	g_error_module_name = NULL;
+	in_clear_locations();
 }

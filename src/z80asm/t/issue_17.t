@@ -38,7 +38,7 @@ END
 		ld
 END
 	run("z80asm test.asm", 1, "", <<END);
-Error at file 'test_dir${slash}test.inc' line 1: syntax error
+Error at 'test_dir${slash}test.inc' line 1: syntax error
 END
 
 	spew("test.asm", <<END);
@@ -46,7 +46,7 @@ END
 		ld
 END
 	run("z80asm test.asm", 1, "", <<END);
-Error at file 'test_dir${slash}test.c' line 1, file 'test.asm' line 2: syntax error
+Error at 'test_dir${slash}test.c' line 1, 'test.asm' line 2: syntax error
 END
 
 }

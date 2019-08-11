@@ -13,7 +13,6 @@ Handle assembly listing and symbol table listing.
 #include "fileutil.h"
 #include "options.h"
 #include "z80asm.h"
-#include "errors.h"
 #include "hist.h"
 #include "strutil.h"
 #include "types.h"

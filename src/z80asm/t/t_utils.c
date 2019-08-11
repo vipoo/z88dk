@@ -16,20 +16,18 @@ Repository: https://github.com/z88dk/z88dk
 
 #define FILE1 "test.1"
 
-void test_die()
+void test_die(void)
 {
-	NOK(tst_exec("exec_die"));
-	STR_IS(tst_exec_out, "");
-	STR_IS(tst_exec_err, "hello world 42!\n");
+	EXEC_NOK("exec_die", 0, "", "hello world 42!\n");
 }
 
-int exec_die()
+int exec_die(void)
 {
 	die("hello %s %d!\n", "world", 42);
 	return EXIT_SUCCESS;	// not reached
 }
 
-void test_xmalloc()
+void test_xmalloc(void)
 {
 	void* ptr = xmalloc(10);
 	OK(ptr);
@@ -39,7 +37,7 @@ void test_xmalloc()
 	NOK(ptr);
 }
 
-void test_xcalloc()
+void test_xcalloc(void)
 {
 	void* ptr = xcalloc(1, 10);
 	OK(ptr);
@@ -48,7 +46,7 @@ void test_xcalloc()
 	NOK(ptr);
 }
 
-void test_xrealloc()
+void test_xrealloc(void)
 {
 	void* ptr = xrealloc(NULL, 10);
 	OK(ptr);
@@ -62,7 +60,7 @@ void test_xrealloc()
 	NOK(ptr);
 }
 
-void test_xstrdup()
+void test_xstrdup(void)
 {
 	char* ptr = xstrdup("hello");
 	STR_IS(ptr, "hello");
@@ -70,7 +68,7 @@ void test_xstrdup()
 	NOK(ptr);
 }
 
-void test_xnew()
+void test_xnew(void)
 {
 	long* ptr = xnew(long);
 	OK(ptr);
@@ -79,7 +77,7 @@ void test_xnew()
 	NOK(ptr);
 }
 
-void test_str_pool()
+void test_str_pool(void)
 {
 #define NUM_STRINGS 10
 #define STRING_SIZE	5
@@ -118,7 +116,7 @@ void test_str_pool()
 	NOK(pool);
 }
 
-void test_utstring_toupper()
+void test_utstring_toupper(void)
 {
 	UT_string* buff;
 	utstring_new(buff);
@@ -144,7 +142,7 @@ void test_utstring_toupper()
 	utstring_free(buff);
 }
 
-void test_utstring_tolower()
+void test_utstring_tolower(void)
 {
 	UT_string* buff;
 	utstring_new(buff);
@@ -170,7 +168,7 @@ void test_utstring_tolower()
 	utstring_free(buff);
 }
 
-void test_utstring_chomp()
+void test_utstring_chomp(void)
 {
 	UT_string* buff;
 	utstring_new(buff);
@@ -201,7 +199,7 @@ void test_utstring_chomp()
 	utstring_free(buff);
 }
 
-void test_utstring_strip()
+void test_utstring_strip(void)
 {
 	UT_string* buff;
 	utstring_new(buff);
@@ -232,7 +230,7 @@ void test_utstring_strip()
 	utstring_free(buff);
 }
 
-void test_xfopen()
+void test_xfopen(void)
 {
 	char buffer[6];
 
@@ -254,40 +252,37 @@ void test_xfopen()
 	OK(0 == remove("test.out"));
 }
 
-void test_xfopen_error()
+void test_xfopen_error(void)
 {
-	NOK(tst_exec("exec_xfopen_error"));
-	STR_IS(tst_exec_out, "");
-	STR_IS(tst_exec_err, "/x/x/x/x/x/x/x/x/x: No such file or directory\n");
+	EXEC_NOK("exec_xfopen_error", 0, 
+		"", "/x/x/x/x/x/x/x/x/x: No such file or directory\n");
 }
 
-int exec_xfopen_error()
+int exec_xfopen_error(void)
 {
 	FILE* fp = xfopen("/x/x/x/x/x/x/x/x/x", "rb");
 	if (fp) return EXIT_SUCCESS;	// silece warning
 	return EXIT_SUCCESS;			// not reached
 }
 
-void test_xremove()
+void test_xremove(void)
 {
 	remove(FILE1);
 	NOK(file_exists(FILE1));
 	xremove(FILE1);			// remove when file does not exist
 
-	tst_spew(FILE1, "");
+	test_spew(FILE1, "");
 	OK(file_exists(FILE1));
 	xremove(FILE1);			// remove when file exists
 	NOK(file_exists(FILE1));
 
 #ifdef _WIN32
 	// test fails in Linux
-	NOK(tst_exec("exec_xremove"));
-	STR_IS(tst_exec_out, "");
-	STR_IS(tst_exec_err, FILE1 ": Permission denied\n");
+	EXEC_NOK("exec_xremove", 0, "", FILE1 ": Permission denied\n");
 #endif
 }
 
-int exec_xremove()
+int exec_xremove(void)
 {
 	FILE* fp = fopen(FILE1, "w");
 	assert(fp);
@@ -295,7 +290,7 @@ int exec_xremove()
 	return EXIT_SUCCESS;	// not reached - cannot remove open file
 }
 
-void test_file_checks()
+void test_file_checks(void)
 {
 	xremove(FILE1);
 	NOK(file_exists(FILE1));
@@ -304,11 +299,11 @@ void test_file_checks()
 	const char* text = "In the beginning God created the heaven and the earth.\n";
 	size_t len = strlen(text);
 
-	tst_spew(FILE1, text);
+	test_spew(FILE1, text);
 	OK(file_exists(FILE1));
 	IS(file_size(FILE1), len);		// no LF -> CR-LF translation took place
 
-	char* read_text = tst_slurp_alloc(FILE1);
+	char* read_text = test_slurp_alloc(FILE1);
 	STR_IS(read_text, text);
 	xfree(read_text);
 

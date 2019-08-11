@@ -4463,7 +4463,7 @@ t_binary(read_binfile(bin_file()), "\xC3\x00\x00");
 #------------------------------------------------------------------------------
 unlink_testfiles();
 
-my $objs = "zobjfile.o lib/class.o lib/array.o errors.o asmpp.o lib/str.o lib/strhash.o lib/list.o  ../common/fileutil.o ../common/strutil.o utils.o ../common/die.o ../common/objfile.o ../../ext/regex/regcomp.o ../../ext/regex/regerror.o ../../ext/regex/regexec.o ../../ext/regex/regfree.o scan.o options.o module.o sym.o symtab.o macros.o hist.o expr.o listfile.o codearea.o lib/dbg.o ";
+my $objs = "zobjfile.o lib/class.o lib/array.o input.o lib/str.o lib/strhash.o lib/list.o  ../common/fileutil.o ../common/strutil.o utils.o ../common/die.o ../common/objfile.o ../../ext/regex/regcomp.o ../../ext/regex/regerror.o ../../ext/regex/regexec.o ../../ext/regex/regfree.o scan.o options.o module.o sym.o symtab.o macros.o hist.o expr.o listfile.o codearea.o lib/dbg.o ";
 if ($^O eq 'MSWin32' || $^O eq 'msys') {
 	  $objs .= "../../ext/UNIXem/src/glob.o ../../ext/UNIXem/src/dirent.o ";
 }
@@ -4593,21 +4593,21 @@ for my $code_size (0, 1, 65536) {
 
 ---- TEST: File not found, read mode ----
 
-Error: cannot read file 'test.o'
+Error: cannot read 'test.o'
 
 ---- TEST: Invalid short file, test mode ----
 
 
 ---- TEST: Invalid short file, read mode ----
 
-Error: file 'test.o' not an object file
+Error: 'test.o' not an object file
 
 ---- TEST: Invalid long file, test mode ----
 
 
 ---- TEST: Invalid long file, read mode ----
 
-Error: file 'test.o' not an object file
+Error: 'test.o' not an object file
 
 ---- TEST: test1 Object file, read mode ----
 

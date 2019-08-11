@@ -323,7 +323,7 @@ z80asm(
 	asm		=> "ld a,-129 ;; 3E 7F ;; warn: integer '-129' out of range",
 );
 is_text(scalar(read_file("test.err")), <<'ERROR');
-Warning at file 'test.asm' line 1: integer '-129' out of range
+Warning at 'test.asm' line 1: integer '-129' out of range
 ERROR
 
 z80asm(
@@ -338,8 +338,8 @@ ASM
 ASM1
 );
 is_text(scalar(read_file("test.err")), <<'ERROR');
-Warning at file 'test.asm' line 3: integer '256' out of range
-Warning at file 'test.asm' line 2: integer '-129' out of range
+Warning at 'test.asm' line 3: integer '256' out of range
+Warning at 'test.asm' line 2: integer '-129' out of range
 ERROR
 
 #------------------------------------------------------------------------------
@@ -498,7 +498,7 @@ for my $op ("jr", "djnz", "jr nc,") {
 	my($stdout, $stderr, $return) = capture { system $cmd; };
 	is_text( $stdout, "", "stdout" );
 	is_text( $stderr, <<'...', "stderr" );
-Error at file 'test.asm' line 2: relative jump address must be local
+Error at 'test.asm' line 2: relative jump address must be local
 ...
 	ok !!$return == !!1, "retval";
 }

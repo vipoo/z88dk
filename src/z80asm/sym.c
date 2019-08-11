@@ -9,8 +9,7 @@ Repository: https://github.com/z88dk/z88dk
 One symbol from the assembly code - label or constant.
 */
 
-#include "asmpp.h"
-#include "errors.h"
+#include "input.h"
 #include "listfile.h"
 #include "options.h"
 #include "str.h"
@@ -59,10 +58,11 @@ Symbol *Symbol_create(const char *name, long value, sym_type_t type, sym_scope_t
 	self->scope = scope;
 	self->module = module;
 	self->section = section;
-	if (g_c_location.filename) 
-		self->location = g_c_location;
+
+	if (in_location(LocationC).filename) 
+		self->location = in_location(LocationC);
 	else 
-		self->location = g_asm_location;
+		self->location = in_location(LocationAsm);
 
     return self;              						/* pointer to new symbol */
 }

@@ -13,21 +13,21 @@ Error handling.
 // #define X(type,func,params,fmt_args) ...
 
 X(ErrError, error_read_file, const char *filename, 
-	"cannot read file '%s'" _ filename)
+	"cannot read '%s'" _ filename)
 X(ErrError, error_write_file, const char *filename, 
-	"cannot write file '%s'" _ filename)
+	"cannot write '%s'" _ filename)
 X(ErrError, error_include_recursion, const char *filename, 
-	"cannot include file '%s' recursively" _ filename)
+	"cannot include '%s' recursively" _ filename)
 X(ErrError, error_no_src_file, , 
 	"source file missing")
 X(ErrError, error_illegal_option, const char *option, 
 	"illegal option: %s" _ option)
-X(ErrError, error_glob, const char *filename _ const char *error, 
-	"problem with '%s': %s" _ filename _ error)
+X(ErrError, error_glob, const char *filename _ const char *error_msg, 
+	"problem with '%s': %s" _ filename _ error_msg)
 X(ErrError, error_glob_no_files, const char *filename, 
 	"pattern '%s' returned no files" _ filename)
 X(ErrError, error_not_regular_file, const char *filename, 
-	"file '%s' is not a regular file" _ filename)
+	"'%s' is not a regular file" _ filename)
 X(ErrWarn, warn_symbol_different, const char *name _ const char *used, 
 	"symbol '%s' used as '%s'" _ name _ used)
 X(ErrWarn, warn_expr_in_parens, ,
@@ -61,7 +61,7 @@ X(ErrError, error_missing_block, ,
 X(ErrError, error_missing_close_block, , 
 	"{} block not closed")
 X(ErrError, error_unbalanced_struct_at, const char *filename _ int line_nr, 
-	"unbalanced control structure started at file '%s' line %d" _ filename _ line_nr)
+	"unbalanced control structure started at '%s' line %d" _ filename _ line_nr)
 X(ErrError, error_unbalanced_struct, , 
 	"unbalanced control structure")
 X(ErrError, error_not_defined, const char *name, 
@@ -97,15 +97,15 @@ X(ErrError, error_invalid_org, int origin,
 X(ErrError, error_invalid_filler_option, const char *filler_hex, 
 	"invalid filler value: %s" _ filler_hex)
 X(ErrWarn, warn_org_ignored, const char *filename _ const char *section_name, 
-	"ORG ignored at file '%s', section '%s'" _ filename _ section_name)
+	"ORG ignored at '%s', section '%s'" _ filename _ section_name)
 X(ErrError, error_not_obj_file, const char *filename, 
-	"file '%s' not an object file" _ filename)
+	"'%s' not an object file" _ filename)
 X(ErrError, error_obj_file_version, const char *filename _ int found_version _ int expected_version, 
-	"object file '%s' version %d, expected version %d" _ filename _ found_version _ expected_version)
+	"object '%s' version %d, expected version %d" _ filename _ found_version _ expected_version)
 X(ErrError, error_not_lib_file, const char *filename, 
-	"file '%s' not a library file" _ filename)
+	"'%s' not a library file" _ filename)
 X(ErrError, error_lib_file_version, const char *filename _ int found_version _ int expected_version, 
-	"library file '%s' version %d, expected version %d" _ filename _ found_version _ expected_version)
+	"library '%s' version %d, expected version %d" _ filename _ found_version _ expected_version)
 X(ErrWarn, warn_int_range, long value, 
 	"integer '%ld' out of range" _ value)
 X(ErrError, error_int_range, long value, 

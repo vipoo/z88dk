@@ -12,7 +12,6 @@ Handle object file contruction, reading and writing
 #include "class.h"
 #include "codearea.h"
 #include "fileutil.h"
-#include "errors.h"
 #include "libfile.h"
 #include "options.h"
 #include "zobjfile.h"
@@ -206,7 +205,7 @@ static long write_code( FILE *fp )
 	wrote_data = fwrite_module_code(fp, &code_size);
 
 	if (opts.verbose)
-		printf("Module '%s' size: %ld bytes\n", CURRENTMODULE->modname, (long)code_size);
+		printf("Module '%s' size: %d bytes\n", CURRENTMODULE->modname, code_size);
 
 	if (wrote_data)
 		return code_ptr;
@@ -225,7 +224,7 @@ void write_obj_file(const char *source_filename )
 	obj_filename = get_obj_filename( source_filename );
 
 	if (opts.verbose)
-		printf("Writing object file '%s'\n", path_canon(obj_filename));
+		printf("Writing object '%s'\n", path_canon(obj_filename));
 
 	fp = xfopen( obj_filename, "wb" );
 

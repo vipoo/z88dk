@@ -9,7 +9,6 @@ Repository: https://github.com/z88dk/z88dk
 Handle library file contruction, reading and writing
 */
 
-#include "errors.h"
 #include "fileutil.h"
 #include "libfile.h"
 #include "zobjfile.h"

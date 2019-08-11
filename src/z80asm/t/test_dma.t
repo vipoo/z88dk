@@ -23,7 +23,7 @@ z80asm(<<'ASM', "-b", 1, "", <<'ERR');
 	dma.wr0 1
 	ld a,2
 ASM
-Error at file 'test.asm' line 2: illegal identifier
+Error at 'test.asm' line 2: illegal identifier
 ERR
 
 z80asm(<<'ASM', "-b -mz80n", 0, "", "");
@@ -42,7 +42,7 @@ z80asm(<<'ASM', "-b -mz80n", 1, "", <<'ERR');
 	dma.wr0
 	ld a,2
 ASM
-Error at file 'test.asm' line 2: syntax error
+Error at 'test.asm' line 2: syntax error
 ERR
 
 z80asm(<<'ASM', "-b -mz80n", 1, "", <<'ERR');
@@ -51,7 +51,7 @@ z80asm(<<'ASM', "-b -mz80n", 1, "", <<'ERR');
 	dma.wr0 ext
 	ld a,2
 ASM
-Error at file 'test.asm' line 3: expected constant expression
+Error at 'test.asm' line 3: expected constant expression
 ERR
 
 z80asm(<<'ASM', "-b -mz80n", 1, "", <<'ERR');
@@ -59,7 +59,7 @@ z80asm(<<'ASM', "-b -mz80n", 1, "", <<'ERR');
 	dma.wr0 -1
 	ld a,2
 ASM
-Error at file 'test.asm' line 2: integer '-1' out of range
+Error at 'test.asm' line 2: integer '-1' out of range
 ERR
 
 z80asm(<<'ASM', "-b -mz80n", 1, "", <<'ERR');
@@ -67,7 +67,7 @@ z80asm(<<'ASM', "-b -mz80n", 1, "", <<'ERR');
 	dma.wr0 255
 	ld a,2
 ASM
-Error at file 'test.asm' line 2: base register byte '255' is illegal
+Error at 'test.asm' line 2: base register byte '255' is illegal
 ERR
 
 z80asm(<<'ASM', "-b -mz80n", 1, "", <<'ERR');
@@ -78,10 +78,10 @@ z80asm(<<'ASM', "-b -mz80n", 1, "", <<'ERR');
 	dma.wr0 128
 	ld a,2
 ASM
-Error at file 'test.asm' line 2: base register byte '0' is illegal
-Error at file 'test.asm' line 3: base register byte '2' is illegal
-Error at file 'test.asm' line 4: base register byte '3' is illegal
-Error at file 'test.asm' line 5: base register byte '128' is illegal
+Error at 'test.asm' line 2: base register byte '0' is illegal
+Error at 'test.asm' line 3: base register byte '2' is illegal
+Error at 'test.asm' line 4: base register byte '3' is illegal
+Error at 'test.asm' line 5: base register byte '128' is illegal
 ERR
 
 z80asm(<<'ASM', "-b -mz80n", 1, "", <<'ERR');
@@ -89,7 +89,7 @@ z80asm(<<'ASM', "-b -mz80n", 1, "", <<'ERR');
 	dma.wr0 0
 	ld a,2
 ASM
-Error at file 'test.asm' line 2: base register byte '0' is illegal
+Error at 'test.asm' line 2: base register byte '0' is illegal
 ERR
 
 z80asm(<<'ASM', "-b -mz80n", 0, "", "");
@@ -104,7 +104,7 @@ z80asm(<<'ASM', "-b -mz80n", 1, "", <<'ERR');
 	dma.wr0 1, 99
 	ld a,2
 ASM
-Error at file 'test.asm' line 2: DMA too many arguments
+Error at 'test.asm' line 2: DMA too many arguments
 ERR
 
 z80asm(<<'ASM', "-b -mz80n", 1, "", <<'ERR');
@@ -113,14 +113,14 @@ z80asm(<<'ASM', "-b -mz80n", 1, "", <<'ERR');
 			99
 	ld a,2
 ASM
-Error at file 'test.asm' line 3: DMA too many arguments
+Error at 'test.asm' line 3: DMA too many arguments
 ERR
 
 z80asm(<<'ASM', "-b -mz80n", 1, "", <<'ERR');
 	ld a,1
 	dma.wr0 1, 
 ASM
-Error at file 'test.asm' line 2: syntax error
+Error at 'test.asm' line 3: syntax error
 ERR
 
 z80asm(<<'ASM', "-b -mz80n", 1, "", <<'ERR');
@@ -128,7 +128,7 @@ z80asm(<<'ASM', "-b -mz80n", 1, "", <<'ERR');
 lbl:dma.wr0 0x09
 	ld a,2
 ASM
-Error at file 'test.asm' line 2: DMA missing register group member(s)
+Error at 'test.asm' line 2: DMA missing register group member(s)
 ERR
 
 z80asm(<<'ASM', "-b -mz80n", 0, "", "");
@@ -224,13 +224,13 @@ z80asm(<<'ASM', "-b -mz80n", 1, "", <<'ERR');
 	dma.wr1 128
 	ld a,2
 ASM
-Error at file 'test.asm' line 2: base register byte '1' is illegal
-Error at file 'test.asm' line 3: base register byte '2' is illegal
-Error at file 'test.asm' line 4: base register byte '3' is illegal
-Error at file 'test.asm' line 5: base register byte '5' is illegal
-Error at file 'test.asm' line 6: base register byte '6' is illegal
-Error at file 'test.asm' line 7: base register byte '7' is illegal
-Error at file 'test.asm' line 8: base register byte '128' is illegal
+Error at 'test.asm' line 2: base register byte '1' is illegal
+Error at 'test.asm' line 3: base register byte '2' is illegal
+Error at 'test.asm' line 4: base register byte '3' is illegal
+Error at 'test.asm' line 5: base register byte '5' is illegal
+Error at 'test.asm' line 6: base register byte '6' is illegal
+Error at 'test.asm' line 7: base register byte '7' is illegal
+Error at 'test.asm' line 8: base register byte '128' is illegal
 ERR
 
 z80asm(<<'ASM', "-b -mz80n", 0, "", "");
@@ -248,7 +248,7 @@ z80asm(<<'ASM', "-b -mz80n", 1, "", <<'ERR');
 	dma.wr1 0x44
 	ld a,2
 ASM
-Error at file 'test.asm' line 2: DMA missing register group member(s)
+Error at 'test.asm' line 2: DMA missing register group member(s)
 ERR
 
 z80asm(<<'ASM', "-b -mz80n", 1, "", <<'ERR');
@@ -257,7 +257,7 @@ z80asm(<<'ASM', "-b -mz80n", 1, "", <<'ERR');
 	dma.wr1 0x44, ext
 	ld a,2
 ASM
-Error at file 'test.asm' line 3: expected constant expression
+Error at 'test.asm' line 3: expected constant expression
 ERR
 
 z80asm(<<'ASM', "-b -mz80n", 1, "", <<'ERR');
@@ -268,10 +268,10 @@ z80asm(<<'ASM', "-b -mz80n", 1, "", <<'ERR');
 	dma.wr1 0x44, 0x03
 	ld a,2
 ASM
-Error at file 'test.asm' line 2: port A timing is illegal
-Error at file 'test.asm' line 3: port A timing is illegal
-Error at file 'test.asm' line 4: port A timing is illegal
-Error at file 'test.asm' line 5: port A timing is illegal
+Error at 'test.asm' line 2: port A timing is illegal
+Error at 'test.asm' line 3: port A timing is illegal
+Error at 'test.asm' line 4: port A timing is illegal
+Error at 'test.asm' line 5: port A timing is illegal
 ERR
 
 z80asm(<<'ASM', "-b -mz80n", 0, "", "");
@@ -297,10 +297,10 @@ z80asm(<<'ASM', "-b -mz80n", 0, "", <<'WARN');
 	dma.wr1 0x44, 0x04
 	ld a,2
 ASM
-Warning at file 'test.asm' line 2: DMA does not support half cycle timing
-Warning at file 'test.asm' line 3: DMA does not support half cycle timing
-Warning at file 'test.asm' line 4: DMA does not support half cycle timing
-Warning at file 'test.asm' line 5: DMA does not support half cycle timing
+Warning at 'test.asm' line 2: DMA does not support half cycle timing
+Warning at 'test.asm' line 3: DMA does not support half cycle timing
+Warning at 'test.asm' line 4: DMA does not support half cycle timing
+Warning at 'test.asm' line 5: DMA does not support half cycle timing
 WARN
 check_bin_file("test.bin", pack("C*", 
 				0x3E, 1, 
@@ -326,14 +326,14 @@ z80asm(<<'ASM', "-b -mz80n", 1, "", <<'ERR');
 	dma.wr2 128
 	ld a,2
 ASM
-Error at file 'test.asm' line 2: base register byte '1' is illegal
-Error at file 'test.asm' line 3: base register byte '2' is illegal
-Error at file 'test.asm' line 4: base register byte '3' is illegal
-Error at file 'test.asm' line 5: base register byte '4' is illegal
-Error at file 'test.asm' line 6: base register byte '5' is illegal
-Error at file 'test.asm' line 7: base register byte '6' is illegal
-Error at file 'test.asm' line 8: base register byte '7' is illegal
-Error at file 'test.asm' line 9: base register byte '128' is illegal
+Error at 'test.asm' line 2: base register byte '1' is illegal
+Error at 'test.asm' line 3: base register byte '2' is illegal
+Error at 'test.asm' line 4: base register byte '3' is illegal
+Error at 'test.asm' line 5: base register byte '4' is illegal
+Error at 'test.asm' line 6: base register byte '5' is illegal
+Error at 'test.asm' line 7: base register byte '6' is illegal
+Error at 'test.asm' line 8: base register byte '7' is illegal
+Error at 'test.asm' line 9: base register byte '128' is illegal
 ERR
 
 z80asm(<<'ASM', "-b -mz80n", 0, "", "");
@@ -351,7 +351,7 @@ z80asm(<<'ASM', "-b -mz80n", 1, "", <<'ERR');
 	dma.wr2 0x40
 	ld a,2
 ASM
-Error at file 'test.asm' line 2: DMA missing register group member(s)
+Error at 'test.asm' line 2: DMA missing register group member(s)
 ERR
 
 z80asm(<<'ASM', "-b -mz80n", 1, "", <<'ERR');
@@ -360,7 +360,7 @@ z80asm(<<'ASM', "-b -mz80n", 1, "", <<'ERR');
 	dma.wr2 0x40, ext
 	ld a,2
 ASM
-Error at file 'test.asm' line 3: expected constant expression
+Error at 'test.asm' line 3: expected constant expression
 ERR
 
 z80asm(<<'ASM', "-b -mz80n", 1, "", <<'ERR');
@@ -369,8 +369,8 @@ z80asm(<<'ASM', "-b -mz80n", 1, "", <<'ERR');
 	dma.wr2 0x40, 0x03
 	ld a,2
 ASM
-Error at file 'test.asm' line 2: port B timing is illegal
-Error at file 'test.asm' line 3: port B timing is illegal
+Error at 'test.asm' line 2: port B timing is illegal
+Error at 'test.asm' line 3: port B timing is illegal
 ERR
 
 z80asm(<<'ASM', "-b -mz80n", 0, "", "");
@@ -395,10 +395,10 @@ z80asm(<<'ASM', "-b -mz80n", 0, "", <<'WARN');
 	dma.wr2 0x40, 0x04
 	ld a,2
 ASM
-Warning at file 'test.asm' line 2: DMA does not support half cycle timing
-Warning at file 'test.asm' line 3: DMA does not support half cycle timing
-Warning at file 'test.asm' line 4: DMA does not support half cycle timing
-Warning at file 'test.asm' line 5: DMA does not support half cycle timing
+Warning at 'test.asm' line 2: DMA does not support half cycle timing
+Warning at 'test.asm' line 3: DMA does not support half cycle timing
+Warning at 'test.asm' line 4: DMA does not support half cycle timing
+Warning at 'test.asm' line 5: DMA does not support half cycle timing
 WARN
 check_bin_file("test.bin", pack("C*", 
 				0x3E, 1, 
@@ -413,7 +413,7 @@ z80asm(<<'ASM', "-b -mz80n", 1, "", <<'ERR');
 	dma.wr2 0x40, 0x20
 	ld a,2
 ASM
-Error at file 'test.asm' line 2: DMA missing register group member(s)
+Error at 'test.asm' line 2: DMA missing register group member(s)
 ERR
 
 z80asm(<<'ASM', "-b -mz80n", 0, "", "");
@@ -437,9 +437,9 @@ z80asm(<<'ASM', "-b -mz80n", 1, "", <<'ERR');
 	dma.wr2 3
 	ld a,2
 ASM
-Error at file 'test.asm' line 2: base register byte '1' is illegal
-Error at file 'test.asm' line 3: base register byte '2' is illegal
-Error at file 'test.asm' line 4: base register byte '3' is illegal
+Error at 'test.asm' line 2: base register byte '1' is illegal
+Error at 'test.asm' line 3: base register byte '2' is illegal
+Error at 'test.asm' line 4: base register byte '3' is illegal
 ERR
 
 z80asm(<<'ASM', "-b -mz80n", 0, "", "");
@@ -460,9 +460,9 @@ z80asm(<<'ASM', "-b -mz80n", 0, "", <<'WARN');
 	dma.wr3 0b01000000
 	ld a,2
 ASM
-Warning at file 'test.asm' line 2: DMA does not support some features
-Warning at file 'test.asm' line 3: DMA does not support some features
-Warning at file 'test.asm' line 4: DMA does not support some features
+Warning at 'test.asm' line 2: DMA does not support some features
+Warning at 'test.asm' line 3: DMA does not support some features
+Warning at 'test.asm' line 4: DMA does not support some features
 WARN
 check_bin_file("test.bin", pack("C*", 
 				0x3E, 1, 
@@ -476,7 +476,7 @@ z80asm(<<'ASM', "-b -mz80n", 1, "", <<'ERR');
 	dma.wr3 0x88
 	ld a,2
 ASM
-Error at file 'test.asm' line 2: DMA missing register group member(s)
+Error at 'test.asm' line 2: DMA missing register group member(s)
 ERR
 
 z80asm(<<'ASM', "-b -mz80n", 0, "", "");
@@ -495,7 +495,7 @@ z80asm(<<'ASM', "-b -mz80n", 1, "", <<'ERR');
 	dma.wr3 0x98, 23
 	ld a,2
 ASM
-Error at file 'test.asm' line 2: DMA missing register group member(s)
+Error at 'test.asm' line 2: DMA missing register group member(s)
 ERR
 
 z80asm(<<'ASM', "-b -mz80n", 0, "", "");
@@ -519,7 +519,7 @@ z80asm(<<'ASM', "-b -mz80n", 1, "", <<'ERR');
 	dma.wr4 2
 	ld a,2
 ASM
-Error at file 'test.asm' line 2: base register byte '2' is illegal
+Error at 'test.asm' line 2: base register byte '2' is illegal
 ERR
 
 z80asm(<<'ASM', "-b -mz80n", 1, "", <<'ERR');
@@ -527,7 +527,7 @@ z80asm(<<'ASM', "-b -mz80n", 1, "", <<'ERR');
 	dma.wr4 0x11
 	ld a,2
 ASM
-Error at file 'test.asm' line 2: DMA does not support interrupts
+Error at 'test.asm' line 2: DMA does not support interrupts
 ERR
 
 z80asm(<<'ASM', "-b -mz80n", 1, "", <<'ERR');
@@ -536,8 +536,8 @@ z80asm(<<'ASM', "-b -mz80n", 1, "", <<'ERR');
 	dma.wr4 0x61
 	ld a,2
 ASM
-Error at file 'test.asm' line 2: DMA mode is illegal
-Error at file 'test.asm' line 3: DMA mode is illegal
+Error at 'test.asm' line 2: DMA mode is illegal
+Error at 'test.asm' line 3: DMA mode is illegal
 ERR
 
 z80asm(<<'ASM', "-b -mz80n", 0, "", "");
@@ -555,7 +555,7 @@ z80asm(<<'ASM', "-b -mz80n", 1, "", <<'ERR');
 	dma.wr4 0x44
 	ld a,2
 ASM
-Error at file 'test.asm' line 2: DMA missing register group member(s)
+Error at 'test.asm' line 2: DMA missing register group member(s)
 ERR
 
 z80asm(<<'ASM', "-b -mz80n", 1, "", <<'ERR');
@@ -563,7 +563,7 @@ z80asm(<<'ASM', "-b -mz80n", 1, "", <<'ERR');
 	dma.wr4 0x48
 	ld a,2
 ASM
-Error at file 'test.asm' line 2: DMA missing register group member(s)
+Error at 'test.asm' line 2: DMA missing register group member(s)
 ERR
 
 z80asm(<<'ASM', "-b -mz80n", 0, "", "");
@@ -591,7 +591,7 @@ z80asm(<<'ASM', "-b -mz80n", 1, "", <<'ERR');
 	dma.wr4 0x4C
 	ld a,2
 ASM
-Error at file 'test.asm' line 2: DMA missing register group member(s)
+Error at 'test.asm' line 2: DMA missing register group member(s)
 ERR
 
 z80asm(<<'ASM', "-b -mz80n", 0, "", "");
@@ -616,9 +616,9 @@ z80asm(<<'ASM', "-b -mz80n", 1, "", <<'ERR');
 	dma.wr5 0x40
 	ld a,2
 ASM
-Error at file 'test.asm' line 2: base register byte '1' is illegal
-Error at file 'test.asm' line 3: base register byte '4' is illegal
-Error at file 'test.asm' line 4: base register byte '64' is illegal
+Error at 'test.asm' line 2: base register byte '1' is illegal
+Error at 'test.asm' line 3: base register byte '4' is illegal
+Error at 'test.asm' line 4: base register byte '64' is illegal
 ERR
 
 z80asm(<<'ASM', "-b -mz80n", 0, "", <<'WARN');
@@ -627,7 +627,7 @@ z80asm(<<'ASM', "-b -mz80n", 0, "", <<'WARN');
 	dma.wr5 0x08
 	ld a,2
 ASM
-Warning at file 'test.asm' line 3: DMA does not support ready signals
+Warning at 'test.asm' line 3: DMA does not support ready signals
 WARN
 check_bin_file("test.bin", pack("C*", 
 				0x3E, 1, 
@@ -1123,486 +1123,486 @@ z80asm(<<'ASM', "-b -mz80n", 1, "", <<'ERR');
 	dma.cmd 0xFF
 	ld a,2
 ASM
-Error at file 'test.asm' line 2: illegal DMA command
-Error at file 'test.asm' line 3: illegal DMA command
-Error at file 'test.asm' line 4: illegal DMA command
-Error at file 'test.asm' line 5: illegal DMA command
-Error at file 'test.asm' line 6: illegal DMA command
-Error at file 'test.asm' line 7: illegal DMA command
-Error at file 'test.asm' line 8: illegal DMA command
-Error at file 'test.asm' line 9: illegal DMA command
-Error at file 'test.asm' line 10: illegal DMA command
-Error at file 'test.asm' line 11: illegal DMA command
-Error at file 'test.asm' line 12: illegal DMA command
-Error at file 'test.asm' line 13: illegal DMA command
-Error at file 'test.asm' line 14: illegal DMA command
-Error at file 'test.asm' line 15: illegal DMA command
-Error at file 'test.asm' line 16: illegal DMA command
-Error at file 'test.asm' line 17: illegal DMA command
-Error at file 'test.asm' line 18: illegal DMA command
-Error at file 'test.asm' line 19: illegal DMA command
-Error at file 'test.asm' line 20: illegal DMA command
-Error at file 'test.asm' line 21: illegal DMA command
-Error at file 'test.asm' line 22: illegal DMA command
-Error at file 'test.asm' line 23: illegal DMA command
-Error at file 'test.asm' line 24: illegal DMA command
-Error at file 'test.asm' line 25: illegal DMA command
-Error at file 'test.asm' line 26: illegal DMA command
-Error at file 'test.asm' line 27: illegal DMA command
-Error at file 'test.asm' line 28: illegal DMA command
-Error at file 'test.asm' line 29: illegal DMA command
-Error at file 'test.asm' line 30: illegal DMA command
-Error at file 'test.asm' line 31: illegal DMA command
-Error at file 'test.asm' line 32: illegal DMA command
-Error at file 'test.asm' line 33: illegal DMA command
-Error at file 'test.asm' line 34: illegal DMA command
-Error at file 'test.asm' line 35: illegal DMA command
-Error at file 'test.asm' line 36: illegal DMA command
-Error at file 'test.asm' line 37: illegal DMA command
-Error at file 'test.asm' line 38: illegal DMA command
-Error at file 'test.asm' line 39: illegal DMA command
-Error at file 'test.asm' line 40: illegal DMA command
-Error at file 'test.asm' line 41: illegal DMA command
-Error at file 'test.asm' line 42: illegal DMA command
-Error at file 'test.asm' line 43: illegal DMA command
-Error at file 'test.asm' line 44: illegal DMA command
-Error at file 'test.asm' line 45: illegal DMA command
-Error at file 'test.asm' line 46: illegal DMA command
-Error at file 'test.asm' line 47: illegal DMA command
-Error at file 'test.asm' line 48: illegal DMA command
-Error at file 'test.asm' line 49: illegal DMA command
-Error at file 'test.asm' line 50: illegal DMA command
-Error at file 'test.asm' line 51: illegal DMA command
-Error at file 'test.asm' line 52: illegal DMA command
-Error at file 'test.asm' line 53: illegal DMA command
-Error at file 'test.asm' line 54: illegal DMA command
-Error at file 'test.asm' line 55: illegal DMA command
-Error at file 'test.asm' line 56: illegal DMA command
-Error at file 'test.asm' line 57: illegal DMA command
-Error at file 'test.asm' line 58: illegal DMA command
-Error at file 'test.asm' line 59: illegal DMA command
-Error at file 'test.asm' line 60: illegal DMA command
-Error at file 'test.asm' line 61: illegal DMA command
-Error at file 'test.asm' line 62: illegal DMA command
-Error at file 'test.asm' line 63: illegal DMA command
-Error at file 'test.asm' line 64: illegal DMA command
-Error at file 'test.asm' line 65: illegal DMA command
-Error at file 'test.asm' line 66: illegal DMA command
-Error at file 'test.asm' line 67: illegal DMA command
-Error at file 'test.asm' line 68: illegal DMA command
-Error at file 'test.asm' line 69: illegal DMA command
-Error at file 'test.asm' line 70: illegal DMA command
-Error at file 'test.asm' line 71: illegal DMA command
-Error at file 'test.asm' line 72: illegal DMA command
-Error at file 'test.asm' line 73: illegal DMA command
-Error at file 'test.asm' line 74: illegal DMA command
-Error at file 'test.asm' line 75: illegal DMA command
-Error at file 'test.asm' line 76: illegal DMA command
-Error at file 'test.asm' line 77: illegal DMA command
-Error at file 'test.asm' line 78: illegal DMA command
-Error at file 'test.asm' line 79: illegal DMA command
-Error at file 'test.asm' line 80: illegal DMA command
-Error at file 'test.asm' line 81: illegal DMA command
-Error at file 'test.asm' line 82: illegal DMA command
-Error at file 'test.asm' line 83: illegal DMA command
-Error at file 'test.asm' line 84: illegal DMA command
-Error at file 'test.asm' line 85: illegal DMA command
-Error at file 'test.asm' line 86: illegal DMA command
-Error at file 'test.asm' line 87: illegal DMA command
-Error at file 'test.asm' line 88: illegal DMA command
-Error at file 'test.asm' line 89: illegal DMA command
-Error at file 'test.asm' line 90: illegal DMA command
-Error at file 'test.asm' line 91: illegal DMA command
-Error at file 'test.asm' line 92: illegal DMA command
-Error at file 'test.asm' line 93: illegal DMA command
-Error at file 'test.asm' line 94: illegal DMA command
-Error at file 'test.asm' line 95: illegal DMA command
-Error at file 'test.asm' line 96: illegal DMA command
-Error at file 'test.asm' line 97: illegal DMA command
-Error at file 'test.asm' line 98: illegal DMA command
-Error at file 'test.asm' line 99: illegal DMA command
-Error at file 'test.asm' line 100: illegal DMA command
-Error at file 'test.asm' line 101: illegal DMA command
-Error at file 'test.asm' line 102: illegal DMA command
-Error at file 'test.asm' line 103: illegal DMA command
-Error at file 'test.asm' line 104: illegal DMA command
-Error at file 'test.asm' line 105: illegal DMA command
-Error at file 'test.asm' line 106: illegal DMA command
-Error at file 'test.asm' line 107: illegal DMA command
-Error at file 'test.asm' line 108: illegal DMA command
-Error at file 'test.asm' line 109: illegal DMA command
-Error at file 'test.asm' line 110: illegal DMA command
-Error at file 'test.asm' line 111: illegal DMA command
-Error at file 'test.asm' line 112: illegal DMA command
-Error at file 'test.asm' line 113: illegal DMA command
-Error at file 'test.asm' line 114: illegal DMA command
-Error at file 'test.asm' line 115: illegal DMA command
-Error at file 'test.asm' line 116: illegal DMA command
-Error at file 'test.asm' line 117: illegal DMA command
-Error at file 'test.asm' line 118: illegal DMA command
-Error at file 'test.asm' line 119: illegal DMA command
-Error at file 'test.asm' line 120: illegal DMA command
-Error at file 'test.asm' line 121: illegal DMA command
-Error at file 'test.asm' line 122: illegal DMA command
-Error at file 'test.asm' line 123: illegal DMA command
-Error at file 'test.asm' line 124: illegal DMA command
-Error at file 'test.asm' line 125: illegal DMA command
-Error at file 'test.asm' line 126: illegal DMA command
-Error at file 'test.asm' line 127: illegal DMA command
-Error at file 'test.asm' line 128: illegal DMA command
-Error at file 'test.asm' line 129: illegal DMA command
-Error at file 'test.asm' line 130: illegal DMA command
-Error at file 'test.asm' line 131: illegal DMA command
-Error at file 'test.asm' line 132: illegal DMA command
-Error at file 'test.asm' line 133: illegal DMA command
-Error at file 'test.asm' line 134: illegal DMA command
-Error at file 'test.asm' line 135: illegal DMA command
-Error at file 'test.asm' line 136: illegal DMA command
-Error at file 'test.asm' line 137: illegal DMA command
-Error at file 'test.asm' line 138: illegal DMA command
-Error at file 'test.asm' line 139: illegal DMA command
-Error at file 'test.asm' line 140: illegal DMA command
-Error at file 'test.asm' line 141: illegal DMA command
-Error at file 'test.asm' line 142: illegal DMA command
-Error at file 'test.asm' line 143: illegal DMA command
-Error at file 'test.asm' line 144: illegal DMA command
-Error at file 'test.asm' line 145: illegal DMA command
-Error at file 'test.asm' line 146: illegal DMA command
-Error at file 'test.asm' line 147: illegal DMA command
-Error at file 'test.asm' line 148: illegal DMA command
-Error at file 'test.asm' line 149: illegal DMA command
-Error at file 'test.asm' line 150: illegal DMA command
-Error at file 'test.asm' line 151: illegal DMA command
-Error at file 'test.asm' line 152: illegal DMA command
-Error at file 'test.asm' line 153: illegal DMA command
-Error at file 'test.asm' line 154: illegal DMA command
-Error at file 'test.asm' line 155: illegal DMA command
-Error at file 'test.asm' line 156: illegal DMA command
-Error at file 'test.asm' line 157: illegal DMA command
-Error at file 'test.asm' line 158: illegal DMA command
-Error at file 'test.asm' line 159: illegal DMA command
-Error at file 'test.asm' line 160: illegal DMA command
-Error at file 'test.asm' line 161: illegal DMA command
-Error at file 'test.asm' line 162: illegal DMA command
-Error at file 'test.asm' line 163: illegal DMA command
-Error at file 'test.asm' line 164: illegal DMA command
-Error at file 'test.asm' line 165: illegal DMA command
-Error at file 'test.asm' line 166: illegal DMA command
-Error at file 'test.asm' line 167: illegal DMA command
-Error at file 'test.asm' line 168: illegal DMA command
-Error at file 'test.asm' line 169: illegal DMA command
-Error at file 'test.asm' line 170: illegal DMA command
-Error at file 'test.asm' line 171: illegal DMA command
-Error at file 'test.asm' line 172: illegal DMA command
-Error at file 'test.asm' line 173: illegal DMA command
-Error at file 'test.asm' line 174: illegal DMA command
-Error at file 'test.asm' line 175: illegal DMA command
-Error at file 'test.asm' line 176: illegal DMA command
-Error at file 'test.asm' line 177: illegal DMA command
-Error at file 'test.asm' line 178: illegal DMA command
-Error at file 'test.asm' line 179: illegal DMA command
-Error at file 'test.asm' line 180: illegal DMA command
-Error at file 'test.asm' line 181: illegal DMA command
-Error at file 'test.asm' line 182: illegal DMA command
-Error at file 'test.asm' line 183: illegal DMA command
-Error at file 'test.asm' line 184: illegal DMA command
-Error at file 'test.asm' line 185: illegal DMA command
-Error at file 'test.asm' line 186: illegal DMA command
-Error at file 'test.asm' line 187: illegal DMA command
-Error at file 'test.asm' line 188: illegal DMA command
-Error at file 'test.asm' line 189: illegal DMA command
-Error at file 'test.asm' line 190: illegal DMA command
-Error at file 'test.asm' line 191: illegal DMA command
-Error at file 'test.asm' line 192: illegal DMA command
-Error at file 'test.asm' line 193: illegal DMA command
-Error at file 'test.asm' line 194: illegal DMA command
-Error at file 'test.asm' line 195: illegal DMA command
-Error at file 'test.asm' line 196: illegal DMA command
-Error at file 'test.asm' line 197: illegal DMA command
-Error at file 'test.asm' line 198: illegal DMA command
-Error at file 'test.asm' line 199: illegal DMA command
-Error at file 'test.asm' line 200: illegal DMA command
-Error at file 'test.asm' line 201: illegal DMA command
-Error at file 'test.asm' line 202: illegal DMA command
-Error at file 'test.asm' line 203: illegal DMA command
-Error at file 'test.asm' line 204: illegal DMA command
-Error at file 'test.asm' line 205: illegal DMA command
-Error at file 'test.asm' line 206: illegal DMA command
-Error at file 'test.asm' line 207: illegal DMA command
-Error at file 'test.asm' line 208: illegal DMA command
-Error at file 'test.asm' line 209: illegal DMA command
-Error at file 'test.asm' line 210: illegal DMA command
-Error at file 'test.asm' line 211: illegal DMA command
-Error at file 'test.asm' line 212: illegal DMA command
-Error at file 'test.asm' line 213: illegal DMA command
-Error at file 'test.asm' line 214: illegal DMA command
-Error at file 'test.asm' line 215: illegal DMA command
-Error at file 'test.asm' line 216: illegal DMA command
-Error at file 'test.asm' line 217: illegal DMA command
-Error at file 'test.asm' line 218: illegal DMA command
-Error at file 'test.asm' line 219: illegal DMA command
-Error at file 'test.asm' line 220: illegal DMA command
-Error at file 'test.asm' line 221: illegal DMA command
-Error at file 'test.asm' line 222: illegal DMA command
-Error at file 'test.asm' line 223: illegal DMA command
-Error at file 'test.asm' line 224: illegal DMA command
-Error at file 'test.asm' line 225: illegal DMA command
-Error at file 'test.asm' line 226: illegal DMA command
-Error at file 'test.asm' line 227: illegal DMA command
-Error at file 'test.asm' line 228: illegal DMA command
-Error at file 'test.asm' line 229: illegal DMA command
-Error at file 'test.asm' line 230: illegal DMA command
-Error at file 'test.asm' line 231: illegal DMA command
-Error at file 'test.asm' line 232: illegal DMA command
-Error at file 'test.asm' line 233: illegal DMA command
-Error at file 'test.asm' line 234: illegal DMA command
-Error at file 'test.asm' line 235: illegal DMA command
-Error at file 'test.asm' line 236: illegal DMA command
-Error at file 'test.asm' line 237: illegal DMA command
-Error at file 'test.asm' line 238: illegal DMA command
-Error at file 'test.asm' line 239: illegal DMA command
-Error at file 'test.asm' line 240: illegal DMA command
-Error at file 'test.asm' line 241: illegal DMA command
-Error at file 'test.asm' line 242: illegal DMA command
-Error at file 'test.asm' line 243: illegal DMA command
-Error at file 'test.asm' line 244: illegal DMA command
-Error at file 'test.asm' line 245: illegal DMA command
-Error at file 'test.asm' line 246: illegal DMA command
-Error at file 'test.asm' line 247: illegal DMA command
-Error at file 'test.asm' line 248: illegal DMA command
-Error at file 'test.asm' line 249: illegal DMA command
-Error at file 'test.asm' line 250: illegal DMA command
-Error at file 'test.asm' line 251: illegal DMA command
-Error at file 'test.asm' line 252: illegal DMA command
-Error at file 'test.asm' line 253: illegal DMA command
-Error at file 'test.asm' line 254: illegal DMA command
-Error at file 'test.asm' line 255: illegal DMA command
-Error at file 'test.asm' line 256: illegal DMA command
-Error at file 'test.asm' line 257: illegal DMA command
-Error at file 'test.asm' line 258: illegal DMA command
-Error at file 'test.asm' line 259: illegal DMA command
-Error at file 'test.asm' line 260: illegal DMA command
-Error at file 'test.asm' line 261: illegal DMA command
-Error at file 'test.asm' line 262: illegal DMA command
-Error at file 'test.asm' line 263: illegal DMA command
-Error at file 'test.asm' line 264: illegal DMA command
-Error at file 'test.asm' line 265: illegal DMA command
-Error at file 'test.asm' line 266: illegal DMA command
-Error at file 'test.asm' line 267: illegal DMA command
-Error at file 'test.asm' line 268: illegal DMA command
-Error at file 'test.asm' line 269: illegal DMA command
-Error at file 'test.asm' line 270: illegal DMA command
-Error at file 'test.asm' line 271: illegal DMA command
-Error at file 'test.asm' line 272: illegal DMA command
-Error at file 'test.asm' line 273: illegal DMA command
-Error at file 'test.asm' line 274: illegal DMA command
-Error at file 'test.asm' line 275: illegal DMA command
-Error at file 'test.asm' line 276: illegal DMA command
-Error at file 'test.asm' line 277: illegal DMA command
-Error at file 'test.asm' line 278: illegal DMA command
-Error at file 'test.asm' line 279: illegal DMA command
-Error at file 'test.asm' line 280: illegal DMA command
-Error at file 'test.asm' line 281: illegal DMA command
-Error at file 'test.asm' line 282: illegal DMA command
-Error at file 'test.asm' line 283: illegal DMA command
-Error at file 'test.asm' line 284: illegal DMA command
-Error at file 'test.asm' line 285: illegal DMA command
-Error at file 'test.asm' line 286: illegal DMA command
-Error at file 'test.asm' line 287: illegal DMA command
-Error at file 'test.asm' line 288: illegal DMA command
-Error at file 'test.asm' line 289: illegal DMA command
-Error at file 'test.asm' line 290: illegal DMA command
-Error at file 'test.asm' line 291: illegal DMA command
-Error at file 'test.asm' line 292: illegal DMA command
-Error at file 'test.asm' line 293: illegal DMA command
-Error at file 'test.asm' line 294: illegal DMA command
-Error at file 'test.asm' line 295: illegal DMA command
-Error at file 'test.asm' line 296: illegal DMA command
-Error at file 'test.asm' line 297: illegal DMA command
-Error at file 'test.asm' line 298: illegal DMA command
-Error at file 'test.asm' line 299: illegal DMA command
-Error at file 'test.asm' line 300: illegal DMA command
-Error at file 'test.asm' line 301: illegal DMA command
-Error at file 'test.asm' line 302: illegal DMA command
-Error at file 'test.asm' line 303: illegal DMA command
-Error at file 'test.asm' line 304: illegal DMA command
-Error at file 'test.asm' line 305: illegal DMA command
-Error at file 'test.asm' line 306: illegal DMA command
-Error at file 'test.asm' line 307: illegal DMA command
-Error at file 'test.asm' line 308: illegal DMA command
-Error at file 'test.asm' line 309: illegal DMA command
-Error at file 'test.asm' line 310: illegal DMA command
-Error at file 'test.asm' line 311: illegal DMA command
-Error at file 'test.asm' line 312: illegal DMA command
-Error at file 'test.asm' line 313: illegal DMA command
-Error at file 'test.asm' line 314: illegal DMA command
-Error at file 'test.asm' line 315: illegal DMA command
-Error at file 'test.asm' line 316: illegal DMA command
-Error at file 'test.asm' line 317: illegal DMA command
-Error at file 'test.asm' line 318: illegal DMA command
-Error at file 'test.asm' line 319: illegal DMA command
-Error at file 'test.asm' line 320: illegal DMA command
-Error at file 'test.asm' line 321: illegal DMA command
-Error at file 'test.asm' line 322: illegal DMA command
-Error at file 'test.asm' line 323: illegal DMA command
-Error at file 'test.asm' line 324: illegal DMA command
-Error at file 'test.asm' line 325: illegal DMA command
-Error at file 'test.asm' line 326: illegal DMA command
-Error at file 'test.asm' line 327: illegal DMA command
-Error at file 'test.asm' line 328: illegal DMA command
-Error at file 'test.asm' line 329: illegal DMA command
-Error at file 'test.asm' line 330: illegal DMA command
-Error at file 'test.asm' line 331: illegal DMA command
-Error at file 'test.asm' line 332: illegal DMA command
-Error at file 'test.asm' line 333: illegal DMA command
-Error at file 'test.asm' line 334: illegal DMA command
-Error at file 'test.asm' line 335: illegal DMA command
-Error at file 'test.asm' line 336: illegal DMA command
-Error at file 'test.asm' line 337: illegal DMA command
-Error at file 'test.asm' line 338: illegal DMA command
-Error at file 'test.asm' line 339: illegal DMA command
-Error at file 'test.asm' line 340: illegal DMA command
-Error at file 'test.asm' line 341: illegal DMA command
-Error at file 'test.asm' line 342: illegal DMA command
-Error at file 'test.asm' line 343: illegal DMA command
-Error at file 'test.asm' line 344: illegal DMA command
-Error at file 'test.asm' line 345: illegal DMA command
-Error at file 'test.asm' line 346: illegal DMA command
-Error at file 'test.asm' line 347: illegal DMA command
-Error at file 'test.asm' line 348: illegal DMA command
-Error at file 'test.asm' line 349: illegal DMA command
-Error at file 'test.asm' line 350: illegal DMA command
-Error at file 'test.asm' line 351: illegal DMA command
-Error at file 'test.asm' line 352: illegal DMA command
-Error at file 'test.asm' line 353: illegal DMA command
-Error at file 'test.asm' line 354: illegal DMA command
-Error at file 'test.asm' line 355: illegal DMA command
-Error at file 'test.asm' line 356: illegal DMA command
-Error at file 'test.asm' line 357: illegal DMA command
-Error at file 'test.asm' line 358: illegal DMA command
-Error at file 'test.asm' line 359: illegal DMA command
-Error at file 'test.asm' line 360: illegal DMA command
-Error at file 'test.asm' line 361: illegal DMA command
-Error at file 'test.asm' line 362: illegal DMA command
-Error at file 'test.asm' line 363: illegal DMA command
-Error at file 'test.asm' line 364: illegal DMA command
-Error at file 'test.asm' line 365: illegal DMA command
-Error at file 'test.asm' line 366: illegal DMA command
-Error at file 'test.asm' line 367: illegal DMA command
-Error at file 'test.asm' line 368: illegal DMA command
-Error at file 'test.asm' line 369: illegal DMA command
-Error at file 'test.asm' line 370: illegal DMA command
-Error at file 'test.asm' line 371: illegal DMA command
-Error at file 'test.asm' line 372: illegal DMA command
-Error at file 'test.asm' line 373: illegal DMA command
-Error at file 'test.asm' line 374: illegal DMA command
-Error at file 'test.asm' line 375: illegal DMA command
-Error at file 'test.asm' line 376: illegal DMA command
-Error at file 'test.asm' line 377: illegal DMA command
-Error at file 'test.asm' line 378: illegal DMA command
-Error at file 'test.asm' line 379: illegal DMA command
-Error at file 'test.asm' line 380: illegal DMA command
-Error at file 'test.asm' line 381: illegal DMA command
-Error at file 'test.asm' line 382: illegal DMA command
-Error at file 'test.asm' line 383: illegal DMA command
-Error at file 'test.asm' line 384: illegal DMA command
-Error at file 'test.asm' line 385: illegal DMA command
-Error at file 'test.asm' line 386: illegal DMA command
-Error at file 'test.asm' line 387: illegal DMA command
-Error at file 'test.asm' line 388: illegal DMA command
-Error at file 'test.asm' line 389: illegal DMA command
-Error at file 'test.asm' line 390: illegal DMA command
-Error at file 'test.asm' line 391: illegal DMA command
-Error at file 'test.asm' line 392: illegal DMA command
-Error at file 'test.asm' line 393: illegal DMA command
-Error at file 'test.asm' line 394: illegal DMA command
-Error at file 'test.asm' line 395: illegal DMA command
-Error at file 'test.asm' line 396: illegal DMA command
-Error at file 'test.asm' line 397: illegal DMA command
-Error at file 'test.asm' line 398: illegal DMA command
-Error at file 'test.asm' line 399: illegal DMA command
-Error at file 'test.asm' line 400: illegal DMA command
-Error at file 'test.asm' line 401: illegal DMA command
-Error at file 'test.asm' line 402: illegal DMA command
-Error at file 'test.asm' line 403: illegal DMA command
-Error at file 'test.asm' line 404: illegal DMA command
-Error at file 'test.asm' line 405: illegal DMA command
-Error at file 'test.asm' line 406: illegal DMA command
-Error at file 'test.asm' line 407: illegal DMA command
-Error at file 'test.asm' line 408: illegal DMA command
-Error at file 'test.asm' line 409: illegal DMA command
-Error at file 'test.asm' line 410: illegal DMA command
-Error at file 'test.asm' line 411: illegal DMA command
-Error at file 'test.asm' line 412: illegal DMA command
-Error at file 'test.asm' line 413: illegal DMA command
-Error at file 'test.asm' line 414: illegal DMA command
-Error at file 'test.asm' line 415: illegal DMA command
-Error at file 'test.asm' line 416: illegal DMA command
-Error at file 'test.asm' line 417: illegal DMA command
-Error at file 'test.asm' line 418: illegal DMA command
-Error at file 'test.asm' line 419: illegal DMA command
-Error at file 'test.asm' line 420: illegal DMA command
-Error at file 'test.asm' line 421: illegal DMA command
-Error at file 'test.asm' line 422: illegal DMA command
-Error at file 'test.asm' line 423: illegal DMA command
-Error at file 'test.asm' line 424: illegal DMA command
-Error at file 'test.asm' line 425: illegal DMA command
-Error at file 'test.asm' line 426: illegal DMA command
-Error at file 'test.asm' line 427: illegal DMA command
-Error at file 'test.asm' line 428: illegal DMA command
-Error at file 'test.asm' line 429: illegal DMA command
-Error at file 'test.asm' line 430: illegal DMA command
-Error at file 'test.asm' line 431: illegal DMA command
-Error at file 'test.asm' line 432: illegal DMA command
-Error at file 'test.asm' line 433: illegal DMA command
-Error at file 'test.asm' line 434: illegal DMA command
-Error at file 'test.asm' line 435: illegal DMA command
-Error at file 'test.asm' line 436: illegal DMA command
-Error at file 'test.asm' line 437: illegal DMA command
-Error at file 'test.asm' line 438: illegal DMA command
-Error at file 'test.asm' line 439: illegal DMA command
-Error at file 'test.asm' line 440: illegal DMA command
-Error at file 'test.asm' line 441: illegal DMA command
-Error at file 'test.asm' line 442: illegal DMA command
-Error at file 'test.asm' line 443: illegal DMA command
-Error at file 'test.asm' line 444: illegal DMA command
-Error at file 'test.asm' line 445: illegal DMA command
-Error at file 'test.asm' line 446: illegal DMA command
-Error at file 'test.asm' line 447: illegal DMA command
-Error at file 'test.asm' line 448: illegal DMA command
-Error at file 'test.asm' line 449: illegal DMA command
-Error at file 'test.asm' line 450: illegal DMA command
-Error at file 'test.asm' line 451: illegal DMA command
-Error at file 'test.asm' line 452: illegal DMA command
-Error at file 'test.asm' line 453: illegal DMA command
-Error at file 'test.asm' line 454: illegal DMA command
-Error at file 'test.asm' line 455: illegal DMA command
-Error at file 'test.asm' line 456: illegal DMA command
-Error at file 'test.asm' line 457: illegal DMA command
-Error at file 'test.asm' line 458: illegal DMA command
-Error at file 'test.asm' line 459: illegal DMA command
-Error at file 'test.asm' line 460: illegal DMA command
-Error at file 'test.asm' line 461: illegal DMA command
-Error at file 'test.asm' line 462: illegal DMA command
-Error at file 'test.asm' line 463: illegal DMA command
-Error at file 'test.asm' line 464: illegal DMA command
-Error at file 'test.asm' line 465: illegal DMA command
-Error at file 'test.asm' line 466: illegal DMA command
-Error at file 'test.asm' line 467: illegal DMA command
-Error at file 'test.asm' line 468: illegal DMA command
-Error at file 'test.asm' line 469: illegal DMA command
-Error at file 'test.asm' line 470: illegal DMA command
-Error at file 'test.asm' line 471: illegal DMA command
-Error at file 'test.asm' line 472: illegal DMA command
-Error at file 'test.asm' line 473: illegal DMA command
-Error at file 'test.asm' line 474: illegal DMA command
-Error at file 'test.asm' line 475: illegal DMA command
-Error at file 'test.asm' line 476: illegal DMA command
-Error at file 'test.asm' line 477: illegal DMA command
-Error at file 'test.asm' line 478: illegal DMA command
-Error at file 'test.asm' line 479: illegal DMA command
-Error at file 'test.asm' line 480: illegal DMA command
-Error at file 'test.asm' line 481: illegal DMA command
+Error at 'test.asm' line 2: illegal DMA command
+Error at 'test.asm' line 3: illegal DMA command
+Error at 'test.asm' line 4: illegal DMA command
+Error at 'test.asm' line 5: illegal DMA command
+Error at 'test.asm' line 6: illegal DMA command
+Error at 'test.asm' line 7: illegal DMA command
+Error at 'test.asm' line 8: illegal DMA command
+Error at 'test.asm' line 9: illegal DMA command
+Error at 'test.asm' line 10: illegal DMA command
+Error at 'test.asm' line 11: illegal DMA command
+Error at 'test.asm' line 12: illegal DMA command
+Error at 'test.asm' line 13: illegal DMA command
+Error at 'test.asm' line 14: illegal DMA command
+Error at 'test.asm' line 15: illegal DMA command
+Error at 'test.asm' line 16: illegal DMA command
+Error at 'test.asm' line 17: illegal DMA command
+Error at 'test.asm' line 18: illegal DMA command
+Error at 'test.asm' line 19: illegal DMA command
+Error at 'test.asm' line 20: illegal DMA command
+Error at 'test.asm' line 21: illegal DMA command
+Error at 'test.asm' line 22: illegal DMA command
+Error at 'test.asm' line 23: illegal DMA command
+Error at 'test.asm' line 24: illegal DMA command
+Error at 'test.asm' line 25: illegal DMA command
+Error at 'test.asm' line 26: illegal DMA command
+Error at 'test.asm' line 27: illegal DMA command
+Error at 'test.asm' line 28: illegal DMA command
+Error at 'test.asm' line 29: illegal DMA command
+Error at 'test.asm' line 30: illegal DMA command
+Error at 'test.asm' line 31: illegal DMA command
+Error at 'test.asm' line 32: illegal DMA command
+Error at 'test.asm' line 33: illegal DMA command
+Error at 'test.asm' line 34: illegal DMA command
+Error at 'test.asm' line 35: illegal DMA command
+Error at 'test.asm' line 36: illegal DMA command
+Error at 'test.asm' line 37: illegal DMA command
+Error at 'test.asm' line 38: illegal DMA command
+Error at 'test.asm' line 39: illegal DMA command
+Error at 'test.asm' line 40: illegal DMA command
+Error at 'test.asm' line 41: illegal DMA command
+Error at 'test.asm' line 42: illegal DMA command
+Error at 'test.asm' line 43: illegal DMA command
+Error at 'test.asm' line 44: illegal DMA command
+Error at 'test.asm' line 45: illegal DMA command
+Error at 'test.asm' line 46: illegal DMA command
+Error at 'test.asm' line 47: illegal DMA command
+Error at 'test.asm' line 48: illegal DMA command
+Error at 'test.asm' line 49: illegal DMA command
+Error at 'test.asm' line 50: illegal DMA command
+Error at 'test.asm' line 51: illegal DMA command
+Error at 'test.asm' line 52: illegal DMA command
+Error at 'test.asm' line 53: illegal DMA command
+Error at 'test.asm' line 54: illegal DMA command
+Error at 'test.asm' line 55: illegal DMA command
+Error at 'test.asm' line 56: illegal DMA command
+Error at 'test.asm' line 57: illegal DMA command
+Error at 'test.asm' line 58: illegal DMA command
+Error at 'test.asm' line 59: illegal DMA command
+Error at 'test.asm' line 60: illegal DMA command
+Error at 'test.asm' line 61: illegal DMA command
+Error at 'test.asm' line 62: illegal DMA command
+Error at 'test.asm' line 63: illegal DMA command
+Error at 'test.asm' line 64: illegal DMA command
+Error at 'test.asm' line 65: illegal DMA command
+Error at 'test.asm' line 66: illegal DMA command
+Error at 'test.asm' line 67: illegal DMA command
+Error at 'test.asm' line 68: illegal DMA command
+Error at 'test.asm' line 69: illegal DMA command
+Error at 'test.asm' line 70: illegal DMA command
+Error at 'test.asm' line 71: illegal DMA command
+Error at 'test.asm' line 72: illegal DMA command
+Error at 'test.asm' line 73: illegal DMA command
+Error at 'test.asm' line 74: illegal DMA command
+Error at 'test.asm' line 75: illegal DMA command
+Error at 'test.asm' line 76: illegal DMA command
+Error at 'test.asm' line 77: illegal DMA command
+Error at 'test.asm' line 78: illegal DMA command
+Error at 'test.asm' line 79: illegal DMA command
+Error at 'test.asm' line 80: illegal DMA command
+Error at 'test.asm' line 81: illegal DMA command
+Error at 'test.asm' line 82: illegal DMA command
+Error at 'test.asm' line 83: illegal DMA command
+Error at 'test.asm' line 84: illegal DMA command
+Error at 'test.asm' line 85: illegal DMA command
+Error at 'test.asm' line 86: illegal DMA command
+Error at 'test.asm' line 87: illegal DMA command
+Error at 'test.asm' line 88: illegal DMA command
+Error at 'test.asm' line 89: illegal DMA command
+Error at 'test.asm' line 90: illegal DMA command
+Error at 'test.asm' line 91: illegal DMA command
+Error at 'test.asm' line 92: illegal DMA command
+Error at 'test.asm' line 93: illegal DMA command
+Error at 'test.asm' line 94: illegal DMA command
+Error at 'test.asm' line 95: illegal DMA command
+Error at 'test.asm' line 96: illegal DMA command
+Error at 'test.asm' line 97: illegal DMA command
+Error at 'test.asm' line 98: illegal DMA command
+Error at 'test.asm' line 99: illegal DMA command
+Error at 'test.asm' line 100: illegal DMA command
+Error at 'test.asm' line 101: illegal DMA command
+Error at 'test.asm' line 102: illegal DMA command
+Error at 'test.asm' line 103: illegal DMA command
+Error at 'test.asm' line 104: illegal DMA command
+Error at 'test.asm' line 105: illegal DMA command
+Error at 'test.asm' line 106: illegal DMA command
+Error at 'test.asm' line 107: illegal DMA command
+Error at 'test.asm' line 108: illegal DMA command
+Error at 'test.asm' line 109: illegal DMA command
+Error at 'test.asm' line 110: illegal DMA command
+Error at 'test.asm' line 111: illegal DMA command
+Error at 'test.asm' line 112: illegal DMA command
+Error at 'test.asm' line 113: illegal DMA command
+Error at 'test.asm' line 114: illegal DMA command
+Error at 'test.asm' line 115: illegal DMA command
+Error at 'test.asm' line 116: illegal DMA command
+Error at 'test.asm' line 117: illegal DMA command
+Error at 'test.asm' line 118: illegal DMA command
+Error at 'test.asm' line 119: illegal DMA command
+Error at 'test.asm' line 120: illegal DMA command
+Error at 'test.asm' line 121: illegal DMA command
+Error at 'test.asm' line 122: illegal DMA command
+Error at 'test.asm' line 123: illegal DMA command
+Error at 'test.asm' line 124: illegal DMA command
+Error at 'test.asm' line 125: illegal DMA command
+Error at 'test.asm' line 126: illegal DMA command
+Error at 'test.asm' line 127: illegal DMA command
+Error at 'test.asm' line 128: illegal DMA command
+Error at 'test.asm' line 129: illegal DMA command
+Error at 'test.asm' line 130: illegal DMA command
+Error at 'test.asm' line 131: illegal DMA command
+Error at 'test.asm' line 132: illegal DMA command
+Error at 'test.asm' line 133: illegal DMA command
+Error at 'test.asm' line 134: illegal DMA command
+Error at 'test.asm' line 135: illegal DMA command
+Error at 'test.asm' line 136: illegal DMA command
+Error at 'test.asm' line 137: illegal DMA command
+Error at 'test.asm' line 138: illegal DMA command
+Error at 'test.asm' line 139: illegal DMA command
+Error at 'test.asm' line 140: illegal DMA command
+Error at 'test.asm' line 141: illegal DMA command
+Error at 'test.asm' line 142: illegal DMA command
+Error at 'test.asm' line 143: illegal DMA command
+Error at 'test.asm' line 144: illegal DMA command
+Error at 'test.asm' line 145: illegal DMA command
+Error at 'test.asm' line 146: illegal DMA command
+Error at 'test.asm' line 147: illegal DMA command
+Error at 'test.asm' line 148: illegal DMA command
+Error at 'test.asm' line 149: illegal DMA command
+Error at 'test.asm' line 150: illegal DMA command
+Error at 'test.asm' line 151: illegal DMA command
+Error at 'test.asm' line 152: illegal DMA command
+Error at 'test.asm' line 153: illegal DMA command
+Error at 'test.asm' line 154: illegal DMA command
+Error at 'test.asm' line 155: illegal DMA command
+Error at 'test.asm' line 156: illegal DMA command
+Error at 'test.asm' line 157: illegal DMA command
+Error at 'test.asm' line 158: illegal DMA command
+Error at 'test.asm' line 159: illegal DMA command
+Error at 'test.asm' line 160: illegal DMA command
+Error at 'test.asm' line 161: illegal DMA command
+Error at 'test.asm' line 162: illegal DMA command
+Error at 'test.asm' line 163: illegal DMA command
+Error at 'test.asm' line 164: illegal DMA command
+Error at 'test.asm' line 165: illegal DMA command
+Error at 'test.asm' line 166: illegal DMA command
+Error at 'test.asm' line 167: illegal DMA command
+Error at 'test.asm' line 168: illegal DMA command
+Error at 'test.asm' line 169: illegal DMA command
+Error at 'test.asm' line 170: illegal DMA command
+Error at 'test.asm' line 171: illegal DMA command
+Error at 'test.asm' line 172: illegal DMA command
+Error at 'test.asm' line 173: illegal DMA command
+Error at 'test.asm' line 174: illegal DMA command
+Error at 'test.asm' line 175: illegal DMA command
+Error at 'test.asm' line 176: illegal DMA command
+Error at 'test.asm' line 177: illegal DMA command
+Error at 'test.asm' line 178: illegal DMA command
+Error at 'test.asm' line 179: illegal DMA command
+Error at 'test.asm' line 180: illegal DMA command
+Error at 'test.asm' line 181: illegal DMA command
+Error at 'test.asm' line 182: illegal DMA command
+Error at 'test.asm' line 183: illegal DMA command
+Error at 'test.asm' line 184: illegal DMA command
+Error at 'test.asm' line 185: illegal DMA command
+Error at 'test.asm' line 186: illegal DMA command
+Error at 'test.asm' line 187: illegal DMA command
+Error at 'test.asm' line 188: illegal DMA command
+Error at 'test.asm' line 189: illegal DMA command
+Error at 'test.asm' line 190: illegal DMA command
+Error at 'test.asm' line 191: illegal DMA command
+Error at 'test.asm' line 192: illegal DMA command
+Error at 'test.asm' line 193: illegal DMA command
+Error at 'test.asm' line 194: illegal DMA command
+Error at 'test.asm' line 195: illegal DMA command
+Error at 'test.asm' line 196: illegal DMA command
+Error at 'test.asm' line 197: illegal DMA command
+Error at 'test.asm' line 198: illegal DMA command
+Error at 'test.asm' line 199: illegal DMA command
+Error at 'test.asm' line 200: illegal DMA command
+Error at 'test.asm' line 201: illegal DMA command
+Error at 'test.asm' line 202: illegal DMA command
+Error at 'test.asm' line 203: illegal DMA command
+Error at 'test.asm' line 204: illegal DMA command
+Error at 'test.asm' line 205: illegal DMA command
+Error at 'test.asm' line 206: illegal DMA command
+Error at 'test.asm' line 207: illegal DMA command
+Error at 'test.asm' line 208: illegal DMA command
+Error at 'test.asm' line 209: illegal DMA command
+Error at 'test.asm' line 210: illegal DMA command
+Error at 'test.asm' line 211: illegal DMA command
+Error at 'test.asm' line 212: illegal DMA command
+Error at 'test.asm' line 213: illegal DMA command
+Error at 'test.asm' line 214: illegal DMA command
+Error at 'test.asm' line 215: illegal DMA command
+Error at 'test.asm' line 216: illegal DMA command
+Error at 'test.asm' line 217: illegal DMA command
+Error at 'test.asm' line 218: illegal DMA command
+Error at 'test.asm' line 219: illegal DMA command
+Error at 'test.asm' line 220: illegal DMA command
+Error at 'test.asm' line 221: illegal DMA command
+Error at 'test.asm' line 222: illegal DMA command
+Error at 'test.asm' line 223: illegal DMA command
+Error at 'test.asm' line 224: illegal DMA command
+Error at 'test.asm' line 225: illegal DMA command
+Error at 'test.asm' line 226: illegal DMA command
+Error at 'test.asm' line 227: illegal DMA command
+Error at 'test.asm' line 228: illegal DMA command
+Error at 'test.asm' line 229: illegal DMA command
+Error at 'test.asm' line 230: illegal DMA command
+Error at 'test.asm' line 231: illegal DMA command
+Error at 'test.asm' line 232: illegal DMA command
+Error at 'test.asm' line 233: illegal DMA command
+Error at 'test.asm' line 234: illegal DMA command
+Error at 'test.asm' line 235: illegal DMA command
+Error at 'test.asm' line 236: illegal DMA command
+Error at 'test.asm' line 237: illegal DMA command
+Error at 'test.asm' line 238: illegal DMA command
+Error at 'test.asm' line 239: illegal DMA command
+Error at 'test.asm' line 240: illegal DMA command
+Error at 'test.asm' line 241: illegal DMA command
+Error at 'test.asm' line 242: illegal DMA command
+Error at 'test.asm' line 243: illegal DMA command
+Error at 'test.asm' line 244: illegal DMA command
+Error at 'test.asm' line 245: illegal DMA command
+Error at 'test.asm' line 246: illegal DMA command
+Error at 'test.asm' line 247: illegal DMA command
+Error at 'test.asm' line 248: illegal DMA command
+Error at 'test.asm' line 249: illegal DMA command
+Error at 'test.asm' line 250: illegal DMA command
+Error at 'test.asm' line 251: illegal DMA command
+Error at 'test.asm' line 252: illegal DMA command
+Error at 'test.asm' line 253: illegal DMA command
+Error at 'test.asm' line 254: illegal DMA command
+Error at 'test.asm' line 255: illegal DMA command
+Error at 'test.asm' line 256: illegal DMA command
+Error at 'test.asm' line 257: illegal DMA command
+Error at 'test.asm' line 258: illegal DMA command
+Error at 'test.asm' line 259: illegal DMA command
+Error at 'test.asm' line 260: illegal DMA command
+Error at 'test.asm' line 261: illegal DMA command
+Error at 'test.asm' line 262: illegal DMA command
+Error at 'test.asm' line 263: illegal DMA command
+Error at 'test.asm' line 264: illegal DMA command
+Error at 'test.asm' line 265: illegal DMA command
+Error at 'test.asm' line 266: illegal DMA command
+Error at 'test.asm' line 267: illegal DMA command
+Error at 'test.asm' line 268: illegal DMA command
+Error at 'test.asm' line 269: illegal DMA command
+Error at 'test.asm' line 270: illegal DMA command
+Error at 'test.asm' line 271: illegal DMA command
+Error at 'test.asm' line 272: illegal DMA command
+Error at 'test.asm' line 273: illegal DMA command
+Error at 'test.asm' line 274: illegal DMA command
+Error at 'test.asm' line 275: illegal DMA command
+Error at 'test.asm' line 276: illegal DMA command
+Error at 'test.asm' line 277: illegal DMA command
+Error at 'test.asm' line 278: illegal DMA command
+Error at 'test.asm' line 279: illegal DMA command
+Error at 'test.asm' line 280: illegal DMA command
+Error at 'test.asm' line 281: illegal DMA command
+Error at 'test.asm' line 282: illegal DMA command
+Error at 'test.asm' line 283: illegal DMA command
+Error at 'test.asm' line 284: illegal DMA command
+Error at 'test.asm' line 285: illegal DMA command
+Error at 'test.asm' line 286: illegal DMA command
+Error at 'test.asm' line 287: illegal DMA command
+Error at 'test.asm' line 288: illegal DMA command
+Error at 'test.asm' line 289: illegal DMA command
+Error at 'test.asm' line 290: illegal DMA command
+Error at 'test.asm' line 291: illegal DMA command
+Error at 'test.asm' line 292: illegal DMA command
+Error at 'test.asm' line 293: illegal DMA command
+Error at 'test.asm' line 294: illegal DMA command
+Error at 'test.asm' line 295: illegal DMA command
+Error at 'test.asm' line 296: illegal DMA command
+Error at 'test.asm' line 297: illegal DMA command
+Error at 'test.asm' line 298: illegal DMA command
+Error at 'test.asm' line 299: illegal DMA command
+Error at 'test.asm' line 300: illegal DMA command
+Error at 'test.asm' line 301: illegal DMA command
+Error at 'test.asm' line 302: illegal DMA command
+Error at 'test.asm' line 303: illegal DMA command
+Error at 'test.asm' line 304: illegal DMA command
+Error at 'test.asm' line 305: illegal DMA command
+Error at 'test.asm' line 306: illegal DMA command
+Error at 'test.asm' line 307: illegal DMA command
+Error at 'test.asm' line 308: illegal DMA command
+Error at 'test.asm' line 309: illegal DMA command
+Error at 'test.asm' line 310: illegal DMA command
+Error at 'test.asm' line 311: illegal DMA command
+Error at 'test.asm' line 312: illegal DMA command
+Error at 'test.asm' line 313: illegal DMA command
+Error at 'test.asm' line 314: illegal DMA command
+Error at 'test.asm' line 315: illegal DMA command
+Error at 'test.asm' line 316: illegal DMA command
+Error at 'test.asm' line 317: illegal DMA command
+Error at 'test.asm' line 318: illegal DMA command
+Error at 'test.asm' line 319: illegal DMA command
+Error at 'test.asm' line 320: illegal DMA command
+Error at 'test.asm' line 321: illegal DMA command
+Error at 'test.asm' line 322: illegal DMA command
+Error at 'test.asm' line 323: illegal DMA command
+Error at 'test.asm' line 324: illegal DMA command
+Error at 'test.asm' line 325: illegal DMA command
+Error at 'test.asm' line 326: illegal DMA command
+Error at 'test.asm' line 327: illegal DMA command
+Error at 'test.asm' line 328: illegal DMA command
+Error at 'test.asm' line 329: illegal DMA command
+Error at 'test.asm' line 330: illegal DMA command
+Error at 'test.asm' line 331: illegal DMA command
+Error at 'test.asm' line 332: illegal DMA command
+Error at 'test.asm' line 333: illegal DMA command
+Error at 'test.asm' line 334: illegal DMA command
+Error at 'test.asm' line 335: illegal DMA command
+Error at 'test.asm' line 336: illegal DMA command
+Error at 'test.asm' line 337: illegal DMA command
+Error at 'test.asm' line 338: illegal DMA command
+Error at 'test.asm' line 339: illegal DMA command
+Error at 'test.asm' line 340: illegal DMA command
+Error at 'test.asm' line 341: illegal DMA command
+Error at 'test.asm' line 342: illegal DMA command
+Error at 'test.asm' line 343: illegal DMA command
+Error at 'test.asm' line 344: illegal DMA command
+Error at 'test.asm' line 345: illegal DMA command
+Error at 'test.asm' line 346: illegal DMA command
+Error at 'test.asm' line 347: illegal DMA command
+Error at 'test.asm' line 348: illegal DMA command
+Error at 'test.asm' line 349: illegal DMA command
+Error at 'test.asm' line 350: illegal DMA command
+Error at 'test.asm' line 351: illegal DMA command
+Error at 'test.asm' line 352: illegal DMA command
+Error at 'test.asm' line 353: illegal DMA command
+Error at 'test.asm' line 354: illegal DMA command
+Error at 'test.asm' line 355: illegal DMA command
+Error at 'test.asm' line 356: illegal DMA command
+Error at 'test.asm' line 357: illegal DMA command
+Error at 'test.asm' line 358: illegal DMA command
+Error at 'test.asm' line 359: illegal DMA command
+Error at 'test.asm' line 360: illegal DMA command
+Error at 'test.asm' line 361: illegal DMA command
+Error at 'test.asm' line 362: illegal DMA command
+Error at 'test.asm' line 363: illegal DMA command
+Error at 'test.asm' line 364: illegal DMA command
+Error at 'test.asm' line 365: illegal DMA command
+Error at 'test.asm' line 366: illegal DMA command
+Error at 'test.asm' line 367: illegal DMA command
+Error at 'test.asm' line 368: illegal DMA command
+Error at 'test.asm' line 369: illegal DMA command
+Error at 'test.asm' line 370: illegal DMA command
+Error at 'test.asm' line 371: illegal DMA command
+Error at 'test.asm' line 372: illegal DMA command
+Error at 'test.asm' line 373: illegal DMA command
+Error at 'test.asm' line 374: illegal DMA command
+Error at 'test.asm' line 375: illegal DMA command
+Error at 'test.asm' line 376: illegal DMA command
+Error at 'test.asm' line 377: illegal DMA command
+Error at 'test.asm' line 378: illegal DMA command
+Error at 'test.asm' line 379: illegal DMA command
+Error at 'test.asm' line 380: illegal DMA command
+Error at 'test.asm' line 381: illegal DMA command
+Error at 'test.asm' line 382: illegal DMA command
+Error at 'test.asm' line 383: illegal DMA command
+Error at 'test.asm' line 384: illegal DMA command
+Error at 'test.asm' line 385: illegal DMA command
+Error at 'test.asm' line 386: illegal DMA command
+Error at 'test.asm' line 387: illegal DMA command
+Error at 'test.asm' line 388: illegal DMA command
+Error at 'test.asm' line 389: illegal DMA command
+Error at 'test.asm' line 390: illegal DMA command
+Error at 'test.asm' line 391: illegal DMA command
+Error at 'test.asm' line 392: illegal DMA command
+Error at 'test.asm' line 393: illegal DMA command
+Error at 'test.asm' line 394: illegal DMA command
+Error at 'test.asm' line 395: illegal DMA command
+Error at 'test.asm' line 396: illegal DMA command
+Error at 'test.asm' line 397: illegal DMA command
+Error at 'test.asm' line 398: illegal DMA command
+Error at 'test.asm' line 399: illegal DMA command
+Error at 'test.asm' line 400: illegal DMA command
+Error at 'test.asm' line 401: illegal DMA command
+Error at 'test.asm' line 402: illegal DMA command
+Error at 'test.asm' line 403: illegal DMA command
+Error at 'test.asm' line 404: illegal DMA command
+Error at 'test.asm' line 405: illegal DMA command
+Error at 'test.asm' line 406: illegal DMA command
+Error at 'test.asm' line 407: illegal DMA command
+Error at 'test.asm' line 408: illegal DMA command
+Error at 'test.asm' line 409: illegal DMA command
+Error at 'test.asm' line 410: illegal DMA command
+Error at 'test.asm' line 411: illegal DMA command
+Error at 'test.asm' line 412: illegal DMA command
+Error at 'test.asm' line 413: illegal DMA command
+Error at 'test.asm' line 414: illegal DMA command
+Error at 'test.asm' line 415: illegal DMA command
+Error at 'test.asm' line 416: illegal DMA command
+Error at 'test.asm' line 417: illegal DMA command
+Error at 'test.asm' line 418: illegal DMA command
+Error at 'test.asm' line 419: illegal DMA command
+Error at 'test.asm' line 420: illegal DMA command
+Error at 'test.asm' line 421: illegal DMA command
+Error at 'test.asm' line 422: illegal DMA command
+Error at 'test.asm' line 423: illegal DMA command
+Error at 'test.asm' line 424: illegal DMA command
+Error at 'test.asm' line 425: illegal DMA command
+Error at 'test.asm' line 426: illegal DMA command
+Error at 'test.asm' line 427: illegal DMA command
+Error at 'test.asm' line 428: illegal DMA command
+Error at 'test.asm' line 429: illegal DMA command
+Error at 'test.asm' line 430: illegal DMA command
+Error at 'test.asm' line 431: illegal DMA command
+Error at 'test.asm' line 432: illegal DMA command
+Error at 'test.asm' line 433: illegal DMA command
+Error at 'test.asm' line 434: illegal DMA command
+Error at 'test.asm' line 435: illegal DMA command
+Error at 'test.asm' line 436: illegal DMA command
+Error at 'test.asm' line 437: illegal DMA command
+Error at 'test.asm' line 438: illegal DMA command
+Error at 'test.asm' line 439: illegal DMA command
+Error at 'test.asm' line 440: illegal DMA command
+Error at 'test.asm' line 441: illegal DMA command
+Error at 'test.asm' line 442: illegal DMA command
+Error at 'test.asm' line 443: illegal DMA command
+Error at 'test.asm' line 444: illegal DMA command
+Error at 'test.asm' line 445: illegal DMA command
+Error at 'test.asm' line 446: illegal DMA command
+Error at 'test.asm' line 447: illegal DMA command
+Error at 'test.asm' line 448: illegal DMA command
+Error at 'test.asm' line 449: illegal DMA command
+Error at 'test.asm' line 450: illegal DMA command
+Error at 'test.asm' line 451: illegal DMA command
+Error at 'test.asm' line 452: illegal DMA command
+Error at 'test.asm' line 453: illegal DMA command
+Error at 'test.asm' line 454: illegal DMA command
+Error at 'test.asm' line 455: illegal DMA command
+Error at 'test.asm' line 456: illegal DMA command
+Error at 'test.asm' line 457: illegal DMA command
+Error at 'test.asm' line 458: illegal DMA command
+Error at 'test.asm' line 459: illegal DMA command
+Error at 'test.asm' line 460: illegal DMA command
+Error at 'test.asm' line 461: illegal DMA command
+Error at 'test.asm' line 462: illegal DMA command
+Error at 'test.asm' line 463: illegal DMA command
+Error at 'test.asm' line 464: illegal DMA command
+Error at 'test.asm' line 465: illegal DMA command
+Error at 'test.asm' line 466: illegal DMA command
+Error at 'test.asm' line 467: illegal DMA command
+Error at 'test.asm' line 468: illegal DMA command
+Error at 'test.asm' line 469: illegal DMA command
+Error at 'test.asm' line 470: illegal DMA command
+Error at 'test.asm' line 471: illegal DMA command
+Error at 'test.asm' line 472: illegal DMA command
+Error at 'test.asm' line 473: illegal DMA command
+Error at 'test.asm' line 474: illegal DMA command
+Error at 'test.asm' line 475: illegal DMA command
+Error at 'test.asm' line 476: illegal DMA command
+Error at 'test.asm' line 477: illegal DMA command
+Error at 'test.asm' line 478: illegal DMA command
+Error at 'test.asm' line 479: illegal DMA command
+Error at 'test.asm' line 480: illegal DMA command
+Error at 'test.asm' line 481: illegal DMA command
 ERR
 
 z80asm(<<'ASM', "-b -mz80n", 0, "", "");
@@ -1661,28 +1661,28 @@ z80asm(<<'ASM', "-b -mz80n", 0, "", <<'WARN');
 	
 	ld a,2
 ASM
-Warning at file 'test.asm' line 3: DMA does not implement this command
-Warning at file 'test.asm' line 4: DMA does not implement this command
-Warning at file 'test.asm' line 5: DMA does not implement this command
-Warning at file 'test.asm' line 6: DMA does not implement this command
-Warning at file 'test.asm' line 7: DMA does not implement this command
-Warning at file 'test.asm' line 8: DMA does not implement this command
-Warning at file 'test.asm' line 9: DMA does not implement this command
-Warning at file 'test.asm' line 10: DMA does not implement this command
-Warning at file 'test.asm' line 11: DMA does not implement this command
-Warning at file 'test.asm' line 12: DMA does not implement this command
-Warning at file 'test.asm' line 13: DMA does not implement this command
-Warning at file 'test.asm' line 15: DMA does not implement this command
-Warning at file 'test.asm' line 16: DMA does not implement this command
-Warning at file 'test.asm' line 17: DMA does not implement this command
-Warning at file 'test.asm' line 18: DMA does not implement this command
-Warning at file 'test.asm' line 19: DMA does not implement this command
-Warning at file 'test.asm' line 20: DMA does not implement this command
-Warning at file 'test.asm' line 21: DMA does not implement this command
-Warning at file 'test.asm' line 22: DMA does not implement this command
-Warning at file 'test.asm' line 23: DMA does not implement this command
-Warning at file 'test.asm' line 24: DMA does not implement this command
-Warning at file 'test.asm' line 25: DMA does not implement this command
+Warning at 'test.asm' line 3: DMA does not implement this command
+Warning at 'test.asm' line 4: DMA does not implement this command
+Warning at 'test.asm' line 5: DMA does not implement this command
+Warning at 'test.asm' line 6: DMA does not implement this command
+Warning at 'test.asm' line 7: DMA does not implement this command
+Warning at 'test.asm' line 8: DMA does not implement this command
+Warning at 'test.asm' line 9: DMA does not implement this command
+Warning at 'test.asm' line 10: DMA does not implement this command
+Warning at 'test.asm' line 11: DMA does not implement this command
+Warning at 'test.asm' line 12: DMA does not implement this command
+Warning at 'test.asm' line 13: DMA does not implement this command
+Warning at 'test.asm' line 15: DMA does not implement this command
+Warning at 'test.asm' line 16: DMA does not implement this command
+Warning at 'test.asm' line 17: DMA does not implement this command
+Warning at 'test.asm' line 18: DMA does not implement this command
+Warning at 'test.asm' line 19: DMA does not implement this command
+Warning at 'test.asm' line 20: DMA does not implement this command
+Warning at 'test.asm' line 21: DMA does not implement this command
+Warning at 'test.asm' line 22: DMA does not implement this command
+Warning at 'test.asm' line 23: DMA does not implement this command
+Warning at 'test.asm' line 24: DMA does not implement this command
+Warning at 'test.asm' line 25: DMA does not implement this command
 WARN
 check_bin_file("test.bin", pack("C*", 
 				0x3E, 1, 
@@ -1716,8 +1716,8 @@ z80asm(<<'ASM', "-b -mz80n", 1, "", <<'ERR');
 	dma.cmd 0xBB
 	ld a,2
 ASM
-Error at file 'test.asm' line 2: DMA missing register group member(s)
-Error at file 'test.asm' line 3: DMA missing register group member(s)
+Error at 'test.asm' line 2: DMA missing register group member(s)
+Error at 'test.asm' line 3: DMA missing register group member(s)
 ERR
 
 z80asm(<<'ASM', "-b -mz80n", 0, "", "");
@@ -1738,8 +1738,8 @@ z80asm(<<'ASM', "-b -mz80n", 1, "", <<'ERR');
 	dma.cmd 0xBB, 0x80
 	ld a,2
 ASM
-Error at file 'test.asm' line 2: DMA read mask is illegal
-Error at file 'test.asm' line 3: DMA read mask is illegal
+Error at 'test.asm' line 2: DMA read mask is illegal
+Error at 'test.asm' line 3: DMA read mask is illegal
 ERR
 
 unlink_testfiles();

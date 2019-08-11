@@ -26,19 +26,10 @@
     <ClCompile Include="..\..\src\z80asm\t\test.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\z80asm\t\t_asmpp.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\z80asm\asmpp.c">
-      <Filter>Source Files\main</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\z80asm\codearea.c">
       <Filter>Source Files\main</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\z80asm\directives.c">
-      <Filter>Source Files\main</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\z80asm\errors.c">
       <Filter>Source Files\main</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\z80asm\expr.c">
@@ -69,9 +60,6 @@
       <Filter>Source Files\main</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\z80asm\parse.c">
-      <Filter>Source Files\main</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\z80asm\scan.c">
       <Filter>Source Files\main</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\z80asm\sym.c">
@@ -134,8 +122,14 @@
     <ClCompile Include="..\..\src\z80asm\t\t_utils.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\z80asm\t\t_errors.c">
+    <ClCompile Include="..\..\src\z80asm\scan.c">
+      <Filter>Source Files\main</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\z80asm\t\t_input.c">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\z80asm\input.c">
+      <Filter>Source Files\main</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

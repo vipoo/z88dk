@@ -103,7 +103,7 @@ sub z80asm {
 					/;;\s+(error|warn)(\s*(\d+))?:\s+(.*)/) {
 					$pass ||= 0;
 					my $err = ($type eq 'error' ? "Error" : "Warning").
-							" at file 'test$id.asm' line $line_nr: $message\n";
+							" at 'test$id.asm' line $line_nr: $message\n";
 					$num_errors++ if $type eq 'error';
 					$err_text[$pass] ||= "";
 					$err_text[$pass] .= $err;

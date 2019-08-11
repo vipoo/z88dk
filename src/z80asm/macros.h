@@ -12,9 +12,9 @@ Assembly macros.
 
 #include <stdbool.h>
 
-typedef char *(*getline_t)();
+typedef const char *(*getline_t)();
 
 extern void init_macros();
 extern void init_preproc(const char* i_filename);
-extern char *macros_getline(getline_t getline_func);
+extern const char *macros_getline(getline_t getline_func);
 

@@ -12,7 +12,7 @@ see http://www.engr.mun.ca/~theo/Misc/exp_parsing.htm
 
 #pragma once
 
-#include "asmpp.h"
+#include "input.h"
 #include "array.h"
 #include "class.h"
 #include "classlist.h"
@@ -126,7 +126,7 @@ CLASS( Expr )
 	int		 asmpc;					/* ASMPC value during linking */
     int		 code_pos;				/* Address to patch expression value */
 
-	location_t	 location;			/* file and line where expression defined, string in strpool */
+	Location	 location;			/* file and line where expression defined, string in strpool */
     long		 listpos;			/* position in listing file to patch (in pass 2), -1 if not listing */
 END_CLASS;
 

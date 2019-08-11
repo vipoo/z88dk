@@ -186,7 +186,7 @@ FILE* xfopen(const char* filename, const char* mode)
 
 void xfclose_(FILE** fp)
 {
-	if (fclose(*fp)!=0)
+	if (fclose(*fp) != 0)
 		die("Failed to close file\n");
 	*fp = NULL;
 }

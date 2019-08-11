@@ -10,11 +10,10 @@ Expression parser based on the shunting-yard algoritm,
 see http://www.engr.mun.ca/~theo/Misc/exp_parsing.htm
 */
 
-#include "asmpp.h"
+#include "input.h"
 #include "array.h"
 #include "codearea.h"
 #include "expr.h"
-#include "errors.h"
 #include "init.h"
 #include "module.h"
 #include "strhash.h"
@@ -375,7 +374,7 @@ void Expr_init (Expr *self)
 	self->asmpc		= get_phased_PC() >= 0 ? get_phased_PC() : get_PC();	/* BUG_0048 */
     self->code_pos	= get_cur_module_size();	/* BUG_0015 */
 
-	self->location	= g_asm_location;
+	self->location = in_location(LocationAsm);
 	self->listpos	= -1;
 }
 
@@ -461,7 +460,7 @@ static bool Expr_parse_factor( Expr *self )
         break;
 
 	case TK_NUMBER:
-		Str_append_sprintf(self->text, "%ld", sym.number);
+		Str_append_sprintf(self->text, "%d", sym.number);
 		ExprOp_init_number( ExprOpArray_push( self->rpn_ops ),
 							sym.number );
 		self->type = MAX( self->type, TYPE_CONSTANT );

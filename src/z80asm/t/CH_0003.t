@@ -14,7 +14,7 @@ use warnings;
 use Test::More;
 require './t/test_utils.pl';
 
-t_z80asm_error("ld", "Error at file 'test.asm' line 1: syntax error");
+t_z80asm_error("ld", "Error at 'test.asm' line 1: syntax error");
 
 unlink_testfiles();
 done_testing();

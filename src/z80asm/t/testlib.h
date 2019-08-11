@@ -28,7 +28,7 @@ extern int test_result(void);
 				do { \
 					int res = (int)result; \
 					if ( ! (res eq (int)expect) ) { \
-						warn("(%s(%d) %s) %s, failed %d %s %d\n", \
+						Warn("(%s(%d) %s) %s, failed %d %s %d\n", \
 							 __FILE__, __LINE__, __FUNCTION__, \
 							 #result, res, #eq, (int)expect); \
 						return 1; \
@@ -38,7 +38,7 @@ extern int test_result(void);
 #define check_str(result,eq,expect) \
 				do { \
 					if ( ! (strcmp(result, expect) eq 0) ) { \
-						warn("(%s(%d) %s) failed %s %s %s\n", \
+						Warn("(%s(%d) %s) failed %s %s %s\n", \
 							 __FILE__, __LINE__, __FUNCTION__, \
 							 #result, #eq, #expect); \
 						return 1; \

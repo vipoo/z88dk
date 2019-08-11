@@ -51,34 +51,34 @@ static void dump_sections(char *title, int line)
 	assert( last_section == get_last_section() );
 	assert( total_size == get_sections_size() );
 
-	warn("%s (line %d)\n\n", title, line );
+	Warn("%s (line %d)\n\n", title, line );
 
-	warn("Number of sections = %ld, total size = %ld\n", 
+	Warn("Number of sections = %ld, total size = %ld\n", 
 		       (long) num_sections, (long) total_size );
 
 	i = 0;
 	for ( section = get_first_section( &iter ) ; section != NULL ; 
 		  section = get_next_section( &iter ) )
 	{
-		warn("%c%d. \"%s\", size = %ld, addr = %ld, origin = %ld, align = %ld, asmpc = %ld, opcode_size = %ld\n", 
+		Warn("%c%d. \"%s\", size = %ld, addr = %ld, origin = %ld, align = %ld, asmpc = %ld, opcode_size = %ld\n", 
 				   section == get_cur_section() ? '*' : ' ',
 				   ++i, section->name,  
 				   (long) get_section_size( section ),
 				   (long) section->addr, (long) section->origin, (long) section->align, (long) section->asmpc, 
 				   (long) section->opcode_size );
-		warn("    bytes =");
+		Warn("    bytes =");
 		for ( j = 0; j < ByteArray_size( section->bytes ); j++ )
-			warn("%s$%02X", 
+			Warn("%s$%02X", 
 					   j != 1 && (j % 16) == 1 ? "\n            " : " ",
 					   *ByteArray_item( section->bytes, j ) );
-		warn("\n    start =");
+		Warn("\n    start =");
 		for ( j = 0; j < intArray_size( section->module_start ); j++ )
-			warn(" %3ld", (long) *intArray_item( section->module_start, j ) );
-		warn("\n");
+			Warn(" %3ld", (long) *intArray_item( section->module_start, j ) );
+		Warn("\n");
 	}
 
 	num_modules = intArray_size( first_section->module_start );
-	warn("\nNumber of modules = %ld\n", 
+	Warn("\nNumber of modules = %ld\n", 
 		       (long) num_modules );
 
 	for ( i = 0; i < num_modules; i++ )
@@ -97,24 +97,24 @@ static void dump_sections(char *title, int line)
 			size = get_cur_module_size();
 
 			if ( section == first_section )
-				warn("%c%d. ", i == old_cur_module_id ? '*' : ' ', i );
+				Warn("%c%d. ", i == old_cur_module_id ? '*' : ' ', i );
 			else 
-				warn("    ");
+				Warn("    ");
 
-			warn("\"%s\", start = %ld, size = %ld\n    bytes =",
+			Warn("\"%s\", start = %ld, size = %ld\n    bytes =",
 					   section->name, (long) addr, (long) size );
 			for ( j = 0; j < size; j++ )
-				warn("%s$%02X", 
+				Warn("%s$%02X", 
 						   j != 1 && (j % 16) == 1 ? "\n            " : " ",
 						   *ByteArray_item( section->bytes, addr + j )  );
-			warn("\n");
+			Warn("\n");
 		}
 
 		set_cur_module_id( old_cur_module_id );
 		set_cur_section( old_cur_section );
 	}
 
-	warn("--------------------------------------------------------------------------------\n");
+	Warn("--------------------------------------------------------------------------------\n");
 }
 
 static void dump_file( char *title )
@@ -122,15 +122,15 @@ static void dump_file( char *title )
 	FILE *file;
 	int i, c;
 
-	warn("Dump file %s\n\n", title );
+	Warn("Dump file %s\n\n", title );
 	assert( (file = fopen("test.bin", "rb")) != NULL );
-	warn("test.bin =");
+	Warn("test.bin =");
 	
 	for ( i = 0; (c = fgetc( file )) != EOF; i++ )
-		warn("%s$%02X", 
+		Warn("%s$%02X", 
 				   i != 0 && (i % 16) == 0 ? "\n           " : " ", 
 				   c );
-	warn("\n--------------------------------------------------------------------------------\n");
+	Warn("\n--------------------------------------------------------------------------------\n");
 }
 
 #define T(code) code; dump_sections(#code ";", __LINE__);

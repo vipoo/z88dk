@@ -107,7 +107,7 @@ z80asm($asm, "+zx -v", 0, <<'END');
 	Predefined constant: __CPU_ZILOG__ = $0001
 	Assembling 'test.asm' to 'test.o'
 	Reading 'test.asm' = 'test.asm'
-	Writing object file 'test.o'
+	Writing object 'test.o'
 	Module 'test' size: 4 bytes
 
 	Code size: 4 bytes ($5CD0 to $5CD3)
@@ -145,8 +145,8 @@ z80asm(<<'END', "+zx", 0, "", <<'END');
 	org 50000
 	ret
 END
-	Warning: ORG ignored at file 'test.o', section 'code1'
-	Warning: ORG ignored at file 'test.o', section 'code2'
+	Warning: ORG ignored at 'test.o', section 'code1'
+	Warning: ORG ignored at 'test.o', section 'code2'
 END
 check_bin_file("test.bin", $bin);
 check_bin_file("test.tap", $rem_tap);
@@ -246,7 +246,7 @@ z80asm($asm, "+zx81 -v", 0, <<'END', "");
 	Predefined constant: __CPU_ZILOG__ = $0001
 	Assembling 'test.asm' to 'test.o'
 	Reading 'test.asm' = 'test.asm'
-	Writing object file 'test.o'
+	Writing object 'test.o'
 	Module 'test' size: 4 bytes
 
 	Code size: 4 bytes ($4082 to $4085)

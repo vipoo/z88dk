@@ -207,7 +207,7 @@ END
 #------------------------------------------------------------------------------
 # test error
 z80asm("cu.wait 0,1", "-mz80", 1, "", <<'END');
-Error at file 'test.asm' line 1: illegal identifier
+Error at 'test.asm' line 1: illegal identifier
 END
 
 #------------------------------------------------------------------------------

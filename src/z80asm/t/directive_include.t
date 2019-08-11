@@ -34,7 +34,7 @@ check_bin_file("test.bin", pack("C*", 0x3E, 10));
 
 # no -I, only file name : error
 z80asm('include "test.inc"', "", 1, "", <<END);
-Error at file 'test.asm' line 1: cannot read file 'test.inc'
+Error at 'test.asm' line 1: cannot open 'test.inc'
 END
 	
 # -I : OK
@@ -60,7 +60,7 @@ check_bin_file("test_dir/test.bin", pack("C*", 0x3E, 10));
 # BUG_0034 : If assembly process fails with fatal error, invalid library is kept
 unlink_testfiles();
 z80asm('include "test.inc"', "-xtest.lib", 1, "", <<END);
-Error at file 'test.asm' line 1: cannot read file 'test.inc'
+Error at 'test.asm' line 1: cannot open 'test.inc'
 END
 ok ! -f "test.lib", "test.lib does not exist";
 
@@ -68,13 +68,13 @@ ok ! -f "test.lib", "test.lib does not exist";
 unlink_testfiles();
 spew("test.inc", 'include "test.asm"');
 z80asm('include "test.inc"', "", 1, "", <<END);
-Error at file 'test.inc' line 1: cannot include file 'test.asm' recursively
+Error at 'test.inc' line 1: cannot include 'test.asm' recursively
 END
 
 # syntax
 unlink_testfiles();
 z80asm('include', "", 1, "", <<END);
-Error at file 'test.asm' line 1: syntax error
+Error at 'test.asm' line 1: syntax error
 END
 
 # test -I using environment variables
@@ -85,7 +85,7 @@ spew("test_dir/test.inc", 'ld a,10');
 
 unlink "test.bin";
 z80asm('include "test.inc"', "", 1, "", <<END);
-Error at file 'test.asm' line 1: cannot read file 'test.inc'
+Error at 'test.asm' line 1: cannot open 'test.inc'
 END
 
 unlink "test.bin";

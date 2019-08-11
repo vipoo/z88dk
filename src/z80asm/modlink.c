@@ -7,10 +7,9 @@ License: The Artistic License 2.0, http://www.perlfoundation.org/artistic_licens
 Repository: https://github.com/z88dk/z88dk
 */
 
-#include "asmpp.h"
+#include "input.h"
 #include "alloc.h"
 #include "codearea.h"
-#include "errors.h"
 #include "expr.h"
 #include "fileutil.h"
 #include "listfile.h"
@@ -98,7 +97,7 @@ static void ReadNames_1(const char *filename, FILE *file,
 
 		// set symbol definition
 		if (sym) 
-			sym->location = (location_t){ str_pool_add(str_data(def_filename)), line_num };
+			sym->location = (Location){ str_pool_add(str_data(def_filename)), line_num };
     }
 }
 
@@ -129,7 +128,7 @@ static void set_asmpc_env(Module *module, const char *section_name,
 	set_cur_module( module );
 
 	/* source file and line number */
-	g_asm_location = (location_t){ str_pool_add(filename),line_num };
+	in_set_location(LocationAsm, (Location) { str_pool_add(filename), line_num });
 
 	/* assembler PC as absolute address */
 	new_section( section_name );
@@ -224,7 +223,7 @@ static void read_cur_module_exprs_1(ExprList *exprs, FILE *file, char *filename,
 			expr->section	= CURRENTSECTION;
 			expr->asmpc		= asmpc;
 			expr->code_pos	= code_pos;
-			expr->location = (location_t){ str_pool_add(str_data(source_filename)),line_num };
+			expr->location = (Location){ str_pool_add(str_data(source_filename)),line_num };
 			expr->listpos	= -1;
 
 			ExprList_push( & exprs, expr );
@@ -267,8 +266,7 @@ static void read_module_exprs( ExprList *exprs )
 
         fptr_base = curlink->modulestart;
 
-        pp_clear_locations();
-		g_error_module_name = NULL;
+        in_clear_locations();
 
         /* open relocatable file for reading */
         file = fopen( curlink->objfilename, "rb" );	
@@ -298,8 +296,7 @@ static void read_module_exprs( ExprList *exprs )
     }
     while ( curlink != NULL );
 
-	pp_clear_locations();
-	g_error_module_name = NULL;
+	in_clear_locations();
 }
 
 /* compute equ expressions and remove them from the list 
@@ -769,10 +766,10 @@ void link_modules( void )
 
 		/* open error file on first module */
 		if (CURRENTMODULE == first_obj_module)
-			open_error_file(get_err_filename(CURRENTMODULE->filename));
+			error_open_file(get_err_filename(CURRENTMODULE->filename));
 
-		pp_clear_locations();
-		g_error_module_name = str_pool_add(CURRENTMODULE->modname);
+		in_clear_locations();
+		in_set_location(LocationModule, (Location) { str_pool_add(CURRENTMODULE->modname), 0 });
 
 		/* overwrite '.asm' extension with * '.o' */
 		const char *obj_filename = get_obj_filename(CURRENTMODULE->filename);
@@ -787,54 +784,52 @@ void link_modules( void )
 
 	/* link libraries */
 	/* consol_obj_file do not include libraries */
-	if (!g_error_count && !opts.consol_obj_file && opts.library)
+	if (!error_count() && !opts.consol_obj_file && opts.library)
 		link_libraries(extern_syms);
 
-	pp_clear_locations();
-	g_error_module_name = NULL;
+	in_clear_locations();
 
 	/* allocate segment addresses and compute absolute addresses of symbols */
 	/* in consol_obj_file sections are zero-based */
-	if (!g_error_count && !opts.consol_obj_file)	
+	if (!error_count() && !opts.consol_obj_file)	
 		sections_alloc_addr();
 
 	/* relocate address symbols */
-	if (!g_error_count)
+	if (!error_count())
 		relocate_symbols();
 
 	/* define assembly size */
-	if (!g_error_count && !opts.consol_obj_file)
+	if (!error_count() && !opts.consol_obj_file)
 		define_location_symbols();
 
 	if (opts.consol_obj_file) {
-		if (!g_error_count)
+		if (!error_count())
 			merge_modules(extern_syms);
 	}
 	else {
 		/* collect expressions from all modules */
 		exprs = OBJ_NEW(ExprList);
-		if (!g_error_count)
+		if (!error_count())
 			read_module_exprs(exprs);
 
 		/* compute all EQU expressions */
-		if (!g_error_count)
+		if (!error_count())
 			compute_equ_exprs(exprs, true, false);
 
 		/* patch all other expressions */
-		if (!g_error_count)
+		if (!error_count())
 			patch_exprs(exprs);
 
 		OBJ_DELETE(exprs);
 	}
 
-	pp_clear_locations();
-	g_error_module_name = NULL;
+	in_clear_locations();
 
 	ReleaseLinkInfo();              /* Release module link information */
 
-	close_error_file();
+	error_close_file();
 
-	if (!g_error_count) {
+	if (!error_count()) {
 		if (opts.map)
 			write_map_file();
 

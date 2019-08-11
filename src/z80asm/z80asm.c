@@ -7,9 +7,8 @@ License: The Artistic License 2.0, http://www.perlfoundation.org/artistic_licens
 Repository: https://github.com/z88dk/z88dk
 */
 
-#include "asmpp.h"
+#include "input.h"
 #include "directives.h"
-#include "errors.h"
 #include "fileutil.h"
 #include "libfile.h"
 #include "listfile.h"
@@ -125,7 +124,7 @@ void assemble_file( const char *filename )
 
 	/* Create error file */
 	remove(get_err_filename(src_filename));
-	open_error_file(get_err_filename(src_filename));
+	error_open_file(get_err_filename(src_filename));
 
 	if (load_obj_only) {
 		if (check_object_file(obj_filename)) {
@@ -137,8 +136,7 @@ void assemble_file( const char *filename )
 		query_assemble(src_filename);			/* try to assemble, check -d */
 
 	/* no more module in error messages */
-	pp_clear_locations();
-	g_error_module_name = NULL;
+	in_clear_locations();
 	
 	opts.cur_list = false;
 
@@ -184,7 +182,7 @@ static void query_assemble(const char *src_filename )
 *----------------------------------------------------------------------------*/
 static void do_assemble(const char *src_filename )
 {
-    int start_errors = g_error_count;     /* count errors in this source file */
+    int start_errors = error_count();     /* count errors in this source file */
 	const char *obj_filename = get_obj_filename(src_filename);
 	const char *i_filename = get_preproc_filename(src_filename);
 
@@ -209,8 +207,7 @@ static void do_assemble(const char *src_filename )
 
 	asm_MODULE_default();			/* Module name must be defined */
 
-	pp_clear_locations();
-	g_error_module_name = NULL;
+	in_clear_locations();
 
 	Z80pass2();						/* call pass 2 even if errors found, to issue pass2 errors */
 	
@@ -219,17 +216,16 @@ static void do_assemble(const char *src_filename )
 	* processing).
 	*/
 
-	pp_clear_locations();
-	g_error_module_name = NULL;
+	in_clear_locations();
 
 	/* remove list file if more errors now than before */
-	list_close(start_errors == g_error_count);
+	list_close(start_errors == error_count());
 
 	/* remove incomplete object file */
-	if (start_errors != g_error_count)
+	if (start_errors != error_count())
 		remove(get_obj_filename(src_filename));
 
-	close_error_file();
+	error_close_file();
 
 	remove_all_local_syms();
 	remove_all_global_syms();
@@ -342,13 +338,13 @@ int z80asm_main( int argc, char *argv[] )
 	/* If filename starts with '@', reads the file as a list of filenames
 	*	and assembles each one in turn */
 	parse_argv(argc, argv);
-	if (!g_error_count) {
+	if (!error_count()) {
 		for (char **pfile = argv_front(opts.files); *pfile; pfile++)
 			assemble_file(*pfile);
 	}
 
 	/* Create output file */
-	if (!g_error_count) {
+	if (!error_count()) {
 		if (opts.lib_file) {
 			make_library(opts.lib_file, opts.files);
 		}
@@ -356,10 +352,10 @@ int z80asm_main( int argc, char *argv[] )
 			assert(opts.consol_obj_file == NULL);
 			link_modules();			
 
-			if (!g_error_count)
+			if (!error_count())
 				CreateBinFile();
 
-			if (!g_error_count)
+			if (!error_count())
 				checkrun_appmake();		/* call appmake if requested in the options */
 		}
 		else if (opts.bin_file) {	// -o consolidated obj
@@ -374,18 +370,17 @@ int z80asm_main( int argc, char *argv[] )
 			CURRENTMODULE->filename = get_asm_filename(opts.consol_obj_file);
 			CURRENTMODULE->modname = path_remove_ext(path_file(CURRENTMODULE->filename));
 
-			if (!g_error_count)
+			if (!error_count())
 				write_obj_file(opts.consol_obj_file);
 
-			if (!g_error_count && opts.symtable)
+			if (!error_count() && opts.symtable)
 				write_sym_file(CURRENTMODULE);
 		}
 	}
 
-	pp_clear_locations();
-	g_error_module_name = NULL;
+	in_clear_locations();
 
-	close_error_file();
+	error_close_file();
 
 	delete_modules();		/* Release module information (symbols, etc.) */
 
@@ -398,7 +393,7 @@ int z80asm_main( int argc, char *argv[] )
 			m_free(reloctable);
 	}
 
-    if ( g_error_count )
+    if ( error_count() )
     {
         return 1;	/* signal error */
     }

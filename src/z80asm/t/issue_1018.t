@@ -33,7 +33,7 @@ check_bin_file("test.bin", pack("C*", 1..8));
 z80asm(<<'END', "", 1, "", <<'ERR');
 .e: equ 1
 END
-Error at file 'test.asm' line 1: syntax error
+Error at 'test.asm' line 1: syntax error
 ERR
 
 unlink_testfiles();

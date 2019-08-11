@@ -16,7 +16,7 @@ z80asm(<<'END', "", 1, "", <<'END');
 	line 10
 	ld
 END
-Error at file 'test.asm' line 10: syntax error
+Error at 'test.asm' line 10: syntax error
 END
 
 z80asm(<<'END', "", 1, "", <<'END');
@@ -24,7 +24,7 @@ z80asm(<<'END', "", 1, "", <<'END');
 	nop
 	ld
 END
-Error at file 'test.asm' line 11: syntax error
+Error at 'test.asm' line 11: syntax error
 END
 
 z80asm(<<'END', "", 1, "", <<'END');
@@ -32,7 +32,7 @@ z80asm(<<'END', "", 1, "", <<'END');
 	nop
 	ld
 END
-Error at file 'hello.asm' line 11: syntax error
+Error at 'hello.asm' line 11: syntax error
 END
 
 z80asm(<<'END', "", 1, "", <<'END');
@@ -41,7 +41,7 @@ z80asm(<<'END', "", 1, "", <<'END');
 
 	ld
 END
-Error at file 'test.c' line 10, file 'test.asm' line 4: syntax error
+Error at 'test.c' line 10, 'test.asm' line 4: syntax error
 END
 
 z80asm(<<'END', "", 1, "", <<'END');
@@ -50,7 +50,7 @@ z80asm(<<'END', "", 1, "", <<'END');
 
 	ld
 END
-Error at file 'test21.c' line 10, file 'test.asm' line 4: syntax error
+Error at 'test21.c' line 10, 'test.asm' line 4: syntax error
 END
 
 z80asm(<<'END', "", 1, "", <<'END');
@@ -58,8 +58,8 @@ z80asm(<<'END', "", 1, "", <<'END');
 	line THE_LINE
 	line THE_LINE, "file1.asm"
 END
-Error at file 'test.asm' line 2: expected constant expression
-Error at file 'test.asm' line 3: expected constant expression
+Error at 'test.asm' line 2: expected constant expression
+Error at 'test.asm' line 3: expected constant expression
 END
 
 z80asm(<<'END', "", 1, "", <<'END');
@@ -67,8 +67,8 @@ z80asm(<<'END', "", 1, "", <<'END');
 	c_line THE_LINE
 	c_line THE_LINE, "file1.c"
 END
-Error at file 'test.asm' line 2: expected constant expression
-Error at file 'test.asm' line 3: expected constant expression
+Error at 'test.asm' line 2: expected constant expression
+Error at 'test.asm' line 3: expected constant expression
 END
 
 unlink_testfiles();

@@ -190,12 +190,11 @@
     <ClCompile Include="..\..\src\common\objfile.c" />
     <ClCompile Include="..\..\src\common\optparse.c" />
     <ClCompile Include="..\..\src\common\strutil.c" />
-    <ClCompile Include="..\..\src\z80asm\asmpp.c" />
     <ClCompile Include="..\..\src\z80asm\codearea.c" />
     <ClCompile Include="..\..\src\z80asm\directives.c" />
-    <ClCompile Include="..\..\src\z80asm\errors.c" />
     <ClCompile Include="..\..\src\z80asm\expr.c" />
     <ClCompile Include="..\..\src\z80asm\hist.c" />
+    <ClCompile Include="..\..\src\z80asm\input.c" />
     <ClCompile Include="..\..\src\z80asm\libfile.c" />
     <ClCompile Include="..\..\src\z80asm\lib\alloc.c" />
     <ClCompile Include="..\..\src\z80asm\lib\array.c" />
@@ -224,13 +223,13 @@
   <ItemGroup>
     <ClInclude Include="..\..\src\config.h" />
     <ClInclude Include="..\..\src\portability.h" />
-    <ClInclude Include="..\..\src\z80asm\asmpp.h" />
     <ClInclude Include="..\..\src\z80asm\codearea.h" />
     <ClInclude Include="..\..\src\z80asm\directives.h" />
-    <ClInclude Include="..\..\src\z80asm\errors.h" />
+    <ClInclude Include="..\..\src\z80asm\errors_def.h" />
     <ClInclude Include="..\..\src\z80asm\expr.h" />
     <ClInclude Include="..\..\src\z80asm\expr_def.h" />
     <ClInclude Include="..\..\src\z80asm\hist.h" />
+    <ClInclude Include="..\..\src\z80asm\input.h" />
     <ClInclude Include="..\..\src\z80asm\libfile.h" />
     <ClInclude Include="..\..\src\z80asm\lib\alloc.h" />
     <ClInclude Include="..\..\src\z80asm\lib\array.h" />
@@ -266,10 +265,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\src\z80asm\parse_rules.rl" />
+    <None Include="..\..\src\z80asm\scan_re.re" />
     <None Include="..\..\src\z80asm\scan_rules.rl" />
-    <None Include="..\..\src\z80asm\tt\error_func.c.tt" />
-    <None Include="..\..\src\z80asm\tt\error_func.h.tt" />
-    <None Include="..\..\src\z80asm\tt\error_func.yaml" />
     <None Include="..\..\src\z80asm\tt\tokens.h.tt" />
     <None Include="..\..\src\z80asm\tt\tokens.yaml" />
   </ItemGroup>

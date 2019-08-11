@@ -38,31 +38,31 @@ static char *S(char *str)
 
 static void dump_Symbol ( Symbol *sym )
 {
-	warn("Symbol %s (%s) = %ld, [", 
+	Warn("Symbol %s (%s) = %ld, [", 
 		 sym->name, Symbol_fullname(sym), sym->value );
-	if (sym->is_defined)	warn("DEFINED ");
-	if (sym->is_touched)	warn("TOUCHED ");
-	if (sym->is_computed)	warn("COMPUTED ");
+	if (sym->is_defined)	Warn("DEFINED ");
+	if (sym->is_touched)	Warn("TOUCHED ");
+	if (sym->is_computed)	Warn("COMPUTED ");
 
 	switch (sym->type)
 	{
-	case TYPE_UNKNOWN:	warn("TYPE_UNKNOWN "); break;
-	case TYPE_CONSTANT:	warn("TYPE_CONSTANT "); break;
-	case TYPE_ADDRESS:	warn("TYPE_ADDRESS "); break;
-	case TYPE_COMPUTED:	warn("TYPE_COMPUTED "); break;
-	default: 			warn("invalid-type"); break;
+	case TYPE_UNKNOWN:	Warn("TYPE_UNKNOWN "); break;
+	case TYPE_CONSTANT:	Warn("TYPE_CONSTANT "); break;
+	case TYPE_ADDRESS:	Warn("TYPE_ADDRESS "); break;
+	case TYPE_COMPUTED:	Warn("TYPE_COMPUTED "); break;
+	default: 			Warn("invalid-type"); break;
 	}
 
 	switch (sym->scope)
 	{
-	case SCOPE_LOCAL:	warn("LOCAL ");  break;
-	case SCOPE_PUBLIC:	warn("PUBLIC "); break;
-	case SCOPE_EXTERN:	warn("EXTERN "); break;
-	case SCOPE_GLOBAL:	warn("GLOBAL "); break;
-	default: 			warn("invalid-scope"); break;
+	case SCOPE_LOCAL:	Warn("LOCAL ");  break;
+	case SCOPE_PUBLIC:	Warn("PUBLIC "); break;
+	case SCOPE_EXTERN:	Warn("EXTERN "); break;
+	case SCOPE_GLOBAL:	Warn("GLOBAL "); break;
+	default: 			Warn("invalid-scope"); break;
 	}
 	
-	warn("], owner = %s\n", 
+	Warn("], owner = %s\n", 
 			sym->module == NULL ? 
 				"NULL" : 
 				sym->module == CURRENTMODULE ? 
@@ -74,14 +74,14 @@ static void dump_SymbolHash ( SymbolHash *symtab, char *name )
 	SymbolHashElem *iter;
 	Symbol         *sym;
 
-	warn("Symtab \"%s\": %s\n", name, SymbolHash_empty(symtab) ? "EMPTY" : "" );
+	Warn("Symtab \"%s\": %s\n", name, SymbolHash_empty(symtab) ? "EMPTY" : "" );
 	for ( iter = SymbolHash_first( symtab ); iter; iter = SymbolHash_next( iter ) )
 	{
 		sym = (Symbol *)iter->value;
 		if ( sym != SymbolHash_get( symtab, sym->name ) )
-			warn("ERROR: symbol %s not found in hash\n", sym->name);
+			Warn("ERROR: symbol %s not found in hash\n", sym->name);
 
-		warn("  ");
+		Warn("  ");
 		dump_Symbol( sym );
 	}	
 }
@@ -102,10 +102,10 @@ static void test_symtab( void )
 	opts.symtable = true;
 	opts.list     = true;
 	
-	warn("Create current module\n");	
+	Warn("Create current module\n");	
 	set_cur_module( new_module() );
 
-	warn("Create symbol\n");	
+	Warn("Create symbol\n");	
 	sym = Symbol_create(S("Var1"), 123, TYPE_CONSTANT, 0, NULL, NULL);
 	dump_Symbol(sym);
 	OBJ_DELETE(sym);
@@ -115,14 +115,14 @@ static void test_symtab( void )
 	CURRENTMODULE->modname = "MODULE";
 	dump_Symbol(sym);
 	
-	warn("Delete symbol\n");	
+	Warn("Delete symbol\n");	
 	OBJ_DELETE(sym);
 	
-	warn("Global symtab\n");	
+	Warn("Global symtab\n");	
 	dump_SymbolHash(global_symtab, "global");
 	dump_SymbolHash(static_symtab, "static");
 	
-	warn("check case insensitive - CH_0024\n");
+	Warn("check case insensitive - CH_0024\n");
 	symtab = OBJ_NEW(SymbolHash);
 	assert( symtab );
 	_define_sym(S("Var1"), 1, TYPE_CONSTANT, 0, NULL, NULL, &symtab);
@@ -136,7 +136,7 @@ static void test_symtab( void )
 
 	dump_SymbolHash(symtab, "tab1");
 	
-	warn("Concat symbol tables\n");	
+	Warn("Concat symbol tables\n");	
 	symtab = OBJ_NEW(SymbolHash);
 	assert( symtab );
 	_define_sym(S("Var1"),  1, TYPE_CONSTANT, 0, NULL, NULL, &symtab);
@@ -157,7 +157,7 @@ static void test_symtab( void )
 	OBJ_DELETE( symtab );
 	OBJ_DELETE( symtab2 );
 	
-	warn("Sort\n");	
+	Warn("Sort\n");	
 	symtab = OBJ_NEW(SymbolHash);
 	assert( symtab );
 	_define_sym(S("One"), 	1, TYPE_CONSTANT, 0, NULL, NULL, &symtab);
@@ -167,7 +167,7 @@ static void test_symtab( void )
 	dump_SymbolHash(symtab, "tab");
 	OBJ_DELETE( symtab );
 
-	warn("Use local symbol before definition\n");
+	Warn("Use local symbol before definition\n");
 	_define_sym(S("WIN32"), 1, TYPE_CONSTANT, 0, NULL, NULL, &static_symtab);
 	SymbolHash_cat( & CURRENTMODULE->local_symtab, static_symtab );
 	_define_sym(S("PC"), 0, TYPE_CONSTANT, 0, NULL, NULL, &global_symtab);
@@ -190,21 +190,21 @@ static void test_symtab( void )
 	
 	dump_symtab();
 
-	warn("Delete Local\n");	
+	Warn("Delete Local\n");	
 	remove_all_local_syms();
 	dump_symtab();
 	
-	warn("Delete Static\n");	
+	Warn("Delete Static\n");	
 	remove_all_static_syms();
 	dump_symtab();
 	
-	warn("Delete Global\n");	
+	Warn("Delete Global\n");	
 	remove_all_global_syms();
 	dump_symtab();
 	
 	list_close(false);
 
-	warn("End\n");	
+	Warn("End\n");	
 
 }
 

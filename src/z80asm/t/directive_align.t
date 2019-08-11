@@ -15,38 +15,38 @@ require './t/testlib.pl';
 # range check
 unlink_testfiles();
 z80asm("align 0", "", 1, "", <<'END');
-Error at file 'test.asm' line 1: integer '0' out of range
+Error at 'test.asm' line 1: integer '0' out of range
 END
 
 unlink_testfiles();
 z80asm("align 0x10000", "", 1, "", <<'END');
-Error at file 'test.asm' line 1: integer '65536' out of range
+Error at 'test.asm' line 1: integer '65536' out of range
 END
 
 # align redefined
 unlink_testfiles();
 z80asm("align 1 \n align 2", "", 1, "", <<'END');
-Error at file 'test.asm' line 2: ALIGN redefined
+Error at 'test.asm' line 2: ALIGN redefined
 END
 
 # ORG and ALIGN not compatible
 unlink_testfiles();
 z80asm("org 1 \n align 16", "", 1, "", <<'END');
-Error at file 'test.asm' line 2: ORG '0x0001' not ALIGNed '16'
+Error at 'test.asm' line 2: ORG '0x0001' not ALIGNed '16'
 END
 
 unlink_testfiles();
 z80asm("align 16 \n org 1", "", 1, "", <<'END');
-Error at file 'test.asm' line 2: ORG '0x0001' not ALIGNed '16'
+Error at 'test.asm' line 2: ORG '0x0001' not ALIGNed '16'
 END
 
 # constant expression
 z80asm("extern SIXTEEN \n align SIXTEEN", "", 1, "", <<'END');
-Error at file 'test.asm' line 2: expected constant expression
+Error at 'test.asm' line 2: expected constant expression
 END
 
 z80asm("extern SIXTEEN, FILL \n align SIXTEEN, FILL", "", 1, "", <<'END');
-Error at file 'test.asm' line 2: expected constant expression
+Error at 'test.asm' line 2: expected constant expression
 END
 
 # align inside a section, check when address is already aligned

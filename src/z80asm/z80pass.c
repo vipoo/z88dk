@@ -7,7 +7,7 @@ License: The Artistic License 2.0, http://www.perlfoundation.org/artistic_licens
 Repository: https://github.com/z88dk/z88dk
 */
 
-#include "asmpp.h"
+#include "input.h"
 #include "limits.h"
 #include "listfile.h"
 #include "modlink.h"
@@ -39,10 +39,8 @@ Z80pass2( void )
 		expr = iter->obj;
 
         /* set error location */
-		pp_clear_locations();
-		g_error_module_name = NULL;
-
-		g_asm_location = expr->location;
+		in_clear_locations();
+		in_set_location(LocationAsm, expr->location);
 
 		/* Define code location; BUG_0048 */
 		set_cur_section( expr->section );
@@ -166,14 +164,13 @@ Z80pass2( void )
 	check_undefined_symbols(global_symtab);
 
 	/* clean error location */
-	pp_clear_locations();
-	g_error_module_name = NULL;
+	in_clear_locations();
 
 	/* create object file */
-	if ( ! g_error_count )
+	if ( ! error_count() )
 		write_obj_file( CURRENTMODULE->filename );
 
-    if ( ! g_error_count && opts.symtable )
+    if ( ! error_count() && opts.symtable )
 		write_sym_file(CURRENTMODULE);
 }
 

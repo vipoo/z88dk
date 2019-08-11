@@ -132,12 +132,11 @@
     <ClCompile Include="..\..\src\common\objfile.c" />
     <ClCompile Include="..\..\src\common\optparse.c" />
     <ClCompile Include="..\..\src\common\strutil.c" />
-    <ClCompile Include="..\..\src\z80asm\asmpp.c" />
     <ClCompile Include="..\..\src\z80asm\codearea.c" />
     <ClCompile Include="..\..\src\z80asm\directives.c" />
-    <ClCompile Include="..\..\src\z80asm\errors.c" />
     <ClCompile Include="..\..\src\z80asm\expr.c" />
     <ClCompile Include="..\..\src\z80asm\hist.c" />
+    <ClCompile Include="..\..\src\z80asm\input.c" />
     <ClCompile Include="..\..\src\z80asm\libfile.c" />
     <ClCompile Include="..\..\src\z80asm\lib\alloc.c" />
     <ClCompile Include="..\..\src\z80asm\lib\array.c" />
@@ -158,8 +157,7 @@
     <ClCompile Include="..\..\src\z80asm\sym.c" />
     <ClCompile Include="..\..\src\z80asm\symtab.c" />
     <ClCompile Include="..\..\src\z80asm\t\test.c" />
-    <ClCompile Include="..\..\src\z80asm\t\t_asmpp.c" />
-    <ClCompile Include="..\..\src\z80asm\t\t_errors.c" />
+    <ClCompile Include="..\..\src\z80asm\t\t_input.c" />
     <ClCompile Include="..\..\src\z80asm\t\t_utils.c" />
     <ClCompile Include="..\..\src\z80asm\utils.c" />
     <ClCompile Include="..\..\src\z80asm\z80asm.c" />

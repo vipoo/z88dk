@@ -16,7 +16,7 @@ for my $DEFB (qw(DEFB DEFM)) {
 	ok 1, "Test with $DEFB";
 
 	z80asm("xx: $DEFB", "", 1, "", <<END);
-Error at file 'test.asm' line 1: syntax error
+Error at 'test.asm' line 1: syntax error
 END
 
 	unlink_testfiles();
@@ -24,7 +24,7 @@ END
 	check_bin_file("test.bin", pack("C*", 0));
 
 	z80asm("xx: $DEFB xx,", "", 1, "", <<END);
-Error at file 'test.asm' line 1: syntax error
+Error at 'test.asm' line 1: syntax error
 END
 
 	unlink_testfiles();
@@ -32,11 +32,11 @@ END
 	check_bin_file("test.bin", pack("C*", 0, 1));
 
 	z80asm("xx: $DEFB \"", "", 1, "", <<END);
-Error at file 'test.asm' line 1: unclosed quoted string
+Error at 'test.asm' line 1: unclosed quoted string
 END
 
 	z80asm("xx: $DEFB \"hello", "", 1, "", <<END);
-Error at file 'test.asm' line 1: unclosed quoted string
+Error at 'test.asm' line 1: unclosed quoted string
 END
 
 	# escape chars

@@ -13,7 +13,7 @@ use Test::More;
 require './t/testlib.pl';
 
 z80asm("xx: defdb", "", 1, "", <<END);
-Error at file 'test.asm' line 1: syntax error
+Error at 'test.asm' line 1: syntax error
 END
 
 unlink_testfiles();
@@ -21,7 +21,7 @@ z80asm("xx: defdb xx");
 check_bin_file("test.bin", pack("C*", 0, 0));
 
 z80asm("xx: defdb xx,", "", 1, "", <<END);
-Error at file 'test.asm' line 1: syntax error
+Error at 'test.asm' line 1: syntax error
 END
 
 unlink_testfiles();

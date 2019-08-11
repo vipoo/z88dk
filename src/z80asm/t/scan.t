@@ -15,7 +15,7 @@ use File::Slurp;
 use Test::Differences;
 require './t/test_utils.pl';
 
-my $objs = "scan.o errors.o asmpp.o module.o codearea.o listfile.o ".
+my $objs = "scan.o input.o module.o codearea.o listfile.o ".
 		   "options.o hist.o sym.o symtab.o expr.o ".
 		   "lib/str.o lib/strhash.o  ../common/fileutil.o ../common/strutil.o utils.o ../common/die.o ../common/objfile.o ../../ext/regex/regcomp.o ../../ext/regex/regerror.o ../../ext/regex/regexec.o ../../ext/regex/regfree.o ".
 		   "macros.o lib/class.o ".

@@ -35,7 +35,7 @@ z80asm(<<END, "-b", 1, "", <<END);
 		nop
 		binary "test1.dat"
 END
-Error at file 'test.asm' line 2: max. code size of 65536 bytes reached
+Error at 'test.asm' line 2: max. code size of 65536 bytes reached
 END
 
 unlink_testfiles();
@@ -43,7 +43,7 @@ spew("test1.dat", "a" x 0x10001);
 z80asm(<<END, "-b", 1, "", <<END);
 		binary "test1.dat"
 END
-Error at file 'test.asm' line 1: max. code size of 65536 bytes reached
+Error at 'test.asm' line 1: max. code size of 65536 bytes reached
 END
 
 # -I; more complete tests in INCLUDE
@@ -55,7 +55,7 @@ spew("test_dir/test1.dat", "hello");
 z80asm(<<END, "-b", 1, "", <<END);
 		binary "test1.dat"
 END
-Error at file 'test.asm' line 1: cannot read file 'test1.dat'
+Error at 'test.asm' line 1: cannot read 'test1.dat'
 END
 
 z80asm(<<END, "-b -Itest_dir");

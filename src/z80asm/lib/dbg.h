@@ -15,13 +15,13 @@ Based on Learn C the Hard Way book, by Zed. A. Shaw (http://c.learncodethehardwa
 #include <string.h>
 
 /* show warning on stderr */
-#define warn(message,...)	fprintf(stderr, message, ##__VA_ARGS__)
+#define Warn(message,...)	fprintf(stderr, message, ##__VA_ARGS__)
 
-/* debug message for unit tests */
+/* Debug message for unit tests */
 #ifdef NDEBUG
-#define debug(message, ...)
+#define Debug(message, ...)
 #else
-#define debug(message, ...) warn("[DEBUG] (%s:%d) " message "\n", __FILE__, __LINE__, ##__VA_ARGS__)
+#define Debug(message, ...) Warn("[DEBUG] (%s:%d) " message "\n", __FILE__, __LINE__, ##__VA_ARGS__)
 #endif
 
 /* show errno without allocating memory */
@@ -32,7 +32,7 @@ Based on Learn C the Hard Way book, by Zed. A. Shaw (http://c.learncodethehardwa
 /* show error, warning, info */
 #define log_(type, message, ...) \
 		( \
-			warn("[" type  "] (%s:%d" STRERROR_FORMAT_ ") " message "\n", \
+			Warn("[" type  "] (%s:%d" STRERROR_FORMAT_ ") " message "\n", \
 			     __FILE__, __LINE__, \
 				 STRERROR_STR_1_, STRERROR_STR_2_, \
 				 ##__VA_ARGS__), \
@@ -84,7 +84,7 @@ Based on Learn C the Hard Way book, by Zed. A. Shaw (http://c.learncodethehardwa
 #define check_debug(condition, message, ...) \
 			do { \
 				if ( ! (condition) ) { \
-					debug(message, ##__VA_ARGS__); \
+					Debug(message, ##__VA_ARGS__); \
 					errno = 0; \
 					goto error; \
 				} \

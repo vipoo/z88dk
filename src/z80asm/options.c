@@ -8,9 +8,8 @@
 #include "../config.h"
 #include "../portability.h"
 
-#include "asmpp.h"
+#include "input.h"
 #include "codearea.h"
-#include "errors.h"
 #include "fileutil.h"
 #include "hist.h"
 #include "init.h"
@@ -173,16 +172,16 @@ void parse_argv( int argc, char *argv[] )
 	if ( argc == 1 )
 		exit_copyright();					/* exit if no arguments */
 
-	if (!g_error_count)
+	if (!error_count())
 		process_env_options();				/* process options from Z80ASM environment variable */
 
-	if (!g_error_count)
+	if (!error_count())
 		process_options( &arg, argc, argv );/* process all options, set arg to next */
 
-	if (!g_error_count && arg >= argc)
+	if (!error_count() && arg >= argc)
 		error_no_src_file();				/* no source file */
 
-	if ( ! g_error_count )
+	if ( ! error_count() )
         process_files( arg, argc, argv );	/* process each source file */
 
 	make_output_dir();						/* create output directory if needed */
@@ -382,20 +381,35 @@ static const char *search_source(const char *filename)
 	return filename;
 }
 
-static void process_file(char *filename )
+static void process_file(const char *line)
 {
-	switch (filename[0])
+	UT_string* buffer;
+	utstring_new(buffer);
+	utstring_printf(buffer, "%s", line);
+	utstring_strip(buffer);
+
+	const char* expanded_filename;
+	switch (utstring_body(buffer)[0])
 	{
-	case '@':		/* file list */
-		filename++;						/* point to after '@' */
-		cstr_strip(filename);
-		filename = (char *)expand_environment_variables(filename);
-		expand_list_glob(filename);
+	case ';':		// comments
+	case '#':
+	case '\0':		// empty line
 		break;
+
+	case '@':		// file list
+		utstring_body(buffer)[0] = ' ';	// remove '@'
+		utstring_strip(buffer);
+
+		expanded_filename = expand_environment_variables(utstring_body(buffer));
+		expand_list_glob(expanded_filename);
+		break;
+
 	default:
-		filename = (char *)expand_environment_variables(filename);
-		expand_source_glob(filename);
+		expanded_filename = expand_environment_variables(utstring_body(buffer));
+		expand_source_glob(expanded_filename);
 	}
+
+	utstring_free(buffer);
 }
 
 void expand_source_glob(const char *pattern)
@@ -417,6 +431,26 @@ void expand_source_glob(const char *pattern)
 	}
 }
 
+static void expand_list_glob_1(const char* filename)
+{
+	in_push();
+	{
+		// shows error if opne fails and in_getline() returns NULL
+		in_open(filename);
+
+		// append the directoy of the list file to the include path	and remove it at the end
+		argv_push(opts.inc_path, path_dir(filename));
+
+		const char* line;
+		while ((line = in_getline()) != NULL)
+			process_file(line);
+
+		// finished reading, remove dirname from include path
+		argv_pop(opts.inc_path);
+	}
+	in_pop();
+}
+
 void expand_list_glob(const char *filename)
 {
 	if (strpbrk(filename, "*?") != NULL) {		// is a pattern
@@ -425,44 +459,15 @@ void expand_list_glob(const char *filename)
 		if (argv_len(files) == 0)
 			error_glob_no_files(filename);		// error if pattern matched no file
 
-		for (char **p = argv_front(files); *p; p++) {
-			char *filename = *p;
-			pp_push();
-			{
-				char *line;
-
-				// append the directoy of the list file to the include path	and remove it at the end
-				argv_push(opts.inc_path, path_dir(filename));
-
-				if (pp_open(filename)) {
-					while ((line = pp_getline_lst()) != NULL)
-						process_file(line);
-				}
-
-				// finished assembly, remove dirname from include path
-				argv_pop(opts.inc_path);
-			}
-			pp_pop();
+		for (char** p = argv_front(files); *p; p++) {
+			char* filename = *p;
+			expand_list_glob_1(filename);
 		}
+
 		argv_free(files);
 	}
 	else {
-		pp_push();
-		{
-			char *line;
-
-			// append the directoy of the list file to the include path	and remove it at the end
-			argv_push(opts.inc_path, path_dir(filename));
-
-			if (pp_open(filename)) {
-				while ((line = pp_getline_lst()) != NULL)
-					process_file(line);
-			}
-
-			// finished assembly, remove dirname from include path
-			argv_pop(opts.inc_path);
-		}
-		pp_pop();
+		expand_list_glob_1(filename);
 	}
 }
 

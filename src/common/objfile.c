@@ -46,16 +46,16 @@ static file_type_e read_signature(FILE *fp, const char *filename,
 	else if (strncmp(file_signature, SIGNATURE_LIB, 6) == 0)
 		type = is_library;
 	else
-		die("error: file '%s' not object nor library\n", filename);
+		die("error: '%s' not object nor library\n", filename);
 
 	str_set_n(signature, file_signature, SIGNATURE_SIZE);
 
 	// read version
 	if (sscanf(file_signature + 6, "%d", version) < 1)
-		die("error: file '%s' not object nor library\n", filename);
+		die("error: '%s' not object nor library\n", filename);
 
 	if (*version < MIN_VERSION || *version > MAX_VERSION)
-		die("error: file '%s' version %d not supported\n",
+		die("error: '%s' version %d not supported\n",
 			filename, *version);
 
 	if (opt_obj_list)
@@ -97,7 +97,7 @@ static section_t *read_section(objfile_t *obj, FILE *fp)
 	}
 
 	if (!section)
-		die("error: section '%s' not found in file '%s'\n",
+		die("error: section '%s' not found in '%s'\n",
 			str_data(name), str_data(obj->filename));
 
 	str_free(name);
@@ -533,7 +533,7 @@ static void objfile_read_exprs(objfile_t *obj, FILE *fp, long fpos_start, long f
 			xfread_bcount_str(expr->text, fp);
 			char end_marker = xfread_byte(fp);
 			if (end_marker != '\0')
-				die("missing expression end marker in file '%s'\n",
+				die("missing expression end marker in '%s'\n",
 					str_data(obj->filename));
 		}
 
@@ -872,7 +872,7 @@ void file_read(file_t *file, const char *filename)
 	file->type = read_signature(fp, str_data(file->filename), signature, &file->version);
 
 	if (opt_obj_verbose)
-		printf("Reading file '%s': %s version %d\n",
+		printf("Reading '%s': %s version %d\n",
 			filename, file->type == is_object ? "object" : "library", file->version);
 
 	// read object files
@@ -923,7 +923,7 @@ static void file_write_library(file_t *file, FILE *fp)
 void file_write(file_t *file, const char *filename)
 {
 	if (opt_obj_verbose)
-		printf("Writing file '%s': %s version %d\n",
+		printf("Writing '%s': %s version %d\n",
 			filename, file->type == is_object ? "object" : "library", CUR_VERSION);
 
 	FILE *fp = xfopen(filename, "wb");

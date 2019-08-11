@@ -20,7 +20,7 @@ unlink_testfiles();
 z80asm(<<'...', "", 1, "", <<'...');
 	defc aaa = aaa
 ...
-Error at file 'test.asm' line 1: expression for 'aaa' depends on itself
+Error at 'test.asm' line 1: expression for 'aaa' depends on itself
 ...
 
 unlink_testfiles();

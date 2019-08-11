@@ -9,10 +9,9 @@ Repository: https://github.com/z88dk/z88dk
 Assembly directives.
 */
 
-#include "asmpp.h"
+#include "input.h"
 #include "codearea.h"
 #include "directives.h"
-#include "errors.h"
 #include "fileutil.h"
 #include "module.h"
 #include "parse.h"
@@ -53,10 +52,10 @@ void asm_cond_LABEL(Str *label)
 		Str_len(label) = 0;
 	}
 
-	if (opts.debug_info && !g_c_location.filename) {
+	if (opts.debug_info && !in_location(LocationC).filename) {
 		STR_DEFINE(name, STR_SIZE);
 
-		Str_sprintf(name, "__ASM_LINE_%ld", g_asm_location.line_num);
+		Str_sprintf(name, "__ASM_LINE_%d", in_location(LocationAsm).line_num);
 		if (!find_local_symbol(Str_data(name)))
 			asm_LABEL(Str_data(name));
 
@@ -156,21 +155,21 @@ void asm_LSTOFF(void)
 *----------------------------------------------------------------------------*/
 void asm_LINE(int line_num, const char *filename)
 {
-	pp_set_current_location((location_t) { str_pool_add(filename), line_num - 1 });
+	in_set_location(LocationAsm, (Location) { str_pool_add(filename), line_num - 1 });
 }
 
 void asm_C_LINE(int line_num, const char *filename)
 {
 	// if C_LINE was passed without a filename, infer C filename from the ASM one
 	if (!filename || !*filename)
-		filename = get_c_filename(g_asm_location.filename);
+		filename = get_c_filename(in_location(LocationAsm).filename);
 
-	g_c_location = (location_t){ str_pool_add(filename), line_num };
+	in_set_location(LocationC, (Location) { str_pool_add(filename), line_num });
 
 	if (opts.debug_info) {
 		STR_DEFINE(name, STR_SIZE);
 
-		Str_sprintf(name, "__C_LINE_%ld", line_num);
+		Str_sprintf(name, "__C_LINE_%d", line_num);
 		if (!find_local_symbol(Str_data(name)))
 			asm_LABEL(Str_data(name));
 

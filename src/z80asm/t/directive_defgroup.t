@@ -91,9 +91,9 @@ z80asm(<<'END', "", 1, "", <<'ERR');
 		dg2 = undefined
 	}			  						
 END
-Error at file 'test.asm' line 3: expected constant expression
-Error at file 'test.asm' line 4: symbol 'undefined' not defined
-Error at file 'test.asm' line 4: expected constant expression
+Error at 'test.asm' line 3: expected constant expression
+Error at 'test.asm' line 4: symbol 'undefined' not defined
+Error at 'test.asm' line 4: expected constant expression
 ERR
 
 # range errors
@@ -106,8 +106,8 @@ z80asm(<<'END', "", 1, "", <<'ERR');
 		dg4 = -32769				;; error: integer '-32769' out of range
 	}
 END
-Error at file 'test.asm' line 3: integer '65536' out of range
-Error at file 'test.asm' line 5: integer '-32769' out of range
+Error at 'test.asm' line 3: integer '65536' out of range
+Error at 'test.asm' line 5: integer '-32769' out of range
 ERR
 
 # {} block
@@ -115,14 +115,14 @@ unlink_testfiles();
 z80asm(<<'END', "", 1, "", <<'ERR');
 	defgroup 
 END
-Error at file 'test.asm' line 1: missing {} block
+Error at 'test.asm' line 2: missing {} block
 ERR
 
 unlink_testfiles();
 z80asm(<<'END', "", 1, "", <<'ERR');
 	defgroup  {
 END
-Error at file 'test.asm' line 1: {} block not closed
+Error at 'test.asm' line 2: {} block not closed
 ERR
 
 # BUG_0032 : DEFGROUP ignores name after assignment
