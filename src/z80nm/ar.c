@@ -7,14 +7,17 @@
  *	and dependencies of a particular library
  */
 
+#include "objfile.h"
+#include "../z80asm/utils.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <getopt.h>
-#include "objfile.h"
+
 
 void usage(char *name)
 {
-	die("Usage %s [-a][-l][-e][-c] library\n"
+	die("Usage %s [-a][-l][-e][-c] library"
 		"Display the contents of a z80asm library file\n"
 		"\n"
 		"-a\tShow all\n"

@@ -5,11 +5,9 @@
 //-----------------------------------------------------------------------------
 #pragma once
 
-#include "die.h"
 #include "objfile.h"
 #include "optparse.h"
 #include "utlist.h"
-#include "strutil.h"
 
 #include <sys/types.h>	// needed before regex.h
 #include "regex.h"

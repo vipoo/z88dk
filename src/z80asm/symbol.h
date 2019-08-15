@@ -12,37 +12,34 @@ Repository: https://github.com/z88dk/z88dk
 #include "expr.h"
 #include "zobjfile.h"
 #include "symtab.h"
-#include "types.h"
+#include "utils.h"
 #include "scan.h"
+
 #include <stdlib.h>
 
 /* Structured data types : */
 
 enum flag           { OFF, ON };
 
-struct liblist
-{
-    struct libfile    *firstlib;		/* pointer to first library file specified from command line */
-    struct libfile    *currlib;			/* pointer to current library file specified from command line */
+struct liblist {
+    struct libfile*    firstlib;		/* pointer to first library file specified from command line */
+    struct libfile*    currlib;			/* pointer to current library file specified from command line */
 };
 
-struct libfile
-{
-    struct libfile    *nextlib;			/* pointer to next library file in list */
-    char              *libfilename;		/* filename of library (incl. extension) */
+struct libfile {
+    struct libfile*    nextlib;			/* pointer to next library file in list */
+    char*              libfilename;		/* filename of library (incl. extension) */
     long              nextobjfile;		/* file pointer to next object file in library */
 };
 
-struct linklist
-{
-    struct linkedmod  *firstlink;		/* pointer to first linked object module */
-    struct linkedmod  *lastlink;		/* pointer to last linked module in list */
+struct linklist {
+    struct linkedmod*  firstlink;		/* pointer to first linked object module */
+    struct linkedmod*  lastlink;		/* pointer to last linked module in list */
 };
 
-struct linkedmod
-{
-    struct linkedmod  *nextlink;		/* pointer to next module link */
-    char              *objfilename;		/* filename of library/object file (incl. extension) */
+struct linkedmod {
+    struct linkedmod*  nextlink;		/* pointer to next module link */
+    char*              objfilename;		/* filename of library/object file (incl. extension) */
     long              modulestart;		/* base pointer of beginning of object module */
-    Module		     *moduleinfo;		/* pointer to main module information */
+    Module*		     moduleinfo;		/* pointer to main module information */
 };

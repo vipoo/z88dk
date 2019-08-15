@@ -33,7 +33,7 @@ bool test_exec(const char* name, int arg);
 #define STR_IS(a, b) 	test_string_is((a), (b), __FILE__, __LINE__)
 #define PASS()			OK(true)
 #define FAIL()			OK(false)
-#define ASSERT(x)   	do { OK(x); if (!x) return; } while (0)
+#define ASSERT(x)   	do { OK(x); if (!(x)) return; } while (0)
 #define EXEC_OK(name,arg,out,err) \
 						do { test_is_ok(test_exec((name), (arg)), __FILE__, __LINE__); \
 							 test_string_is(test_exec_out, (out), __FILE__, __LINE__); \

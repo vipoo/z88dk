@@ -4,6 +4,7 @@
 // License: http://www.perlfoundation.org/artistic_license_2_0
 //-----------------------------------------------------------------------------
 #include "zobjcopy.h"
+#include "../z80asm/utils.h"
 
 //-----------------------------------------------------------------------------
 // Usage and command line options
@@ -89,55 +90,55 @@ int main(int argc, char *argv[])
 		case OPT_HIDE_CODE: opt_obj_hide_code = true; break;
 		case OPT_SECTION:
 			*command = OPT_SECTION;
-			utarray_push_back(commands, &command);
+			utarray_str_push_back(commands, command);
 
 			p = strchr(options.optarg, '=');
 			if (!p)
-				die("error: no '=' in --section argument '%s'\n", options.optarg);
+				die("error: no '=' in --section argument '%s'", options.optarg);
 
 			regexp = options.optarg; *p = '\0';
-			utarray_push_back(commands, &regexp);
+			utarray_str_push_back(commands, regexp);
 
 			name = p + 1;
-			utarray_push_back(commands, &name);
+			utarray_str_push_back(commands, name);
 			break;
 		case OPT_ADD_PREFIX: 
 			*command = OPT_ADD_PREFIX;
-			utarray_push_back(commands, &command);
+			utarray_str_push_back(commands, command);
 
 			p = strchr(options.optarg, ',');
 			if (!p)
-				die("error: no ',' in --add-prefix argument '%s'\n", options.optarg);
+				die("error: no ',' in --add-prefix argument '%s'", options.optarg);
 
 			regexp = options.optarg; *p = '\0';
-			utarray_push_back(commands, &regexp);
+			utarray_str_push_back(commands, regexp);
 
 			prefix = p + 1;
-			utarray_push_back(commands, &prefix);
+			utarray_str_push_back(commands, prefix);
 			break;
 		case OPT_SYMBOL:
 			*command = OPT_SYMBOL;
-			utarray_push_back(commands, &command);
+			utarray_str_push_back(commands, command);
 
 			p = strchr(options.optarg, '=');
 			if (!p)
-				die("error: no '=' in --symbol argument '%s'\n", options.optarg);
+				die("error: no '=' in --symbol argument '%s'", options.optarg);
 
 			old_name = options.optarg; *p = '\0';
-			utarray_push_back(commands, &old_name);
+			utarray_str_push_back(commands, old_name);
 
 			name = p + 1;
-			utarray_push_back(commands, &name);
+			utarray_str_push_back(commands, name);
 			break;
 		case OPT_LOCAL:
 			*command = OPT_LOCAL;
-			utarray_push_back(commands, &command);
-			utarray_push_back(commands, &options.optarg);
+			utarray_str_push_back(commands, command);
+			utarray_str_push_back(commands, options.optarg);
 			break;
 		case OPT_GLOBAL:
 			*command = OPT_GLOBAL;
-			utarray_push_back(commands, &command);
-			utarray_push_back(commands, &options.optarg);
+			utarray_str_push_back(commands, command);
+			utarray_str_push_back(commands, options.optarg);
 			break;
 		case OPT_FILLER:
 			val = DEFAULT_ALIGN_FILLER;
@@ -151,34 +152,34 @@ int main(int argc, char *argv[])
 			break;
 		case OPT_ORG:
 			*command = OPT_ORG;
-			utarray_push_back(commands, &command);
+			utarray_str_push_back(commands, command);
 
 			p = strchr(options.optarg, ',');
 			if (!p)
-				die("error: no ',' in --org argument '%s'\n", options.optarg);
+				die("error: no ',' in --org argument '%s'", options.optarg);
 
 			name = options.optarg; *p = '\0';
-			utarray_push_back(commands, &name);
+			utarray_str_push_back(commands, name);
 
 			arg = p + 1;
-			utarray_push_back(commands, &arg);
+			utarray_str_push_back(commands, arg);
 			break;
 		case OPT_ALIGN:
 			*command = OPT_ALIGN;
-			utarray_push_back(commands, &command);
+			utarray_str_push_back(commands, command);
 
 			p = strchr(options.optarg, ',');
 			if (!p)
-				die("error: no ',' in --align argument '%s'\n", options.optarg);
+				die("error: no ',' in --align argument '%s'", options.optarg);
 
 			name = options.optarg; *p = '\0';
-			utarray_push_back(commands, &name);
+			utarray_str_push_back(commands, name);
 
 			arg = p + 1;
-			utarray_push_back(commands, &arg);
+			utarray_str_push_back(commands, arg);
 			break;
 		case '?':
-			die("error: %s\n", options.errmsg);
+			die("error: %s", options.errmsg);
 		default: assert(0);
 		}
 	}
@@ -186,19 +187,19 @@ int main(int argc, char *argv[])
 	// collect input file
 	char *infile = optparse_arg(&options);
 	if (!infile)
-		die("error: no input file\n");
+		die("error: no input file");
 
 	// collect output file
 	char *outfile = optparse_arg(&options);
 	if (opt_obj_list && outfile)
-		die("error: too many arguments\n");
+		die("error: too many arguments");
 	else if (!opt_obj_list && !outfile)
-		die("error: no output file\n");
+		die("error: no output file");
 	else
 		;
 
 	if (optparse_arg(&options) != NULL) 
-		die("error: too many arguments\n");
+		die("error: too many arguments");
 
 	// read file
 	file_t *file = file_new();

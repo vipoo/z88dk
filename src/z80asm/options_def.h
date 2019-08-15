@@ -35,23 +35,23 @@ OPT_VAR( bool,		opt_speed,	false   )
 OPT_VAR( bool,		opt_preprocess, false )	/* true to save preprocessing output */
 
 OPT_VAR(appmake_t, appmake, APPMAKE_NONE)
-OPT_VAR(const char *, appmake_opts, "")
-OPT_VAR(const char *, appmake_ext, "")
+OPT_VAR(const char*, appmake_opts, "")
+OPT_VAR(const char*, appmake_ext, "")
 OPT_VAR(int, appmake_origin_min, -1)
 OPT_VAR(int, appmake_origin_max, -1)
 
 OPT_VAR(int, cpu, CPU_Z80)
-OPT_VAR(const char *, cpu_name, CPU_Z80_NAME)
+OPT_VAR(const char*, cpu_name, CPU_Z80_NAME)
 
-OPT_VAR(const char *,	bin_file,	NULL	)	/* set by -o */
-OPT_VAR(const char *,	lib_file,	NULL	)	/* set by -x */
-OPT_VAR(const char *,    consol_obj_file, NULL)	/* set by -o and no -b */
-OPT_VAR(const char *,    output_directory, NULL)	/* set by -O */
+OPT_VAR(const char*,	bin_file,	NULL	)	/* set by -o */
+OPT_VAR(const char*,	lib_file,	NULL	)	/* set by -x */
+OPT_VAR(const char*,    consol_obj_file, NULL)	/* set by -o and no -b */
+OPT_VAR(const char*,    output_directory, NULL)	/* set by -O */
 
-OPT_VAR(argv_t *,	inc_path, NULL)			/* path for include files */
-OPT_VAR(argv_t *,	lib_path, NULL)			/* path for library files */
+OPT_VAR(UT_array*,	inc_path, NULL)			/* path for include files */
+OPT_VAR(UT_array*,	lib_path, NULL)			/* path for library files */
 
-OPT_VAR(argv_t *,	files,	  NULL)			/* list of input files */
+OPT_VAR(UT_array*,	files,	  NULL)			/* list of input files */
 
 OPT_VAR(int,		filler,		0)			/* filler byte for defs */
 
@@ -114,8 +114,8 @@ OPT(OptSet, &opts.opt_preprocess, "-E", "--preproc", "Create preprocessing outpu
 OPT_TITLE("Appmake Options:")
 OPT(OptCall, option_appmake_zx81, "", "+zx81", "Generate ZX81 .P file, origin at " ZX81_ORIGIN_S, "")
 OPT(OptCall, option_appmake_zx, "", "+zx", "Generate ZX Spectrum .tap file, origin defaults to\n"
-	"                         " ZX_ORIGIN_S " (in a REM), but can be set with -rORG >= 24000\n"
-	"                         for above RAMTOP", "")
+    "                         " ZX_ORIGIN_S " (in a REM), but can be set with -rORG >= 24000\n"
+    "                         for above RAMTOP", "")
 
 /*-----------------------------------------------------------------------------
 *   clear macros

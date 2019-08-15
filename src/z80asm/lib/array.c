@@ -2,7 +2,6 @@
 Z88DK Z80 Macro Assembler
 
 Template array that grows on request. Items may move in memory on reallocation.
-Uses strutil.h for implementation.
 
 Copyright (C) Gunther Strube, InterLogic 1993-99
 Copyright (C) Paulo Custodio, 2011-2019
@@ -15,6 +14,5 @@ Repository: https://github.com/z88dk/z88dk
 #include <assert.h>
 
 DEF_ARRAY(Byte);
-DEF_ARRAY(Word);
 DEF_ARRAY(int);
 DEF_ARRAY(long);

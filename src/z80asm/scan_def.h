@@ -11,7 +11,7 @@ Define lexer tokens
 /*-----------------------------------------------------------------------------
 *	Token IDs
 *	Lexical tokens are returned by the lexer
-*	Semantical tokens are used internally and have semantical value 
+*	Semantical tokens are used internally and have semantical value
 *----------------------------------------------------------------------------*/
 #ifndef TOKEN_RE
 #define TOKEN_RE(name, string, regexp, set_value)
@@ -192,7 +192,7 @@ TOKEN(TK_HL1, "HL'", )
 TOKEN(TK_AF1, "AF'", )
 
 /* indirect 8- and 16-bit registers */
-/* TK_IND_IX|IY|HL is followed by ')', '+' or '-', but follow char is not matched - 
+/* TK_IND_IX|IY|HL is followed by ')', '+' or '-', but follow char is not matched -
 *  can collect expression, will be positive or negative depending on symbol */
 TOKEN_RE(TK_IND_BC, "(BC", "(" hspace "BC"i index_reg_suffix, p--; te--)
 TOKEN_RE(TK_IND_DE, "(DE", "(" hspace "DE"i index_reg_suffix, p--; te--)

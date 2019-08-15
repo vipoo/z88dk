@@ -9,8 +9,9 @@ Repository: https://github.com/z88dk/z88dk
 
 #pragma once
 
-#include "types.h"
 #include "expr.h"
 
+#include <stdbool.h>
+
 extern void link_modules( void );
-extern void compute_equ_exprs( ExprList *exprs, bool show_error, bool module_relative_addr );
+extern void compute_equ_exprs( ExprList* exprs, bool show_error, bool module_relative_addr );

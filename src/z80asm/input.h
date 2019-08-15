@@ -14,8 +14,8 @@
 
 // line information
 typedef struct {
-	const char* filename;					// kept in string pool
-	int			line_num;
+    const char* filename;					// kept in string pool
+    int			line_num;
 } Location;
 
 // collect location information for these types

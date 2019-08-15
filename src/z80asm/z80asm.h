@@ -9,9 +9,10 @@ Repository: https://github.com/z88dk/z88dk
 
 #pragma once
 
-#include "types.h"
+#include "utils.h"
 #include "sym.h"
 #include "expr.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -23,9 +24,9 @@ Repository: https://github.com/z88dk/z88dk
 
 extern size_t sizeof_relocroutine, sizeof_reloctable;
 
-extern const char *GetLibfile(const char *filename );
+extern const char* GetLibfile(const char* filename );
 
-extern void assemble_file( const char *filename );
+extern void assemble_file( const char* filename );
 extern bool Pass2info(range_t range);
-extern bool Pass2infoExpr(range_t range, Expr *expr);
-extern int z80asm_main(int argc, char *argv[]);
+extern bool Pass2infoExpr(range_t range, Expr* expr);
+extern int z80asm_main(int argc, char* argv[]);

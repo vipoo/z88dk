@@ -8,7 +8,6 @@ Based on Learn C the Hard Way book, by Zed. A. Shaw (http://c.learncodethehardwa
 
 #pragma once
 
-#include "die.h"
 
 #include <stdio.h>
 #include <errno.h>
@@ -90,21 +89,10 @@ Based on Learn C the Hard Way book, by Zed. A. Shaw (http://c.learncodethehardwa
 				} \
 			} while (0)
 
-/* x<FUNC>() macros to call <FUNC>() and die on error */
-#define xatexit(func)	\
-		check_int_die(atexit(func), == 0, "atexit failed")
-
-#define xfputs(str,stream)	\
-		check_int_die(fputs((str), (stream)), == 0, "fputs failed")
-
-#define xsystem(command)	\
-		check_int_die(system(command), == 0, \
-					"command %s failed", command)
-
 /* Small stack of int / void* to allow reentrant macros to be build; push returns pushed value */
 extern int   dbg_push_int(int value);
-extern void *dbg_push_ptr(void *ptr);
+extern void* dbg_push_ptr(void* ptr);
 extern int   dbg_pop_int(void);
-extern void *dbg_pop_ptr(void);
+extern void* dbg_pop_ptr(void);
 extern int   dbg_peek_int(void);
-extern void *dbg_peek_ptr(void);
+extern void* dbg_peek_ptr(void);

@@ -127,11 +127,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\src\common\die.c" />
-    <ClCompile Include="..\..\src\common\fileutil.c" />
     <ClCompile Include="..\..\src\common\objfile.c" />
     <ClCompile Include="..\..\src\common\optparse.c" />
-    <ClCompile Include="..\..\src\common\strutil.c" />
     <ClCompile Include="..\..\src\z80asm\codearea.c" />
     <ClCompile Include="..\..\src\z80asm\directives.c" />
     <ClCompile Include="..\..\src\z80asm\expr.c" />

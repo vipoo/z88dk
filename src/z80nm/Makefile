@@ -12,10 +12,7 @@ endif
 include ../Make.common
 
 SRCS 		:= $(wildcard *.c) \
-			../common/die.c \
 			../common/objfile.c \
-			../common/fileutil.c \
-			../common/strutil.c \
 			../z80asm/utils.c \
 			$(wildcard ../../ext/regex/reg*.c)
 

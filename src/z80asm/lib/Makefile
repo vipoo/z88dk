@@ -33,7 +33,7 @@ PREFIX  	?= /usr/local
 
 INSTALL 	?= install
 
-SOURCES		= $(wildcard *.c) ../../common/die.c ../../common/fileutil.c ../../common/strutil.c
+SOURCES		= $(wildcard *.c)
 OBJECTS		= $(patsubst %.c,%.o,$(SOURCES))
 DEPENDS 	= $(patsubst %.c,%.d,$(SOURCES))
 

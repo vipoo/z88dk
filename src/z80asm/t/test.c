@@ -92,6 +92,13 @@ char* test_slurp_alloc(const char* filename)
 	}
 }
 
+static char* slurp_remove(const char* filename)
+{
+	char* text = normalize_eol(test_slurp_alloc(filename));
+	OK(0 == remove(filename));
+	return text;
+}
+
 static void print_summary()
 {
 	printf("1..%d\n", count_run);
@@ -160,13 +167,6 @@ void test_string_is(const char* a, const char* b, const char* filename, int line
 	else {
 		DIAG("NULL string");
 	}
-}
-
-static char* slurp_remove(const char* filename)
-{
-	char* text = normalize_eol(test_slurp_alloc(filename));
-	OK(0 == remove(filename));
-	return text;
 }
 
 bool test_exec(const char* name, int arg) 

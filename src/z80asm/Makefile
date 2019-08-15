@@ -25,6 +25,8 @@ CC 				?= gcc
 INSTALL 		?= install
 CROSS			?= 0
 
+ASTYLE			:= astyle --project=.astylerc
+
 #------------------------------------------------------------------------------
 # Object files
 #------------------------------------------------------------------------------
@@ -98,7 +100,9 @@ dev:
 	$(MAKE) -C tt
 	$(MAKE) -C lib
 	$(MAKE) -f dev/Makefile
+	$(MAKE) astyle
 	$(MAKE) all
+
 
 clean::
 	$(MAKE) -C lib clean
@@ -125,6 +129,17 @@ clean::
 	$(RM) *.log  $(LOCAL_LIB)/*.log  $(LOCAL_LIB)/t/*.log  $(LOCAL_LIB)/t/uthash/*.log
 	$(RM) *~     $(LOCAL_LIB)/*~     $(LOCAL_LIB)/t/*~     $(LOCAL_LIB)/t/uthash/*~
 	$(RM) -rf Debug Release x1 x2 x3
+
+#------------------------------------------------------------------------------
+# astyle
+#------------------------------------------------------------------------------
+.PHONY: astyle
+
+astyle:
+	$(ASTYLE) $(wildcard *.[ch] lib/*.[ch] ../common/*.[ch])
+
+clean::
+	$(RM) *.orig lib/*.orig ../common/*.orig
 
 #------------------------------------------------------------------------------
 # test

@@ -9,24 +9,82 @@ int  exec_error_output(int);
 void test_error_file(void);
 int  exec_error_file(void);
 void test_error_file_empty(void);
+void test_MIN(void);
+void test_MAX(void);
+void test_ABS(void);
+void test_CLAMP(void);
+void test_NUM_ELEMS(void);
 void test_die(void);
 int  exec_die(void);
+void test_str_pool(void);
+void test_str_pool_n(void);
 void test_xmalloc(void);
 void test_xcalloc(void);
 void test_xrealloc(void);
 void test_xstrdup(void);
-void test_xnew(void);
-void test_str_pool(void);
+void test_xstrndup(void);
+void test_xnew_xfree(void);
+void test_xatexit(void);
+int  exec_xatexit(void);
+void test_xsystem(void);
+int  exec_xsystem(int);
+void test_xremove(void);
+int  exec_xremove(void);
+void test_xmkdir_xrmdir(void);
+int  exec_xmkdir_xrmdir(int);
+void test_xfopen_xfwrite_xfread(void);
+void test_xfopen_error(void);
+int  exec_xfopen_error(void);
+void test_xfwrite_error(void);
+int  exec_xfwrite_error(void);
+void test_xfread_error(void);
+int  exec_xfread_error(void);
+void test_xfwrite_xfread_bytes(void);
+void test_xfwrite_str(void);
+void test_xfwrite_xfread_utstring(void);
+void test_xfwrite_xfread_int_uint(void);
+void test_xfwrite_xfread_count8str_utstring(void);
+int  exec_xfwrite_xfread_count8str_utstring(void);
+void test_xfwrite_xfread_count16str_utstring(void);
+void test_xfwrite_count8str_bytes(void);
+void test_xfwrite_count16str_bytes(void);
+void test_xfwrite_count8str_str(void);
+void test_xfwrite_count16str_str(void);
+int  exec_xfwrite_xfread_count16str_utstring(void);
+void test_xftell_xfseek(void);
+void test_file_spew_slurp(void);
+void test_path_find_all(void);
+void test_path_find_glob(void);
+void test_path_mkdir(void);
+void test_path_search(void);
+void test_path_canon(void);
+void test_path_os(void);
+void test_path_combine(void);
+void test_path_dir(void);
+void test_path_file(void);
+void test_path_ext(void);
+void test_path_remove_ext(void);
+void test_path_replace_ext(void);
+void test_file_checks(void);
+void test_char_digit(void);
+void test_str_toupper(void);
+void test_str_tolower(void);
+void test_str_chomp(void);
+void test_str_strip(void);
+void test_str_utstring_strip_compress_escapes(void);
+void test_str_case_cmp(void);
+void test_str_case_ncmp(void);
+void test_utstring_alloc(void);
+void test_utstring_set(void);
+void test_utstring_set_printf(void);
 void test_utstring_toupper(void);
 void test_utstring_tolower(void);
 void test_utstring_chomp(void);
 void test_utstring_strip(void);
-void test_xfopen(void);
-void test_xfopen_error(void);
-int  exec_xfopen_error(void);
-void test_xremove(void);
-int  exec_xremove(void);
-void test_file_checks(void);
+void test_utarray_alloc(void);
+void test_utarray_safe_eltptr(void);
+void test_utarray_str_alloc(void);
+void test_utarray_str_sort(void);
 
 #if EXEC_TEST
 if (strcmp(name, "exec_input_recursive_includes")==0) { int rv = exec_input_recursive_includes(); exit(rv); }
@@ -34,8 +92,15 @@ if (strcmp(name, "exec_in_file_open_error")==0) { int rv = exec_in_file_open_err
 if (strcmp(name, "exec_error_output")==0) { int rv = exec_error_output(arg); exit(rv); }
 if (strcmp(name, "exec_error_file")==0) { int rv = exec_error_file(); exit(rv); }
 if (strcmp(name, "exec_die")==0) { int rv = exec_die(); exit(rv); }
-if (strcmp(name, "exec_xfopen_error")==0) { int rv = exec_xfopen_error(); exit(rv); }
+if (strcmp(name, "exec_xatexit")==0) { int rv = exec_xatexit(); exit(rv); }
+if (strcmp(name, "exec_xsystem")==0) { int rv = exec_xsystem(arg); exit(rv); }
 if (strcmp(name, "exec_xremove")==0) { int rv = exec_xremove(); exit(rv); }
+if (strcmp(name, "exec_xmkdir_xrmdir")==0) { int rv = exec_xmkdir_xrmdir(arg); exit(rv); }
+if (strcmp(name, "exec_xfopen_error")==0) { int rv = exec_xfopen_error(); exit(rv); }
+if (strcmp(name, "exec_xfwrite_error")==0) { int rv = exec_xfwrite_error(); exit(rv); }
+if (strcmp(name, "exec_xfread_error")==0) { int rv = exec_xfread_error(); exit(rv); }
+if (strcmp(name, "exec_xfwrite_xfread_count8str_utstring")==0) { int rv = exec_xfwrite_xfread_count8str_utstring(); exit(rv); }
+if (strcmp(name, "exec_xfwrite_xfread_count16str_utstring")==0) { int rv = exec_xfwrite_xfread_count16str_utstring(); exit(rv); }
 
 #else
 DIAG("test_input"); test_input();
@@ -45,21 +110,72 @@ DIAG("test_in_file_open_error"); test_in_file_open_error();
 DIAG("test_error_output"); test_error_output();
 DIAG("test_error_file"); test_error_file();
 DIAG("test_error_file_empty"); test_error_file_empty();
+DIAG("test_MIN"); test_MIN();
+DIAG("test_MAX"); test_MAX();
+DIAG("test_ABS"); test_ABS();
+DIAG("test_CLAMP"); test_CLAMP();
+DIAG("test_NUM_ELEMS"); test_NUM_ELEMS();
 DIAG("test_die"); test_die();
+DIAG("test_str_pool"); test_str_pool();
+DIAG("test_str_pool_n"); test_str_pool_n();
 DIAG("test_xmalloc"); test_xmalloc();
 DIAG("test_xcalloc"); test_xcalloc();
 DIAG("test_xrealloc"); test_xrealloc();
 DIAG("test_xstrdup"); test_xstrdup();
-DIAG("test_xnew"); test_xnew();
-DIAG("test_str_pool"); test_str_pool();
+DIAG("test_xstrndup"); test_xstrndup();
+DIAG("test_xnew_xfree"); test_xnew_xfree();
+DIAG("test_xatexit"); test_xatexit();
+DIAG("test_xsystem"); test_xsystem();
+DIAG("test_xremove"); test_xremove();
+DIAG("test_xmkdir_xrmdir"); test_xmkdir_xrmdir();
+DIAG("test_xfopen_xfwrite_xfread"); test_xfopen_xfwrite_xfread();
+DIAG("test_xfopen_error"); test_xfopen_error();
+DIAG("test_xfwrite_error"); test_xfwrite_error();
+DIAG("test_xfread_error"); test_xfread_error();
+DIAG("test_xfwrite_xfread_bytes"); test_xfwrite_xfread_bytes();
+DIAG("test_xfwrite_str"); test_xfwrite_str();
+DIAG("test_xfwrite_xfread_utstring"); test_xfwrite_xfread_utstring();
+DIAG("test_xfwrite_xfread_int_uint"); test_xfwrite_xfread_int_uint();
+DIAG("test_xfwrite_xfread_count8str_utstring"); test_xfwrite_xfread_count8str_utstring();
+DIAG("test_xfwrite_xfread_count16str_utstring"); test_xfwrite_xfread_count16str_utstring();
+DIAG("test_xfwrite_count8str_bytes"); test_xfwrite_count8str_bytes();
+DIAG("test_xfwrite_count16str_bytes"); test_xfwrite_count16str_bytes();
+DIAG("test_xfwrite_count8str_str"); test_xfwrite_count8str_str();
+DIAG("test_xfwrite_count16str_str"); test_xfwrite_count16str_str();
+DIAG("test_xftell_xfseek"); test_xftell_xfseek();
+DIAG("test_file_spew_slurp"); test_file_spew_slurp();
+DIAG("test_path_find_all"); test_path_find_all();
+DIAG("test_path_find_glob"); test_path_find_glob();
+DIAG("test_path_mkdir"); test_path_mkdir();
+DIAG("test_path_search"); test_path_search();
+DIAG("test_path_canon"); test_path_canon();
+DIAG("test_path_os"); test_path_os();
+DIAG("test_path_combine"); test_path_combine();
+DIAG("test_path_dir"); test_path_dir();
+DIAG("test_path_file"); test_path_file();
+DIAG("test_path_ext"); test_path_ext();
+DIAG("test_path_remove_ext"); test_path_remove_ext();
+DIAG("test_path_replace_ext"); test_path_replace_ext();
+DIAG("test_file_checks"); test_file_checks();
+DIAG("test_char_digit"); test_char_digit();
+DIAG("test_str_toupper"); test_str_toupper();
+DIAG("test_str_tolower"); test_str_tolower();
+DIAG("test_str_chomp"); test_str_chomp();
+DIAG("test_str_strip"); test_str_strip();
+DIAG("test_str_utstring_strip_compress_escapes"); test_str_utstring_strip_compress_escapes();
+DIAG("test_str_case_cmp"); test_str_case_cmp();
+DIAG("test_str_case_ncmp"); test_str_case_ncmp();
+DIAG("test_utstring_alloc"); test_utstring_alloc();
+DIAG("test_utstring_set"); test_utstring_set();
+DIAG("test_utstring_set_printf"); test_utstring_set_printf();
 DIAG("test_utstring_toupper"); test_utstring_toupper();
 DIAG("test_utstring_tolower"); test_utstring_tolower();
 DIAG("test_utstring_chomp"); test_utstring_chomp();
 DIAG("test_utstring_strip"); test_utstring_strip();
-DIAG("test_xfopen"); test_xfopen();
-DIAG("test_xfopen_error"); test_xfopen_error();
-DIAG("test_xremove"); test_xremove();
-DIAG("test_file_checks"); test_file_checks();
+DIAG("test_utarray_alloc"); test_utarray_alloc();
+DIAG("test_utarray_safe_eltptr"); test_utarray_safe_eltptr();
+DIAG("test_utarray_str_alloc"); test_utarray_str_alloc();
+DIAG("test_utarray_str_sort"); test_utarray_str_sort();
 
 #endif
 #undef EXEC_TEST

@@ -12,7 +12,7 @@ Repository: https://github.com/z88dk/z88dk
 #pragma once
 
 #include "dbg.h"
-#include "types.h"
+#include "../utils.h"
 
 /*-----------------------------------------------------------------------------
 *   Usage:

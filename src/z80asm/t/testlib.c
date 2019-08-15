@@ -11,6 +11,7 @@ Repository: https://github.com/z88dk/z88dk
 
 #include "dbg.h"
 #include "testlib.h"
+#include "../utils.h"
 #include <assert.h>
 #include <stdlib.h>
 

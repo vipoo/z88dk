@@ -6,9 +6,8 @@
 //-----------------------------------------------------------------------------
 #pragma once
 
-#include "types.h"
 #include "utarray.h"
-#include "strutil.h"
+#include "utils.h"
 
 /*-----------------------------------------------------------------------------
 *   CPU type
@@ -49,8 +48,7 @@ typedef enum { APPMAKE_NONE, APPMAKE_ZX81, APPMAKE_ZX } appmake_t;
 *   singleton opts
 *----------------------------------------------------------------------------*/
 #define OPT_VAR(type, name, default)	type name;
-typedef struct Opts
-{
+typedef struct Opts {
 #include "options_def.h"
 }
 Opts;
@@ -61,25 +59,25 @@ extern Opts opts;
 *   Parse command line, set options, including opts.files with list of
 *	input files, including parsing of '@' lists
 *----------------------------------------------------------------------------*/
-extern void parse_argv( int argc, char *argv[] );
+extern void parse_argv( int argc, char* argv[] );
 
 /*-----------------------------------------------------------------------------
 *   Change extension of given file name, return pointer to file name in
 *	strpool
 *	Extensions may be changed by options.
 *----------------------------------------------------------------------------*/
-extern const char *get_asm_filename(const char *filename );
-extern const char *get_c_filename(const char *filename );
-extern const char *get_preproc_filename(const char *filename );
-extern const char *get_list_filename(const char *filename );
-extern const char *get_obj_filename(const char *filename );
-extern const char *get_def_filename(const char *filename );
-extern const char *get_err_filename(const char *filename );
-extern const char *get_bin_filename(const char *filename );
-extern const char *get_lib_filename(const char *filename );
-extern const char *get_sym_filename(const char *filename );
-extern const char *get_map_filename(const char *filename);
-extern const char *get_reloc_filename(const char *filename);
+extern const char* get_asm_filename(const char* filename );
+extern const char* get_c_filename(const char* filename );
+extern const char* get_preproc_filename(const char* filename );
+extern const char* get_list_filename(const char* filename );
+extern const char* get_obj_filename(const char* filename );
+extern const char* get_def_filename(const char* filename );
+extern const char* get_err_filename(const char* filename );
+extern const char* get_bin_filename(const char* filename );
+extern const char* get_lib_filename(const char* filename );
+extern const char* get_sym_filename(const char* filename );
+extern const char* get_map_filename(const char* filename);
+extern const char* get_reloc_filename(const char* filename);
 
 /*-----------------------------------------------------------------------------
 *   Call appmake if requested in options

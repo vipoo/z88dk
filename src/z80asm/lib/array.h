@@ -2,7 +2,6 @@
 Z88DK Z80 Macro Assembler
 
 Template array that grows on request. Items may move in memory on reallocation.
-Uses strutil.h for implementation.
 
 Copyright (C) Gunther Strube, InterLogic 1993-99
 Copyright (C) Paulo Custodio, 2011-2019
@@ -14,9 +13,8 @@ Repository: https://github.com/z88dk/z88dk
 
 #include "alloc.h"
 #include "class.h"
-#include "types.h"
 #include "str.h"
-#include "die.h"
+#include "../utils.h"
 #include <stdlib.h>
 
 /*-----------------------------------------------------------------------------
@@ -53,8 +51,6 @@ Repository: https://github.com/z88dk/z88dk
 /* default types */
 typedef byte_t Byte;
 ARRAY(Byte);
-typedef word_t Word;
-ARRAY(Word);
 ARRAY(int);
 ARRAY(long);
 

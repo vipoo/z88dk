@@ -4,7 +4,6 @@
 // License: http://www.perlfoundation.org/artistic_license_2_0
 //-----------------------------------------------------------------------------
 #include "unity.h"
-#include "die.h"
 
 #include <assert.h>
 #include <stdlib.h>
@@ -19,13 +18,13 @@ void tearDown() {}
 
 int main(int argc, char *argv[])
 {
-	if (argc == 2) {
+    if (argc == 2) {
 #include "test1.hh"
-		assert(0);
-	}
-	else {
-		UNITY_BEGIN();
+        assert(0);
+    }
+    else {
+        UNITY_BEGIN();
 #include "test2.hh"
-		return UNITY_END();
-	}
+        return UNITY_END();
+    }
 }

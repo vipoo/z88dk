@@ -101,19 +101,10 @@
     <ClCompile Include="..\..\src\z80asm\lib\strhash.c">
       <Filter>Source Files\main</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\common\die.c">
-      <Filter>Source Files\main</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\common\fileutil.c">
-      <Filter>Source Files\main</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\common\objfile.c">
       <Filter>Source Files\main</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\common\optparse.c">
-      <Filter>Source Files\main</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\common\strutil.c">
       <Filter>Source Files\main</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\z80asm\utils.c">

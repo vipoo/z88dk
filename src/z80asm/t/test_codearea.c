@@ -139,8 +139,8 @@ static void test_sections( void )
 {
 	Section *section_blank, *section_code, *section_data;
 	int module_id;
-	open_file_t bin_file = {NULL,"test.bin"};
-	open_file_t reloc_file = {NULL,NULL};
+	OpenFile bin_file = {NULL,"test.bin"};
+	OpenFile reloc_file = {NULL,NULL};
 	byte_t *p;
 	int code_size;
 

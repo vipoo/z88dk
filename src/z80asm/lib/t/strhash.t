@@ -15,7 +15,7 @@ use File::Slurp;
 use Capture::Tiny 'capture';
 use Test::Differences; 
 
-my $compile = "gcc -I../../../ext/uthash/src -I../../common -otest test.c strhash.c class.c alloc.c str.c dbg.c ../../common/die.o ../../common/strutil.o ";
+my $compile = "gcc -I../../../ext/uthash/src -I../../common -otest test.c strhash.c class.c alloc.c str.c dbg.c ../../common/die.o";
 
 write_file("test.c", <<'END');
 #include "strhash.h"

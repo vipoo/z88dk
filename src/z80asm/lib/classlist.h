@@ -13,8 +13,8 @@ Repository: https://github.com/z88dk/z88dk
 
 #include "alloc.h"
 #include "queue.h"
-#include "types.h"
 #include "class.h"
+#include "../utils.h"
 
 /*-----------------------------------------------------------------------------
 *   PUBLIC INTERFACE
@@ -79,7 +79,7 @@ DEF_CLASS_LIST(T);
 																			\
 	/* check if list is empty */											\
 	extern bool T##List_empty( T##List *self );								\
- 
+
 /*-----------------------------------------------------------------------------
 *   Class definition
 *----------------------------------------------------------------------------*/

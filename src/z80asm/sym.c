@@ -13,25 +13,24 @@ One symbol from the assembly code - label or constant.
 #include "listfile.h"
 #include "options.h"
 #include "str.h"
-#include "strutil.h"
 #include "sym.h"
 #include "symbol.h"
 
 /*-----------------------------------------------------------------------------
 *   Constant tables
 *----------------------------------------------------------------------------*/
-char *sym_type_str[] = {
-	"undef",
-	"const",
-	"addr",
-	"comput",
+char* sym_type_str[] = {
+    "undef",
+    "const",
+    "addr",
+    "comput",
 };
 
-char *sym_scope_str[] = {
-	"local",
-	"public",
-	"extern",
-	"global",
+char* sym_scope_str[] = {
+    "local",
+    "public",
+    "extern",
+    "global",
 };
 
 /*-----------------------------------------------------------------------------
@@ -39,30 +38,29 @@ char *sym_scope_str[] = {
 *----------------------------------------------------------------------------*/
 DEF_CLASS( Symbol )
 
-void Symbol_init( Symbol *self ) {}
-void Symbol_copy( Symbol *self, Symbol *other ) {}
-void Symbol_fini( Symbol *self ) {}
+void Symbol_init( Symbol* self ) {}
+void Symbol_copy( Symbol* self, Symbol* other ) {}
+void Symbol_fini( Symbol* self ) {}
 
 /*-----------------------------------------------------------------------------
 *   create a new symbol, needs to be deleted by OBJ_DELETE()
 *	adds a reference to the page were referred to
 *----------------------------------------------------------------------------*/
-Symbol *Symbol_create(const char *name, long value, sym_type_t type, sym_scope_t scope,
-					   Module *module, Section *section )
-{
-    Symbol *self 	= OBJ_NEW( Symbol );
+Symbol* Symbol_create(const char* name, long value, sym_type_t type, sym_scope_t scope,
+                      Module* module, Section* section ) {
+    Symbol* self 	= OBJ_NEW( Symbol );
 
-	self->name = str_pool_add(name);			/* name in strpool, not freed */
-	self->value = value;
-	self->type = type;
-	self->scope = scope;
-	self->module = module;
-	self->section = section;
+    self->name = str_pool_add(name);			/* name in strpool, not freed */
+    self->value = value;
+    self->type = type;
+    self->scope = scope;
+    self->module = module;
+    self->section = section;
 
-	if (in_location(LocationC).filename) 
-		self->location = in_location(LocationC);
-	else 
-		self->location = in_location(LocationAsm);
+    if (in_location(LocationC).filename)
+        self->location = in_location(LocationC);
+    else
+        self->location = in_location(LocationAsm);
 
     return self;              						/* pointer to new symbol */
 }
@@ -70,22 +68,20 @@ Symbol *Symbol_create(const char *name, long value, sym_type_t type, sym_scope_t
 /*-----------------------------------------------------------------------------
 *   return full symbol name NAME@MODULE stored in strpool
 *----------------------------------------------------------------------------*/
-const char *Symbol_fullname( Symbol *sym )
-{
-	STR_DEFINE(name, STR_SIZE);
-	const char *ret;
+const char* Symbol_fullname( Symbol* sym ) {
+    STR_DEFINE(name, STR_SIZE);
+    const char* ret;
 
     Str_set( name, sym->name );
 
-    if ( sym->module && sym->module->modname )
-    {
+    if ( sym->module && sym->module->modname ) {
         Str_append_char( name, '@' );
         Str_append( name, sym->module->modname );
     }
 
     ret = str_pool_add( Str_data(name) );
 
-	STR_DELETE(name);
+    STR_DELETE(name);
 
-	return ret;
+    return ret;
 }

@@ -16,7 +16,7 @@ Repository: https://github.com/z88dk/z88dk
 #include "alloc.h"
 #include "class.h"
 #include "init.h"
-#include "types.h"
+#include "../utils.h"
 
 /*-----------------------------------------------------------------------------
 *   Object register - just the pointers defined by CLASS()
@@ -32,9 +32,8 @@ static ObjectList objects = LIST_HEAD_INITIALIZER( objects );
 /*-----------------------------------------------------------------------------
 *   Search next object to be deleted
 *----------------------------------------------------------------------------*/
-static Object *next_autodelete( ObjectList *headp )
-{
-    Object *obj;
+static Object* next_autodelete( ObjectList* headp ) {
+    Object* obj;
 
     LIST_FOREACH( obj, headp, _class.entries )
 
@@ -47,9 +46,8 @@ static Object *next_autodelete( ObjectList *headp )
 /*-----------------------------------------------------------------------------
 *   Initialize
 *----------------------------------------------------------------------------*/
-DEFINE_init_module()
-{
-	/* make sure m_malloc is removed last */
+DEFINE_init_module() {
+    /* make sure m_malloc is removed last */
     m_alloc_init();
 
 #ifdef CLASS_DEBUG
@@ -60,9 +58,8 @@ DEFINE_init_module()
 /*-----------------------------------------------------------------------------
 *   Destruct all objects from the stack
 *----------------------------------------------------------------------------*/
-DEFINE_dtor_module()
-{
-    Object *obj;
+DEFINE_dtor_module() {
+    Object* obj;
 
 #ifdef CLASS_DEBUG
     warn( "class: cleanup\n" );
@@ -73,8 +70,7 @@ DEFINE_dtor_module()
         OBJ_DELETE( obj );          /* delete obj, set to NULL */
 
     /* safety net - should not come here - delete any remaining objects */
-    while ( ! LIST_EMPTY( &objects ) )
-    {
+    while ( ! LIST_EMPTY( &objects ) ) {
         obj = LIST_FIRST( &objects );
         OBJ_DELETE( obj );          /* delete obj, set to NULL */
     }
@@ -83,10 +79,9 @@ DEFINE_dtor_module()
 /*-----------------------------------------------------------------------------
 *   Register an object
 *----------------------------------------------------------------------------*/
-void _register_obj(Object *obj,
-	void(*delete_ptr)(Object *),
-	const char *name)
-{
+void _register_obj(Object* obj,
+                   void(*delete_ptr)(Object*),
+                   const char* name) {
     init_module();
 
     obj->_class.delete_ptr = delete_ptr;
@@ -95,8 +90,7 @@ void _register_obj(Object *obj,
     _update_register_obj( obj );
 }
 
-void _update_register_obj( Object *obj )
-{
+void _update_register_obj( Object* obj ) {
     init_module();
 
     LIST_INSERT_HEAD( &objects, obj, _class.entries );
@@ -109,8 +103,7 @@ void _update_register_obj( Object *obj )
 /*-----------------------------------------------------------------------------
 *   Deregister an object
 *----------------------------------------------------------------------------*/
-void _deregister_obj( Object *obj )
-{
+void _deregister_obj( Object* obj ) {
     init_module();
 
     LIST_REMOVE( obj, _class.entries );

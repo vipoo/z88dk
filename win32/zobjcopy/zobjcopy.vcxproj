@@ -141,11 +141,8 @@
     </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\src\common\die.c" />
-    <ClCompile Include="..\..\src\common\fileutil.c" />
     <ClCompile Include="..\..\src\common\objfile.c" />
     <ClCompile Include="..\..\src\common\optparse.c" />
-    <ClCompile Include="..\..\src\common\strutil.c" />
     <ClCompile Include="..\..\src\z80asm\utils.c" />
     <ClCompile Include="..\..\src\zobjcopy\zobjcopy.c" />
   </ItemGroup>

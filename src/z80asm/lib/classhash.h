@@ -15,9 +15,9 @@ Repository: https://github.com/z88dk/z88dk
 #pragma once
 
 #include "queue.h"
-#include "types.h"
 #include "class.h"
 #include "strhash.h"
+#include "../utils.h"
 
 /*-----------------------------------------------------------------------------
 *   PUBLIC INTERFACE
@@ -86,7 +86,7 @@ DEF_CLASS_HASH(T, bool ignore_case);	// ignore_case = true for case-insensitive
 																			\
 	/* sort the items in the hash */										\
 	extern void T##Hash_sort( T##Hash *self, T##Hash_compare_func compare );\
- 
+
 /*-----------------------------------------------------------------------------
 *   Class definition
 *----------------------------------------------------------------------------*/

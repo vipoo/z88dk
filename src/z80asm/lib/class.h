@@ -17,7 +17,7 @@ Repository: https://github.com/z88dk/z88dk
 
 #include "alloc.h"
 #include "queue.h"
-#include "types.h"
+#include "../utils.h"
 
 #include <stdlib.h>
 
@@ -148,8 +148,8 @@ struct Object;
 /*-----------------------------------------------------------------------------
 *   Private interface
 *----------------------------------------------------------------------------*/
-extern void _register_obj(struct Object *obj,
-	void(*delete_ptr)(struct Object *),
-	const char *name);
-extern void _update_register_obj( struct Object *obj );
-extern void _deregister_obj( struct Object *obj );
+extern void _register_obj(struct Object* obj,
+                          void(*delete_ptr)(struct Object*),
+                          const char* name);
+extern void _update_register_obj( struct Object* obj );
+extern void _deregister_obj( struct Object* obj );
