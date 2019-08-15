@@ -6,24 +6,22 @@
     PUBLIC pca9665_write_burst
 
     ;Do a burst write to the direct registers
-    ;input B  =  number of bytes to write, max 68 to hardware buffer
-    ;input C  =  device addr | direct register address (ddd000rr)
+    ;input E  =  number of bytes to write, max 68 to hardware buffer
+    ;input BC =  device addr | direct register address (ddd.....:......rr)
     ;input HL =  starting adddress of 256 byte aligned output buffer
     ;output HL = finishing address
     ;FIXME do this with DMA
     
-pca9665_write_burst:
+.pca9665_write_burst
     push de
-    ld d, h             ;remember the buffer MSB
-    ld e, b             ;keep iterative count in E
-pca9665_wr_bst:
-    ld b, c             ;prepare device and register address
+    ld d,h              ;remember the buffer MSB
+.pca9665_wr_bst
                         ;lower address bits (0x1F) of B irrelevant
                         ;upper address bits (0xFC) of C irrelevant
-    ld h, d             ;unwrap the buffer address MSB                        
     outi                ;write the byte (HL++)
+    ld h,d              ;unwrap the buffer address MSB
     dec e               ;keep iterative count in E
-    jr NZ, pca9665_wr_bst
+    jr NZ,pca9665_wr_bst
     pop de
     ret
 

@@ -377,14 +377,16 @@ char* subst_imp(char* pat, char** vars)
             pat += 2;
         } else if (pat[0] == '%' && strncmp(pat,"%eval(", 6) == 0 ) {
             char expr[1024];
-            int  x = 0;
+            int  x = 0, r;
             pat += 6;
             while (*pat != ')') {
                 expr[x++] = *pat++;
             }
             expr[x] = 0;
             pat++;
-            sprintf(expr, "%d", rpn_eval(expr, vars));
+            r = rpn_eval(expr, vars);
+            fprintf(stderr, "RPN evaluation resulted in: %d\n",r);
+            sprintf(expr, "%d", r);
             for ( s = expr; i <MAXLINE && *s; i++ )
                 lin[i] = *s++;
         } else if (pat[0] == '%' && isdigit(pat[1])) {
@@ -704,12 +706,21 @@ int rpn_eval(const char* expr, char** vars)
         case '7':
         case '8':
         case '9':
-            n = strtoll(ptr - 1, &endptr, 10);
+            n = strtol(ptr - 1, &endptr, 0);
+            if ( endptr == ptr - 1 ) {
+                fprintf(stderr,"Optimiser error, cannot parse number: %s\n",ptr-1);
+                exit(1);
+            }
             ptr = endptr;
             push(n);
             break;
         case '+':
-            push(pop() + pop());
+            {
+                int a = pop();
+                int b = pop();
+                fprintf(stderr, "RPN adding %d + %d\n",a,b);
+                push(a + b);
+            }
             break;
         case '*':
             push(pop() * pop());
@@ -745,7 +756,14 @@ int rpn_eval(const char* expr, char** vars)
             if ( isdigit(*ptr) ) {
                 // It's a variable
                 char v = *ptr++;
-                push(atoi(vars[v - '0']));
+                char *endptr;
+                char *val = vars[v-'0'];
+                n = strtol(val, &endptr, 0);
+                if ( endptr == val ) {
+                    fprintf(stderr,"Optimiser error, cannot parse variable: %s\n",val);
+                    exit(1);
+                }
+                push(n);
             } else if ( *ptr++ == '%' ) {
                 op2 = pop();
                 if (op2 != 0) {
