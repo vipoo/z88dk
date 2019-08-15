@@ -100,7 +100,6 @@ dev:
 	$(MAKE) -C tt
 	$(MAKE) -C lib
 	$(MAKE) -f dev/Makefile
-	$(MAKE) astyle
 	$(MAKE) all
 
 
