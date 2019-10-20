@@ -360,6 +360,8 @@ sub init_opcodes {
 		# compound opcodes
 		
 		for my $r (qw( bc de )) {
+			my($rh, $rl) = split(//, $r);
+
 			add_compound("ld a, ($r+)"	=> "ld a, ($r)", "inc $r");
 			add_compound("ld ($r+), a"	=> "ld ($r), a", "inc $r");
 
@@ -372,6 +374,14 @@ sub init_opcodes {
 			add_compound("ldd a, ($r)"	=> "ld a, ($r)", "dec $r");
 			add_compound("ldd ($r), a"	=> "ld ($r), a", "dec $r");
 			
+			add_compound("ld $r, (hl)"	=> "ld $rl, (hl)", "inc hl", "ld $rh, (hl)", "dec hl");
+			add_compound("ldi $r, (hl)"	=> "ld $rl, (hl)", "inc hl", "ld $rh, (hl)", "inc hl");
+			add_compound("ld $r, (hl+)"	=> "ld $rl, (hl)", "inc hl", "ld $rh, (hl)", "inc hl");
+			
+			add_compound("ld (hl), $r"	=> "ld (hl), $rl", "inc hl", "ld (hl), $rh", "dec hl");
+			add_compound("ldi (hl), $r"	=> "ld (hl), $rl", "inc hl", "ld (hl), $rh", "inc hl");
+			add_compound("ld (hl+), $r"	=> "ld (hl), $rl", "inc hl", "ld (hl), $rh", "inc hl");
+			
 			add_compound("jp ($r)"		=> "push $r", "ret");
 		}
 
@@ -383,6 +393,20 @@ sub init_opcodes {
 				add_compound("ld $r1, $r2"	=> "ld $r1h, $r2h", "ld $r1l, $r2l");
 			}
 		}
+
+		for my $r (qw( b c d e h l a )) {
+			add_compound("ld $r, (hl+)"	=> "ld $r, (hl)", "inc hl");
+			add_compound("ldi $r, (hl)"	=> "ld $r, (hl)", "inc hl");
+			
+			add_compound("ld $r, (hl-)"	=> "ld $r, (hl)", "dec hl");
+			add_compound("ldd $r, (hl)"	=> "ld $r, (hl)", "dec hl");
+		}
+		
+		add_compound("ld (hl+), %n"		=> "ld (hl), %n", "inc hl");
+		add_compound("ldi (hl), %n"		=> "ld (hl), %n", "inc hl");
+
+		add_compound("ld (hl-), %n"		=> "ld (hl), %n", "dec hl");
+		add_compound("ldd (hl), %n"		=> "ld (hl), %n", "dec hl");
 
 		add_compound("inc (hl+)"		=> "inc (hl)", "inc hl");
 		add_compound("inc (hl-)"		=> "inc (hl)", "dec hl");
