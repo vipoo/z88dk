@@ -934,7 +934,8 @@
  ld d, ixl                      ; Error
  ld d, iyh                      ; Error
  ld d, iyl                      ; Error
- ld de, hl+0                    ; Error
+ ld de, hl+-128                 ; Error
+ ld de, hl+127                  ; Error
  ld de, hl+255                  ; Error
  ld de, sp                      ; Error
  ld de, sp+0                    ; Error

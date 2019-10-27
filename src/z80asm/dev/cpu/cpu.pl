@@ -289,6 +289,12 @@ for my $cpu (@CPUS) {
 		add_opc($cpu, "ldd a, (hl)", 0x7E, 0x2B);
 	}
 	
+	add_opc_final($cpu, "ld (hl+), %n", 0x36, '%n', 0x23);
+	add_opc_final($cpu, "ldi (hl), %n", 0x36, '%n', 0x23);
+	
+	add_opc_final($cpu, "ld (hl-), %n", 0x36, '%n', 0x2B);
+	add_opc_final($cpu, "ldd (hl), %n", 0x36, '%n', 0x2B);
+
 	# LD dd, NN
 	for my $r (qw( bc de hl sp )) {
 		my $alt_r = ($r eq 'sp') ? $r : substr($r,0,1);		# B, D, H
@@ -342,11 +348,10 @@ for my $cpu (@CPUS) {
 		# Add 00bb immediate to HL, result to DE (undocumented i8085)
 		add_opc($cpu, "ldhi %n",		0x28, '%n');
 		add_opc($cpu, "adi hl, %n",		0x28, '%n');
-		add_opc($cpu, "ld de, hl+%u",	0x28, '%u');
+		add_opc($cpu, "ld de, hl+%n",	0x28, '%n');
 	}
-	else {	
-		add_opc($cpu, "ld de, hl", 		0x54, 0x5D);
-	}
+
+	add_opc($cpu, "ld de, hl", 		0x54, 0x5D);
 
 	add_opc($cpu, "ld hl, bc", 0x60, 0x69);
 	add_opc($cpu, "ld hl, de", 0x62, 0x6B);
@@ -382,6 +387,13 @@ for my $cpu (@CPUS) {
 		}
 	}
 
+	for my $op (qw( add adc sub sbc and xor or cp cmp )) {
+		for my $a ('a, ', '') {
+			add_opc($cpu, "$op $a(hl+)", alu_r($op, '(hl)'), 0x23);
+			add_opc($cpu, "$op $a(hl-)", alu_r($op, '(hl)'), 0x2B);
+		}
+	}
+
 	for my $r (qw( b c d e h l m a )) {
 		add_opc($cpu, "add $r",		0x80 + $V{$r});
 		add_opc($cpu, "adc $r",		0x88 + $V{$r});
@@ -408,6 +420,12 @@ for my $cpu (@CPUS) {
 		add_opc($cpu, "inc $r", 	inc_r($r));
 		add_opc($cpu, "dec $r", 	dec_r($r));
 	}
+
+	add_opc($cpu, "inc (hl+)", 	inc_r('(hl)'), 0x23);
+	add_opc($cpu, "inc (hl-)", 	inc_r('(hl)'), 0x2B);
+	add_opc($cpu, "dec (hl+)", 	dec_r('(hl)'), 0x23);
+	add_opc($cpu, "dec (hl-)", 	dec_r('(hl)'), 0x2B);
+
 	for my $r (qw( b c d e h l m a )) {
 		add_opc($cpu, "inr $r",		inc_r($r));
 		add_opc($cpu, "dcr $r",		dec_r($r));
@@ -562,6 +580,85 @@ for my $cpu (@CPUS) {
 			add_opc($cpu, "ldp hl, ($r)", $pfx, 0x6C);
 		}
 	}
+	
+	add_opc_final($cpu, "ld bc, bc", 	0x40, 0x49);
+	add_opc_final($cpu, "ld bc, de", 	0x42, 0x4B);
+	add_opc_final($cpu, "ld bc, hl", 	0x44, 0x4D);
+
+	add_opc_final($cpu, "ld de, bc", 	0x50, 0x59);
+	add_opc_final($cpu, "ld de, de", 	0x52, 0x5B);
+	add_opc_final($cpu, "ld de, hl", 	0x54, 0x5D) unless $i8085;
+
+	add_opc_final($cpu, "ld hl, bc", 	0x60, 0x69);
+	add_opc_final($cpu, "ld hl, de", 	0x62, 0x6B);
+	add_opc_final($cpu, "ld hl, hl", 	0x64, 0x6D);
+	
+	add_opc_final($cpu, "ld b, (hl+)", 	0x46, 0x23);
+	add_opc_final($cpu, "ldi b, (hl)", 	0x46, 0x23);
+	add_opc_final($cpu, "ld b, (hl-)", 	0x46, 0x2B);
+	add_opc_final($cpu, "ldd b, (hl)", 	0x46, 0x2B);
+
+	add_opc_final($cpu, "ld c, (hl+)", 	0x4E, 0x23);
+	add_opc_final($cpu, "ldi c, (hl)", 	0x4E, 0x23);
+	add_opc_final($cpu, "ld c, (hl-)", 	0x4E, 0x2B);
+	add_opc_final($cpu, "ldd c, (hl)", 	0x4E, 0x2B);
+
+	add_opc_final($cpu, "ld d, (hl+)", 	0x56, 0x23);
+	add_opc_final($cpu, "ldi d, (hl)", 	0x56, 0x23);
+	add_opc_final($cpu, "ld d, (hl-)", 	0x56, 0x2B);
+	add_opc_final($cpu, "ldd d, (hl)", 	0x56, 0x2B);
+
+	add_opc_final($cpu, "ld e, (hl+)", 	0x5E, 0x23);
+	add_opc_final($cpu, "ldi e, (hl)", 	0x5E, 0x23);
+	add_opc_final($cpu, "ld e, (hl-)", 	0x5E, 0x2B);
+	add_opc_final($cpu, "ldd e, (hl)", 	0x5E, 0x2B);
+
+	add_opc_final($cpu, "ld h, (hl+)", 	0x66, 0x23);
+	add_opc_final($cpu, "ldi h, (hl)", 	0x66, 0x23);
+	add_opc_final($cpu, "ld h, (hl-)", 	0x66, 0x2B);
+	add_opc_final($cpu, "ldd h, (hl)", 	0x66, 0x2B);
+
+	add_opc_final($cpu, "ld l, (hl+)", 	0x6E, 0x23);
+	add_opc_final($cpu, "ldi l, (hl)", 	0x6E, 0x23);
+	add_opc_final($cpu, "ld l, (hl-)", 	0x6E, 0x2B);
+	add_opc_final($cpu, "ldd l, (hl)", 	0x6E, 0x2B);
+
+	add_opc_final($cpu, "ld (bc+), a", 	0x02, 0x03);
+	add_opc_final($cpu, "ldi (bc), a", 	0x02, 0x03);
+	add_opc_final($cpu, "ld (bc-), a", 	0x02, 0x0B);
+	add_opc_final($cpu, "ldd (bc), a", 	0x02, 0x0B);
+
+	add_opc_final($cpu, "ld a, (bc+)", 	0x0A, 0x03);
+	add_opc_final($cpu, "ldi a, (bc)", 	0x0A, 0x03);
+	add_opc_final($cpu, "ld a, (bc-)", 	0x0A, 0x0B);
+	add_opc_final($cpu, "ldd a, (bc)", 	0x0A, 0x0B);
+
+	add_opc_final($cpu, "ld (de+), a", 	0x12, 0x13);
+	add_opc_final($cpu, "ldi (de), a", 	0x12, 0x13);
+	add_opc_final($cpu, "ld (de-), a", 	0x12, 0x1B);
+	add_opc_final($cpu, "ldd (de), a", 	0x12, 0x1B);
+
+	add_opc_final($cpu, "ld a, (de+)", 	0x1A, 0x13);
+	add_opc_final($cpu, "ldi a, (de)", 	0x1A, 0x13);
+	add_opc_final($cpu, "ld a, (de-)", 	0x1A, 0x1B);
+	add_opc_final($cpu, "ldd a, (de)", 	0x1A, 0x1B);
+
+	add_opc_final($cpu, "ld (hl), bc", 	0x71, 0x23, 0x70, 0x2B);
+	add_opc_final($cpu, "ld (hl+), bc", 0x71, 0x23, 0x70, 0x23);
+	add_opc_final($cpu, "ldi (hl), bc", 0x71, 0x23, 0x70, 0x23);
+
+	add_opc_final($cpu, "ld bc, (hl)", 	0x4E, 0x23, 0x46, 0x2B);
+	add_opc_final($cpu, "ld bc, (hl+)", 0x4E, 0x23, 0x46, 0x23);
+	add_opc_final($cpu, "ldi bc, (hl)", 0x4E, 0x23, 0x46, 0x23);
+
+	add_opc_final($cpu, "ld (hl), de", 	0x73, 0x23, 0x72, 0x2B);
+	add_opc_final($cpu, "ld (hl+), de", 0x73, 0x23, 0x72, 0x23);
+	add_opc_final($cpu, "ldi (hl), de", 0x73, 0x23, 0x72, 0x23);
+
+	add_opc_final($cpu, "ld de, (hl)", 	0x5E, 0x23, 0x56, 0x2B);
+	add_opc_final($cpu, "ld de, (hl+)",	0x5E, 0x23, 0x56, 0x23);
+	add_opc_final($cpu, "ldi de, (hl)",	0x5E, 0x23, 0x56, 0x23);
+	
 	
 	# exchange group
 	add_opc($cpu, "ex af, af'", 0x08) if !$intel && !$gameboy;
@@ -960,6 +1057,11 @@ for my $cpu (@CPUS) {
 		add_opc($cpu, "pchl",		   0xE9);
 	}
 	
+	
+	add_opc_final($cpu, "jp (bc)", 0xC5, 0xC9);
+	add_opc_final($cpu, "jp (de)", 0xD5, 0xC9);
+	
+	
 	if (!$intel && !$gameboy) {
 		for ([ix => 0xDD], [iy => 0xFD]) {
 			my($x, @pfx) = @$_;
@@ -1204,6 +1306,7 @@ for my $cpu (@CPUS) {
 		add_opc($cpu, "jx5 %m",			0xFD, '%m', '%m');
 		add_opc($cpu, "jk %m",			0xFD, '%m', '%m');
 
+		# Jump on flag X5/K is reset
 		add_opc($cpu, "jnx5 %m",		0xDD, '%m', '%m');
 		add_opc($cpu, "jnk %m",			0xDD, '%m', '%m');
 	}
@@ -1452,7 +1555,7 @@ sub add_opc_2 {
 sub add_opc_3 {
 	my($cpu, $asm, @bin) = @_;
 
-	add_opc_4($cpu, $asm, @bin);
+	add_opc_final($cpu, $asm, @bin);
 
 	return unless $cpu =~ /^r/;
 	
@@ -1460,8 +1563,8 @@ sub add_opc_3 {
 	my $has_io;
 	if (($asm =~ /\((ix|iy|hl|bc|de|%m)/ && $asm !~ /^(ldp|jp)/) ||
 		($asm =~ /^(ldi|ldir|ldd|lddr|ldisr|lddsr|lsdr|lsir|lsddr|lsidr)$/)) {
-		add_opc_4($cpu, "ioi $asm", $V{ioi}, @bin);
-		add_opc_4($cpu, "ioe $asm", $V{ioe}, @bin);
+		add_opc_final($cpu, "ioi $asm", $V{ioi}, @bin);
+		add_opc_final($cpu, "ioe $asm", $V{ioe}, @bin);
 		$has_io++;
 	}
 	
@@ -1476,19 +1579,19 @@ sub add_opc_3 {
 				   ) $/x &&
 		$asm !~ /^ ld \s+ (bc|de|hl) \s* , \s* (bc|de|hl) /x) {
 		if ($has_io) {
-			add_opc_4($cpu, "$1'$2", $V{altd}, @bin);
-			add_opc_4($cpu, "ioi $1'$2", $V{ioi}, $V{altd}, @bin);
-			add_opc_4($cpu, "ioe $1'$2", $V{ioe}, $V{altd}, @bin);
+			add_opc_final($cpu, "$1'$2", $V{altd}, @bin);
+			add_opc_final($cpu, "ioi $1'$2", $V{ioi}, $V{altd}, @bin);
+			add_opc_final($cpu, "ioe $1'$2", $V{ioe}, $V{altd}, @bin);
 			
-			add_opc_4($cpu, "altd $1$2", $V{altd}, @bin);
-			add_opc_4($cpu, "altd ioi $1$2", $V{altd}, $V{ioi}, @bin);
-			add_opc_4($cpu, "altd ioe $1$2", $V{altd}, $V{ioe}, @bin);
-			add_opc_4($cpu, "ioi altd $1$2", $V{ioi}, $V{altd}, @bin);
-			add_opc_4($cpu, "ioe altd $1$2", $V{ioe}, $V{altd}, @bin);
+			add_opc_final($cpu, "altd $1$2", $V{altd}, @bin);
+			add_opc_final($cpu, "altd ioi $1$2", $V{altd}, $V{ioi}, @bin);
+			add_opc_final($cpu, "altd ioe $1$2", $V{altd}, $V{ioe}, @bin);
+			add_opc_final($cpu, "ioi altd $1$2", $V{ioi}, $V{altd}, @bin);
+			add_opc_final($cpu, "ioe altd $1$2", $V{ioe}, $V{altd}, @bin);
 		}
 		else {
-			add_opc_4($cpu, "$1'$2", $V{altd}, @bin);
-			add_opc_4($cpu, "altd $1$2", $V{altd}, @bin);
+			add_opc_final($cpu, "$1'$2", $V{altd}, @bin);
+			add_opc_final($cpu, "altd $1$2", $V{altd}, @bin);
 		}
 	}
 	elsif ($asm =~ /^ (?| ( (?:add|adc|sub|sbc|and|xor|or) \s+ [^,]+ )
@@ -1499,19 +1602,19 @@ sub add_opc_3 {
 						| ( (?:rlc|rrc|rl|rr|sla|sra|sll|sli|srl) \s+ \( .*)
 					  ) $/x) {
 		if ($has_io) {
-			add_opc_4($cpu, "altd $1", $V{altd}, @bin);
-			add_opc_4($cpu, "altd ioi $1", $V{altd}, $V{ioi}, @bin);
-			add_opc_4($cpu, "altd ioe $1", $V{altd}, $V{ioe}, @bin);
-			add_opc_4($cpu, "ioi altd $1", $V{ioi}, $V{altd}, @bin);
-			add_opc_4($cpu, "ioe altd $1", $V{ioe}, $V{altd}, @bin);
+			add_opc_final($cpu, "altd $1", $V{altd}, @bin);
+			add_opc_final($cpu, "altd ioi $1", $V{altd}, $V{ioi}, @bin);
+			add_opc_final($cpu, "altd ioe $1", $V{altd}, $V{ioe}, @bin);
+			add_opc_final($cpu, "ioi altd $1", $V{ioi}, $V{altd}, @bin);
+			add_opc_final($cpu, "ioe altd $1", $V{ioe}, $V{altd}, @bin);
 		}
 		else {
-			add_opc_4($cpu, "altd $1", $V{altd}, @bin);
+			add_opc_final($cpu, "altd $1", $V{altd}, @bin);
 		}
 	}
 }
 
-sub add_opc_4 {
+sub add_opc_final {
 	my($cpu, $asm, @bin) = @_;
 
 	if ($Opcodes{$asm}{$cpu}) {
