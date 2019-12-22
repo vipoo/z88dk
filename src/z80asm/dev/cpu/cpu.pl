@@ -11,9 +11,8 @@
 use Modern::Perl;
 use Text::Table;
 use Path::Tiny;
+use Devel::Confess;
 use warnings FATAL => 'uninitialized'; 
-use Carp (); 
-$SIG{__DIE__} = \&Carp::confess;
 
 # %Opcodes: $Opcodes{$asm}{$cpu} = [@bin]
 my %Opcodes;
@@ -299,7 +298,75 @@ for my $cpu (@CPUS) {
 		add_opc($cpu, "ld a, (hld)", 0x7E, 0x2B);
 		add_opc($cpu, "ldd a, (hl)", 0x7E, 0x2B);
 	}
+    
+    add_opc_final($cpu, "ld (hl+), b", 0x70, 0x23);
+    add_opc_final($cpu, "ld (hl+), c", 0x71, 0x23);
+    add_opc_final($cpu, "ld (hl+), d", 0x72, 0x23);
+    add_opc_final($cpu, "ld (hl+), e", 0x73, 0x23);
+    add_opc_final($cpu, "ld (hl+), h", 0x74, 0x23);
+    add_opc_final($cpu, "ld (hl+), l", 0x75, 0x23);
+    
+    add_opc_final($cpu, "ldi (hl), b", 0x70, 0x23);
+    add_opc_final($cpu, "ldi (hl), c", 0x71, 0x23);
+    add_opc_final($cpu, "ldi (hl), d", 0x72, 0x23);
+    add_opc_final($cpu, "ldi (hl), e", 0x73, 0x23);
+    add_opc_final($cpu, "ldi (hl), h", 0x74, 0x23);
+    add_opc_final($cpu, "ldi (hl), l", 0x75, 0x23);
+    
+    add_opc_final($cpu, "ld (hl-), b", 0x70, 0x2B);
+    add_opc_final($cpu, "ld (hl-), c", 0x71, 0x2B);
+    add_opc_final($cpu, "ld (hl-), d", 0x72, 0x2B);
+    add_opc_final($cpu, "ld (hl-), e", 0x73, 0x2B);
+    add_opc_final($cpu, "ld (hl-), h", 0x74, 0x2B);
+    add_opc_final($cpu, "ld (hl-), l", 0x75, 0x2B);
 	
+    add_opc_final($cpu, "ldd (hl), b", 0x70, 0x2B);
+    add_opc_final($cpu, "ldd (hl), c", 0x71, 0x2B);
+    add_opc_final($cpu, "ldd (hl), d", 0x72, 0x2B);
+    add_opc_final($cpu, "ldd (hl), e", 0x73, 0x2B);
+    add_opc_final($cpu, "ldd (hl), h", 0x74, 0x2B);
+    add_opc_final($cpu, "ldd (hl), l", 0x75, 0x2B);
+	
+    add_opc_final($cpu, "ld b, (hl+)", 0x46, 0x23);
+    add_opc_final($cpu, "ld c, (hl+)", 0x4E, 0x23);
+    add_opc_final($cpu, "ld d, (hl+)", 0x56, 0x23);
+    add_opc_final($cpu, "ld e, (hl+)", 0x5E, 0x23);
+    
+    add_opc_final($cpu, "ldi b, (hl)", 0x46, 0x23);
+    add_opc_final($cpu, "ldi c, (hl)", 0x4E, 0x23);
+    add_opc_final($cpu, "ldi d, (hl)", 0x56, 0x23);
+    add_opc_final($cpu, "ldi e, (hl)", 0x5E, 0x23);
+    
+    add_opc_final($cpu, "ld b, (hl-)", 0x46, 0x2B);
+    add_opc_final($cpu, "ld c, (hl-)", 0x4E, 0x2B);
+    add_opc_final($cpu, "ld d, (hl-)", 0x56, 0x2B);
+    add_opc_final($cpu, "ld e, (hl-)", 0x5E, 0x2B);
+	
+    add_opc_final($cpu, "ldd b, (hl)", 0x46, 0x2B);
+    add_opc_final($cpu, "ldd c, (hl)", 0x4E, 0x2B);
+    add_opc_final($cpu, "ldd d, (hl)", 0x56, 0x2B);
+    add_opc_final($cpu, "ldd e, (hl)", 0x5E, 0x2B);
+
+    add_opc_final($cpu, "ld (hl+), %n", 0x36, '%n', 0x23);
+    add_opc_final($cpu, "ldi (hl), %n", 0x36, '%n', 0x23);
+	
+    add_opc_final($cpu, "ld (hl-), %n", 0x36, '%n', 0x2B);
+    add_opc_final($cpu, "ldd (hl), %n", 0x36, '%n', 0x2B);
+
+    add_opc_final($cpu, "inc (hl+)", 0x34, 0x23);
+    add_opc_final($cpu, "inc (hl-)", 0x34, 0x2B);
+
+    add_opc_final($cpu, "dec (hl+)", 0x35, 0x23);
+    add_opc_final($cpu, "dec (hl-)", 0x35, 0x2B);
+	
+    for my $op (qw( add adc sub sbc and xor or  cp  
+                                                cmp )) {
+        for my $a ('a, ', '') {
+            add_opc_final($cpu, "$op $a(hl+)", alu_r($op, '(hl)'), 0x23);
+            add_opc_final($cpu, "$op $a(hl-)", alu_r($op, '(hl)'), 0x2B);
+        }
+    }
+
 	# LD dd, NN
 	for my $r (qw( bc de hl sp )) {
 		my $alt_r = ($r eq 'sp') ? $r : substr($r,0,1);		# B, D, H
@@ -388,6 +455,31 @@ for my $cpu (@CPUS) {
 		add_opc_final($cpu, "ld hl, ix", 0xDD, 0xE5, 0xE1);
 		add_opc_final($cpu, "ld hl, iy", 0xFD, 0xE5, 0xE1);
 	}
+
+    # ld (hl), bc|de
+    add_opc_final($cpu, "ld (hl), bc",  0x71, 0x23, 0x70, 0x2B);
+    add_opc_final($cpu, "ld (hl), de",  0x73, 0x23, 0x72, 0x2B);
+
+    # ld (hl+), bc|de ; ldi (hl), bc|de
+    add_opc_final($cpu, "ld (hl+), bc", 0x71, 0x23, 0x70, 0x23);
+    add_opc_final($cpu, "ldi (hl), bc", 0x71, 0x23, 0x70, 0x23);
+    add_opc_final($cpu, "ld (hl+), de", 0x73, 0x23, 0x72, 0x23);
+    add_opc_final($cpu, "ldi (hl), de", 0x73, 0x23, 0x72, 0x23);
+
+    # ld bc|de, (hl)
+    add_opc_final($cpu, "ld bc, (hl)",  0x4E, 0x23, 0x46, 0x2B);
+    add_opc_final($cpu, "ld de, (hl)",  0x5E, 0x23, 0x56, 0x2B);
+
+    # ld bc|de, (hl+) ; ldi bc|de, (hl)
+    add_opc_final($cpu, "ld bc, (hl+)", 0x4E, 0x23, 0x46, 0x23);
+    add_opc_final($cpu, "ldi bc, (hl)", 0x4E, 0x23, 0x46, 0x23);
+    add_opc_final($cpu, "ld de, (hl+)", 0x5E, 0x23, 0x56, 0x23);
+    add_opc_final($cpu, "ldi de, (hl)", 0x5E, 0x23, 0x56, 0x23);
+    
+    # ld hl, (hl)
+    if (!$rabbit) {
+        add_opc_final($cpu, "ld hl, (hl)",  0xF5, 0x7E, 0x23, 0x66, 0x6F, 0xF1);
+    }
 
 	# EX DE, HL
 	if ($gameboy) {

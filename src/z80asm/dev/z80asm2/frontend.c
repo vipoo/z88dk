@@ -747,20 +747,24 @@ static bool IND_HL(void) {
 	return false;
 }
 
-static bool PLUS_DIS_RPAREN(int* out) {
+static bool PLUS_DIS(int* out) {
 	int sign = 1;
 	int dis = 0;
 
-	if (TK(')')) {
-		*out = 0;
-		return true;
-	}
-
 	token_t* yy0 = yy;
-	if (SIGN(&sign) && EXPR(&dis) && TK(')')) {
+	if (SIGN(&sign) && EXPR(&dis)) {
 		*out = sign * dis;
 		return true;
 	}
+	yy = yy0;
+	*out = 0;
+	return true;
+}
+
+static bool PLUS_DIS_RPAREN(int* out) {
+	token_t* yy0 = yy;
+	if (PLUS_DIS(out) && TK(')'))
+		return true;
 	yy = yy0;
 	*out = 0;
 	return false;
@@ -998,12 +1002,54 @@ static bool parse_ld(int dummy) {
 			emit_ld_r_r(R_H | (x & IDX_MASK), R_D) &&
 			emit_ld_r_r(R_L | (x & IDX_MASK), R_E));
     yy = yy0;
-    if (X(&x1) && TK(',') && X(&x2) && EOS())						// LD HL/IX/IY, HL/IX/IY
+    if (X(&x1) && TK(',') && X(&x2) && EOS())					// LD HL/IX/IY, HL/IX/IY
         return (
             emit_push_rr(x2) &&
             emit_pop_rr(x1));
     yy = yy0;
-    syntax_error();
+	if (IND_HL() && TK(',') && BCDE(&r) && EOS())				// LD (HL), BC/DE
+		return (
+			emit_ld_indx_r(RR_HL, 0, r == RR_BC ? R_C : R_E) &&
+			emit_inc_rr(RR_HL) &&
+			emit_ld_indx_r(RR_HL, 0, r == RR_BC ? R_B : R_D) &&
+			emit_dec_rr(RR_HL));
+	yy = yy0;
+	if (TK('(') && HL() && TK('+') && TK(')') && TK(',') && BCDE(&r) && EOS())	// LD (HL+), BC/DE
+		return (
+			emit_ld_indx_r(RR_HL, 0, r == RR_BC ? R_C : R_E) &&
+			emit_inc_rr(RR_HL) &&
+			emit_ld_indx_r(RR_HL, 0, r == RR_BC ? R_B : R_D) &&
+			emit_inc_rr(RR_HL));
+	yy = yy0;
+	if (BCDE(&r) && TK(',') && IND_HL() && EOS())				// LD BC/DE, (HL)
+		return (
+			emit_ld_r_indx(r == RR_BC ? R_C : R_E, RR_HL, 0) &&
+			emit_inc_rr(RR_HL) &&
+			emit_ld_r_indx(r == RR_BC ? R_B : R_D, RR_HL, 0) &&
+			emit_dec_rr(RR_HL));
+	yy = yy0;
+	if (BCDE(&r) && TK(',') && TK('(') && HL() && TK('+') && TK(')') && EOS())	// LD BC/DE, (HL+)
+		return (
+			emit_ld_r_indx(r == RR_BC ? R_C : R_E, RR_HL, 0) &&
+			emit_inc_rr(RR_HL) &&
+			emit_ld_r_indx(r == RR_BC ? R_B : R_D, RR_HL, 0) &&
+			emit_inc_rr(RR_HL));
+	yy = yy0;
+	if (HL() && TK(',') && IND_HL() && EOS())					// LD HL, (HL)
+		return (
+			emit_push_rr(RR_AF) &&
+			emit_ld_r_indx(R_A, RR_HL, 0) &&
+			emit_inc_rr(RR_HL) &&
+			emit_ld_r_indx(R_H, RR_HL, 0) &&
+			emit_ld_r_r(R_L, R_A) &&
+			emit_pop_rr(RR_AF));
+	yy = yy0;
+	if (HL() && TK(',') && SP() && PLUS_DIS(&dis) && EOS())		// LD HL, SP
+		return (
+			emit_ld_rr_nn(RR_HL, dis) &&
+			emit_add_x_rr(RR_HL, RR_SP));
+	yy = yy0;
+	syntax_error();
 	return false;
 }
 
@@ -1233,7 +1279,7 @@ static bool parse_rlc_rrc(int is_left) {
 }
 
 static bool parse_ldi_ldd(int is_inc) {
-	int rr;
+	int rr, r, n;
 	token_t* yy0 = yy;
 	if (IND_BCDE(&rr) && TK(',') && KW(K_A) && EOS()) 		// LDI/LDD (BC/DE), A
 		return (
@@ -1245,14 +1291,33 @@ static bool parse_ldi_ldd(int is_inc) {
 			emit_ld_a_indrr(rr) &&
 			(is_inc ? emit_inc_rr(rr) : emit_dec_rr(rr)));
 	yy = yy0;
-	if (IND_HL() && TK(',') && KW(K_A) && EOS())			// LDI/LDD (HL), A
+	if (IND_HL() && TK(',') && REG8(&r) && EOS())			// LDI/LDD (HL), r
 		return (
-			emit_ld_indx_r(RR_HL, 0, R_A) &&
+			emit_ld_indx_r(RR_HL, 0, r) &&
 			(is_inc ? emit_inc_rr(RR_HL) : emit_dec_rr(RR_HL)));
 	yy = yy0;
-	if (KW(K_A) && TK(',') && IND_HL() && EOS())			// LDI/LDD A, (HL)
+	if (IND_HL() && TK(',') && EXPR(&n) && EOS())			// LDI/LDD (HL), n
 		return (
-			emit_ld_r_indx(R_A, RR_HL, 0) &&
+			emit_ld_indx_n(RR_HL, 0, n) &&
+			(is_inc ? emit_inc_rr(RR_HL) : emit_dec_rr(RR_HL)));
+	yy = yy0;
+	if (is_inc && IND_HL() && TK(',') && BCDE(&rr) && EOS())	// LDI (HL), BC|DE
+		return (
+			emit_ld_indx_r(RR_HL, 0, rr == RR_BC ? R_C : R_E) &&
+			emit_inc_rr(RR_HL) &&
+			emit_ld_indx_r(RR_HL, 0, rr == RR_BC ? R_B : R_D) &&
+			emit_inc_rr(RR_HL));
+	yy = yy0;
+	if (is_inc && BCDE(&rr) && TK(',') && IND_HL() && EOS())	// LDI BC|DE, (HL)
+		return (
+			emit_ld_r_indx(rr == RR_BC ? R_C : R_E, RR_HL, 0) &&
+			emit_inc_rr(RR_HL) &&
+			emit_ld_r_indx(rr == RR_BC ? R_B : R_D, RR_HL, 0) &&
+			emit_inc_rr(RR_HL));
+	yy = yy0;
+	if (REG8(&r) && TK(',') && IND_HL() && EOS())			// LDI/LDD r, (HL)
+		return (
+			emit_ld_r_indx(r, RR_HL, 0) &&
 			(is_inc ? emit_inc_rr(RR_HL) : emit_dec_rr(RR_HL)));
 	yy = yy0;
 	if (EOS())												// LDI/LDD

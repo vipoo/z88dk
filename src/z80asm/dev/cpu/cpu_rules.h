@@ -27,6 +27,16 @@ DO_stmt(0x8B);
 DO_stmt(0x8C);
 }
 
+| label? _TK_ADC _TK_A _TK_COMMA _TK_IND_HL _TK_MINUS _TK_RPAREN _TK_NEWLINE @{
+DO_stmt(0x8E);
+DO_stmt(0x2B);
+}
+
+| label? _TK_ADC _TK_A _TK_COMMA _TK_IND_HL _TK_PLUS _TK_RPAREN _TK_NEWLINE @{
+DO_stmt(0x8E);
+DO_stmt(0x23);
+}
+
 | label? _TK_ADC _TK_A _TK_COMMA _TK_IND_HL _TK_RPAREN _TK_NEWLINE @{
 DO_stmt(0x8E);
 }
@@ -338,6 +348,16 @@ break;
 default: error_illegal_ident(); }
 }
 
+| label? _TK_ADC _TK_IND_HL _TK_MINUS _TK_RPAREN _TK_NEWLINE @{
+DO_stmt(0x8E);
+DO_stmt(0x2B);
+}
+
+| label? _TK_ADC _TK_IND_HL _TK_PLUS _TK_RPAREN _TK_NEWLINE @{
+DO_stmt(0x8E);
+DO_stmt(0x23);
+}
+
 | label? _TK_ADC _TK_IND_HL _TK_RPAREN _TK_NEWLINE @{
 DO_stmt(0x8E);
 }
@@ -441,6 +461,16 @@ DO_stmt(0x83);
 
 | label? _TK_ADD _TK_A _TK_COMMA _TK_H _TK_NEWLINE @{
 DO_stmt(0x84);
+}
+
+| label? _TK_ADD _TK_A _TK_COMMA _TK_IND_HL _TK_MINUS _TK_RPAREN _TK_NEWLINE @{
+DO_stmt(0x86);
+DO_stmt(0x2B);
+}
+
+| label? _TK_ADD _TK_A _TK_COMMA _TK_IND_HL _TK_PLUS _TK_RPAREN _TK_NEWLINE @{
+DO_stmt(0x86);
+DO_stmt(0x23);
 }
 
 | label? _TK_ADD _TK_A _TK_COMMA _TK_IND_HL _TK_RPAREN _TK_NEWLINE @{
@@ -833,6 +863,16 @@ DO_stmt(0x76);
 DO_stmt(0x39);
 break;
 default: error_illegal_ident(); }
+}
+
+| label? _TK_ADD _TK_IND_HL _TK_MINUS _TK_RPAREN _TK_NEWLINE @{
+DO_stmt(0x86);
+DO_stmt(0x2B);
+}
+
+| label? _TK_ADD _TK_IND_HL _TK_PLUS _TK_RPAREN _TK_NEWLINE @{
+DO_stmt(0x86);
+DO_stmt(0x23);
 }
 
 | label? _TK_ADD _TK_IND_HL _TK_RPAREN _TK_NEWLINE @{
@@ -10568,6 +10608,16 @@ DO_stmt(0xA3);
 DO_stmt(0xA4);
 }
 
+| label? _TK_AND _TK_A _TK_COMMA _TK_IND_HL _TK_MINUS _TK_RPAREN _TK_NEWLINE @{
+DO_stmt(0xA6);
+DO_stmt(0x2B);
+}
+
+| label? _TK_AND _TK_A _TK_COMMA _TK_IND_HL _TK_PLUS _TK_RPAREN _TK_NEWLINE @{
+DO_stmt(0xA6);
+DO_stmt(0x23);
+}
+
 | label? _TK_AND _TK_A _TK_COMMA _TK_IND_HL _TK_RPAREN _TK_NEWLINE @{
 DO_stmt(0xA6);
 }
@@ -10851,6 +10901,16 @@ DO_stmt(0x76);
 DO_stmt(0xDC);
 break;
 default: error_illegal_ident(); }
+}
+
+| label? _TK_AND _TK_IND_HL _TK_MINUS _TK_RPAREN _TK_NEWLINE @{
+DO_stmt(0xA6);
+DO_stmt(0x2B);
+}
+
+| label? _TK_AND _TK_IND_HL _TK_PLUS _TK_RPAREN _TK_NEWLINE @{
+DO_stmt(0xA6);
+DO_stmt(0x23);
 }
 
 | label? _TK_AND _TK_IND_HL _TK_RPAREN _TK_NEWLINE @{
@@ -11783,6 +11843,16 @@ DO_stmt(0xBB);
 DO_stmt(0xBC);
 }
 
+| label? _TK_CMP _TK_A _TK_COMMA _TK_IND_HL _TK_MINUS _TK_RPAREN _TK_NEWLINE @{
+DO_stmt(0xBE);
+DO_stmt(0x2B);
+}
+
+| label? _TK_CMP _TK_A _TK_COMMA _TK_IND_HL _TK_PLUS _TK_RPAREN _TK_NEWLINE @{
+DO_stmt(0xBE);
+DO_stmt(0x23);
+}
+
 | label? _TK_CMP _TK_A _TK_COMMA _TK_IND_HL _TK_RPAREN _TK_NEWLINE @{
 DO_stmt(0xBE);
 }
@@ -11882,6 +11952,16 @@ DO_stmt(0xBB);
 
 | label? _TK_CMP _TK_H _TK_NEWLINE @{
 DO_stmt(0xBC);
+}
+
+| label? _TK_CMP _TK_IND_HL _TK_MINUS _TK_RPAREN _TK_NEWLINE @{
+DO_stmt(0xBE);
+DO_stmt(0x2B);
+}
+
+| label? _TK_CMP _TK_IND_HL _TK_PLUS _TK_RPAREN _TK_NEWLINE @{
+DO_stmt(0xBE);
+DO_stmt(0x23);
 }
 
 | label? _TK_CMP _TK_IND_HL _TK_RPAREN _TK_NEWLINE @{
@@ -12036,6 +12116,16 @@ DO_stmt(0xBB);
 DO_stmt(0xBC);
 }
 
+| label? _TK_CP _TK_A _TK_COMMA _TK_IND_HL _TK_MINUS _TK_RPAREN _TK_NEWLINE @{
+DO_stmt(0xBE);
+DO_stmt(0x2B);
+}
+
+| label? _TK_CP _TK_A _TK_COMMA _TK_IND_HL _TK_PLUS _TK_RPAREN _TK_NEWLINE @{
+DO_stmt(0xBE);
+DO_stmt(0x23);
+}
+
 | label? _TK_CP _TK_A _TK_COMMA _TK_IND_HL _TK_RPAREN _TK_NEWLINE @{
 DO_stmt(0xBE);
 }
@@ -12135,6 +12225,16 @@ DO_stmt(0xBB);
 
 | label? _TK_CP _TK_H _TK_NEWLINE @{
 DO_stmt(0xBC);
+}
+
+| label? _TK_CP _TK_IND_HL _TK_MINUS _TK_RPAREN _TK_NEWLINE @{
+DO_stmt(0xBE);
+DO_stmt(0x2B);
+}
+
+| label? _TK_CP _TK_IND_HL _TK_PLUS _TK_RPAREN _TK_NEWLINE @{
+DO_stmt(0xBE);
+DO_stmt(0x23);
 }
 
 | label? _TK_CP _TK_IND_HL _TK_RPAREN _TK_NEWLINE @{
@@ -12570,6 +12670,16 @@ DO_stmt(0x76);
 DO_stmt(0x2B);
 break;
 default: error_illegal_ident(); }
+}
+
+| label? _TK_DEC _TK_IND_HL _TK_MINUS _TK_RPAREN _TK_NEWLINE @{
+DO_stmt(0x35);
+DO_stmt(0x2B);
+}
+
+| label? _TK_DEC _TK_IND_HL _TK_PLUS _TK_RPAREN _TK_NEWLINE @{
+DO_stmt(0x35);
+DO_stmt(0x23);
 }
 
 | label? _TK_DEC _TK_IND_HL _TK_RPAREN _TK_NEWLINE @{
@@ -13177,6 +13287,16 @@ DO_stmt(0x76);
 DO_stmt(0x23);
 break;
 default: error_illegal_ident(); }
+}
+
+| label? _TK_INC _TK_IND_HL _TK_MINUS _TK_RPAREN _TK_NEWLINE @{
+DO_stmt(0x34);
+DO_stmt(0x2B);
+}
+
+| label? _TK_INC _TK_IND_HL _TK_PLUS _TK_RPAREN _TK_NEWLINE @{
+DO_stmt(0x34);
+DO_stmt(0x23);
 }
 
 | label? _TK_INC _TK_IND_HL _TK_RPAREN _TK_NEWLINE @{
@@ -27375,6 +27495,16 @@ DO_stmt(0x43);
 DO_stmt(0x44);
 }
 
+| label? _TK_LD _TK_B _TK_COMMA _TK_IND_HL _TK_MINUS _TK_RPAREN _TK_NEWLINE @{
+DO_stmt(0x46);
+DO_stmt(0x2B);
+}
+
+| label? _TK_LD _TK_B _TK_COMMA _TK_IND_HL _TK_PLUS _TK_RPAREN _TK_NEWLINE @{
+DO_stmt(0x46);
+DO_stmt(0x23);
+}
+
 | label? _TK_LD _TK_B _TK_COMMA _TK_IND_HL _TK_RPAREN _TK_NEWLINE @{
 DO_stmt(0x46);
 }
@@ -27588,6 +27718,16 @@ DO_stmt(0x44);
 DO_stmt(0x4D);
 }
 
+| label? _TK_LD _TK_BC _TK_COMMA _TK_IND_HL _TK_PLUS _TK_RPAREN _TK_NEWLINE @{
+DO_stmt(0x4E);
+DO_stmt(0x234623);
+}
+
+| label? _TK_LD _TK_BC _TK_COMMA _TK_IND_HL _TK_RPAREN _TK_NEWLINE @{
+DO_stmt(0x4E);
+DO_stmt(0x23462B);
+}
+
 | label? _TK_LD _TK_BC _TK_COMMA _TK_IX _TK_NEWLINE @{
 switch (opts.cpu) {
 case CPU_Z80: case CPU_Z80N: 
@@ -27665,6 +27805,16 @@ DO_stmt(0x4B);
 
 | label? _TK_LD _TK_C _TK_COMMA _TK_H _TK_NEWLINE @{
 DO_stmt(0x4C);
+}
+
+| label? _TK_LD _TK_C _TK_COMMA _TK_IND_HL _TK_MINUS _TK_RPAREN _TK_NEWLINE @{
+DO_stmt(0x4E);
+DO_stmt(0x2B);
+}
+
+| label? _TK_LD _TK_C _TK_COMMA _TK_IND_HL _TK_PLUS _TK_RPAREN _TK_NEWLINE @{
+DO_stmt(0x4E);
+DO_stmt(0x23);
 }
 
 | label? _TK_LD _TK_C _TK_COMMA _TK_IND_HL _TK_RPAREN _TK_NEWLINE @{
@@ -27892,6 +28042,16 @@ DO_stmt(0x53);
 
 | label? _TK_LD _TK_D _TK_COMMA _TK_H _TK_NEWLINE @{
 DO_stmt(0x54);
+}
+
+| label? _TK_LD _TK_D _TK_COMMA _TK_IND_HL _TK_MINUS _TK_RPAREN _TK_NEWLINE @{
+DO_stmt(0x56);
+DO_stmt(0x2B);
+}
+
+| label? _TK_LD _TK_D _TK_COMMA _TK_IND_HL _TK_PLUS _TK_RPAREN _TK_NEWLINE @{
+DO_stmt(0x56);
+DO_stmt(0x23);
 }
 
 | label? _TK_LD _TK_D _TK_COMMA _TK_IND_HL _TK_RPAREN _TK_NEWLINE @{
@@ -28122,6 +28282,16 @@ break;
 default: error_illegal_ident(); }
 }
 
+| label? _TK_LD _TK_DE _TK_COMMA _TK_IND_HL _TK_PLUS _TK_RPAREN _TK_NEWLINE @{
+DO_stmt(0x5E);
+DO_stmt(0x235623);
+}
+
+| label? _TK_LD _TK_DE _TK_COMMA _TK_IND_HL _TK_RPAREN _TK_NEWLINE @{
+DO_stmt(0x5E);
+DO_stmt(0x23562B);
+}
+
 | label? _TK_LD _TK_DE _TK_COMMA _TK_IX _TK_NEWLINE @{
 switch (opts.cpu) {
 case CPU_Z80: case CPU_Z80N: 
@@ -28251,6 +28421,16 @@ DO_stmt(0x5B);
 
 | label? _TK_LD _TK_E _TK_COMMA _TK_H _TK_NEWLINE @{
 DO_stmt(0x5C);
+}
+
+| label? _TK_LD _TK_E _TK_COMMA _TK_IND_HL _TK_MINUS _TK_RPAREN _TK_NEWLINE @{
+DO_stmt(0x5E);
+DO_stmt(0x2B);
+}
+
+| label? _TK_LD _TK_E _TK_COMMA _TK_IND_HL _TK_PLUS _TK_RPAREN _TK_NEWLINE @{
+DO_stmt(0x5E);
+DO_stmt(0x23);
 }
 
 | label? _TK_LD _TK_E _TK_COMMA _TK_IND_HL _TK_RPAREN _TK_NEWLINE @{
@@ -28682,6 +28862,11 @@ switch (opts.cpu) {
 case CPU_R2K: case CPU_R3K: 
 DO_stmt(0xDDE400);
 break;
+case CPU_8080: case CPU_8085: case CPU_GBZ80: case CPU_Z180: case CPU_Z80: case CPU_Z80N: 
+DO_stmt(0xF5);
+DO_stmt(0x7E);
+DO_stmt(0x23666FF1);
+break;
 default: error_illegal_ident(); }
 }
 
@@ -28998,6 +29183,42 @@ break;
 default: error_illegal_ident(); }
 }
 
+| label? _TK_LD _TK_IND_HL _TK_MINUS _TK_RPAREN _TK_COMMA _TK_B _TK_NEWLINE @{
+DO_stmt(0x70);
+DO_stmt(0x2B);
+}
+
+| label? _TK_LD _TK_IND_HL _TK_MINUS _TK_RPAREN _TK_COMMA _TK_C _TK_NEWLINE @{
+DO_stmt(0x71);
+DO_stmt(0x2B);
+}
+
+| label? _TK_LD _TK_IND_HL _TK_MINUS _TK_RPAREN _TK_COMMA _TK_D _TK_NEWLINE @{
+DO_stmt(0x72);
+DO_stmt(0x2B);
+}
+
+| label? _TK_LD _TK_IND_HL _TK_MINUS _TK_RPAREN _TK_COMMA _TK_E _TK_NEWLINE @{
+DO_stmt(0x73);
+DO_stmt(0x2B);
+}
+
+| label? _TK_LD _TK_IND_HL _TK_MINUS _TK_RPAREN _TK_COMMA _TK_H _TK_NEWLINE @{
+DO_stmt(0x74);
+DO_stmt(0x2B);
+}
+
+| label? _TK_LD _TK_IND_HL _TK_MINUS _TK_RPAREN _TK_COMMA _TK_L _TK_NEWLINE @{
+DO_stmt(0x75);
+DO_stmt(0x2B);
+}
+
+| label? _TK_LD _TK_IND_HL _TK_MINUS _TK_RPAREN _TK_COMMA expr _TK_NEWLINE @{
+if (expr_in_parens) warn_expr_in_parens();
+DO_stmt_n(0x36);
+DO_stmt(0x2B);
+}
+
 | label? _TK_LD _TK_IND_HL _TK_PLUS _TK_RPAREN _TK_COMMA _TK_A _TK_NEWLINE @{
 switch (opts.cpu) {
 case CPU_GBZ80: 
@@ -29010,6 +29231,52 @@ break;
 default: error_illegal_ident(); }
 }
 
+| label? _TK_LD _TK_IND_HL _TK_PLUS _TK_RPAREN _TK_COMMA _TK_B _TK_NEWLINE @{
+DO_stmt(0x70);
+DO_stmt(0x23);
+}
+
+| label? _TK_LD _TK_IND_HL _TK_PLUS _TK_RPAREN _TK_COMMA _TK_BC _TK_NEWLINE @{
+DO_stmt(0x71);
+DO_stmt(0x237023);
+}
+
+| label? _TK_LD _TK_IND_HL _TK_PLUS _TK_RPAREN _TK_COMMA _TK_C _TK_NEWLINE @{
+DO_stmt(0x71);
+DO_stmt(0x23);
+}
+
+| label? _TK_LD _TK_IND_HL _TK_PLUS _TK_RPAREN _TK_COMMA _TK_D _TK_NEWLINE @{
+DO_stmt(0x72);
+DO_stmt(0x23);
+}
+
+| label? _TK_LD _TK_IND_HL _TK_PLUS _TK_RPAREN _TK_COMMA _TK_DE _TK_NEWLINE @{
+DO_stmt(0x73);
+DO_stmt(0x237223);
+}
+
+| label? _TK_LD _TK_IND_HL _TK_PLUS _TK_RPAREN _TK_COMMA _TK_E _TK_NEWLINE @{
+DO_stmt(0x73);
+DO_stmt(0x23);
+}
+
+| label? _TK_LD _TK_IND_HL _TK_PLUS _TK_RPAREN _TK_COMMA _TK_H _TK_NEWLINE @{
+DO_stmt(0x74);
+DO_stmt(0x23);
+}
+
+| label? _TK_LD _TK_IND_HL _TK_PLUS _TK_RPAREN _TK_COMMA _TK_L _TK_NEWLINE @{
+DO_stmt(0x75);
+DO_stmt(0x23);
+}
+
+| label? _TK_LD _TK_IND_HL _TK_PLUS _TK_RPAREN _TK_COMMA expr _TK_NEWLINE @{
+if (expr_in_parens) warn_expr_in_parens();
+DO_stmt_n(0x36);
+DO_stmt(0x23);
+}
+
 | label? _TK_LD _TK_IND_HL _TK_RPAREN _TK_COMMA _TK_A _TK_NEWLINE @{
 DO_stmt(0x77);
 }
@@ -29018,12 +29285,22 @@ DO_stmt(0x77);
 DO_stmt(0x70);
 }
 
+| label? _TK_LD _TK_IND_HL _TK_RPAREN _TK_COMMA _TK_BC _TK_NEWLINE @{
+DO_stmt(0x71);
+DO_stmt(0x23702B);
+}
+
 | label? _TK_LD _TK_IND_HL _TK_RPAREN _TK_COMMA _TK_C _TK_NEWLINE @{
 DO_stmt(0x71);
 }
 
 | label? _TK_LD _TK_IND_HL _TK_RPAREN _TK_COMMA _TK_D _TK_NEWLINE @{
 DO_stmt(0x72);
+}
+
+| label? _TK_LD _TK_IND_HL _TK_RPAREN _TK_COMMA _TK_DE _TK_NEWLINE @{
+DO_stmt(0x73);
+DO_stmt(0x23722B);
 }
 
 | label? _TK_LD _TK_IND_HL _TK_RPAREN _TK_COMMA _TK_E _TK_NEWLINE @{
@@ -30178,6 +30455,26 @@ break;
 default: error_illegal_ident(); }
 }
 
+| label? _TK_LDD _TK_B _TK_COMMA _TK_IND_HL _TK_RPAREN _TK_NEWLINE @{
+DO_stmt(0x46);
+DO_stmt(0x2B);
+}
+
+| label? _TK_LDD _TK_C _TK_COMMA _TK_IND_HL _TK_RPAREN _TK_NEWLINE @{
+DO_stmt(0x4E);
+DO_stmt(0x2B);
+}
+
+| label? _TK_LDD _TK_D _TK_COMMA _TK_IND_HL _TK_RPAREN _TK_NEWLINE @{
+DO_stmt(0x56);
+DO_stmt(0x2B);
+}
+
+| label? _TK_LDD _TK_E _TK_COMMA _TK_IND_HL _TK_RPAREN _TK_NEWLINE @{
+DO_stmt(0x5E);
+DO_stmt(0x2B);
+}
+
 | label? _TK_LDD _TK_IND_BC _TK_RPAREN _TK_COMMA _TK_A _TK_NEWLINE @{
 DO_stmt(0x020B);
 }
@@ -30196,6 +30493,42 @@ DO_stmt(0x77);
 DO_stmt(0x2B);
 break;
 default: error_illegal_ident(); }
+}
+
+| label? _TK_LDD _TK_IND_HL _TK_RPAREN _TK_COMMA _TK_B _TK_NEWLINE @{
+DO_stmt(0x70);
+DO_stmt(0x2B);
+}
+
+| label? _TK_LDD _TK_IND_HL _TK_RPAREN _TK_COMMA _TK_C _TK_NEWLINE @{
+DO_stmt(0x71);
+DO_stmt(0x2B);
+}
+
+| label? _TK_LDD _TK_IND_HL _TK_RPAREN _TK_COMMA _TK_D _TK_NEWLINE @{
+DO_stmt(0x72);
+DO_stmt(0x2B);
+}
+
+| label? _TK_LDD _TK_IND_HL _TK_RPAREN _TK_COMMA _TK_E _TK_NEWLINE @{
+DO_stmt(0x73);
+DO_stmt(0x2B);
+}
+
+| label? _TK_LDD _TK_IND_HL _TK_RPAREN _TK_COMMA _TK_H _TK_NEWLINE @{
+DO_stmt(0x74);
+DO_stmt(0x2B);
+}
+
+| label? _TK_LDD _TK_IND_HL _TK_RPAREN _TK_COMMA _TK_L _TK_NEWLINE @{
+DO_stmt(0x75);
+DO_stmt(0x2B);
+}
+
+| label? _TK_LDD _TK_IND_HL _TK_RPAREN _TK_COMMA expr _TK_NEWLINE @{
+if (expr_in_parens) warn_expr_in_parens();
+DO_stmt_n(0x36);
+DO_stmt(0x2B);
 }
 
 | label? _TK_LDD _TK_NEWLINE @{
@@ -30318,6 +30651,36 @@ break;
 default: error_illegal_ident(); }
 }
 
+| label? _TK_LDI _TK_B _TK_COMMA _TK_IND_HL _TK_RPAREN _TK_NEWLINE @{
+DO_stmt(0x46);
+DO_stmt(0x23);
+}
+
+| label? _TK_LDI _TK_BC _TK_COMMA _TK_IND_HL _TK_RPAREN _TK_NEWLINE @{
+DO_stmt(0x4E);
+DO_stmt(0x234623);
+}
+
+| label? _TK_LDI _TK_C _TK_COMMA _TK_IND_HL _TK_RPAREN _TK_NEWLINE @{
+DO_stmt(0x4E);
+DO_stmt(0x23);
+}
+
+| label? _TK_LDI _TK_D _TK_COMMA _TK_IND_HL _TK_RPAREN _TK_NEWLINE @{
+DO_stmt(0x56);
+DO_stmt(0x23);
+}
+
+| label? _TK_LDI _TK_DE _TK_COMMA _TK_IND_HL _TK_RPAREN _TK_NEWLINE @{
+DO_stmt(0x5E);
+DO_stmt(0x235623);
+}
+
+| label? _TK_LDI _TK_E _TK_COMMA _TK_IND_HL _TK_RPAREN _TK_NEWLINE @{
+DO_stmt(0x5E);
+DO_stmt(0x23);
+}
+
 | label? _TK_LDI _TK_IND_BC _TK_RPAREN _TK_COMMA _TK_A _TK_NEWLINE @{
 DO_stmt(0x0203);
 }
@@ -30336,6 +30699,52 @@ DO_stmt(0x77);
 DO_stmt(0x23);
 break;
 default: error_illegal_ident(); }
+}
+
+| label? _TK_LDI _TK_IND_HL _TK_RPAREN _TK_COMMA _TK_B _TK_NEWLINE @{
+DO_stmt(0x70);
+DO_stmt(0x23);
+}
+
+| label? _TK_LDI _TK_IND_HL _TK_RPAREN _TK_COMMA _TK_BC _TK_NEWLINE @{
+DO_stmt(0x71);
+DO_stmt(0x237023);
+}
+
+| label? _TK_LDI _TK_IND_HL _TK_RPAREN _TK_COMMA _TK_C _TK_NEWLINE @{
+DO_stmt(0x71);
+DO_stmt(0x23);
+}
+
+| label? _TK_LDI _TK_IND_HL _TK_RPAREN _TK_COMMA _TK_D _TK_NEWLINE @{
+DO_stmt(0x72);
+DO_stmt(0x23);
+}
+
+| label? _TK_LDI _TK_IND_HL _TK_RPAREN _TK_COMMA _TK_DE _TK_NEWLINE @{
+DO_stmt(0x73);
+DO_stmt(0x237223);
+}
+
+| label? _TK_LDI _TK_IND_HL _TK_RPAREN _TK_COMMA _TK_E _TK_NEWLINE @{
+DO_stmt(0x73);
+DO_stmt(0x23);
+}
+
+| label? _TK_LDI _TK_IND_HL _TK_RPAREN _TK_COMMA _TK_H _TK_NEWLINE @{
+DO_stmt(0x74);
+DO_stmt(0x23);
+}
+
+| label? _TK_LDI _TK_IND_HL _TK_RPAREN _TK_COMMA _TK_L _TK_NEWLINE @{
+DO_stmt(0x75);
+DO_stmt(0x23);
+}
+
+| label? _TK_LDI _TK_IND_HL _TK_RPAREN _TK_COMMA expr _TK_NEWLINE @{
+if (expr_in_parens) warn_expr_in_parens();
+DO_stmt_n(0x36);
+DO_stmt(0x23);
 }
 
 | label? _TK_LDI _TK_NEWLINE @{
@@ -31201,6 +31610,16 @@ DO_stmt(0xB3);
 DO_stmt(0xB4);
 }
 
+| label? _TK_OR _TK_A _TK_COMMA _TK_IND_HL _TK_MINUS _TK_RPAREN _TK_NEWLINE @{
+DO_stmt(0xB6);
+DO_stmt(0x2B);
+}
+
+| label? _TK_OR _TK_A _TK_COMMA _TK_IND_HL _TK_PLUS _TK_RPAREN _TK_NEWLINE @{
+DO_stmt(0xB6);
+DO_stmt(0x23);
+}
+
 | label? _TK_OR _TK_A _TK_COMMA _TK_IND_HL _TK_RPAREN _TK_NEWLINE @{
 DO_stmt(0xB6);
 }
@@ -31443,6 +31862,16 @@ DO_stmt(0x76);
 DO_stmt(0xEC);
 break;
 default: error_illegal_ident(); }
+}
+
+| label? _TK_OR _TK_IND_HL _TK_MINUS _TK_RPAREN _TK_NEWLINE @{
+DO_stmt(0xB6);
+DO_stmt(0x2B);
+}
+
+| label? _TK_OR _TK_IND_HL _TK_PLUS _TK_RPAREN _TK_NEWLINE @{
+DO_stmt(0xB6);
+DO_stmt(0x23);
 }
 
 | label? _TK_OR _TK_IND_HL _TK_RPAREN _TK_NEWLINE @{
@@ -34651,6 +35080,16 @@ DO_stmt(0x9B);
 DO_stmt(0x9C);
 }
 
+| label? _TK_SBC _TK_A _TK_COMMA _TK_IND_HL _TK_MINUS _TK_RPAREN _TK_NEWLINE @{
+DO_stmt(0x9E);
+DO_stmt(0x2B);
+}
+
+| label? _TK_SBC _TK_A _TK_COMMA _TK_IND_HL _TK_PLUS _TK_RPAREN _TK_NEWLINE @{
+DO_stmt(0x9E);
+DO_stmt(0x23);
+}
+
 | label? _TK_SBC _TK_A _TK_COMMA _TK_IND_HL _TK_RPAREN _TK_NEWLINE @{
 DO_stmt(0x9E);
 }
@@ -34960,6 +35399,16 @@ DO_stmt(0x76);
 DO_stmt(0xED72);
 break;
 default: error_illegal_ident(); }
+}
+
+| label? _TK_SBC _TK_IND_HL _TK_MINUS _TK_RPAREN _TK_NEWLINE @{
+DO_stmt(0x9E);
+DO_stmt(0x2B);
+}
+
+| label? _TK_SBC _TK_IND_HL _TK_PLUS _TK_RPAREN _TK_NEWLINE @{
+DO_stmt(0x9E);
+DO_stmt(0x23);
 }
 
 | label? _TK_SBC _TK_IND_HL _TK_RPAREN _TK_NEWLINE @{
@@ -37554,6 +38003,16 @@ DO_stmt(0x93);
 DO_stmt(0x94);
 }
 
+| label? _TK_SUB _TK_A _TK_COMMA _TK_IND_HL _TK_MINUS _TK_RPAREN _TK_NEWLINE @{
+DO_stmt(0x96);
+DO_stmt(0x2B);
+}
+
+| label? _TK_SUB _TK_A _TK_COMMA _TK_IND_HL _TK_PLUS _TK_RPAREN _TK_NEWLINE @{
+DO_stmt(0x96);
+DO_stmt(0x23);
+}
+
 | label? _TK_SUB _TK_A _TK_COMMA _TK_IND_HL _TK_RPAREN _TK_NEWLINE @{
 DO_stmt(0x96);
 }
@@ -37806,6 +38265,16 @@ add_call_emul_func("__z80asm__sub_hl_hl");
 | label? _TK_SUB _TK_HL _TK_COMMA _TK_SP _TK_NEWLINE @{
 DO_STMT_LABEL();
 add_call_emul_func("__z80asm__sub_hl_sp");
+}
+
+| label? _TK_SUB _TK_IND_HL _TK_MINUS _TK_RPAREN _TK_NEWLINE @{
+DO_stmt(0x96);
+DO_stmt(0x2B);
+}
+
+| label? _TK_SUB _TK_IND_HL _TK_PLUS _TK_RPAREN _TK_NEWLINE @{
+DO_stmt(0x96);
+DO_stmt(0x23);
 }
 
 | label? _TK_SUB _TK_IND_HL _TK_RPAREN _TK_NEWLINE @{
@@ -38481,6 +38950,16 @@ DO_stmt(0xAB);
 DO_stmt(0xAC);
 }
 
+| label? _TK_XOR _TK_A _TK_COMMA _TK_IND_HL _TK_MINUS _TK_RPAREN _TK_NEWLINE @{
+DO_stmt(0xAE);
+DO_stmt(0x2B);
+}
+
+| label? _TK_XOR _TK_A _TK_COMMA _TK_IND_HL _TK_PLUS _TK_RPAREN _TK_NEWLINE @{
+DO_stmt(0xAE);
+DO_stmt(0x23);
+}
+
 | label? _TK_XOR _TK_A _TK_COMMA _TK_IND_HL _TK_RPAREN _TK_NEWLINE @{
 DO_stmt(0xAE);
 }
@@ -38706,6 +39185,16 @@ DO_stmt(0xAB);
 
 | label? _TK_XOR _TK_H _TK_NEWLINE @{
 DO_stmt(0xAC);
+}
+
+| label? _TK_XOR _TK_IND_HL _TK_MINUS _TK_RPAREN _TK_NEWLINE @{
+DO_stmt(0xAE);
+DO_stmt(0x2B);
+}
+
+| label? _TK_XOR _TK_IND_HL _TK_PLUS _TK_RPAREN _TK_NEWLINE @{
+DO_stmt(0xAE);
+DO_stmt(0x23);
 }
 
 | label? _TK_XOR _TK_IND_HL _TK_RPAREN _TK_NEWLINE @{

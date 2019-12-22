@@ -69,6 +69,26 @@ ADC A COMMA H                     |z80  |-     |-    |adc a, h      |8C         
 ADC A COMMA H                     |z80  |-     |IXIY |adc a, h      |8C                                          |      4 T
 ADC A COMMA H                     |z80n |-     |-    |adc a, h      |8C                                          |      4 T
 ADC A COMMA H                     |z80n |-     |IXIY |adc a, h      |8C                                          |      4 T
+ADC A COMMA IND_HL MINUS RPAREN   |8080 |-     |-    |adc a, (hl-)  |8E; 2B                                      |     12 T
+ADC A COMMA IND_HL MINUS RPAREN   |8080 |-     |IXIY |adc a, (hl-)  |8E; 2B                                      |     12 T
+ADC A COMMA IND_HL MINUS RPAREN   |8085 |-     |-    |adc a, (hl-)  |8E; 2B                                      |     13 T
+ADC A COMMA IND_HL MINUS RPAREN   |8085 |-     |IXIY |adc a, (hl-)  |8E; 2B                                      |     13 T
+ADC A COMMA IND_HL MINUS RPAREN   |gbz80|-     |-    |adc a, (hl-)  |8E; 2B                                      |     16 T
+ADC A COMMA IND_HL MINUS RPAREN   |gbz80|-     |IXIY |adc a, (hl-)  |8E; 2B                                      |     16 T
+ADC A COMMA IND_HL MINUS RPAREN   |z80  |-     |-    |adc a, (hl-)  |8E; 2B                                      |     13 T
+ADC A COMMA IND_HL MINUS RPAREN   |z80  |-     |IXIY |adc a, (hl-)  |8E; 2B                                      |     13 T
+ADC A COMMA IND_HL MINUS RPAREN   |z80n |-     |-    |adc a, (hl-)  |8E; 2B                                      |     13 T
+ADC A COMMA IND_HL MINUS RPAREN   |z80n |-     |IXIY |adc a, (hl-)  |8E; 2B                                      |     13 T
+ADC A COMMA IND_HL PLUS RPAREN    |8080 |-     |-    |adc a, (hl+)  |8E; 23                                      |     12 T
+ADC A COMMA IND_HL PLUS RPAREN    |8080 |-     |IXIY |adc a, (hl+)  |8E; 23                                      |     12 T
+ADC A COMMA IND_HL PLUS RPAREN    |8085 |-     |-    |adc a, (hl+)  |8E; 23                                      |     13 T
+ADC A COMMA IND_HL PLUS RPAREN    |8085 |-     |IXIY |adc a, (hl+)  |8E; 23                                      |     13 T
+ADC A COMMA IND_HL PLUS RPAREN    |gbz80|-     |-    |adc a, (hl+)  |8E; 23                                      |     16 T
+ADC A COMMA IND_HL PLUS RPAREN    |gbz80|-     |IXIY |adc a, (hl+)  |8E; 23                                      |     16 T
+ADC A COMMA IND_HL PLUS RPAREN    |z80  |-     |-    |adc a, (hl+)  |8E; 23                                      |     13 T
+ADC A COMMA IND_HL PLUS RPAREN    |z80  |-     |IXIY |adc a, (hl+)  |8E; 23                                      |     13 T
+ADC A COMMA IND_HL PLUS RPAREN    |z80n |-     |-    |adc a, (hl+)  |8E; 23                                      |     13 T
+ADC A COMMA IND_HL PLUS RPAREN    |z80n |-     |IXIY |adc a, (hl+)  |8E; 23                                      |     13 T
 ADC A COMMA IND_HL RPAREN         |8080 |-     |-    |adc a, (hl)   |8E                                          |      7 T
 ADC A COMMA IND_HL RPAREN         |8080 |-     |IXIY |adc a, (hl)   |8E                                          |      7 T
 ADC A COMMA IND_HL RPAREN         |8085 |-     |-    |adc a, (hl)   |8E                                          |      7 T
@@ -215,6 +235,26 @@ ADC HL COMMA SP                   |z80  |-     |-    |adc hl, sp    |ED 7A      
 ADC HL COMMA SP                   |z80  |-     |IXIY |adc hl, sp    |ED 7A                                       |     15 T
 ADC HL COMMA SP                   |z80n |-     |-    |adc hl, sp    |ED 7A                                       |     15 T
 ADC HL COMMA SP                   |z80n |-     |IXIY |adc hl, sp    |ED 7A                                       |     15 T
+ADC IND_HL MINUS RPAREN           |8080 |-     |-    |adc (hl-)     |8E; 2B                                      |     12 T
+ADC IND_HL MINUS RPAREN           |8080 |-     |IXIY |adc (hl-)     |8E; 2B                                      |     12 T
+ADC IND_HL MINUS RPAREN           |8085 |-     |-    |adc (hl-)     |8E; 2B                                      |     13 T
+ADC IND_HL MINUS RPAREN           |8085 |-     |IXIY |adc (hl-)     |8E; 2B                                      |     13 T
+ADC IND_HL MINUS RPAREN           |gbz80|-     |-    |adc (hl-)     |8E; 2B                                      |     16 T
+ADC IND_HL MINUS RPAREN           |gbz80|-     |IXIY |adc (hl-)     |8E; 2B                                      |     16 T
+ADC IND_HL MINUS RPAREN           |z80  |-     |-    |adc (hl-)     |8E; 2B                                      |     13 T
+ADC IND_HL MINUS RPAREN           |z80  |-     |IXIY |adc (hl-)     |8E; 2B                                      |     13 T
+ADC IND_HL MINUS RPAREN           |z80n |-     |-    |adc (hl-)     |8E; 2B                                      |     13 T
+ADC IND_HL MINUS RPAREN           |z80n |-     |IXIY |adc (hl-)     |8E; 2B                                      |     13 T
+ADC IND_HL PLUS RPAREN            |8080 |-     |-    |adc (hl+)     |8E; 23                                      |     12 T
+ADC IND_HL PLUS RPAREN            |8080 |-     |IXIY |adc (hl+)     |8E; 23                                      |     12 T
+ADC IND_HL PLUS RPAREN            |8085 |-     |-    |adc (hl+)     |8E; 23                                      |     13 T
+ADC IND_HL PLUS RPAREN            |8085 |-     |IXIY |adc (hl+)     |8E; 23                                      |     13 T
+ADC IND_HL PLUS RPAREN            |gbz80|-     |-    |adc (hl+)     |8E; 23                                      |     16 T
+ADC IND_HL PLUS RPAREN            |gbz80|-     |IXIY |adc (hl+)     |8E; 23                                      |     16 T
+ADC IND_HL PLUS RPAREN            |z80  |-     |-    |adc (hl+)     |8E; 23                                      |     13 T
+ADC IND_HL PLUS RPAREN            |z80  |-     |IXIY |adc (hl+)     |8E; 23                                      |     13 T
+ADC IND_HL PLUS RPAREN            |z80n |-     |-    |adc (hl+)     |8E; 23                                      |     13 T
+ADC IND_HL PLUS RPAREN            |z80n |-     |IXIY |adc (hl+)     |8E; 23                                      |     13 T
 ADC IND_HL RPAREN                 |8080 |-     |-    |adc (hl)      |8E                                          |      7 T
 ADC IND_HL RPAREN                 |8080 |-     |IXIY |adc (hl)      |8E                                          |      7 T
 ADC IND_HL RPAREN                 |8085 |-     |-    |adc (hl)      |8E                                          |      7 T
@@ -331,6 +371,26 @@ ADD A COMMA H                     |z80  |-     |-    |add a, h      |84         
 ADD A COMMA H                     |z80  |-     |IXIY |add a, h      |84                                          |      4 T
 ADD A COMMA H                     |z80n |-     |-    |add a, h      |84                                          |      4 T
 ADD A COMMA H                     |z80n |-     |IXIY |add a, h      |84                                          |      4 T
+ADD A COMMA IND_HL MINUS RPAREN   |8080 |-     |-    |add a, (hl-)  |86; 2B                                      |     12 T
+ADD A COMMA IND_HL MINUS RPAREN   |8080 |-     |IXIY |add a, (hl-)  |86; 2B                                      |     12 T
+ADD A COMMA IND_HL MINUS RPAREN   |8085 |-     |-    |add a, (hl-)  |86; 2B                                      |     13 T
+ADD A COMMA IND_HL MINUS RPAREN   |8085 |-     |IXIY |add a, (hl-)  |86; 2B                                      |     13 T
+ADD A COMMA IND_HL MINUS RPAREN   |gbz80|-     |-    |add a, (hl-)  |86; 2B                                      |     16 T
+ADD A COMMA IND_HL MINUS RPAREN   |gbz80|-     |IXIY |add a, (hl-)  |86; 2B                                      |     16 T
+ADD A COMMA IND_HL MINUS RPAREN   |z80  |-     |-    |add a, (hl-)  |86; 2B                                      |     13 T
+ADD A COMMA IND_HL MINUS RPAREN   |z80  |-     |IXIY |add a, (hl-)  |86; 2B                                      |     13 T
+ADD A COMMA IND_HL MINUS RPAREN   |z80n |-     |-    |add a, (hl-)  |86; 2B                                      |     13 T
+ADD A COMMA IND_HL MINUS RPAREN   |z80n |-     |IXIY |add a, (hl-)  |86; 2B                                      |     13 T
+ADD A COMMA IND_HL PLUS RPAREN    |8080 |-     |-    |add a, (hl+)  |86; 23                                      |     12 T
+ADD A COMMA IND_HL PLUS RPAREN    |8080 |-     |IXIY |add a, (hl+)  |86; 23                                      |     12 T
+ADD A COMMA IND_HL PLUS RPAREN    |8085 |-     |-    |add a, (hl+)  |86; 23                                      |     13 T
+ADD A COMMA IND_HL PLUS RPAREN    |8085 |-     |IXIY |add a, (hl+)  |86; 23                                      |     13 T
+ADD A COMMA IND_HL PLUS RPAREN    |gbz80|-     |-    |add a, (hl+)  |86; 23                                      |     16 T
+ADD A COMMA IND_HL PLUS RPAREN    |gbz80|-     |IXIY |add a, (hl+)  |86; 23                                      |     16 T
+ADD A COMMA IND_HL PLUS RPAREN    |z80  |-     |-    |add a, (hl+)  |86; 23                                      |     13 T
+ADD A COMMA IND_HL PLUS RPAREN    |z80  |-     |IXIY |add a, (hl+)  |86; 23                                      |     13 T
+ADD A COMMA IND_HL PLUS RPAREN    |z80n |-     |-    |add a, (hl+)  |86; 23                                      |     13 T
+ADD A COMMA IND_HL PLUS RPAREN    |z80n |-     |IXIY |add a, (hl+)  |86; 23                                      |     13 T
 ADD A COMMA IND_HL RPAREN         |8080 |-     |-    |add a, (hl)   |86                                          |      7 T
 ADD A COMMA IND_HL RPAREN         |8080 |-     |IXIY |add a, (hl)   |86                                          |      7 T
 ADD A COMMA IND_HL RPAREN         |8085 |-     |-    |add a, (hl)   |86                                          |      7 T
@@ -477,6 +537,26 @@ ADD HL COMMA SP                   |z80  |-     |-    |add hl, sp    |39         
 ADD HL COMMA SP                   |z80  |-     |IXIY |add hl, sp    |39                                          |     11 T
 ADD HL COMMA SP                   |z80n |-     |-    |add hl, sp    |39                                          |     11 T
 ADD HL COMMA SP                   |z80n |-     |IXIY |add hl, sp    |39                                          |     11 T
+ADD IND_HL MINUS RPAREN           |8080 |-     |-    |add (hl-)     |86; 2B                                      |     12 T
+ADD IND_HL MINUS RPAREN           |8080 |-     |IXIY |add (hl-)     |86; 2B                                      |     12 T
+ADD IND_HL MINUS RPAREN           |8085 |-     |-    |add (hl-)     |86; 2B                                      |     13 T
+ADD IND_HL MINUS RPAREN           |8085 |-     |IXIY |add (hl-)     |86; 2B                                      |     13 T
+ADD IND_HL MINUS RPAREN           |gbz80|-     |-    |add (hl-)     |86; 2B                                      |     16 T
+ADD IND_HL MINUS RPAREN           |gbz80|-     |IXIY |add (hl-)     |86; 2B                                      |     16 T
+ADD IND_HL MINUS RPAREN           |z80  |-     |-    |add (hl-)     |86; 2B                                      |     13 T
+ADD IND_HL MINUS RPAREN           |z80  |-     |IXIY |add (hl-)     |86; 2B                                      |     13 T
+ADD IND_HL MINUS RPAREN           |z80n |-     |-    |add (hl-)     |86; 2B                                      |     13 T
+ADD IND_HL MINUS RPAREN           |z80n |-     |IXIY |add (hl-)     |86; 2B                                      |     13 T
+ADD IND_HL PLUS RPAREN            |8080 |-     |-    |add (hl+)     |86; 23                                      |     12 T
+ADD IND_HL PLUS RPAREN            |8080 |-     |IXIY |add (hl+)     |86; 23                                      |     12 T
+ADD IND_HL PLUS RPAREN            |8085 |-     |-    |add (hl+)     |86; 23                                      |     13 T
+ADD IND_HL PLUS RPAREN            |8085 |-     |IXIY |add (hl+)     |86; 23                                      |     13 T
+ADD IND_HL PLUS RPAREN            |gbz80|-     |-    |add (hl+)     |86; 23                                      |     16 T
+ADD IND_HL PLUS RPAREN            |gbz80|-     |IXIY |add (hl+)     |86; 23                                      |     16 T
+ADD IND_HL PLUS RPAREN            |z80  |-     |-    |add (hl+)     |86; 23                                      |     13 T
+ADD IND_HL PLUS RPAREN            |z80  |-     |IXIY |add (hl+)     |86; 23                                      |     13 T
+ADD IND_HL PLUS RPAREN            |z80n |-     |-    |add (hl+)     |86; 23                                      |     13 T
+ADD IND_HL PLUS RPAREN            |z80n |-     |IXIY |add (hl+)     |86; 23                                      |     13 T
 ADD IND_HL RPAREN                 |8080 |-     |-    |add (hl)      |86                                          |      7 T
 ADD IND_HL RPAREN                 |8080 |-     |IXIY |add (hl)      |86                                          |      7 T
 ADD IND_HL RPAREN                 |8085 |-     |-    |add (hl)      |86                                          |      7 T
@@ -721,6 +801,26 @@ AND A COMMA H                     |z80  |-     |-    |and a, h      |A4         
 AND A COMMA H                     |z80  |-     |IXIY |and a, h      |A4                                          |      4 T
 AND A COMMA H                     |z80n |-     |-    |and a, h      |A4                                          |      4 T
 AND A COMMA H                     |z80n |-     |IXIY |and a, h      |A4                                          |      4 T
+AND A COMMA IND_HL MINUS RPAREN   |8080 |-     |-    |and a, (hl-)  |A6; 2B                                      |     12 T
+AND A COMMA IND_HL MINUS RPAREN   |8080 |-     |IXIY |and a, (hl-)  |A6; 2B                                      |     12 T
+AND A COMMA IND_HL MINUS RPAREN   |8085 |-     |-    |and a, (hl-)  |A6; 2B                                      |     13 T
+AND A COMMA IND_HL MINUS RPAREN   |8085 |-     |IXIY |and a, (hl-)  |A6; 2B                                      |     13 T
+AND A COMMA IND_HL MINUS RPAREN   |gbz80|-     |-    |and a, (hl-)  |A6; 2B                                      |     16 T
+AND A COMMA IND_HL MINUS RPAREN   |gbz80|-     |IXIY |and a, (hl-)  |A6; 2B                                      |     16 T
+AND A COMMA IND_HL MINUS RPAREN   |z80  |-     |-    |and a, (hl-)  |A6; 2B                                      |     13 T
+AND A COMMA IND_HL MINUS RPAREN   |z80  |-     |IXIY |and a, (hl-)  |A6; 2B                                      |     13 T
+AND A COMMA IND_HL MINUS RPAREN   |z80n |-     |-    |and a, (hl-)  |A6; 2B                                      |     13 T
+AND A COMMA IND_HL MINUS RPAREN   |z80n |-     |IXIY |and a, (hl-)  |A6; 2B                                      |     13 T
+AND A COMMA IND_HL PLUS RPAREN    |8080 |-     |-    |and a, (hl+)  |A6; 23                                      |     12 T
+AND A COMMA IND_HL PLUS RPAREN    |8080 |-     |IXIY |and a, (hl+)  |A6; 23                                      |     12 T
+AND A COMMA IND_HL PLUS RPAREN    |8085 |-     |-    |and a, (hl+)  |A6; 23                                      |     13 T
+AND A COMMA IND_HL PLUS RPAREN    |8085 |-     |IXIY |and a, (hl+)  |A6; 23                                      |     13 T
+AND A COMMA IND_HL PLUS RPAREN    |gbz80|-     |-    |and a, (hl+)  |A6; 23                                      |     16 T
+AND A COMMA IND_HL PLUS RPAREN    |gbz80|-     |IXIY |and a, (hl+)  |A6; 23                                      |     16 T
+AND A COMMA IND_HL PLUS RPAREN    |z80  |-     |-    |and a, (hl+)  |A6; 23                                      |     13 T
+AND A COMMA IND_HL PLUS RPAREN    |z80  |-     |IXIY |and a, (hl+)  |A6; 23                                      |     13 T
+AND A COMMA IND_HL PLUS RPAREN    |z80n |-     |-    |and a, (hl+)  |A6; 23                                      |     13 T
+AND A COMMA IND_HL PLUS RPAREN    |z80n |-     |IXIY |and a, (hl+)  |A6; 23                                      |     13 T
 AND A COMMA IND_HL RPAREN         |8080 |-     |-    |and a, (hl)   |A6                                          |      7 T
 AND A COMMA IND_HL RPAREN         |8080 |-     |IXIY |and a, (hl)   |A6                                          |      7 T
 AND A COMMA IND_HL RPAREN         |8085 |-     |-    |and a, (hl)   |A6                                          |      7 T
@@ -827,6 +927,26 @@ AND H                             |z80  |-     |-    |and h         |A4         
 AND H                             |z80  |-     |IXIY |and h         |A4                                          |      4 T
 AND H                             |z80n |-     |-    |and h         |A4                                          |      4 T
 AND H                             |z80n |-     |IXIY |and h         |A4                                          |      4 T
+AND IND_HL MINUS RPAREN           |8080 |-     |-    |and (hl-)     |A6; 2B                                      |     12 T
+AND IND_HL MINUS RPAREN           |8080 |-     |IXIY |and (hl-)     |A6; 2B                                      |     12 T
+AND IND_HL MINUS RPAREN           |8085 |-     |-    |and (hl-)     |A6; 2B                                      |     13 T
+AND IND_HL MINUS RPAREN           |8085 |-     |IXIY |and (hl-)     |A6; 2B                                      |     13 T
+AND IND_HL MINUS RPAREN           |gbz80|-     |-    |and (hl-)     |A6; 2B                                      |     16 T
+AND IND_HL MINUS RPAREN           |gbz80|-     |IXIY |and (hl-)     |A6; 2B                                      |     16 T
+AND IND_HL MINUS RPAREN           |z80  |-     |-    |and (hl-)     |A6; 2B                                      |     13 T
+AND IND_HL MINUS RPAREN           |z80  |-     |IXIY |and (hl-)     |A6; 2B                                      |     13 T
+AND IND_HL MINUS RPAREN           |z80n |-     |-    |and (hl-)     |A6; 2B                                      |     13 T
+AND IND_HL MINUS RPAREN           |z80n |-     |IXIY |and (hl-)     |A6; 2B                                      |     13 T
+AND IND_HL PLUS RPAREN            |8080 |-     |-    |and (hl+)     |A6; 23                                      |     12 T
+AND IND_HL PLUS RPAREN            |8080 |-     |IXIY |and (hl+)     |A6; 23                                      |     12 T
+AND IND_HL PLUS RPAREN            |8085 |-     |-    |and (hl+)     |A6; 23                                      |     13 T
+AND IND_HL PLUS RPAREN            |8085 |-     |IXIY |and (hl+)     |A6; 23                                      |     13 T
+AND IND_HL PLUS RPAREN            |gbz80|-     |-    |and (hl+)     |A6; 23                                      |     16 T
+AND IND_HL PLUS RPAREN            |gbz80|-     |IXIY |and (hl+)     |A6; 23                                      |     16 T
+AND IND_HL PLUS RPAREN            |z80  |-     |-    |and (hl+)     |A6; 23                                      |     13 T
+AND IND_HL PLUS RPAREN            |z80  |-     |IXIY |and (hl+)     |A6; 23                                      |     13 T
+AND IND_HL PLUS RPAREN            |z80n |-     |-    |and (hl+)     |A6; 23                                      |     13 T
+AND IND_HL PLUS RPAREN            |z80n |-     |IXIY |and (hl+)     |A6; 23                                      |     13 T
 AND IND_HL RPAREN                 |8080 |-     |-    |and (hl)      |A6                                          |      7 T
 AND IND_HL RPAREN                 |8080 |-     |IXIY |and (hl)      |A6                                          |      7 T
 AND IND_HL RPAREN                 |8085 |-     |-    |and (hl)      |A6                                          |      7 T
@@ -1147,6 +1267,26 @@ CMP A COMMA H                     |z80  |-     |-    |cmp a, h      |BC         
 CMP A COMMA H                     |z80  |-     |IXIY |cmp a, h      |BC                                          |      4 T
 CMP A COMMA H                     |z80n |-     |-    |cmp a, h      |BC                                          |      4 T
 CMP A COMMA H                     |z80n |-     |IXIY |cmp a, h      |BC                                          |      4 T
+CMP A COMMA IND_HL MINUS RPAREN   |8080 |-     |-    |cmp a, (hl-)  |BE; 2B                                      |     12 T
+CMP A COMMA IND_HL MINUS RPAREN   |8080 |-     |IXIY |cmp a, (hl-)  |BE; 2B                                      |     12 T
+CMP A COMMA IND_HL MINUS RPAREN   |8085 |-     |-    |cmp a, (hl-)  |BE; 2B                                      |     13 T
+CMP A COMMA IND_HL MINUS RPAREN   |8085 |-     |IXIY |cmp a, (hl-)  |BE; 2B                                      |     13 T
+CMP A COMMA IND_HL MINUS RPAREN   |gbz80|-     |-    |cmp a, (hl-)  |BE; 2B                                      |     16 T
+CMP A COMMA IND_HL MINUS RPAREN   |gbz80|-     |IXIY |cmp a, (hl-)  |BE; 2B                                      |     16 T
+CMP A COMMA IND_HL MINUS RPAREN   |z80  |-     |-    |cmp a, (hl-)  |BE; 2B                                      |     13 T
+CMP A COMMA IND_HL MINUS RPAREN   |z80  |-     |IXIY |cmp a, (hl-)  |BE; 2B                                      |     13 T
+CMP A COMMA IND_HL MINUS RPAREN   |z80n |-     |-    |cmp a, (hl-)  |BE; 2B                                      |     13 T
+CMP A COMMA IND_HL MINUS RPAREN   |z80n |-     |IXIY |cmp a, (hl-)  |BE; 2B                                      |     13 T
+CMP A COMMA IND_HL PLUS RPAREN    |8080 |-     |-    |cmp a, (hl+)  |BE; 23                                      |     12 T
+CMP A COMMA IND_HL PLUS RPAREN    |8080 |-     |IXIY |cmp a, (hl+)  |BE; 23                                      |     12 T
+CMP A COMMA IND_HL PLUS RPAREN    |8085 |-     |-    |cmp a, (hl+)  |BE; 23                                      |     13 T
+CMP A COMMA IND_HL PLUS RPAREN    |8085 |-     |IXIY |cmp a, (hl+)  |BE; 23                                      |     13 T
+CMP A COMMA IND_HL PLUS RPAREN    |gbz80|-     |-    |cmp a, (hl+)  |BE; 23                                      |     16 T
+CMP A COMMA IND_HL PLUS RPAREN    |gbz80|-     |IXIY |cmp a, (hl+)  |BE; 23                                      |     16 T
+CMP A COMMA IND_HL PLUS RPAREN    |z80  |-     |-    |cmp a, (hl+)  |BE; 23                                      |     13 T
+CMP A COMMA IND_HL PLUS RPAREN    |z80  |-     |IXIY |cmp a, (hl+)  |BE; 23                                      |     13 T
+CMP A COMMA IND_HL PLUS RPAREN    |z80n |-     |-    |cmp a, (hl+)  |BE; 23                                      |     13 T
+CMP A COMMA IND_HL PLUS RPAREN    |z80n |-     |IXIY |cmp a, (hl+)  |BE; 23                                      |     13 T
 CMP A COMMA IND_HL RPAREN         |8080 |-     |-    |cmp a, (hl)   |BE                                          |      7 T
 CMP A COMMA IND_HL RPAREN         |8080 |-     |IXIY |cmp a, (hl)   |BE                                          |      7 T
 CMP A COMMA IND_HL RPAREN         |8085 |-     |-    |cmp a, (hl)   |BE                                          |      7 T
@@ -1253,6 +1393,26 @@ CMP H                             |z80  |-     |-    |cmp h         |BC         
 CMP H                             |z80  |-     |IXIY |cmp h         |BC                                          |      4 T
 CMP H                             |z80n |-     |-    |cmp h         |BC                                          |      4 T
 CMP H                             |z80n |-     |IXIY |cmp h         |BC                                          |      4 T
+CMP IND_HL MINUS RPAREN           |8080 |-     |-    |cmp (hl-)     |BE; 2B                                      |     12 T
+CMP IND_HL MINUS RPAREN           |8080 |-     |IXIY |cmp (hl-)     |BE; 2B                                      |     12 T
+CMP IND_HL MINUS RPAREN           |8085 |-     |-    |cmp (hl-)     |BE; 2B                                      |     13 T
+CMP IND_HL MINUS RPAREN           |8085 |-     |IXIY |cmp (hl-)     |BE; 2B                                      |     13 T
+CMP IND_HL MINUS RPAREN           |gbz80|-     |-    |cmp (hl-)     |BE; 2B                                      |     16 T
+CMP IND_HL MINUS RPAREN           |gbz80|-     |IXIY |cmp (hl-)     |BE; 2B                                      |     16 T
+CMP IND_HL MINUS RPAREN           |z80  |-     |-    |cmp (hl-)     |BE; 2B                                      |     13 T
+CMP IND_HL MINUS RPAREN           |z80  |-     |IXIY |cmp (hl-)     |BE; 2B                                      |     13 T
+CMP IND_HL MINUS RPAREN           |z80n |-     |-    |cmp (hl-)     |BE; 2B                                      |     13 T
+CMP IND_HL MINUS RPAREN           |z80n |-     |IXIY |cmp (hl-)     |BE; 2B                                      |     13 T
+CMP IND_HL PLUS RPAREN            |8080 |-     |-    |cmp (hl+)     |BE; 23                                      |     12 T
+CMP IND_HL PLUS RPAREN            |8080 |-     |IXIY |cmp (hl+)     |BE; 23                                      |     12 T
+CMP IND_HL PLUS RPAREN            |8085 |-     |-    |cmp (hl+)     |BE; 23                                      |     13 T
+CMP IND_HL PLUS RPAREN            |8085 |-     |IXIY |cmp (hl+)     |BE; 23                                      |     13 T
+CMP IND_HL PLUS RPAREN            |gbz80|-     |-    |cmp (hl+)     |BE; 23                                      |     16 T
+CMP IND_HL PLUS RPAREN            |gbz80|-     |IXIY |cmp (hl+)     |BE; 23                                      |     16 T
+CMP IND_HL PLUS RPAREN            |z80  |-     |-    |cmp (hl+)     |BE; 23                                      |     13 T
+CMP IND_HL PLUS RPAREN            |z80  |-     |IXIY |cmp (hl+)     |BE; 23                                      |     13 T
+CMP IND_HL PLUS RPAREN            |z80n |-     |-    |cmp (hl+)     |BE; 23                                      |     13 T
+CMP IND_HL PLUS RPAREN            |z80n |-     |IXIY |cmp (hl+)     |BE; 23                                      |     13 T
 CMP IND_HL RPAREN                 |8080 |-     |-    |cmp (hl)      |BE                                          |      7 T
 CMP IND_HL RPAREN                 |8080 |-     |IXIY |cmp (hl)      |BE                                          |      7 T
 CMP IND_HL RPAREN                 |8085 |-     |-    |cmp (hl)      |BE                                          |      7 T
@@ -1397,6 +1557,26 @@ CP A COMMA H                      |z80  |-     |-    |cp a, h       |BC         
 CP A COMMA H                      |z80  |-     |IXIY |cp a, h       |BC                                          |      4 T
 CP A COMMA H                      |z80n |-     |-    |cp a, h       |BC                                          |      4 T
 CP A COMMA H                      |z80n |-     |IXIY |cp a, h       |BC                                          |      4 T
+CP A COMMA IND_HL MINUS RPAREN    |8080 |-     |-    |cp a, (hl-)   |BE; 2B                                      |     12 T
+CP A COMMA IND_HL MINUS RPAREN    |8080 |-     |IXIY |cp a, (hl-)   |BE; 2B                                      |     12 T
+CP A COMMA IND_HL MINUS RPAREN    |8085 |-     |-    |cp a, (hl-)   |BE; 2B                                      |     13 T
+CP A COMMA IND_HL MINUS RPAREN    |8085 |-     |IXIY |cp a, (hl-)   |BE; 2B                                      |     13 T
+CP A COMMA IND_HL MINUS RPAREN    |gbz80|-     |-    |cp a, (hl-)   |BE; 2B                                      |     16 T
+CP A COMMA IND_HL MINUS RPAREN    |gbz80|-     |IXIY |cp a, (hl-)   |BE; 2B                                      |     16 T
+CP A COMMA IND_HL MINUS RPAREN    |z80  |-     |-    |cp a, (hl-)   |BE; 2B                                      |     13 T
+CP A COMMA IND_HL MINUS RPAREN    |z80  |-     |IXIY |cp a, (hl-)   |BE; 2B                                      |     13 T
+CP A COMMA IND_HL MINUS RPAREN    |z80n |-     |-    |cp a, (hl-)   |BE; 2B                                      |     13 T
+CP A COMMA IND_HL MINUS RPAREN    |z80n |-     |IXIY |cp a, (hl-)   |BE; 2B                                      |     13 T
+CP A COMMA IND_HL PLUS RPAREN     |8080 |-     |-    |cp a, (hl+)   |BE; 23                                      |     12 T
+CP A COMMA IND_HL PLUS RPAREN     |8080 |-     |IXIY |cp a, (hl+)   |BE; 23                                      |     12 T
+CP A COMMA IND_HL PLUS RPAREN     |8085 |-     |-    |cp a, (hl+)   |BE; 23                                      |     13 T
+CP A COMMA IND_HL PLUS RPAREN     |8085 |-     |IXIY |cp a, (hl+)   |BE; 23                                      |     13 T
+CP A COMMA IND_HL PLUS RPAREN     |gbz80|-     |-    |cp a, (hl+)   |BE; 23                                      |     16 T
+CP A COMMA IND_HL PLUS RPAREN     |gbz80|-     |IXIY |cp a, (hl+)   |BE; 23                                      |     16 T
+CP A COMMA IND_HL PLUS RPAREN     |z80  |-     |-    |cp a, (hl+)   |BE; 23                                      |     13 T
+CP A COMMA IND_HL PLUS RPAREN     |z80  |-     |IXIY |cp a, (hl+)   |BE; 23                                      |     13 T
+CP A COMMA IND_HL PLUS RPAREN     |z80n |-     |-    |cp a, (hl+)   |BE; 23                                      |     13 T
+CP A COMMA IND_HL PLUS RPAREN     |z80n |-     |IXIY |cp a, (hl+)   |BE; 23                                      |     13 T
 CP A COMMA IND_HL RPAREN          |8080 |-     |-    |cp a, (hl)    |BE                                          |      7 T
 CP A COMMA IND_HL RPAREN          |8080 |-     |IXIY |cp a, (hl)    |BE                                          |      7 T
 CP A COMMA IND_HL RPAREN          |8085 |-     |-    |cp a, (hl)    |BE                                          |      7 T
@@ -1503,6 +1683,26 @@ CP H                              |z80  |-     |-    |cp h          |BC         
 CP H                              |z80  |-     |IXIY |cp h          |BC                                          |      4 T
 CP H                              |z80n |-     |-    |cp h          |BC                                          |      4 T
 CP H                              |z80n |-     |IXIY |cp h          |BC                                          |      4 T
+CP IND_HL MINUS RPAREN            |8080 |-     |-    |cp (hl-)      |BE; 2B                                      |     12 T
+CP IND_HL MINUS RPAREN            |8080 |-     |IXIY |cp (hl-)      |BE; 2B                                      |     12 T
+CP IND_HL MINUS RPAREN            |8085 |-     |-    |cp (hl-)      |BE; 2B                                      |     13 T
+CP IND_HL MINUS RPAREN            |8085 |-     |IXIY |cp (hl-)      |BE; 2B                                      |     13 T
+CP IND_HL MINUS RPAREN            |gbz80|-     |-    |cp (hl-)      |BE; 2B                                      |     16 T
+CP IND_HL MINUS RPAREN            |gbz80|-     |IXIY |cp (hl-)      |BE; 2B                                      |     16 T
+CP IND_HL MINUS RPAREN            |z80  |-     |-    |cp (hl-)      |BE; 2B                                      |     13 T
+CP IND_HL MINUS RPAREN            |z80  |-     |IXIY |cp (hl-)      |BE; 2B                                      |     13 T
+CP IND_HL MINUS RPAREN            |z80n |-     |-    |cp (hl-)      |BE; 2B                                      |     13 T
+CP IND_HL MINUS RPAREN            |z80n |-     |IXIY |cp (hl-)      |BE; 2B                                      |     13 T
+CP IND_HL PLUS RPAREN             |8080 |-     |-    |cp (hl+)      |BE; 23                                      |     12 T
+CP IND_HL PLUS RPAREN             |8080 |-     |IXIY |cp (hl+)      |BE; 23                                      |     12 T
+CP IND_HL PLUS RPAREN             |8085 |-     |-    |cp (hl+)      |BE; 23                                      |     13 T
+CP IND_HL PLUS RPAREN             |8085 |-     |IXIY |cp (hl+)      |BE; 23                                      |     13 T
+CP IND_HL PLUS RPAREN             |gbz80|-     |-    |cp (hl+)      |BE; 23                                      |     16 T
+CP IND_HL PLUS RPAREN             |gbz80|-     |IXIY |cp (hl+)      |BE; 23                                      |     16 T
+CP IND_HL PLUS RPAREN             |z80  |-     |-    |cp (hl+)      |BE; 23                                      |     13 T
+CP IND_HL PLUS RPAREN             |z80  |-     |IXIY |cp (hl+)      |BE; 23                                      |     13 T
+CP IND_HL PLUS RPAREN             |z80n |-     |-    |cp (hl+)      |BE; 23                                      |     13 T
+CP IND_HL PLUS RPAREN             |z80n |-     |IXIY |cp (hl+)      |BE; 23                                      |     13 T
 CP IND_HL RPAREN                  |8080 |-     |-    |cp (hl)       |BE                                          |      7 T
 CP IND_HL RPAREN                  |8080 |-     |IXIY |cp (hl)       |BE                                          |      7 T
 CP IND_HL RPAREN                  |8085 |-     |-    |cp (hl)       |BE                                          |      7 T
@@ -1973,6 +2173,26 @@ DEC HL                            |z80  |-     |-    |dec hl        |2B         
 DEC HL                            |z80  |-     |IXIY |dec hl        |2B                                          |      6 T
 DEC HL                            |z80n |-     |-    |dec hl        |2B                                          |      6 T
 DEC HL                            |z80n |-     |IXIY |dec hl        |2B                                          |      6 T
+DEC IND_HL MINUS RPAREN           |8080 |-     |-    |dec (hl-)     |35; 2B                                      |     15 T
+DEC IND_HL MINUS RPAREN           |8080 |-     |IXIY |dec (hl-)     |35; 2B                                      |     15 T
+DEC IND_HL MINUS RPAREN           |8085 |-     |-    |dec (hl-)     |35; 2B                                      |     16 T
+DEC IND_HL MINUS RPAREN           |8085 |-     |IXIY |dec (hl-)     |35; 2B                                      |     16 T
+DEC IND_HL MINUS RPAREN           |gbz80|-     |-    |dec (hl-)     |35; 2B                                      |     20 T
+DEC IND_HL MINUS RPAREN           |gbz80|-     |IXIY |dec (hl-)     |35; 2B                                      |     20 T
+DEC IND_HL MINUS RPAREN           |z80  |-     |-    |dec (hl-)     |35; 2B                                      |     17 T
+DEC IND_HL MINUS RPAREN           |z80  |-     |IXIY |dec (hl-)     |35; 2B                                      |     17 T
+DEC IND_HL MINUS RPAREN           |z80n |-     |-    |dec (hl-)     |35; 2B                                      |     17 T
+DEC IND_HL MINUS RPAREN           |z80n |-     |IXIY |dec (hl-)     |35; 2B                                      |     17 T
+DEC IND_HL PLUS RPAREN            |8080 |-     |-    |dec (hl+)     |35; 23                                      |     15 T
+DEC IND_HL PLUS RPAREN            |8080 |-     |IXIY |dec (hl+)     |35; 23                                      |     15 T
+DEC IND_HL PLUS RPAREN            |8085 |-     |-    |dec (hl+)     |35; 23                                      |     16 T
+DEC IND_HL PLUS RPAREN            |8085 |-     |IXIY |dec (hl+)     |35; 23                                      |     16 T
+DEC IND_HL PLUS RPAREN            |gbz80|-     |-    |dec (hl+)     |35; 23                                      |     20 T
+DEC IND_HL PLUS RPAREN            |gbz80|-     |IXIY |dec (hl+)     |35; 23                                      |     20 T
+DEC IND_HL PLUS RPAREN            |z80  |-     |-    |dec (hl+)     |35; 23                                      |     17 T
+DEC IND_HL PLUS RPAREN            |z80  |-     |IXIY |dec (hl+)     |35; 23                                      |     17 T
+DEC IND_HL PLUS RPAREN            |z80n |-     |-    |dec (hl+)     |35; 23                                      |     17 T
+DEC IND_HL PLUS RPAREN            |z80n |-     |IXIY |dec (hl+)     |35; 23                                      |     17 T
 DEC IND_HL RPAREN                 |8080 |-     |-    |dec (hl)      |35                                          |     10 T
 DEC IND_HL RPAREN                 |8080 |-     |IXIY |dec (hl)      |35                                          |     10 T
 DEC IND_HL RPAREN                 |8085 |-     |-    |dec (hl)      |35                                          |     10 T
@@ -2283,6 +2503,26 @@ INC HL                            |z80  |-     |-    |inc hl        |23         
 INC HL                            |z80  |-     |IXIY |inc hl        |23                                          |      6 T
 INC HL                            |z80n |-     |-    |inc hl        |23                                          |      6 T
 INC HL                            |z80n |-     |IXIY |inc hl        |23                                          |      6 T
+INC IND_HL MINUS RPAREN           |8080 |-     |-    |inc (hl-)     |34; 2B                                      |     15 T
+INC IND_HL MINUS RPAREN           |8080 |-     |IXIY |inc (hl-)     |34; 2B                                      |     15 T
+INC IND_HL MINUS RPAREN           |8085 |-     |-    |inc (hl-)     |34; 2B                                      |     16 T
+INC IND_HL MINUS RPAREN           |8085 |-     |IXIY |inc (hl-)     |34; 2B                                      |     16 T
+INC IND_HL MINUS RPAREN           |gbz80|-     |-    |inc (hl-)     |34; 2B                                      |     20 T
+INC IND_HL MINUS RPAREN           |gbz80|-     |IXIY |inc (hl-)     |34; 2B                                      |     20 T
+INC IND_HL MINUS RPAREN           |z80  |-     |-    |inc (hl-)     |34; 2B                                      |     17 T
+INC IND_HL MINUS RPAREN           |z80  |-     |IXIY |inc (hl-)     |34; 2B                                      |     17 T
+INC IND_HL MINUS RPAREN           |z80n |-     |-    |inc (hl-)     |34; 2B                                      |     17 T
+INC IND_HL MINUS RPAREN           |z80n |-     |IXIY |inc (hl-)     |34; 2B                                      |     17 T
+INC IND_HL PLUS RPAREN            |8080 |-     |-    |inc (hl+)     |34; 23                                      |     15 T
+INC IND_HL PLUS RPAREN            |8080 |-     |IXIY |inc (hl+)     |34; 23                                      |     15 T
+INC IND_HL PLUS RPAREN            |8085 |-     |-    |inc (hl+)     |34; 23                                      |     16 T
+INC IND_HL PLUS RPAREN            |8085 |-     |IXIY |inc (hl+)     |34; 23                                      |     16 T
+INC IND_HL PLUS RPAREN            |gbz80|-     |-    |inc (hl+)     |34; 23                                      |     20 T
+INC IND_HL PLUS RPAREN            |gbz80|-     |IXIY |inc (hl+)     |34; 23                                      |     20 T
+INC IND_HL PLUS RPAREN            |z80  |-     |-    |inc (hl+)     |34; 23                                      |     17 T
+INC IND_HL PLUS RPAREN            |z80  |-     |IXIY |inc (hl+)     |34; 23                                      |     17 T
+INC IND_HL PLUS RPAREN            |z80n |-     |-    |inc (hl+)     |34; 23                                      |     17 T
+INC IND_HL PLUS RPAREN            |z80n |-     |IXIY |inc (hl+)     |34; 23                                      |     17 T
 INC IND_HL RPAREN                 |8080 |-     |-    |inc (hl)      |34                                          |     10 T
 INC IND_HL RPAREN                 |8080 |-     |IXIY |inc (hl)      |34                                          |     10 T
 INC IND_HL RPAREN                 |8085 |-     |-    |inc (hl)      |34                                          |     10 T
@@ -2851,6 +3091,26 @@ LD A COMMA I                      |z80  |-     |-    |ld a, i       |ED 57      
 LD A COMMA I                      |z80  |-     |IXIY |ld a, i       |ED 57                                       |      9 T
 LD A COMMA I                      |z80n |-     |-    |ld a, i       |ED 57                                       |      9 T
 LD A COMMA I                      |z80n |-     |IXIY |ld a, i       |ED 57                                       |      9 T
+LD A COMMA IND_BC MINUS RPAREN    |8080 |-     |-    |ld a, (bc-)   |0A; 0B                                      |     12 T
+LD A COMMA IND_BC MINUS RPAREN    |8080 |-     |IXIY |ld a, (bc-)   |0A; 0B                                      |     12 T
+LD A COMMA IND_BC MINUS RPAREN    |8085 |-     |-    |ld a, (bc-)   |0A; 0B                                      |     13 T
+LD A COMMA IND_BC MINUS RPAREN    |8085 |-     |IXIY |ld a, (bc-)   |0A; 0B                                      |     13 T
+LD A COMMA IND_BC MINUS RPAREN    |gbz80|-     |-    |ld a, (bc-)   |0A; 0B                                      |     16 T
+LD A COMMA IND_BC MINUS RPAREN    |gbz80|-     |IXIY |ld a, (bc-)   |0A; 0B                                      |     16 T
+LD A COMMA IND_BC MINUS RPAREN    |z80  |-     |-    |ld a, (bc-)   |0A; 0B                                      |     13 T
+LD A COMMA IND_BC MINUS RPAREN    |z80  |-     |IXIY |ld a, (bc-)   |0A; 0B                                      |     13 T
+LD A COMMA IND_BC MINUS RPAREN    |z80n |-     |-    |ld a, (bc-)   |0A; 0B                                      |     13 T
+LD A COMMA IND_BC MINUS RPAREN    |z80n |-     |IXIY |ld a, (bc-)   |0A; 0B                                      |     13 T
+LD A COMMA IND_BC PLUS RPAREN     |8080 |-     |-    |ld a, (bc+)   |0A; 03                                      |     12 T
+LD A COMMA IND_BC PLUS RPAREN     |8080 |-     |IXIY |ld a, (bc+)   |0A; 03                                      |     12 T
+LD A COMMA IND_BC PLUS RPAREN     |8085 |-     |-    |ld a, (bc+)   |0A; 03                                      |     13 T
+LD A COMMA IND_BC PLUS RPAREN     |8085 |-     |IXIY |ld a, (bc+)   |0A; 03                                      |     13 T
+LD A COMMA IND_BC PLUS RPAREN     |gbz80|-     |-    |ld a, (bc+)   |0A; 03                                      |     16 T
+LD A COMMA IND_BC PLUS RPAREN     |gbz80|-     |IXIY |ld a, (bc+)   |0A; 03                                      |     16 T
+LD A COMMA IND_BC PLUS RPAREN     |z80  |-     |-    |ld a, (bc+)   |0A; 03                                      |     13 T
+LD A COMMA IND_BC PLUS RPAREN     |z80  |-     |IXIY |ld a, (bc+)   |0A; 03                                      |     13 T
+LD A COMMA IND_BC PLUS RPAREN     |z80n |-     |-    |ld a, (bc+)   |0A; 03                                      |     13 T
+LD A COMMA IND_BC PLUS RPAREN     |z80n |-     |IXIY |ld a, (bc+)   |0A; 03                                      |     13 T
 LD A COMMA IND_BC RPAREN          |8080 |-     |-    |ld a, (bc)    |0A                                          |      7 T
 LD A COMMA IND_BC RPAREN          |8080 |-     |IXIY |ld a, (bc)    |0A                                          |      7 T
 LD A COMMA IND_BC RPAREN          |8085 |-     |-    |ld a, (bc)    |0A                                          |      7 T
@@ -2863,6 +3123,26 @@ LD A COMMA IND_BC RPAREN          |z80n |-     |-    |ld a, (bc)    |0A         
 LD A COMMA IND_BC RPAREN          |z80n |-     |IXIY |ld a, (bc)    |0A                                          |      7 T
 LD A COMMA IND_C RPAREN           |gbz80|-     |-    |ld a, (c)     |F2                                          |      8 T
 LD A COMMA IND_C RPAREN           |gbz80|-     |IXIY |ld a, (c)     |F2                                          |      8 T
+LD A COMMA IND_DE MINUS RPAREN    |8080 |-     |-    |ld a, (de-)   |1A; 1B                                      |     12 T
+LD A COMMA IND_DE MINUS RPAREN    |8080 |-     |IXIY |ld a, (de-)   |1A; 1B                                      |     12 T
+LD A COMMA IND_DE MINUS RPAREN    |8085 |-     |-    |ld a, (de-)   |1A; 1B                                      |     13 T
+LD A COMMA IND_DE MINUS RPAREN    |8085 |-     |IXIY |ld a, (de-)   |1A; 1B                                      |     13 T
+LD A COMMA IND_DE MINUS RPAREN    |gbz80|-     |-    |ld a, (de-)   |1A; 1B                                      |     16 T
+LD A COMMA IND_DE MINUS RPAREN    |gbz80|-     |IXIY |ld a, (de-)   |1A; 1B                                      |     16 T
+LD A COMMA IND_DE MINUS RPAREN    |z80  |-     |-    |ld a, (de-)   |1A; 1B                                      |     13 T
+LD A COMMA IND_DE MINUS RPAREN    |z80  |-     |IXIY |ld a, (de-)   |1A; 1B                                      |     13 T
+LD A COMMA IND_DE MINUS RPAREN    |z80n |-     |-    |ld a, (de-)   |1A; 1B                                      |     13 T
+LD A COMMA IND_DE MINUS RPAREN    |z80n |-     |IXIY |ld a, (de-)   |1A; 1B                                      |     13 T
+LD A COMMA IND_DE PLUS RPAREN     |8080 |-     |-    |ld a, (de+)   |1A; 13                                      |     12 T
+LD A COMMA IND_DE PLUS RPAREN     |8080 |-     |IXIY |ld a, (de+)   |1A; 13                                      |     12 T
+LD A COMMA IND_DE PLUS RPAREN     |8085 |-     |-    |ld a, (de+)   |1A; 13                                      |     13 T
+LD A COMMA IND_DE PLUS RPAREN     |8085 |-     |IXIY |ld a, (de+)   |1A; 13                                      |     13 T
+LD A COMMA IND_DE PLUS RPAREN     |gbz80|-     |-    |ld a, (de+)   |1A; 13                                      |     16 T
+LD A COMMA IND_DE PLUS RPAREN     |gbz80|-     |IXIY |ld a, (de+)   |1A; 13                                      |     16 T
+LD A COMMA IND_DE PLUS RPAREN     |z80  |-     |-    |ld a, (de+)   |1A; 13                                      |     13 T
+LD A COMMA IND_DE PLUS RPAREN     |z80  |-     |IXIY |ld a, (de+)   |1A; 13                                      |     13 T
+LD A COMMA IND_DE PLUS RPAREN     |z80n |-     |-    |ld a, (de+)   |1A; 13                                      |     13 T
+LD A COMMA IND_DE PLUS RPAREN     |z80n |-     |IXIY |ld a, (de+)   |1A; 13                                      |     13 T
 LD A COMMA IND_DE RPAREN          |8080 |-     |-    |ld a, (de)    |1A                                          |      7 T
 LD A COMMA IND_DE RPAREN          |8080 |-     |IXIY |ld a, (de)    |1A                                          |      7 T
 LD A COMMA IND_DE RPAREN          |8085 |-     |-    |ld a, (de)    |1A                                          |      7 T
@@ -2873,10 +3153,26 @@ LD A COMMA IND_DE RPAREN          |z80  |-     |-    |ld a, (de)    |1A         
 LD A COMMA IND_DE RPAREN          |z80  |-     |IXIY |ld a, (de)    |1A                                          |      7 T
 LD A COMMA IND_DE RPAREN          |z80n |-     |-    |ld a, (de)    |1A                                          |      7 T
 LD A COMMA IND_DE RPAREN          |z80n |-     |IXIY |ld a, (de)    |1A                                          |      7 T
+LD A COMMA IND_HL MINUS RPAREN    |8080 |-     |-    |ld a, (hl-)   |7E; 2B                                      |     12 T
+LD A COMMA IND_HL MINUS RPAREN    |8080 |-     |IXIY |ld a, (hl-)   |7E; 2B                                      |     12 T
+LD A COMMA IND_HL MINUS RPAREN    |8085 |-     |-    |ld a, (hl-)   |7E; 2B                                      |     13 T
+LD A COMMA IND_HL MINUS RPAREN    |8085 |-     |IXIY |ld a, (hl-)   |7E; 2B                                      |     13 T
 LD A COMMA IND_HL MINUS RPAREN    |gbz80|-     |-    |ld a, (hl-)   |3A                                          |      8 T
 LD A COMMA IND_HL MINUS RPAREN    |gbz80|-     |IXIY |ld a, (hl-)   |3A                                          |      8 T
+LD A COMMA IND_HL MINUS RPAREN    |z80  |-     |-    |ld a, (hl-)   |7E; 2B                                      |     13 T
+LD A COMMA IND_HL MINUS RPAREN    |z80  |-     |IXIY |ld a, (hl-)   |7E; 2B                                      |     13 T
+LD A COMMA IND_HL MINUS RPAREN    |z80n |-     |-    |ld a, (hl-)   |7E; 2B                                      |     13 T
+LD A COMMA IND_HL MINUS RPAREN    |z80n |-     |IXIY |ld a, (hl-)   |7E; 2B                                      |     13 T
+LD A COMMA IND_HL PLUS RPAREN     |8080 |-     |-    |ld a, (hl+)   |7E; 23                                      |     12 T
+LD A COMMA IND_HL PLUS RPAREN     |8080 |-     |IXIY |ld a, (hl+)   |7E; 23                                      |     12 T
+LD A COMMA IND_HL PLUS RPAREN     |8085 |-     |-    |ld a, (hl+)   |7E; 23                                      |     13 T
+LD A COMMA IND_HL PLUS RPAREN     |8085 |-     |IXIY |ld a, (hl+)   |7E; 23                                      |     13 T
 LD A COMMA IND_HL PLUS RPAREN     |gbz80|-     |-    |ld a, (hl+)   |2A                                          |      8 T
 LD A COMMA IND_HL PLUS RPAREN     |gbz80|-     |IXIY |ld a, (hl+)   |2A                                          |      8 T
+LD A COMMA IND_HL PLUS RPAREN     |z80  |-     |-    |ld a, (hl+)   |7E; 23                                      |     13 T
+LD A COMMA IND_HL PLUS RPAREN     |z80  |-     |IXIY |ld a, (hl+)   |7E; 23                                      |     13 T
+LD A COMMA IND_HL PLUS RPAREN     |z80n |-     |-    |ld a, (hl+)   |7E; 23                                      |     13 T
+LD A COMMA IND_HL PLUS RPAREN     |z80n |-     |IXIY |ld a, (hl+)   |7E; 23                                      |     13 T
 LD A COMMA IND_HL RPAREN          |8080 |-     |-    |ld a, (hl)    |7E                                          |      7 T
 LD A COMMA IND_HL RPAREN          |8080 |-     |IXIY |ld a, (hl)    |7E                                          |      7 T
 LD A COMMA IND_HL RPAREN          |8085 |-     |-    |ld a, (hl)    |7E                                          |      7 T
@@ -3017,6 +3313,26 @@ LD B COMMA H                      |z80  |-     |-    |ld b, h       |44         
 LD B COMMA H                      |z80  |-     |IXIY |ld b, h       |44                                          |      4 T
 LD B COMMA H                      |z80n |-     |-    |ld b, h       |44                                          |      4 T
 LD B COMMA H                      |z80n |-     |IXIY |ld b, h       |44                                          |      4 T
+LD B COMMA IND_HL MINUS RPAREN    |8080 |-     |-    |ld b, (hl-)   |46; 2B                                      |     12 T
+LD B COMMA IND_HL MINUS RPAREN    |8080 |-     |IXIY |ld b, (hl-)   |46; 2B                                      |     12 T
+LD B COMMA IND_HL MINUS RPAREN    |8085 |-     |-    |ld b, (hl-)   |46; 2B                                      |     13 T
+LD B COMMA IND_HL MINUS RPAREN    |8085 |-     |IXIY |ld b, (hl-)   |46; 2B                                      |     13 T
+LD B COMMA IND_HL MINUS RPAREN    |gbz80|-     |-    |ld b, (hl-)   |46; 2B                                      |     16 T
+LD B COMMA IND_HL MINUS RPAREN    |gbz80|-     |IXIY |ld b, (hl-)   |46; 2B                                      |     16 T
+LD B COMMA IND_HL MINUS RPAREN    |z80  |-     |-    |ld b, (hl-)   |46; 2B                                      |     13 T
+LD B COMMA IND_HL MINUS RPAREN    |z80  |-     |IXIY |ld b, (hl-)   |46; 2B                                      |     13 T
+LD B COMMA IND_HL MINUS RPAREN    |z80n |-     |-    |ld b, (hl-)   |46; 2B                                      |     13 T
+LD B COMMA IND_HL MINUS RPAREN    |z80n |-     |IXIY |ld b, (hl-)   |46; 2B                                      |     13 T
+LD B COMMA IND_HL PLUS RPAREN     |8080 |-     |-    |ld b, (hl+)   |46; 23                                      |     12 T
+LD B COMMA IND_HL PLUS RPAREN     |8080 |-     |IXIY |ld b, (hl+)   |46; 23                                      |     12 T
+LD B COMMA IND_HL PLUS RPAREN     |8085 |-     |-    |ld b, (hl+)   |46; 23                                      |     13 T
+LD B COMMA IND_HL PLUS RPAREN     |8085 |-     |IXIY |ld b, (hl+)   |46; 23                                      |     13 T
+LD B COMMA IND_HL PLUS RPAREN     |gbz80|-     |-    |ld b, (hl+)   |46; 23                                      |     16 T
+LD B COMMA IND_HL PLUS RPAREN     |gbz80|-     |IXIY |ld b, (hl+)   |46; 23                                      |     16 T
+LD B COMMA IND_HL PLUS RPAREN     |z80  |-     |-    |ld b, (hl+)   |46; 23                                      |     13 T
+LD B COMMA IND_HL PLUS RPAREN     |z80  |-     |IXIY |ld b, (hl+)   |46; 23                                      |     13 T
+LD B COMMA IND_HL PLUS RPAREN     |z80n |-     |-    |ld b, (hl+)   |46; 23                                      |     13 T
+LD B COMMA IND_HL PLUS RPAREN     |z80n |-     |IXIY |ld b, (hl+)   |46; 23                                      |     13 T
 LD B COMMA IND_HL RPAREN          |8080 |-     |-    |ld b, (hl)    |46                                          |      7 T
 LD B COMMA IND_HL RPAREN          |8080 |-     |IXIY |ld b, (hl)    |46                                          |      7 T
 LD B COMMA IND_HL RPAREN          |8085 |-     |-    |ld b, (hl)    |46                                          |      7 T
@@ -3099,6 +3415,26 @@ LD BC COMMA HL                    |z80  |-     |-    |ld bc, hl     |44; 4D     
 LD BC COMMA HL                    |z80  |-     |IXIY |ld bc, hl     |44; 4D                                      |      8 T
 LD BC COMMA HL                    |z80n |-     |-    |ld bc, hl     |44; 4D                                      |      8 T
 LD BC COMMA HL                    |z80n |-     |IXIY |ld bc, hl     |44; 4D                                      |      8 T
+LD BC COMMA IND_HL PLUS RPAREN    |8080 |-     |-    |ld bc, (hl+)  |4E; 23; 46; 23                              |     24 T
+LD BC COMMA IND_HL PLUS RPAREN    |8080 |-     |IXIY |ld bc, (hl+)  |4E; 23; 46; 23                              |     24 T
+LD BC COMMA IND_HL PLUS RPAREN    |8085 |-     |-    |ld bc, (hl+)  |4E; 23; 46; 23                              |     26 T
+LD BC COMMA IND_HL PLUS RPAREN    |8085 |-     |IXIY |ld bc, (hl+)  |4E; 23; 46; 23                              |     26 T
+LD BC COMMA IND_HL PLUS RPAREN    |gbz80|-     |-    |ld bc, (hl+)  |4E; 23; 46; 23                              |     32 T
+LD BC COMMA IND_HL PLUS RPAREN    |gbz80|-     |IXIY |ld bc, (hl+)  |4E; 23; 46; 23                              |     32 T
+LD BC COMMA IND_HL PLUS RPAREN    |z80  |-     |-    |ld bc, (hl+)  |4E; 23; 46; 23                              |     26 T
+LD BC COMMA IND_HL PLUS RPAREN    |z80  |-     |IXIY |ld bc, (hl+)  |4E; 23; 46; 23                              |     26 T
+LD BC COMMA IND_HL PLUS RPAREN    |z80n |-     |-    |ld bc, (hl+)  |4E; 23; 46; 23                              |     26 T
+LD BC COMMA IND_HL PLUS RPAREN    |z80n |-     |IXIY |ld bc, (hl+)  |4E; 23; 46; 23                              |     26 T
+LD BC COMMA IND_HL RPAREN         |8080 |-     |-    |ld bc, (hl)   |4E; 23; 46; 2B                              |     24 T
+LD BC COMMA IND_HL RPAREN         |8080 |-     |IXIY |ld bc, (hl)   |4E; 23; 46; 2B                              |     24 T
+LD BC COMMA IND_HL RPAREN         |8085 |-     |-    |ld bc, (hl)   |4E; 23; 46; 2B                              |     26 T
+LD BC COMMA IND_HL RPAREN         |8085 |-     |IXIY |ld bc, (hl)   |4E; 23; 46; 2B                              |     26 T
+LD BC COMMA IND_HL RPAREN         |gbz80|-     |-    |ld bc, (hl)   |4E; 23; 46; 2B                              |     32 T
+LD BC COMMA IND_HL RPAREN         |gbz80|-     |IXIY |ld bc, (hl)   |4E; 23; 46; 2B                              |     32 T
+LD BC COMMA IND_HL RPAREN         |z80  |-     |-    |ld bc, (hl)   |4E; 23; 46; 2B                              |     26 T
+LD BC COMMA IND_HL RPAREN         |z80  |-     |IXIY |ld bc, (hl)   |4E; 23; 46; 2B                              |     26 T
+LD BC COMMA IND_HL RPAREN         |z80n |-     |-    |ld bc, (hl)   |4E; 23; 46; 2B                              |     26 T
+LD BC COMMA IND_HL RPAREN         |z80n |-     |IXIY |ld bc, (hl)   |4E; 23; 46; 2B                              |     26 T
 LD BC COMMA IX                    |z80  |-     |-    |ld bc, ix     |DD 44; DD 4D                                |     16 T
 LD BC COMMA IX                    |z80  |-     |IXIY |ld bc, ix     |FD 44; FD 4D                                |     16 T
 LD BC COMMA IX                    |z80n |-     |-    |ld bc, ix     |DD 44; DD 4D                                |     16 T
@@ -3187,6 +3523,26 @@ LD C COMMA H                      |z80  |-     |-    |ld c, h       |4C         
 LD C COMMA H                      |z80  |-     |IXIY |ld c, h       |4C                                          |      4 T
 LD C COMMA H                      |z80n |-     |-    |ld c, h       |4C                                          |      4 T
 LD C COMMA H                      |z80n |-     |IXIY |ld c, h       |4C                                          |      4 T
+LD C COMMA IND_HL MINUS RPAREN    |8080 |-     |-    |ld c, (hl-)   |4E; 2B                                      |     12 T
+LD C COMMA IND_HL MINUS RPAREN    |8080 |-     |IXIY |ld c, (hl-)   |4E; 2B                                      |     12 T
+LD C COMMA IND_HL MINUS RPAREN    |8085 |-     |-    |ld c, (hl-)   |4E; 2B                                      |     13 T
+LD C COMMA IND_HL MINUS RPAREN    |8085 |-     |IXIY |ld c, (hl-)   |4E; 2B                                      |     13 T
+LD C COMMA IND_HL MINUS RPAREN    |gbz80|-     |-    |ld c, (hl-)   |4E; 2B                                      |     16 T
+LD C COMMA IND_HL MINUS RPAREN    |gbz80|-     |IXIY |ld c, (hl-)   |4E; 2B                                      |     16 T
+LD C COMMA IND_HL MINUS RPAREN    |z80  |-     |-    |ld c, (hl-)   |4E; 2B                                      |     13 T
+LD C COMMA IND_HL MINUS RPAREN    |z80  |-     |IXIY |ld c, (hl-)   |4E; 2B                                      |     13 T
+LD C COMMA IND_HL MINUS RPAREN    |z80n |-     |-    |ld c, (hl-)   |4E; 2B                                      |     13 T
+LD C COMMA IND_HL MINUS RPAREN    |z80n |-     |IXIY |ld c, (hl-)   |4E; 2B                                      |     13 T
+LD C COMMA IND_HL PLUS RPAREN     |8080 |-     |-    |ld c, (hl+)   |4E; 23                                      |     12 T
+LD C COMMA IND_HL PLUS RPAREN     |8080 |-     |IXIY |ld c, (hl+)   |4E; 23                                      |     12 T
+LD C COMMA IND_HL PLUS RPAREN     |8085 |-     |-    |ld c, (hl+)   |4E; 23                                      |     13 T
+LD C COMMA IND_HL PLUS RPAREN     |8085 |-     |IXIY |ld c, (hl+)   |4E; 23                                      |     13 T
+LD C COMMA IND_HL PLUS RPAREN     |gbz80|-     |-    |ld c, (hl+)   |4E; 23                                      |     16 T
+LD C COMMA IND_HL PLUS RPAREN     |gbz80|-     |IXIY |ld c, (hl+)   |4E; 23                                      |     16 T
+LD C COMMA IND_HL PLUS RPAREN     |z80  |-     |-    |ld c, (hl+)   |4E; 23                                      |     13 T
+LD C COMMA IND_HL PLUS RPAREN     |z80  |-     |IXIY |ld c, (hl+)   |4E; 23                                      |     13 T
+LD C COMMA IND_HL PLUS RPAREN     |z80n |-     |-    |ld c, (hl+)   |4E; 23                                      |     13 T
+LD C COMMA IND_HL PLUS RPAREN     |z80n |-     |IXIY |ld c, (hl+)   |4E; 23                                      |     13 T
 LD C COMMA IND_HL RPAREN          |8080 |-     |-    |ld c, (hl)    |4E                                          |      7 T
 LD C COMMA IND_HL RPAREN          |8080 |-     |IXIY |ld c, (hl)    |4E                                          |      7 T
 LD C COMMA IND_HL RPAREN          |8085 |-     |-    |ld c, (hl)    |4E                                          |      7 T
@@ -3309,6 +3665,26 @@ LD D COMMA H                      |z80  |-     |-    |ld d, h       |54         
 LD D COMMA H                      |z80  |-     |IXIY |ld d, h       |54                                          |      4 T
 LD D COMMA H                      |z80n |-     |-    |ld d, h       |54                                          |      4 T
 LD D COMMA H                      |z80n |-     |IXIY |ld d, h       |54                                          |      4 T
+LD D COMMA IND_HL MINUS RPAREN    |8080 |-     |-    |ld d, (hl-)   |56; 2B                                      |     12 T
+LD D COMMA IND_HL MINUS RPAREN    |8080 |-     |IXIY |ld d, (hl-)   |56; 2B                                      |     12 T
+LD D COMMA IND_HL MINUS RPAREN    |8085 |-     |-    |ld d, (hl-)   |56; 2B                                      |     13 T
+LD D COMMA IND_HL MINUS RPAREN    |8085 |-     |IXIY |ld d, (hl-)   |56; 2B                                      |     13 T
+LD D COMMA IND_HL MINUS RPAREN    |gbz80|-     |-    |ld d, (hl-)   |56; 2B                                      |     16 T
+LD D COMMA IND_HL MINUS RPAREN    |gbz80|-     |IXIY |ld d, (hl-)   |56; 2B                                      |     16 T
+LD D COMMA IND_HL MINUS RPAREN    |z80  |-     |-    |ld d, (hl-)   |56; 2B                                      |     13 T
+LD D COMMA IND_HL MINUS RPAREN    |z80  |-     |IXIY |ld d, (hl-)   |56; 2B                                      |     13 T
+LD D COMMA IND_HL MINUS RPAREN    |z80n |-     |-    |ld d, (hl-)   |56; 2B                                      |     13 T
+LD D COMMA IND_HL MINUS RPAREN    |z80n |-     |IXIY |ld d, (hl-)   |56; 2B                                      |     13 T
+LD D COMMA IND_HL PLUS RPAREN     |8080 |-     |-    |ld d, (hl+)   |56; 23                                      |     12 T
+LD D COMMA IND_HL PLUS RPAREN     |8080 |-     |IXIY |ld d, (hl+)   |56; 23                                      |     12 T
+LD D COMMA IND_HL PLUS RPAREN     |8085 |-     |-    |ld d, (hl+)   |56; 23                                      |     13 T
+LD D COMMA IND_HL PLUS RPAREN     |8085 |-     |IXIY |ld d, (hl+)   |56; 23                                      |     13 T
+LD D COMMA IND_HL PLUS RPAREN     |gbz80|-     |-    |ld d, (hl+)   |56; 23                                      |     16 T
+LD D COMMA IND_HL PLUS RPAREN     |gbz80|-     |IXIY |ld d, (hl+)   |56; 23                                      |     16 T
+LD D COMMA IND_HL PLUS RPAREN     |z80  |-     |-    |ld d, (hl+)   |56; 23                                      |     13 T
+LD D COMMA IND_HL PLUS RPAREN     |z80  |-     |IXIY |ld d, (hl+)   |56; 23                                      |     13 T
+LD D COMMA IND_HL PLUS RPAREN     |z80n |-     |-    |ld d, (hl+)   |56; 23                                      |     13 T
+LD D COMMA IND_HL PLUS RPAREN     |z80n |-     |IXIY |ld d, (hl+)   |56; 23                                      |     13 T
 LD D COMMA IND_HL RPAREN          |8080 |-     |-    |ld d, (hl)    |56                                          |      7 T
 LD D COMMA IND_HL RPAREN          |8080 |-     |IXIY |ld d, (hl)    |56                                          |      7 T
 LD D COMMA IND_HL RPAREN          |8085 |-     |-    |ld d, (hl)    |56                                          |      7 T
@@ -3391,6 +3767,26 @@ LD DE COMMA HL                    |z80n |-     |-    |ld de, hl     |54; 5D     
 LD DE COMMA HL                    |z80n |-     |IXIY |ld de, hl     |54; 5D                                      |      8 T
 LD DE COMMA HL PLUS expr          |8085 |expr  |-    |ld de, hl+%n  |28 %n                                       |     10 T
 LD DE COMMA HL PLUS expr          |8085 |expr  |IXIY |ld de, hl+%n  |28 %n                                       |     10 T
+LD DE COMMA IND_HL PLUS RPAREN    |8080 |-     |-    |ld de, (hl+)  |5E; 23; 56; 23                              |     24 T
+LD DE COMMA IND_HL PLUS RPAREN    |8080 |-     |IXIY |ld de, (hl+)  |5E; 23; 56; 23                              |     24 T
+LD DE COMMA IND_HL PLUS RPAREN    |8085 |-     |-    |ld de, (hl+)  |5E; 23; 56; 23                              |     26 T
+LD DE COMMA IND_HL PLUS RPAREN    |8085 |-     |IXIY |ld de, (hl+)  |5E; 23; 56; 23                              |     26 T
+LD DE COMMA IND_HL PLUS RPAREN    |gbz80|-     |-    |ld de, (hl+)  |5E; 23; 56; 23                              |     32 T
+LD DE COMMA IND_HL PLUS RPAREN    |gbz80|-     |IXIY |ld de, (hl+)  |5E; 23; 56; 23                              |     32 T
+LD DE COMMA IND_HL PLUS RPAREN    |z80  |-     |-    |ld de, (hl+)  |5E; 23; 56; 23                              |     26 T
+LD DE COMMA IND_HL PLUS RPAREN    |z80  |-     |IXIY |ld de, (hl+)  |5E; 23; 56; 23                              |     26 T
+LD DE COMMA IND_HL PLUS RPAREN    |z80n |-     |-    |ld de, (hl+)  |5E; 23; 56; 23                              |     26 T
+LD DE COMMA IND_HL PLUS RPAREN    |z80n |-     |IXIY |ld de, (hl+)  |5E; 23; 56; 23                              |     26 T
+LD DE COMMA IND_HL RPAREN         |8080 |-     |-    |ld de, (hl)   |5E; 23; 56; 2B                              |     24 T
+LD DE COMMA IND_HL RPAREN         |8080 |-     |IXIY |ld de, (hl)   |5E; 23; 56; 2B                              |     24 T
+LD DE COMMA IND_HL RPAREN         |8085 |-     |-    |ld de, (hl)   |5E; 23; 56; 2B                              |     26 T
+LD DE COMMA IND_HL RPAREN         |8085 |-     |IXIY |ld de, (hl)   |5E; 23; 56; 2B                              |     26 T
+LD DE COMMA IND_HL RPAREN         |gbz80|-     |-    |ld de, (hl)   |5E; 23; 56; 2B                              |     32 T
+LD DE COMMA IND_HL RPAREN         |gbz80|-     |IXIY |ld de, (hl)   |5E; 23; 56; 2B                              |     32 T
+LD DE COMMA IND_HL RPAREN         |z80  |-     |-    |ld de, (hl)   |5E; 23; 56; 2B                              |     26 T
+LD DE COMMA IND_HL RPAREN         |z80  |-     |IXIY |ld de, (hl)   |5E; 23; 56; 2B                              |     26 T
+LD DE COMMA IND_HL RPAREN         |z80n |-     |-    |ld de, (hl)   |5E; 23; 56; 2B                              |     26 T
+LD DE COMMA IND_HL RPAREN         |z80n |-     |IXIY |ld de, (hl)   |5E; 23; 56; 2B                              |     26 T
 LD DE COMMA IX                    |z80  |-     |-    |ld de, ix     |DD 54; DD 5D                                |     16 T
 LD DE COMMA IX                    |z80  |-     |IXIY |ld de, ix     |FD 54; FD 5D                                |     16 T
 LD DE COMMA IX                    |z80n |-     |-    |ld de, ix     |DD 54; DD 5D                                |     16 T
@@ -3499,6 +3895,26 @@ LD E COMMA H                      |z80  |-     |-    |ld e, h       |5C         
 LD E COMMA H                      |z80  |-     |IXIY |ld e, h       |5C                                          |      4 T
 LD E COMMA H                      |z80n |-     |-    |ld e, h       |5C                                          |      4 T
 LD E COMMA H                      |z80n |-     |IXIY |ld e, h       |5C                                          |      4 T
+LD E COMMA IND_HL MINUS RPAREN    |8080 |-     |-    |ld e, (hl-)   |5E; 2B                                      |     12 T
+LD E COMMA IND_HL MINUS RPAREN    |8080 |-     |IXIY |ld e, (hl-)   |5E; 2B                                      |     12 T
+LD E COMMA IND_HL MINUS RPAREN    |8085 |-     |-    |ld e, (hl-)   |5E; 2B                                      |     13 T
+LD E COMMA IND_HL MINUS RPAREN    |8085 |-     |IXIY |ld e, (hl-)   |5E; 2B                                      |     13 T
+LD E COMMA IND_HL MINUS RPAREN    |gbz80|-     |-    |ld e, (hl-)   |5E; 2B                                      |     16 T
+LD E COMMA IND_HL MINUS RPAREN    |gbz80|-     |IXIY |ld e, (hl-)   |5E; 2B                                      |     16 T
+LD E COMMA IND_HL MINUS RPAREN    |z80  |-     |-    |ld e, (hl-)   |5E; 2B                                      |     13 T
+LD E COMMA IND_HL MINUS RPAREN    |z80  |-     |IXIY |ld e, (hl-)   |5E; 2B                                      |     13 T
+LD E COMMA IND_HL MINUS RPAREN    |z80n |-     |-    |ld e, (hl-)   |5E; 2B                                      |     13 T
+LD E COMMA IND_HL MINUS RPAREN    |z80n |-     |IXIY |ld e, (hl-)   |5E; 2B                                      |     13 T
+LD E COMMA IND_HL PLUS RPAREN     |8080 |-     |-    |ld e, (hl+)   |5E; 23                                      |     12 T
+LD E COMMA IND_HL PLUS RPAREN     |8080 |-     |IXIY |ld e, (hl+)   |5E; 23                                      |     12 T
+LD E COMMA IND_HL PLUS RPAREN     |8085 |-     |-    |ld e, (hl+)   |5E; 23                                      |     13 T
+LD E COMMA IND_HL PLUS RPAREN     |8085 |-     |IXIY |ld e, (hl+)   |5E; 23                                      |     13 T
+LD E COMMA IND_HL PLUS RPAREN     |gbz80|-     |-    |ld e, (hl+)   |5E; 23                                      |     16 T
+LD E COMMA IND_HL PLUS RPAREN     |gbz80|-     |IXIY |ld e, (hl+)   |5E; 23                                      |     16 T
+LD E COMMA IND_HL PLUS RPAREN     |z80  |-     |-    |ld e, (hl+)   |5E; 23                                      |     13 T
+LD E COMMA IND_HL PLUS RPAREN     |z80  |-     |IXIY |ld e, (hl+)   |5E; 23                                      |     13 T
+LD E COMMA IND_HL PLUS RPAREN     |z80n |-     |-    |ld e, (hl+)   |5E; 23                                      |     13 T
+LD E COMMA IND_HL PLUS RPAREN     |z80n |-     |IXIY |ld e, (hl+)   |5E; 23                                      |     13 T
 LD E COMMA IND_HL RPAREN          |8080 |-     |-    |ld e, (hl)    |5E                                          |      7 T
 LD E COMMA IND_HL RPAREN          |8080 |-     |IXIY |ld e, (hl)    |5E                                          |      7 T
 LD E COMMA IND_HL RPAREN          |8085 |-     |-    |ld e, (hl)    |5E                                          |      7 T
@@ -3689,6 +4105,16 @@ LD HL COMMA DE                    |z80n |-     |-    |ld hl, de     |62; 6B     
 LD HL COMMA DE                    |z80n |-     |IXIY |ld hl, de     |62; 6B                                      |      8 T
 LD HL COMMA IND_DE RPAREN         |8085 |-     |-    |ld hl, (de)   |ED                                          |     10 T
 LD HL COMMA IND_DE RPAREN         |8085 |-     |IXIY |ld hl, (de)   |ED                                          |     10 T
+LD HL COMMA IND_HL RPAREN         |8080 |-     |-    |ld hl, (hl)   |F5; 7E; 23; 66; 6F; F1                      |     45 T
+LD HL COMMA IND_HL RPAREN         |8080 |-     |IXIY |ld hl, (hl)   |F5; 7E; 23; 66; 6F; F1                      |     45 T
+LD HL COMMA IND_HL RPAREN         |8085 |-     |-    |ld hl, (hl)   |F5; 7E; 23; 66; 6F; F1                      |     46 T
+LD HL COMMA IND_HL RPAREN         |8085 |-     |IXIY |ld hl, (hl)   |F5; 7E; 23; 66; 6F; F1                      |     46 T
+LD HL COMMA IND_HL RPAREN         |gbz80|-     |-    |ld hl, (hl)   |F5; 7E; 23; 66; 6F; F1                      |     56 T
+LD HL COMMA IND_HL RPAREN         |gbz80|-     |IXIY |ld hl, (hl)   |F5; 7E; 23; 66; 6F; F1                      |     56 T
+LD HL COMMA IND_HL RPAREN         |z80  |-     |-    |ld hl, (hl)   |F5; 7E; 23; 66; 6F; F1                      |     45 T
+LD HL COMMA IND_HL RPAREN         |z80  |-     |IXIY |ld hl, (hl)   |F5; 7E; 23; 66; 6F; F1                      |     45 T
+LD HL COMMA IND_HL RPAREN         |z80n |-     |-    |ld hl, (hl)   |F5; 7E; 23; 66; 6F; F1                      |     45 T
+LD HL COMMA IND_HL RPAREN         |z80n |-     |IXIY |ld hl, (hl)   |F5; 7E; 23; 66; 6F; F1                      |     45 T
 LD HL COMMA IX                    |z80  |-     |-    |ld hl, ix     |DD E5; E1                                   |     25 T
 LD HL COMMA IX                    |z80  |-     |IXIY |ld hl, ix     |FD E5; E1                                   |     25 T
 LD HL COMMA IX                    |z80n |-     |-    |ld hl, ix     |DD E5; E1                                   |     25 T
@@ -3745,6 +4171,26 @@ LD I COMMA A                      |z80  |-     |-    |ld i, a       |ED 47      
 LD I COMMA A                      |z80  |-     |IXIY |ld i, a       |ED 47                                       |      9 T
 LD I COMMA A                      |z80n |-     |-    |ld i, a       |ED 47                                       |      9 T
 LD I COMMA A                      |z80n |-     |IXIY |ld i, a       |ED 47                                       |      9 T
+LD IND_BC MINUS RPAREN COMMA A    |8080 |-     |-    |ld (bc-), a   |02; 0B                                      |     12 T
+LD IND_BC MINUS RPAREN COMMA A    |8080 |-     |IXIY |ld (bc-), a   |02; 0B                                      |     12 T
+LD IND_BC MINUS RPAREN COMMA A    |8085 |-     |-    |ld (bc-), a   |02; 0B                                      |     13 T
+LD IND_BC MINUS RPAREN COMMA A    |8085 |-     |IXIY |ld (bc-), a   |02; 0B                                      |     13 T
+LD IND_BC MINUS RPAREN COMMA A    |gbz80|-     |-    |ld (bc-), a   |02; 0B                                      |     16 T
+LD IND_BC MINUS RPAREN COMMA A    |gbz80|-     |IXIY |ld (bc-), a   |02; 0B                                      |     16 T
+LD IND_BC MINUS RPAREN COMMA A    |z80  |-     |-    |ld (bc-), a   |02; 0B                                      |     13 T
+LD IND_BC MINUS RPAREN COMMA A    |z80  |-     |IXIY |ld (bc-), a   |02; 0B                                      |     13 T
+LD IND_BC MINUS RPAREN COMMA A    |z80n |-     |-    |ld (bc-), a   |02; 0B                                      |     13 T
+LD IND_BC MINUS RPAREN COMMA A    |z80n |-     |IXIY |ld (bc-), a   |02; 0B                                      |     13 T
+LD IND_BC PLUS RPAREN COMMA A     |8080 |-     |-    |ld (bc+), a   |02; 03                                      |     12 T
+LD IND_BC PLUS RPAREN COMMA A     |8080 |-     |IXIY |ld (bc+), a   |02; 03                                      |     12 T
+LD IND_BC PLUS RPAREN COMMA A     |8085 |-     |-    |ld (bc+), a   |02; 03                                      |     13 T
+LD IND_BC PLUS RPAREN COMMA A     |8085 |-     |IXIY |ld (bc+), a   |02; 03                                      |     13 T
+LD IND_BC PLUS RPAREN COMMA A     |gbz80|-     |-    |ld (bc+), a   |02; 03                                      |     16 T
+LD IND_BC PLUS RPAREN COMMA A     |gbz80|-     |IXIY |ld (bc+), a   |02; 03                                      |     16 T
+LD IND_BC PLUS RPAREN COMMA A     |z80  |-     |-    |ld (bc+), a   |02; 03                                      |     13 T
+LD IND_BC PLUS RPAREN COMMA A     |z80  |-     |IXIY |ld (bc+), a   |02; 03                                      |     13 T
+LD IND_BC PLUS RPAREN COMMA A     |z80n |-     |-    |ld (bc+), a   |02; 03                                      |     13 T
+LD IND_BC PLUS RPAREN COMMA A     |z80n |-     |IXIY |ld (bc+), a   |02; 03                                      |     13 T
 LD IND_BC RPAREN COMMA A          |8080 |-     |-    |ld (bc), a    |02                                          |      7 T
 LD IND_BC RPAREN COMMA A          |8080 |-     |IXIY |ld (bc), a    |02                                          |      7 T
 LD IND_BC RPAREN COMMA A          |8085 |-     |-    |ld (bc), a    |02                                          |      7 T
@@ -3757,6 +4203,26 @@ LD IND_BC RPAREN COMMA A          |z80n |-     |-    |ld (bc), a    |02         
 LD IND_BC RPAREN COMMA A          |z80n |-     |IXIY |ld (bc), a    |02                                          |      7 T
 LD IND_C RPAREN COMMA A           |gbz80|-     |-    |ld (c), a     |E2                                          |      8 T
 LD IND_C RPAREN COMMA A           |gbz80|-     |IXIY |ld (c), a     |E2                                          |      8 T
+LD IND_DE MINUS RPAREN COMMA A    |8080 |-     |-    |ld (de-), a   |12; 1B                                      |     12 T
+LD IND_DE MINUS RPAREN COMMA A    |8080 |-     |IXIY |ld (de-), a   |12; 1B                                      |     12 T
+LD IND_DE MINUS RPAREN COMMA A    |8085 |-     |-    |ld (de-), a   |12; 1B                                      |     13 T
+LD IND_DE MINUS RPAREN COMMA A    |8085 |-     |IXIY |ld (de-), a   |12; 1B                                      |     13 T
+LD IND_DE MINUS RPAREN COMMA A    |gbz80|-     |-    |ld (de-), a   |12; 1B                                      |     16 T
+LD IND_DE MINUS RPAREN COMMA A    |gbz80|-     |IXIY |ld (de-), a   |12; 1B                                      |     16 T
+LD IND_DE MINUS RPAREN COMMA A    |z80  |-     |-    |ld (de-), a   |12; 1B                                      |     13 T
+LD IND_DE MINUS RPAREN COMMA A    |z80  |-     |IXIY |ld (de-), a   |12; 1B                                      |     13 T
+LD IND_DE MINUS RPAREN COMMA A    |z80n |-     |-    |ld (de-), a   |12; 1B                                      |     13 T
+LD IND_DE MINUS RPAREN COMMA A    |z80n |-     |IXIY |ld (de-), a   |12; 1B                                      |     13 T
+LD IND_DE PLUS RPAREN COMMA A     |8080 |-     |-    |ld (de+), a   |12; 13                                      |     12 T
+LD IND_DE PLUS RPAREN COMMA A     |8080 |-     |IXIY |ld (de+), a   |12; 13                                      |     12 T
+LD IND_DE PLUS RPAREN COMMA A     |8085 |-     |-    |ld (de+), a   |12; 13                                      |     13 T
+LD IND_DE PLUS RPAREN COMMA A     |8085 |-     |IXIY |ld (de+), a   |12; 13                                      |     13 T
+LD IND_DE PLUS RPAREN COMMA A     |gbz80|-     |-    |ld (de+), a   |12; 13                                      |     16 T
+LD IND_DE PLUS RPAREN COMMA A     |gbz80|-     |IXIY |ld (de+), a   |12; 13                                      |     16 T
+LD IND_DE PLUS RPAREN COMMA A     |z80  |-     |-    |ld (de+), a   |12; 13                                      |     13 T
+LD IND_DE PLUS RPAREN COMMA A     |z80  |-     |IXIY |ld (de+), a   |12; 13                                      |     13 T
+LD IND_DE PLUS RPAREN COMMA A     |z80n |-     |-    |ld (de+), a   |12; 13                                      |     13 T
+LD IND_DE PLUS RPAREN COMMA A     |z80n |-     |IXIY |ld (de+), a   |12; 13                                      |     13 T
 LD IND_DE RPAREN COMMA A          |8080 |-     |-    |ld (de), a    |12                                          |      7 T
 LD IND_DE RPAREN COMMA A          |8080 |-     |IXIY |ld (de), a    |12                                          |      7 T
 LD IND_DE RPAREN COMMA A          |8085 |-     |-    |ld (de), a    |12                                          |      7 T
@@ -3769,10 +4235,186 @@ LD IND_DE RPAREN COMMA A          |z80n |-     |-    |ld (de), a    |12         
 LD IND_DE RPAREN COMMA A          |z80n |-     |IXIY |ld (de), a    |12                                          |      7 T
 LD IND_DE RPAREN COMMA HL         |8085 |-     |-    |ld (de), hl   |D9                                          |     10 T
 LD IND_DE RPAREN COMMA HL         |8085 |-     |IXIY |ld (de), hl   |D9                                          |     10 T
+LD IND_HL MINUS RPAREN COMMA A    |8080 |-     |-    |ld (hl-), a   |77; 2B                                      |     12 T
+LD IND_HL MINUS RPAREN COMMA A    |8080 |-     |IXIY |ld (hl-), a   |77; 2B                                      |     12 T
+LD IND_HL MINUS RPAREN COMMA A    |8085 |-     |-    |ld (hl-), a   |77; 2B                                      |     13 T
+LD IND_HL MINUS RPAREN COMMA A    |8085 |-     |IXIY |ld (hl-), a   |77; 2B                                      |     13 T
 LD IND_HL MINUS RPAREN COMMA A    |gbz80|-     |-    |ld (hl-), a   |32                                          |      8 T
 LD IND_HL MINUS RPAREN COMMA A    |gbz80|-     |IXIY |ld (hl-), a   |32                                          |      8 T
+LD IND_HL MINUS RPAREN COMMA A    |z80  |-     |-    |ld (hl-), a   |77; 2B                                      |     13 T
+LD IND_HL MINUS RPAREN COMMA A    |z80  |-     |IXIY |ld (hl-), a   |77; 2B                                      |     13 T
+LD IND_HL MINUS RPAREN COMMA A    |z80n |-     |-    |ld (hl-), a   |77; 2B                                      |     13 T
+LD IND_HL MINUS RPAREN COMMA A    |z80n |-     |IXIY |ld (hl-), a   |77; 2B                                      |     13 T
+LD IND_HL MINUS RPAREN COMMA B    |8080 |-     |-    |ld (hl-), b   |70; 2B                                      |     12 T
+LD IND_HL MINUS RPAREN COMMA B    |8080 |-     |IXIY |ld (hl-), b   |70; 2B                                      |     12 T
+LD IND_HL MINUS RPAREN COMMA B    |8085 |-     |-    |ld (hl-), b   |70; 2B                                      |     13 T
+LD IND_HL MINUS RPAREN COMMA B    |8085 |-     |IXIY |ld (hl-), b   |70; 2B                                      |     13 T
+LD IND_HL MINUS RPAREN COMMA B    |gbz80|-     |-    |ld (hl-), b   |70; 2B                                      |     16 T
+LD IND_HL MINUS RPAREN COMMA B    |gbz80|-     |IXIY |ld (hl-), b   |70; 2B                                      |     16 T
+LD IND_HL MINUS RPAREN COMMA B    |z80  |-     |-    |ld (hl-), b   |70; 2B                                      |     13 T
+LD IND_HL MINUS RPAREN COMMA B    |z80  |-     |IXIY |ld (hl-), b   |70; 2B                                      |     13 T
+LD IND_HL MINUS RPAREN COMMA B    |z80n |-     |-    |ld (hl-), b   |70; 2B                                      |     13 T
+LD IND_HL MINUS RPAREN COMMA B    |z80n |-     |IXIY |ld (hl-), b   |70; 2B                                      |     13 T
+LD IND_HL MINUS RPAREN COMMA C    |8080 |-     |-    |ld (hl-), c   |71; 2B                                      |     12 T
+LD IND_HL MINUS RPAREN COMMA C    |8080 |-     |IXIY |ld (hl-), c   |71; 2B                                      |     12 T
+LD IND_HL MINUS RPAREN COMMA C    |8085 |-     |-    |ld (hl-), c   |71; 2B                                      |     13 T
+LD IND_HL MINUS RPAREN COMMA C    |8085 |-     |IXIY |ld (hl-), c   |71; 2B                                      |     13 T
+LD IND_HL MINUS RPAREN COMMA C    |gbz80|-     |-    |ld (hl-), c   |71; 2B                                      |     16 T
+LD IND_HL MINUS RPAREN COMMA C    |gbz80|-     |IXIY |ld (hl-), c   |71; 2B                                      |     16 T
+LD IND_HL MINUS RPAREN COMMA C    |z80  |-     |-    |ld (hl-), c   |71; 2B                                      |     13 T
+LD IND_HL MINUS RPAREN COMMA C    |z80  |-     |IXIY |ld (hl-), c   |71; 2B                                      |     13 T
+LD IND_HL MINUS RPAREN COMMA C    |z80n |-     |-    |ld (hl-), c   |71; 2B                                      |     13 T
+LD IND_HL MINUS RPAREN COMMA C    |z80n |-     |IXIY |ld (hl-), c   |71; 2B                                      |     13 T
+LD IND_HL MINUS RPAREN COMMA D    |8080 |-     |-    |ld (hl-), d   |72; 2B                                      |     12 T
+LD IND_HL MINUS RPAREN COMMA D    |8080 |-     |IXIY |ld (hl-), d   |72; 2B                                      |     12 T
+LD IND_HL MINUS RPAREN COMMA D    |8085 |-     |-    |ld (hl-), d   |72; 2B                                      |     13 T
+LD IND_HL MINUS RPAREN COMMA D    |8085 |-     |IXIY |ld (hl-), d   |72; 2B                                      |     13 T
+LD IND_HL MINUS RPAREN COMMA D    |gbz80|-     |-    |ld (hl-), d   |72; 2B                                      |     16 T
+LD IND_HL MINUS RPAREN COMMA D    |gbz80|-     |IXIY |ld (hl-), d   |72; 2B                                      |     16 T
+LD IND_HL MINUS RPAREN COMMA D    |z80  |-     |-    |ld (hl-), d   |72; 2B                                      |     13 T
+LD IND_HL MINUS RPAREN COMMA D    |z80  |-     |IXIY |ld (hl-), d   |72; 2B                                      |     13 T
+LD IND_HL MINUS RPAREN COMMA D    |z80n |-     |-    |ld (hl-), d   |72; 2B                                      |     13 T
+LD IND_HL MINUS RPAREN COMMA D    |z80n |-     |IXIY |ld (hl-), d   |72; 2B                                      |     13 T
+LD IND_HL MINUS RPAREN COMMA E    |8080 |-     |-    |ld (hl-), e   |73; 2B                                      |     12 T
+LD IND_HL MINUS RPAREN COMMA E    |8080 |-     |IXIY |ld (hl-), e   |73; 2B                                      |     12 T
+LD IND_HL MINUS RPAREN COMMA E    |8085 |-     |-    |ld (hl-), e   |73; 2B                                      |     13 T
+LD IND_HL MINUS RPAREN COMMA E    |8085 |-     |IXIY |ld (hl-), e   |73; 2B                                      |     13 T
+LD IND_HL MINUS RPAREN COMMA E    |gbz80|-     |-    |ld (hl-), e   |73; 2B                                      |     16 T
+LD IND_HL MINUS RPAREN COMMA E    |gbz80|-     |IXIY |ld (hl-), e   |73; 2B                                      |     16 T
+LD IND_HL MINUS RPAREN COMMA E    |z80  |-     |-    |ld (hl-), e   |73; 2B                                      |     13 T
+LD IND_HL MINUS RPAREN COMMA E    |z80  |-     |IXIY |ld (hl-), e   |73; 2B                                      |     13 T
+LD IND_HL MINUS RPAREN COMMA E    |z80n |-     |-    |ld (hl-), e   |73; 2B                                      |     13 T
+LD IND_HL MINUS RPAREN COMMA E    |z80n |-     |IXIY |ld (hl-), e   |73; 2B                                      |     13 T
+LD IND_HL MINUS RPAREN COMMA H    |8080 |-     |-    |ld (hl-), h   |74; 2B                                      |     12 T
+LD IND_HL MINUS RPAREN COMMA H    |8080 |-     |IXIY |ld (hl-), h   |74; 2B                                      |     12 T
+LD IND_HL MINUS RPAREN COMMA H    |8085 |-     |-    |ld (hl-), h   |74; 2B                                      |     13 T
+LD IND_HL MINUS RPAREN COMMA H    |8085 |-     |IXIY |ld (hl-), h   |74; 2B                                      |     13 T
+LD IND_HL MINUS RPAREN COMMA H    |gbz80|-     |-    |ld (hl-), h   |74; 2B                                      |     16 T
+LD IND_HL MINUS RPAREN COMMA H    |gbz80|-     |IXIY |ld (hl-), h   |74; 2B                                      |     16 T
+LD IND_HL MINUS RPAREN COMMA H    |z80  |-     |-    |ld (hl-), h   |74; 2B                                      |     13 T
+LD IND_HL MINUS RPAREN COMMA H    |z80  |-     |IXIY |ld (hl-), h   |74; 2B                                      |     13 T
+LD IND_HL MINUS RPAREN COMMA H    |z80n |-     |-    |ld (hl-), h   |74; 2B                                      |     13 T
+LD IND_HL MINUS RPAREN COMMA H    |z80n |-     |IXIY |ld (hl-), h   |74; 2B                                      |     13 T
+LD IND_HL MINUS RPAREN COMMA L    |8080 |-     |-    |ld (hl-), l   |75; 2B                                      |     12 T
+LD IND_HL MINUS RPAREN COMMA L    |8080 |-     |IXIY |ld (hl-), l   |75; 2B                                      |     12 T
+LD IND_HL MINUS RPAREN COMMA L    |8085 |-     |-    |ld (hl-), l   |75; 2B                                      |     13 T
+LD IND_HL MINUS RPAREN COMMA L    |8085 |-     |IXIY |ld (hl-), l   |75; 2B                                      |     13 T
+LD IND_HL MINUS RPAREN COMMA L    |gbz80|-     |-    |ld (hl-), l   |75; 2B                                      |     16 T
+LD IND_HL MINUS RPAREN COMMA L    |gbz80|-     |IXIY |ld (hl-), l   |75; 2B                                      |     16 T
+LD IND_HL MINUS RPAREN COMMA L    |z80  |-     |-    |ld (hl-), l   |75; 2B                                      |     13 T
+LD IND_HL MINUS RPAREN COMMA L    |z80  |-     |IXIY |ld (hl-), l   |75; 2B                                      |     13 T
+LD IND_HL MINUS RPAREN COMMA L    |z80n |-     |-    |ld (hl-), l   |75; 2B                                      |     13 T
+LD IND_HL MINUS RPAREN COMMA L    |z80n |-     |IXIY |ld (hl-), l   |75; 2B                                      |     13 T
+LD IND_HL MINUS RPAREN COMMA expr |8080 |expr  |-    |ld (hl-), %n  |36 %n; 2B                                   |     15 T
+LD IND_HL MINUS RPAREN COMMA expr |8080 |expr  |IXIY |ld (hl-), %n  |36 %n; 2B                                   |     15 T
+LD IND_HL MINUS RPAREN COMMA expr |8085 |expr  |-    |ld (hl-), %n  |36 %n; 2B                                   |     16 T
+LD IND_HL MINUS RPAREN COMMA expr |8085 |expr  |IXIY |ld (hl-), %n  |36 %n; 2B                                   |     16 T
+LD IND_HL MINUS RPAREN COMMA expr |gbz80|expr  |-    |ld (hl-), %n  |36 %n; 2B                                   |     20 T
+LD IND_HL MINUS RPAREN COMMA expr |gbz80|expr  |IXIY |ld (hl-), %n  |36 %n; 2B                                   |     20 T
+LD IND_HL MINUS RPAREN COMMA expr |z80  |expr  |-    |ld (hl-), %n  |36 %n; 2B                                   |     16 T
+LD IND_HL MINUS RPAREN COMMA expr |z80  |expr  |IXIY |ld (hl-), %n  |36 %n; 2B                                   |     16 T
+LD IND_HL MINUS RPAREN COMMA expr |z80n |expr  |-    |ld (hl-), %n  |36 %n; 2B                                   |     16 T
+LD IND_HL MINUS RPAREN COMMA expr |z80n |expr  |IXIY |ld (hl-), %n  |36 %n; 2B                                   |     16 T
+LD IND_HL PLUS RPAREN COMMA A     |8080 |-     |-    |ld (hl+), a   |77; 23                                      |     12 T
+LD IND_HL PLUS RPAREN COMMA A     |8080 |-     |IXIY |ld (hl+), a   |77; 23                                      |     12 T
+LD IND_HL PLUS RPAREN COMMA A     |8085 |-     |-    |ld (hl+), a   |77; 23                                      |     13 T
+LD IND_HL PLUS RPAREN COMMA A     |8085 |-     |IXIY |ld (hl+), a   |77; 23                                      |     13 T
 LD IND_HL PLUS RPAREN COMMA A     |gbz80|-     |-    |ld (hl+), a   |22                                          |      8 T
 LD IND_HL PLUS RPAREN COMMA A     |gbz80|-     |IXIY |ld (hl+), a   |22                                          |      8 T
+LD IND_HL PLUS RPAREN COMMA A     |z80  |-     |-    |ld (hl+), a   |77; 23                                      |     13 T
+LD IND_HL PLUS RPAREN COMMA A     |z80  |-     |IXIY |ld (hl+), a   |77; 23                                      |     13 T
+LD IND_HL PLUS RPAREN COMMA A     |z80n |-     |-    |ld (hl+), a   |77; 23                                      |     13 T
+LD IND_HL PLUS RPAREN COMMA A     |z80n |-     |IXIY |ld (hl+), a   |77; 23                                      |     13 T
+LD IND_HL PLUS RPAREN COMMA B     |8080 |-     |-    |ld (hl+), b   |70; 23                                      |     12 T
+LD IND_HL PLUS RPAREN COMMA B     |8080 |-     |IXIY |ld (hl+), b   |70; 23                                      |     12 T
+LD IND_HL PLUS RPAREN COMMA B     |8085 |-     |-    |ld (hl+), b   |70; 23                                      |     13 T
+LD IND_HL PLUS RPAREN COMMA B     |8085 |-     |IXIY |ld (hl+), b   |70; 23                                      |     13 T
+LD IND_HL PLUS RPAREN COMMA B     |gbz80|-     |-    |ld (hl+), b   |70; 23                                      |     16 T
+LD IND_HL PLUS RPAREN COMMA B     |gbz80|-     |IXIY |ld (hl+), b   |70; 23                                      |     16 T
+LD IND_HL PLUS RPAREN COMMA B     |z80  |-     |-    |ld (hl+), b   |70; 23                                      |     13 T
+LD IND_HL PLUS RPAREN COMMA B     |z80  |-     |IXIY |ld (hl+), b   |70; 23                                      |     13 T
+LD IND_HL PLUS RPAREN COMMA B     |z80n |-     |-    |ld (hl+), b   |70; 23                                      |     13 T
+LD IND_HL PLUS RPAREN COMMA B     |z80n |-     |IXIY |ld (hl+), b   |70; 23                                      |     13 T
+LD IND_HL PLUS RPAREN COMMA BC    |8080 |-     |-    |ld (hl+), bc  |71; 23; 70; 23                              |     24 T
+LD IND_HL PLUS RPAREN COMMA BC    |8080 |-     |IXIY |ld (hl+), bc  |71; 23; 70; 23                              |     24 T
+LD IND_HL PLUS RPAREN COMMA BC    |8085 |-     |-    |ld (hl+), bc  |71; 23; 70; 23                              |     26 T
+LD IND_HL PLUS RPAREN COMMA BC    |8085 |-     |IXIY |ld (hl+), bc  |71; 23; 70; 23                              |     26 T
+LD IND_HL PLUS RPAREN COMMA BC    |gbz80|-     |-    |ld (hl+), bc  |71; 23; 70; 23                              |     32 T
+LD IND_HL PLUS RPAREN COMMA BC    |gbz80|-     |IXIY |ld (hl+), bc  |71; 23; 70; 23                              |     32 T
+LD IND_HL PLUS RPAREN COMMA BC    |z80  |-     |-    |ld (hl+), bc  |71; 23; 70; 23                              |     26 T
+LD IND_HL PLUS RPAREN COMMA BC    |z80  |-     |IXIY |ld (hl+), bc  |71; 23; 70; 23                              |     26 T
+LD IND_HL PLUS RPAREN COMMA BC    |z80n |-     |-    |ld (hl+), bc  |71; 23; 70; 23                              |     26 T
+LD IND_HL PLUS RPAREN COMMA BC    |z80n |-     |IXIY |ld (hl+), bc  |71; 23; 70; 23                              |     26 T
+LD IND_HL PLUS RPAREN COMMA C     |8080 |-     |-    |ld (hl+), c   |71; 23                                      |     12 T
+LD IND_HL PLUS RPAREN COMMA C     |8080 |-     |IXIY |ld (hl+), c   |71; 23                                      |     12 T
+LD IND_HL PLUS RPAREN COMMA C     |8085 |-     |-    |ld (hl+), c   |71; 23                                      |     13 T
+LD IND_HL PLUS RPAREN COMMA C     |8085 |-     |IXIY |ld (hl+), c   |71; 23                                      |     13 T
+LD IND_HL PLUS RPAREN COMMA C     |gbz80|-     |-    |ld (hl+), c   |71; 23                                      |     16 T
+LD IND_HL PLUS RPAREN COMMA C     |gbz80|-     |IXIY |ld (hl+), c   |71; 23                                      |     16 T
+LD IND_HL PLUS RPAREN COMMA C     |z80  |-     |-    |ld (hl+), c   |71; 23                                      |     13 T
+LD IND_HL PLUS RPAREN COMMA C     |z80  |-     |IXIY |ld (hl+), c   |71; 23                                      |     13 T
+LD IND_HL PLUS RPAREN COMMA C     |z80n |-     |-    |ld (hl+), c   |71; 23                                      |     13 T
+LD IND_HL PLUS RPAREN COMMA C     |z80n |-     |IXIY |ld (hl+), c   |71; 23                                      |     13 T
+LD IND_HL PLUS RPAREN COMMA D     |8080 |-     |-    |ld (hl+), d   |72; 23                                      |     12 T
+LD IND_HL PLUS RPAREN COMMA D     |8080 |-     |IXIY |ld (hl+), d   |72; 23                                      |     12 T
+LD IND_HL PLUS RPAREN COMMA D     |8085 |-     |-    |ld (hl+), d   |72; 23                                      |     13 T
+LD IND_HL PLUS RPAREN COMMA D     |8085 |-     |IXIY |ld (hl+), d   |72; 23                                      |     13 T
+LD IND_HL PLUS RPAREN COMMA D     |gbz80|-     |-    |ld (hl+), d   |72; 23                                      |     16 T
+LD IND_HL PLUS RPAREN COMMA D     |gbz80|-     |IXIY |ld (hl+), d   |72; 23                                      |     16 T
+LD IND_HL PLUS RPAREN COMMA D     |z80  |-     |-    |ld (hl+), d   |72; 23                                      |     13 T
+LD IND_HL PLUS RPAREN COMMA D     |z80  |-     |IXIY |ld (hl+), d   |72; 23                                      |     13 T
+LD IND_HL PLUS RPAREN COMMA D     |z80n |-     |-    |ld (hl+), d   |72; 23                                      |     13 T
+LD IND_HL PLUS RPAREN COMMA D     |z80n |-     |IXIY |ld (hl+), d   |72; 23                                      |     13 T
+LD IND_HL PLUS RPAREN COMMA DE    |8080 |-     |-    |ld (hl+), de  |73; 23; 72; 23                              |     24 T
+LD IND_HL PLUS RPAREN COMMA DE    |8080 |-     |IXIY |ld (hl+), de  |73; 23; 72; 23                              |     24 T
+LD IND_HL PLUS RPAREN COMMA DE    |8085 |-     |-    |ld (hl+), de  |73; 23; 72; 23                              |     26 T
+LD IND_HL PLUS RPAREN COMMA DE    |8085 |-     |IXIY |ld (hl+), de  |73; 23; 72; 23                              |     26 T
+LD IND_HL PLUS RPAREN COMMA DE    |gbz80|-     |-    |ld (hl+), de  |73; 23; 72; 23                              |     32 T
+LD IND_HL PLUS RPAREN COMMA DE    |gbz80|-     |IXIY |ld (hl+), de  |73; 23; 72; 23                              |     32 T
+LD IND_HL PLUS RPAREN COMMA DE    |z80  |-     |-    |ld (hl+), de  |73; 23; 72; 23                              |     26 T
+LD IND_HL PLUS RPAREN COMMA DE    |z80  |-     |IXIY |ld (hl+), de  |73; 23; 72; 23                              |     26 T
+LD IND_HL PLUS RPAREN COMMA DE    |z80n |-     |-    |ld (hl+), de  |73; 23; 72; 23                              |     26 T
+LD IND_HL PLUS RPAREN COMMA DE    |z80n |-     |IXIY |ld (hl+), de  |73; 23; 72; 23                              |     26 T
+LD IND_HL PLUS RPAREN COMMA E     |8080 |-     |-    |ld (hl+), e   |73; 23                                      |     12 T
+LD IND_HL PLUS RPAREN COMMA E     |8080 |-     |IXIY |ld (hl+), e   |73; 23                                      |     12 T
+LD IND_HL PLUS RPAREN COMMA E     |8085 |-     |-    |ld (hl+), e   |73; 23                                      |     13 T
+LD IND_HL PLUS RPAREN COMMA E     |8085 |-     |IXIY |ld (hl+), e   |73; 23                                      |     13 T
+LD IND_HL PLUS RPAREN COMMA E     |gbz80|-     |-    |ld (hl+), e   |73; 23                                      |     16 T
+LD IND_HL PLUS RPAREN COMMA E     |gbz80|-     |IXIY |ld (hl+), e   |73; 23                                      |     16 T
+LD IND_HL PLUS RPAREN COMMA E     |z80  |-     |-    |ld (hl+), e   |73; 23                                      |     13 T
+LD IND_HL PLUS RPAREN COMMA E     |z80  |-     |IXIY |ld (hl+), e   |73; 23                                      |     13 T
+LD IND_HL PLUS RPAREN COMMA E     |z80n |-     |-    |ld (hl+), e   |73; 23                                      |     13 T
+LD IND_HL PLUS RPAREN COMMA E     |z80n |-     |IXIY |ld (hl+), e   |73; 23                                      |     13 T
+LD IND_HL PLUS RPAREN COMMA H     |8080 |-     |-    |ld (hl+), h   |74; 23                                      |     12 T
+LD IND_HL PLUS RPAREN COMMA H     |8080 |-     |IXIY |ld (hl+), h   |74; 23                                      |     12 T
+LD IND_HL PLUS RPAREN COMMA H     |8085 |-     |-    |ld (hl+), h   |74; 23                                      |     13 T
+LD IND_HL PLUS RPAREN COMMA H     |8085 |-     |IXIY |ld (hl+), h   |74; 23                                      |     13 T
+LD IND_HL PLUS RPAREN COMMA H     |gbz80|-     |-    |ld (hl+), h   |74; 23                                      |     16 T
+LD IND_HL PLUS RPAREN COMMA H     |gbz80|-     |IXIY |ld (hl+), h   |74; 23                                      |     16 T
+LD IND_HL PLUS RPAREN COMMA H     |z80  |-     |-    |ld (hl+), h   |74; 23                                      |     13 T
+LD IND_HL PLUS RPAREN COMMA H     |z80  |-     |IXIY |ld (hl+), h   |74; 23                                      |     13 T
+LD IND_HL PLUS RPAREN COMMA H     |z80n |-     |-    |ld (hl+), h   |74; 23                                      |     13 T
+LD IND_HL PLUS RPAREN COMMA H     |z80n |-     |IXIY |ld (hl+), h   |74; 23                                      |     13 T
+LD IND_HL PLUS RPAREN COMMA L     |8080 |-     |-    |ld (hl+), l   |75; 23                                      |     12 T
+LD IND_HL PLUS RPAREN COMMA L     |8080 |-     |IXIY |ld (hl+), l   |75; 23                                      |     12 T
+LD IND_HL PLUS RPAREN COMMA L     |8085 |-     |-    |ld (hl+), l   |75; 23                                      |     13 T
+LD IND_HL PLUS RPAREN COMMA L     |8085 |-     |IXIY |ld (hl+), l   |75; 23                                      |     13 T
+LD IND_HL PLUS RPAREN COMMA L     |gbz80|-     |-    |ld (hl+), l   |75; 23                                      |     16 T
+LD IND_HL PLUS RPAREN COMMA L     |gbz80|-     |IXIY |ld (hl+), l   |75; 23                                      |     16 T
+LD IND_HL PLUS RPAREN COMMA L     |z80  |-     |-    |ld (hl+), l   |75; 23                                      |     13 T
+LD IND_HL PLUS RPAREN COMMA L     |z80  |-     |IXIY |ld (hl+), l   |75; 23                                      |     13 T
+LD IND_HL PLUS RPAREN COMMA L     |z80n |-     |-    |ld (hl+), l   |75; 23                                      |     13 T
+LD IND_HL PLUS RPAREN COMMA L     |z80n |-     |IXIY |ld (hl+), l   |75; 23                                      |     13 T
+LD IND_HL PLUS RPAREN COMMA expr  |8080 |expr  |-    |ld (hl+), %n  |36 %n; 23                                   |     15 T
+LD IND_HL PLUS RPAREN COMMA expr  |8080 |expr  |IXIY |ld (hl+), %n  |36 %n; 23                                   |     15 T
+LD IND_HL PLUS RPAREN COMMA expr  |8085 |expr  |-    |ld (hl+), %n  |36 %n; 23                                   |     16 T
+LD IND_HL PLUS RPAREN COMMA expr  |8085 |expr  |IXIY |ld (hl+), %n  |36 %n; 23                                   |     16 T
+LD IND_HL PLUS RPAREN COMMA expr  |gbz80|expr  |-    |ld (hl+), %n  |36 %n; 23                                   |     20 T
+LD IND_HL PLUS RPAREN COMMA expr  |gbz80|expr  |IXIY |ld (hl+), %n  |36 %n; 23                                   |     20 T
+LD IND_HL PLUS RPAREN COMMA expr  |z80  |expr  |-    |ld (hl+), %n  |36 %n; 23                                   |     16 T
+LD IND_HL PLUS RPAREN COMMA expr  |z80  |expr  |IXIY |ld (hl+), %n  |36 %n; 23                                   |     16 T
+LD IND_HL PLUS RPAREN COMMA expr  |z80n |expr  |-    |ld (hl+), %n  |36 %n; 23                                   |     16 T
+LD IND_HL PLUS RPAREN COMMA expr  |z80n |expr  |IXIY |ld (hl+), %n  |36 %n; 23                                   |     16 T
 LD IND_HL RPAREN COMMA A          |8080 |-     |-    |ld (hl), a    |77                                          |      7 T
 LD IND_HL RPAREN COMMA A          |8080 |-     |IXIY |ld (hl), a    |77                                          |      7 T
 LD IND_HL RPAREN COMMA A          |8085 |-     |-    |ld (hl), a    |77                                          |      7 T
@@ -3793,6 +4435,16 @@ LD IND_HL RPAREN COMMA B          |z80  |-     |-    |ld (hl), b    |70         
 LD IND_HL RPAREN COMMA B          |z80  |-     |IXIY |ld (hl), b    |70                                          |      7 T
 LD IND_HL RPAREN COMMA B          |z80n |-     |-    |ld (hl), b    |70                                          |      7 T
 LD IND_HL RPAREN COMMA B          |z80n |-     |IXIY |ld (hl), b    |70                                          |      7 T
+LD IND_HL RPAREN COMMA BC         |8080 |-     |-    |ld (hl), bc   |71; 23; 70; 2B                              |     24 T
+LD IND_HL RPAREN COMMA BC         |8080 |-     |IXIY |ld (hl), bc   |71; 23; 70; 2B                              |     24 T
+LD IND_HL RPAREN COMMA BC         |8085 |-     |-    |ld (hl), bc   |71; 23; 70; 2B                              |     26 T
+LD IND_HL RPAREN COMMA BC         |8085 |-     |IXIY |ld (hl), bc   |71; 23; 70; 2B                              |     26 T
+LD IND_HL RPAREN COMMA BC         |gbz80|-     |-    |ld (hl), bc   |71; 23; 70; 2B                              |     32 T
+LD IND_HL RPAREN COMMA BC         |gbz80|-     |IXIY |ld (hl), bc   |71; 23; 70; 2B                              |     32 T
+LD IND_HL RPAREN COMMA BC         |z80  |-     |-    |ld (hl), bc   |71; 23; 70; 2B                              |     26 T
+LD IND_HL RPAREN COMMA BC         |z80  |-     |IXIY |ld (hl), bc   |71; 23; 70; 2B                              |     26 T
+LD IND_HL RPAREN COMMA BC         |z80n |-     |-    |ld (hl), bc   |71; 23; 70; 2B                              |     26 T
+LD IND_HL RPAREN COMMA BC         |z80n |-     |IXIY |ld (hl), bc   |71; 23; 70; 2B                              |     26 T
 LD IND_HL RPAREN COMMA C          |8080 |-     |-    |ld (hl), c    |71                                          |      7 T
 LD IND_HL RPAREN COMMA C          |8080 |-     |IXIY |ld (hl), c    |71                                          |      7 T
 LD IND_HL RPAREN COMMA C          |8085 |-     |-    |ld (hl), c    |71                                          |      7 T
@@ -3813,6 +4465,16 @@ LD IND_HL RPAREN COMMA D          |z80  |-     |-    |ld (hl), d    |72         
 LD IND_HL RPAREN COMMA D          |z80  |-     |IXIY |ld (hl), d    |72                                          |      7 T
 LD IND_HL RPAREN COMMA D          |z80n |-     |-    |ld (hl), d    |72                                          |      7 T
 LD IND_HL RPAREN COMMA D          |z80n |-     |IXIY |ld (hl), d    |72                                          |      7 T
+LD IND_HL RPAREN COMMA DE         |8080 |-     |-    |ld (hl), de   |73; 23; 72; 2B                              |     24 T
+LD IND_HL RPAREN COMMA DE         |8080 |-     |IXIY |ld (hl), de   |73; 23; 72; 2B                              |     24 T
+LD IND_HL RPAREN COMMA DE         |8085 |-     |-    |ld (hl), de   |73; 23; 72; 2B                              |     26 T
+LD IND_HL RPAREN COMMA DE         |8085 |-     |IXIY |ld (hl), de   |73; 23; 72; 2B                              |     26 T
+LD IND_HL RPAREN COMMA DE         |gbz80|-     |-    |ld (hl), de   |73; 23; 72; 2B                              |     32 T
+LD IND_HL RPAREN COMMA DE         |gbz80|-     |IXIY |ld (hl), de   |73; 23; 72; 2B                              |     32 T
+LD IND_HL RPAREN COMMA DE         |z80  |-     |-    |ld (hl), de   |73; 23; 72; 2B                              |     26 T
+LD IND_HL RPAREN COMMA DE         |z80  |-     |IXIY |ld (hl), de   |73; 23; 72; 2B                              |     26 T
+LD IND_HL RPAREN COMMA DE         |z80n |-     |-    |ld (hl), de   |73; 23; 72; 2B                              |     26 T
+LD IND_HL RPAREN COMMA DE         |z80n |-     |IXIY |ld (hl), de   |73; 23; 72; 2B                              |     26 T
 LD IND_HL RPAREN COMMA E          |8080 |-     |-    |ld (hl), e    |73                                          |      7 T
 LD IND_HL RPAREN COMMA E          |8080 |-     |IXIY |ld (hl), e    |73                                          |      7 T
 LD IND_HL RPAREN COMMA E          |8085 |-     |-    |ld (hl), e    |73                                          |      7 T
@@ -4399,10 +5061,176 @@ LDAX DE                           |z80  |-     |-    |ldax de       |1A         
 LDAX DE                           |z80  |-     |IXIY |ldax de       |1A                                          |      7 T
 LDAX DE                           |z80n |-     |-    |ldax de       |1A                                          |      7 T
 LDAX DE                           |z80n |-     |IXIY |ldax de       |1A                                          |      7 T
+LDD A COMMA IND_BC RPAREN         |8080 |-     |-    |ldd a, (bc)   |0A; 0B                                      |     12 T
+LDD A COMMA IND_BC RPAREN         |8080 |-     |IXIY |ldd a, (bc)   |0A; 0B                                      |     12 T
+LDD A COMMA IND_BC RPAREN         |8085 |-     |-    |ldd a, (bc)   |0A; 0B                                      |     13 T
+LDD A COMMA IND_BC RPAREN         |8085 |-     |IXIY |ldd a, (bc)   |0A; 0B                                      |     13 T
+LDD A COMMA IND_BC RPAREN         |gbz80|-     |-    |ldd a, (bc)   |0A; 0B                                      |     16 T
+LDD A COMMA IND_BC RPAREN         |gbz80|-     |IXIY |ldd a, (bc)   |0A; 0B                                      |     16 T
+LDD A COMMA IND_BC RPAREN         |z80  |-     |-    |ldd a, (bc)   |0A; 0B                                      |     13 T
+LDD A COMMA IND_BC RPAREN         |z80  |-     |IXIY |ldd a, (bc)   |0A; 0B                                      |     13 T
+LDD A COMMA IND_BC RPAREN         |z80n |-     |-    |ldd a, (bc)   |0A; 0B                                      |     13 T
+LDD A COMMA IND_BC RPAREN         |z80n |-     |IXIY |ldd a, (bc)   |0A; 0B                                      |     13 T
+LDD A COMMA IND_DE RPAREN         |8080 |-     |-    |ldd a, (de)   |1A; 1B                                      |     12 T
+LDD A COMMA IND_DE RPAREN         |8080 |-     |IXIY |ldd a, (de)   |1A; 1B                                      |     12 T
+LDD A COMMA IND_DE RPAREN         |8085 |-     |-    |ldd a, (de)   |1A; 1B                                      |     13 T
+LDD A COMMA IND_DE RPAREN         |8085 |-     |IXIY |ldd a, (de)   |1A; 1B                                      |     13 T
+LDD A COMMA IND_DE RPAREN         |gbz80|-     |-    |ldd a, (de)   |1A; 1B                                      |     16 T
+LDD A COMMA IND_DE RPAREN         |gbz80|-     |IXIY |ldd a, (de)   |1A; 1B                                      |     16 T
+LDD A COMMA IND_DE RPAREN         |z80  |-     |-    |ldd a, (de)   |1A; 1B                                      |     13 T
+LDD A COMMA IND_DE RPAREN         |z80  |-     |IXIY |ldd a, (de)   |1A; 1B                                      |     13 T
+LDD A COMMA IND_DE RPAREN         |z80n |-     |-    |ldd a, (de)   |1A; 1B                                      |     13 T
+LDD A COMMA IND_DE RPAREN         |z80n |-     |IXIY |ldd a, (de)   |1A; 1B                                      |     13 T
+LDD A COMMA IND_HL RPAREN         |8080 |-     |-    |ldd a, (hl)   |7E; 2B                                      |     12 T
+LDD A COMMA IND_HL RPAREN         |8080 |-     |IXIY |ldd a, (hl)   |7E; 2B                                      |     12 T
+LDD A COMMA IND_HL RPAREN         |8085 |-     |-    |ldd a, (hl)   |7E; 2B                                      |     13 T
+LDD A COMMA IND_HL RPAREN         |8085 |-     |IXIY |ldd a, (hl)   |7E; 2B                                      |     13 T
 LDD A COMMA IND_HL RPAREN         |gbz80|-     |-    |ldd a, (hl)   |3A                                          |      8 T
 LDD A COMMA IND_HL RPAREN         |gbz80|-     |IXIY |ldd a, (hl)   |3A                                          |      8 T
+LDD A COMMA IND_HL RPAREN         |z80  |-     |-    |ldd a, (hl)   |7E; 2B                                      |     13 T
+LDD A COMMA IND_HL RPAREN         |z80  |-     |IXIY |ldd a, (hl)   |7E; 2B                                      |     13 T
+LDD A COMMA IND_HL RPAREN         |z80n |-     |-    |ldd a, (hl)   |7E; 2B                                      |     13 T
+LDD A COMMA IND_HL RPAREN         |z80n |-     |IXIY |ldd a, (hl)   |7E; 2B                                      |     13 T
+LDD B COMMA IND_HL RPAREN         |8080 |-     |-    |ldd b, (hl)   |46; 2B                                      |     12 T
+LDD B COMMA IND_HL RPAREN         |8080 |-     |IXIY |ldd b, (hl)   |46; 2B                                      |     12 T
+LDD B COMMA IND_HL RPAREN         |8085 |-     |-    |ldd b, (hl)   |46; 2B                                      |     13 T
+LDD B COMMA IND_HL RPAREN         |8085 |-     |IXIY |ldd b, (hl)   |46; 2B                                      |     13 T
+LDD B COMMA IND_HL RPAREN         |gbz80|-     |-    |ldd b, (hl)   |46; 2B                                      |     16 T
+LDD B COMMA IND_HL RPAREN         |gbz80|-     |IXIY |ldd b, (hl)   |46; 2B                                      |     16 T
+LDD B COMMA IND_HL RPAREN         |z80  |-     |-    |ldd b, (hl)   |46; 2B                                      |     13 T
+LDD B COMMA IND_HL RPAREN         |z80  |-     |IXIY |ldd b, (hl)   |46; 2B                                      |     13 T
+LDD B COMMA IND_HL RPAREN         |z80n |-     |-    |ldd b, (hl)   |46; 2B                                      |     13 T
+LDD B COMMA IND_HL RPAREN         |z80n |-     |IXIY |ldd b, (hl)   |46; 2B                                      |     13 T
+LDD C COMMA IND_HL RPAREN         |8080 |-     |-    |ldd c, (hl)   |4E; 2B                                      |     12 T
+LDD C COMMA IND_HL RPAREN         |8080 |-     |IXIY |ldd c, (hl)   |4E; 2B                                      |     12 T
+LDD C COMMA IND_HL RPAREN         |8085 |-     |-    |ldd c, (hl)   |4E; 2B                                      |     13 T
+LDD C COMMA IND_HL RPAREN         |8085 |-     |IXIY |ldd c, (hl)   |4E; 2B                                      |     13 T
+LDD C COMMA IND_HL RPAREN         |gbz80|-     |-    |ldd c, (hl)   |4E; 2B                                      |     16 T
+LDD C COMMA IND_HL RPAREN         |gbz80|-     |IXIY |ldd c, (hl)   |4E; 2B                                      |     16 T
+LDD C COMMA IND_HL RPAREN         |z80  |-     |-    |ldd c, (hl)   |4E; 2B                                      |     13 T
+LDD C COMMA IND_HL RPAREN         |z80  |-     |IXIY |ldd c, (hl)   |4E; 2B                                      |     13 T
+LDD C COMMA IND_HL RPAREN         |z80n |-     |-    |ldd c, (hl)   |4E; 2B                                      |     13 T
+LDD C COMMA IND_HL RPAREN         |z80n |-     |IXIY |ldd c, (hl)   |4E; 2B                                      |     13 T
+LDD D COMMA IND_HL RPAREN         |8080 |-     |-    |ldd d, (hl)   |56; 2B                                      |     12 T
+LDD D COMMA IND_HL RPAREN         |8080 |-     |IXIY |ldd d, (hl)   |56; 2B                                      |     12 T
+LDD D COMMA IND_HL RPAREN         |8085 |-     |-    |ldd d, (hl)   |56; 2B                                      |     13 T
+LDD D COMMA IND_HL RPAREN         |8085 |-     |IXIY |ldd d, (hl)   |56; 2B                                      |     13 T
+LDD D COMMA IND_HL RPAREN         |gbz80|-     |-    |ldd d, (hl)   |56; 2B                                      |     16 T
+LDD D COMMA IND_HL RPAREN         |gbz80|-     |IXIY |ldd d, (hl)   |56; 2B                                      |     16 T
+LDD D COMMA IND_HL RPAREN         |z80  |-     |-    |ldd d, (hl)   |56; 2B                                      |     13 T
+LDD D COMMA IND_HL RPAREN         |z80  |-     |IXIY |ldd d, (hl)   |56; 2B                                      |     13 T
+LDD D COMMA IND_HL RPAREN         |z80n |-     |-    |ldd d, (hl)   |56; 2B                                      |     13 T
+LDD D COMMA IND_HL RPAREN         |z80n |-     |IXIY |ldd d, (hl)   |56; 2B                                      |     13 T
+LDD E COMMA IND_HL RPAREN         |8080 |-     |-    |ldd e, (hl)   |5E; 2B                                      |     12 T
+LDD E COMMA IND_HL RPAREN         |8080 |-     |IXIY |ldd e, (hl)   |5E; 2B                                      |     12 T
+LDD E COMMA IND_HL RPAREN         |8085 |-     |-    |ldd e, (hl)   |5E; 2B                                      |     13 T
+LDD E COMMA IND_HL RPAREN         |8085 |-     |IXIY |ldd e, (hl)   |5E; 2B                                      |     13 T
+LDD E COMMA IND_HL RPAREN         |gbz80|-     |-    |ldd e, (hl)   |5E; 2B                                      |     16 T
+LDD E COMMA IND_HL RPAREN         |gbz80|-     |IXIY |ldd e, (hl)   |5E; 2B                                      |     16 T
+LDD E COMMA IND_HL RPAREN         |z80  |-     |-    |ldd e, (hl)   |5E; 2B                                      |     13 T
+LDD E COMMA IND_HL RPAREN         |z80  |-     |IXIY |ldd e, (hl)   |5E; 2B                                      |     13 T
+LDD E COMMA IND_HL RPAREN         |z80n |-     |-    |ldd e, (hl)   |5E; 2B                                      |     13 T
+LDD E COMMA IND_HL RPAREN         |z80n |-     |IXIY |ldd e, (hl)   |5E; 2B                                      |     13 T
+LDD IND_BC RPAREN COMMA A         |8080 |-     |-    |ldd (bc), a   |02; 0B                                      |     12 T
+LDD IND_BC RPAREN COMMA A         |8080 |-     |IXIY |ldd (bc), a   |02; 0B                                      |     12 T
+LDD IND_BC RPAREN COMMA A         |8085 |-     |-    |ldd (bc), a   |02; 0B                                      |     13 T
+LDD IND_BC RPAREN COMMA A         |8085 |-     |IXIY |ldd (bc), a   |02; 0B                                      |     13 T
+LDD IND_BC RPAREN COMMA A         |gbz80|-     |-    |ldd (bc), a   |02; 0B                                      |     16 T
+LDD IND_BC RPAREN COMMA A         |gbz80|-     |IXIY |ldd (bc), a   |02; 0B                                      |     16 T
+LDD IND_BC RPAREN COMMA A         |z80  |-     |-    |ldd (bc), a   |02; 0B                                      |     13 T
+LDD IND_BC RPAREN COMMA A         |z80  |-     |IXIY |ldd (bc), a   |02; 0B                                      |     13 T
+LDD IND_BC RPAREN COMMA A         |z80n |-     |-    |ldd (bc), a   |02; 0B                                      |     13 T
+LDD IND_BC RPAREN COMMA A         |z80n |-     |IXIY |ldd (bc), a   |02; 0B                                      |     13 T
+LDD IND_DE RPAREN COMMA A         |8080 |-     |-    |ldd (de), a   |12; 1B                                      |     12 T
+LDD IND_DE RPAREN COMMA A         |8080 |-     |IXIY |ldd (de), a   |12; 1B                                      |     12 T
+LDD IND_DE RPAREN COMMA A         |8085 |-     |-    |ldd (de), a   |12; 1B                                      |     13 T
+LDD IND_DE RPAREN COMMA A         |8085 |-     |IXIY |ldd (de), a   |12; 1B                                      |     13 T
+LDD IND_DE RPAREN COMMA A         |gbz80|-     |-    |ldd (de), a   |12; 1B                                      |     16 T
+LDD IND_DE RPAREN COMMA A         |gbz80|-     |IXIY |ldd (de), a   |12; 1B                                      |     16 T
+LDD IND_DE RPAREN COMMA A         |z80  |-     |-    |ldd (de), a   |12; 1B                                      |     13 T
+LDD IND_DE RPAREN COMMA A         |z80  |-     |IXIY |ldd (de), a   |12; 1B                                      |     13 T
+LDD IND_DE RPAREN COMMA A         |z80n |-     |-    |ldd (de), a   |12; 1B                                      |     13 T
+LDD IND_DE RPAREN COMMA A         |z80n |-     |IXIY |ldd (de), a   |12; 1B                                      |     13 T
+LDD IND_HL RPAREN COMMA A         |8080 |-     |-    |ldd (hl), a   |77; 2B                                      |     12 T
+LDD IND_HL RPAREN COMMA A         |8080 |-     |IXIY |ldd (hl), a   |77; 2B                                      |     12 T
+LDD IND_HL RPAREN COMMA A         |8085 |-     |-    |ldd (hl), a   |77; 2B                                      |     13 T
+LDD IND_HL RPAREN COMMA A         |8085 |-     |IXIY |ldd (hl), a   |77; 2B                                      |     13 T
 LDD IND_HL RPAREN COMMA A         |gbz80|-     |-    |ldd (hl), a   |32                                          |      8 T
 LDD IND_HL RPAREN COMMA A         |gbz80|-     |IXIY |ldd (hl), a   |32                                          |      8 T
+LDD IND_HL RPAREN COMMA A         |z80  |-     |-    |ldd (hl), a   |77; 2B                                      |     13 T
+LDD IND_HL RPAREN COMMA A         |z80  |-     |IXIY |ldd (hl), a   |77; 2B                                      |     13 T
+LDD IND_HL RPAREN COMMA A         |z80n |-     |-    |ldd (hl), a   |77; 2B                                      |     13 T
+LDD IND_HL RPAREN COMMA A         |z80n |-     |IXIY |ldd (hl), a   |77; 2B                                      |     13 T
+LDD IND_HL RPAREN COMMA B         |8080 |-     |-    |ldd (hl), b   |70; 2B                                      |     12 T
+LDD IND_HL RPAREN COMMA B         |8080 |-     |IXIY |ldd (hl), b   |70; 2B                                      |     12 T
+LDD IND_HL RPAREN COMMA B         |8085 |-     |-    |ldd (hl), b   |70; 2B                                      |     13 T
+LDD IND_HL RPAREN COMMA B         |8085 |-     |IXIY |ldd (hl), b   |70; 2B                                      |     13 T
+LDD IND_HL RPAREN COMMA B         |gbz80|-     |-    |ldd (hl), b   |70; 2B                                      |     16 T
+LDD IND_HL RPAREN COMMA B         |gbz80|-     |IXIY |ldd (hl), b   |70; 2B                                      |     16 T
+LDD IND_HL RPAREN COMMA B         |z80  |-     |-    |ldd (hl), b   |70; 2B                                      |     13 T
+LDD IND_HL RPAREN COMMA B         |z80  |-     |IXIY |ldd (hl), b   |70; 2B                                      |     13 T
+LDD IND_HL RPAREN COMMA B         |z80n |-     |-    |ldd (hl), b   |70; 2B                                      |     13 T
+LDD IND_HL RPAREN COMMA B         |z80n |-     |IXIY |ldd (hl), b   |70; 2B                                      |     13 T
+LDD IND_HL RPAREN COMMA C         |8080 |-     |-    |ldd (hl), c   |71; 2B                                      |     12 T
+LDD IND_HL RPAREN COMMA C         |8080 |-     |IXIY |ldd (hl), c   |71; 2B                                      |     12 T
+LDD IND_HL RPAREN COMMA C         |8085 |-     |-    |ldd (hl), c   |71; 2B                                      |     13 T
+LDD IND_HL RPAREN COMMA C         |8085 |-     |IXIY |ldd (hl), c   |71; 2B                                      |     13 T
+LDD IND_HL RPAREN COMMA C         |gbz80|-     |-    |ldd (hl), c   |71; 2B                                      |     16 T
+LDD IND_HL RPAREN COMMA C         |gbz80|-     |IXIY |ldd (hl), c   |71; 2B                                      |     16 T
+LDD IND_HL RPAREN COMMA C         |z80  |-     |-    |ldd (hl), c   |71; 2B                                      |     13 T
+LDD IND_HL RPAREN COMMA C         |z80  |-     |IXIY |ldd (hl), c   |71; 2B                                      |     13 T
+LDD IND_HL RPAREN COMMA C         |z80n |-     |-    |ldd (hl), c   |71; 2B                                      |     13 T
+LDD IND_HL RPAREN COMMA C         |z80n |-     |IXIY |ldd (hl), c   |71; 2B                                      |     13 T
+LDD IND_HL RPAREN COMMA D         |8080 |-     |-    |ldd (hl), d   |72; 2B                                      |     12 T
+LDD IND_HL RPAREN COMMA D         |8080 |-     |IXIY |ldd (hl), d   |72; 2B                                      |     12 T
+LDD IND_HL RPAREN COMMA D         |8085 |-     |-    |ldd (hl), d   |72; 2B                                      |     13 T
+LDD IND_HL RPAREN COMMA D         |8085 |-     |IXIY |ldd (hl), d   |72; 2B                                      |     13 T
+LDD IND_HL RPAREN COMMA D         |gbz80|-     |-    |ldd (hl), d   |72; 2B                                      |     16 T
+LDD IND_HL RPAREN COMMA D         |gbz80|-     |IXIY |ldd (hl), d   |72; 2B                                      |     16 T
+LDD IND_HL RPAREN COMMA D         |z80  |-     |-    |ldd (hl), d   |72; 2B                                      |     13 T
+LDD IND_HL RPAREN COMMA D         |z80  |-     |IXIY |ldd (hl), d   |72; 2B                                      |     13 T
+LDD IND_HL RPAREN COMMA D         |z80n |-     |-    |ldd (hl), d   |72; 2B                                      |     13 T
+LDD IND_HL RPAREN COMMA D         |z80n |-     |IXIY |ldd (hl), d   |72; 2B                                      |     13 T
+LDD IND_HL RPAREN COMMA E         |8080 |-     |-    |ldd (hl), e   |73; 2B                                      |     12 T
+LDD IND_HL RPAREN COMMA E         |8080 |-     |IXIY |ldd (hl), e   |73; 2B                                      |     12 T
+LDD IND_HL RPAREN COMMA E         |8085 |-     |-    |ldd (hl), e   |73; 2B                                      |     13 T
+LDD IND_HL RPAREN COMMA E         |8085 |-     |IXIY |ldd (hl), e   |73; 2B                                      |     13 T
+LDD IND_HL RPAREN COMMA E         |gbz80|-     |-    |ldd (hl), e   |73; 2B                                      |     16 T
+LDD IND_HL RPAREN COMMA E         |gbz80|-     |IXIY |ldd (hl), e   |73; 2B                                      |     16 T
+LDD IND_HL RPAREN COMMA E         |z80  |-     |-    |ldd (hl), e   |73; 2B                                      |     13 T
+LDD IND_HL RPAREN COMMA E         |z80  |-     |IXIY |ldd (hl), e   |73; 2B                                      |     13 T
+LDD IND_HL RPAREN COMMA E         |z80n |-     |-    |ldd (hl), e   |73; 2B                                      |     13 T
+LDD IND_HL RPAREN COMMA E         |z80n |-     |IXIY |ldd (hl), e   |73; 2B                                      |     13 T
+LDD IND_HL RPAREN COMMA H         |8080 |-     |-    |ldd (hl), h   |74; 2B                                      |     12 T
+LDD IND_HL RPAREN COMMA H         |8080 |-     |IXIY |ldd (hl), h   |74; 2B                                      |     12 T
+LDD IND_HL RPAREN COMMA H         |8085 |-     |-    |ldd (hl), h   |74; 2B                                      |     13 T
+LDD IND_HL RPAREN COMMA H         |8085 |-     |IXIY |ldd (hl), h   |74; 2B                                      |     13 T
+LDD IND_HL RPAREN COMMA H         |gbz80|-     |-    |ldd (hl), h   |74; 2B                                      |     16 T
+LDD IND_HL RPAREN COMMA H         |gbz80|-     |IXIY |ldd (hl), h   |74; 2B                                      |     16 T
+LDD IND_HL RPAREN COMMA H         |z80  |-     |-    |ldd (hl), h   |74; 2B                                      |     13 T
+LDD IND_HL RPAREN COMMA H         |z80  |-     |IXIY |ldd (hl), h   |74; 2B                                      |     13 T
+LDD IND_HL RPAREN COMMA H         |z80n |-     |-    |ldd (hl), h   |74; 2B                                      |     13 T
+LDD IND_HL RPAREN COMMA H         |z80n |-     |IXIY |ldd (hl), h   |74; 2B                                      |     13 T
+LDD IND_HL RPAREN COMMA L         |8080 |-     |-    |ldd (hl), l   |75; 2B                                      |     12 T
+LDD IND_HL RPAREN COMMA L         |8080 |-     |IXIY |ldd (hl), l   |75; 2B                                      |     12 T
+LDD IND_HL RPAREN COMMA L         |8085 |-     |-    |ldd (hl), l   |75; 2B                                      |     13 T
+LDD IND_HL RPAREN COMMA L         |8085 |-     |IXIY |ldd (hl), l   |75; 2B                                      |     13 T
+LDD IND_HL RPAREN COMMA L         |gbz80|-     |-    |ldd (hl), l   |75; 2B                                      |     16 T
+LDD IND_HL RPAREN COMMA L         |gbz80|-     |IXIY |ldd (hl), l   |75; 2B                                      |     16 T
+LDD IND_HL RPAREN COMMA L         |z80  |-     |-    |ldd (hl), l   |75; 2B                                      |     13 T
+LDD IND_HL RPAREN COMMA L         |z80  |-     |IXIY |ldd (hl), l   |75; 2B                                      |     13 T
+LDD IND_HL RPAREN COMMA L         |z80n |-     |-    |ldd (hl), l   |75; 2B                                      |     13 T
+LDD IND_HL RPAREN COMMA L         |z80n |-     |IXIY |ldd (hl), l   |75; 2B                                      |     13 T
+LDD IND_HL RPAREN COMMA expr      |8080 |expr  |-    |ldd (hl), %n  |36 %n; 2B                                   |     15 T
+LDD IND_HL RPAREN COMMA expr      |8080 |expr  |IXIY |ldd (hl), %n  |36 %n; 2B                                   |     15 T
+LDD IND_HL RPAREN COMMA expr      |8085 |expr  |-    |ldd (hl), %n  |36 %n; 2B                                   |     16 T
+LDD IND_HL RPAREN COMMA expr      |8085 |expr  |IXIY |ldd (hl), %n  |36 %n; 2B                                   |     16 T
+LDD IND_HL RPAREN COMMA expr      |gbz80|expr  |-    |ldd (hl), %n  |36 %n; 2B                                   |     20 T
+LDD IND_HL RPAREN COMMA expr      |gbz80|expr  |IXIY |ldd (hl), %n  |36 %n; 2B                                   |     20 T
+LDD IND_HL RPAREN COMMA expr      |z80  |expr  |-    |ldd (hl), %n  |36 %n; 2B                                   |     16 T
+LDD IND_HL RPAREN COMMA expr      |z80  |expr  |IXIY |ldd (hl), %n  |36 %n; 2B                                   |     16 T
+LDD IND_HL RPAREN COMMA expr      |z80n |expr  |-    |ldd (hl), %n  |36 %n; 2B                                   |     16 T
+LDD IND_HL RPAREN COMMA expr      |z80n |expr  |IXIY |ldd (hl), %n  |36 %n; 2B                                   |     16 T
 LDD                               |8080 |-     |-    |ldd           |CD @ldd                                     |181/188 T
 LDD                               |8080 |-     |IXIY |ldd           |CD @ldd                                     |181/188 T
 LDD                               |8085 |-     |-    |ldd           |CD @ldd                                     |180/184 T
@@ -4435,10 +5263,216 @@ LDHI expr                         |8085 |expr  |-    |ldhi %n       |28 %n      
 LDHI expr                         |8085 |expr  |IXIY |ldhi %n       |28 %n                                       |     10 T
 LDHL SP COMMA expr                |gbz80|expr  |-    |ldhl sp, %s   |F8 %s                                       |     12 T
 LDHL SP COMMA expr                |gbz80|expr  |IXIY |ldhl sp, %s   |F8 %s                                       |     12 T
+LDI A COMMA IND_BC RPAREN         |8080 |-     |-    |ldi a, (bc)   |0A; 03                                      |     12 T
+LDI A COMMA IND_BC RPAREN         |8080 |-     |IXIY |ldi a, (bc)   |0A; 03                                      |     12 T
+LDI A COMMA IND_BC RPAREN         |8085 |-     |-    |ldi a, (bc)   |0A; 03                                      |     13 T
+LDI A COMMA IND_BC RPAREN         |8085 |-     |IXIY |ldi a, (bc)   |0A; 03                                      |     13 T
+LDI A COMMA IND_BC RPAREN         |gbz80|-     |-    |ldi a, (bc)   |0A; 03                                      |     16 T
+LDI A COMMA IND_BC RPAREN         |gbz80|-     |IXIY |ldi a, (bc)   |0A; 03                                      |     16 T
+LDI A COMMA IND_BC RPAREN         |z80  |-     |-    |ldi a, (bc)   |0A; 03                                      |     13 T
+LDI A COMMA IND_BC RPAREN         |z80  |-     |IXIY |ldi a, (bc)   |0A; 03                                      |     13 T
+LDI A COMMA IND_BC RPAREN         |z80n |-     |-    |ldi a, (bc)   |0A; 03                                      |     13 T
+LDI A COMMA IND_BC RPAREN         |z80n |-     |IXIY |ldi a, (bc)   |0A; 03                                      |     13 T
+LDI A COMMA IND_DE RPAREN         |8080 |-     |-    |ldi a, (de)   |1A; 13                                      |     12 T
+LDI A COMMA IND_DE RPAREN         |8080 |-     |IXIY |ldi a, (de)   |1A; 13                                      |     12 T
+LDI A COMMA IND_DE RPAREN         |8085 |-     |-    |ldi a, (de)   |1A; 13                                      |     13 T
+LDI A COMMA IND_DE RPAREN         |8085 |-     |IXIY |ldi a, (de)   |1A; 13                                      |     13 T
+LDI A COMMA IND_DE RPAREN         |gbz80|-     |-    |ldi a, (de)   |1A; 13                                      |     16 T
+LDI A COMMA IND_DE RPAREN         |gbz80|-     |IXIY |ldi a, (de)   |1A; 13                                      |     16 T
+LDI A COMMA IND_DE RPAREN         |z80  |-     |-    |ldi a, (de)   |1A; 13                                      |     13 T
+LDI A COMMA IND_DE RPAREN         |z80  |-     |IXIY |ldi a, (de)   |1A; 13                                      |     13 T
+LDI A COMMA IND_DE RPAREN         |z80n |-     |-    |ldi a, (de)   |1A; 13                                      |     13 T
+LDI A COMMA IND_DE RPAREN         |z80n |-     |IXIY |ldi a, (de)   |1A; 13                                      |     13 T
+LDI A COMMA IND_HL RPAREN         |8080 |-     |-    |ldi a, (hl)   |7E; 23                                      |     12 T
+LDI A COMMA IND_HL RPAREN         |8080 |-     |IXIY |ldi a, (hl)   |7E; 23                                      |     12 T
+LDI A COMMA IND_HL RPAREN         |8085 |-     |-    |ldi a, (hl)   |7E; 23                                      |     13 T
+LDI A COMMA IND_HL RPAREN         |8085 |-     |IXIY |ldi a, (hl)   |7E; 23                                      |     13 T
 LDI A COMMA IND_HL RPAREN         |gbz80|-     |-    |ldi a, (hl)   |2A                                          |      8 T
 LDI A COMMA IND_HL RPAREN         |gbz80|-     |IXIY |ldi a, (hl)   |2A                                          |      8 T
+LDI A COMMA IND_HL RPAREN         |z80  |-     |-    |ldi a, (hl)   |7E; 23                                      |     13 T
+LDI A COMMA IND_HL RPAREN         |z80  |-     |IXIY |ldi a, (hl)   |7E; 23                                      |     13 T
+LDI A COMMA IND_HL RPAREN         |z80n |-     |-    |ldi a, (hl)   |7E; 23                                      |     13 T
+LDI A COMMA IND_HL RPAREN         |z80n |-     |IXIY |ldi a, (hl)   |7E; 23                                      |     13 T
+LDI B COMMA IND_HL RPAREN         |8080 |-     |-    |ldi b, (hl)   |46; 23                                      |     12 T
+LDI B COMMA IND_HL RPAREN         |8080 |-     |IXIY |ldi b, (hl)   |46; 23                                      |     12 T
+LDI B COMMA IND_HL RPAREN         |8085 |-     |-    |ldi b, (hl)   |46; 23                                      |     13 T
+LDI B COMMA IND_HL RPAREN         |8085 |-     |IXIY |ldi b, (hl)   |46; 23                                      |     13 T
+LDI B COMMA IND_HL RPAREN         |gbz80|-     |-    |ldi b, (hl)   |46; 23                                      |     16 T
+LDI B COMMA IND_HL RPAREN         |gbz80|-     |IXIY |ldi b, (hl)   |46; 23                                      |     16 T
+LDI B COMMA IND_HL RPAREN         |z80  |-     |-    |ldi b, (hl)   |46; 23                                      |     13 T
+LDI B COMMA IND_HL RPAREN         |z80  |-     |IXIY |ldi b, (hl)   |46; 23                                      |     13 T
+LDI B COMMA IND_HL RPAREN         |z80n |-     |-    |ldi b, (hl)   |46; 23                                      |     13 T
+LDI B COMMA IND_HL RPAREN         |z80n |-     |IXIY |ldi b, (hl)   |46; 23                                      |     13 T
+LDI BC COMMA IND_HL RPAREN        |8080 |-     |-    |ldi bc, (hl)  |4E; 23; 46; 23                              |     24 T
+LDI BC COMMA IND_HL RPAREN        |8080 |-     |IXIY |ldi bc, (hl)  |4E; 23; 46; 23                              |     24 T
+LDI BC COMMA IND_HL RPAREN        |8085 |-     |-    |ldi bc, (hl)  |4E; 23; 46; 23                              |     26 T
+LDI BC COMMA IND_HL RPAREN        |8085 |-     |IXIY |ldi bc, (hl)  |4E; 23; 46; 23                              |     26 T
+LDI BC COMMA IND_HL RPAREN        |gbz80|-     |-    |ldi bc, (hl)  |4E; 23; 46; 23                              |     32 T
+LDI BC COMMA IND_HL RPAREN        |gbz80|-     |IXIY |ldi bc, (hl)  |4E; 23; 46; 23                              |     32 T
+LDI BC COMMA IND_HL RPAREN        |z80  |-     |-    |ldi bc, (hl)  |4E; 23; 46; 23                              |     26 T
+LDI BC COMMA IND_HL RPAREN        |z80  |-     |IXIY |ldi bc, (hl)  |4E; 23; 46; 23                              |     26 T
+LDI BC COMMA IND_HL RPAREN        |z80n |-     |-    |ldi bc, (hl)  |4E; 23; 46; 23                              |     26 T
+LDI BC COMMA IND_HL RPAREN        |z80n |-     |IXIY |ldi bc, (hl)  |4E; 23; 46; 23                              |     26 T
+LDI C COMMA IND_HL RPAREN         |8080 |-     |-    |ldi c, (hl)   |4E; 23                                      |     12 T
+LDI C COMMA IND_HL RPAREN         |8080 |-     |IXIY |ldi c, (hl)   |4E; 23                                      |     12 T
+LDI C COMMA IND_HL RPAREN         |8085 |-     |-    |ldi c, (hl)   |4E; 23                                      |     13 T
+LDI C COMMA IND_HL RPAREN         |8085 |-     |IXIY |ldi c, (hl)   |4E; 23                                      |     13 T
+LDI C COMMA IND_HL RPAREN         |gbz80|-     |-    |ldi c, (hl)   |4E; 23                                      |     16 T
+LDI C COMMA IND_HL RPAREN         |gbz80|-     |IXIY |ldi c, (hl)   |4E; 23                                      |     16 T
+LDI C COMMA IND_HL RPAREN         |z80  |-     |-    |ldi c, (hl)   |4E; 23                                      |     13 T
+LDI C COMMA IND_HL RPAREN         |z80  |-     |IXIY |ldi c, (hl)   |4E; 23                                      |     13 T
+LDI C COMMA IND_HL RPAREN         |z80n |-     |-    |ldi c, (hl)   |4E; 23                                      |     13 T
+LDI C COMMA IND_HL RPAREN         |z80n |-     |IXIY |ldi c, (hl)   |4E; 23                                      |     13 T
+LDI D COMMA IND_HL RPAREN         |8080 |-     |-    |ldi d, (hl)   |56; 23                                      |     12 T
+LDI D COMMA IND_HL RPAREN         |8080 |-     |IXIY |ldi d, (hl)   |56; 23                                      |     12 T
+LDI D COMMA IND_HL RPAREN         |8085 |-     |-    |ldi d, (hl)   |56; 23                                      |     13 T
+LDI D COMMA IND_HL RPAREN         |8085 |-     |IXIY |ldi d, (hl)   |56; 23                                      |     13 T
+LDI D COMMA IND_HL RPAREN         |gbz80|-     |-    |ldi d, (hl)   |56; 23                                      |     16 T
+LDI D COMMA IND_HL RPAREN         |gbz80|-     |IXIY |ldi d, (hl)   |56; 23                                      |     16 T
+LDI D COMMA IND_HL RPAREN         |z80  |-     |-    |ldi d, (hl)   |56; 23                                      |     13 T
+LDI D COMMA IND_HL RPAREN         |z80  |-     |IXIY |ldi d, (hl)   |56; 23                                      |     13 T
+LDI D COMMA IND_HL RPAREN         |z80n |-     |-    |ldi d, (hl)   |56; 23                                      |     13 T
+LDI D COMMA IND_HL RPAREN         |z80n |-     |IXIY |ldi d, (hl)   |56; 23                                      |     13 T
+LDI DE COMMA IND_HL RPAREN        |8080 |-     |-    |ldi de, (hl)  |5E; 23; 56; 23                              |     24 T
+LDI DE COMMA IND_HL RPAREN        |8080 |-     |IXIY |ldi de, (hl)  |5E; 23; 56; 23                              |     24 T
+LDI DE COMMA IND_HL RPAREN        |8085 |-     |-    |ldi de, (hl)  |5E; 23; 56; 23                              |     26 T
+LDI DE COMMA IND_HL RPAREN        |8085 |-     |IXIY |ldi de, (hl)  |5E; 23; 56; 23                              |     26 T
+LDI DE COMMA IND_HL RPAREN        |gbz80|-     |-    |ldi de, (hl)  |5E; 23; 56; 23                              |     32 T
+LDI DE COMMA IND_HL RPAREN        |gbz80|-     |IXIY |ldi de, (hl)  |5E; 23; 56; 23                              |     32 T
+LDI DE COMMA IND_HL RPAREN        |z80  |-     |-    |ldi de, (hl)  |5E; 23; 56; 23                              |     26 T
+LDI DE COMMA IND_HL RPAREN        |z80  |-     |IXIY |ldi de, (hl)  |5E; 23; 56; 23                              |     26 T
+LDI DE COMMA IND_HL RPAREN        |z80n |-     |-    |ldi de, (hl)  |5E; 23; 56; 23                              |     26 T
+LDI DE COMMA IND_HL RPAREN        |z80n |-     |IXIY |ldi de, (hl)  |5E; 23; 56; 23                              |     26 T
+LDI E COMMA IND_HL RPAREN         |8080 |-     |-    |ldi e, (hl)   |5E; 23                                      |     12 T
+LDI E COMMA IND_HL RPAREN         |8080 |-     |IXIY |ldi e, (hl)   |5E; 23                                      |     12 T
+LDI E COMMA IND_HL RPAREN         |8085 |-     |-    |ldi e, (hl)   |5E; 23                                      |     13 T
+LDI E COMMA IND_HL RPAREN         |8085 |-     |IXIY |ldi e, (hl)   |5E; 23                                      |     13 T
+LDI E COMMA IND_HL RPAREN         |gbz80|-     |-    |ldi e, (hl)   |5E; 23                                      |     16 T
+LDI E COMMA IND_HL RPAREN         |gbz80|-     |IXIY |ldi e, (hl)   |5E; 23                                      |     16 T
+LDI E COMMA IND_HL RPAREN         |z80  |-     |-    |ldi e, (hl)   |5E; 23                                      |     13 T
+LDI E COMMA IND_HL RPAREN         |z80  |-     |IXIY |ldi e, (hl)   |5E; 23                                      |     13 T
+LDI E COMMA IND_HL RPAREN         |z80n |-     |-    |ldi e, (hl)   |5E; 23                                      |     13 T
+LDI E COMMA IND_HL RPAREN         |z80n |-     |IXIY |ldi e, (hl)   |5E; 23                                      |     13 T
+LDI IND_BC RPAREN COMMA A         |8080 |-     |-    |ldi (bc), a   |02; 03                                      |     12 T
+LDI IND_BC RPAREN COMMA A         |8080 |-     |IXIY |ldi (bc), a   |02; 03                                      |     12 T
+LDI IND_BC RPAREN COMMA A         |8085 |-     |-    |ldi (bc), a   |02; 03                                      |     13 T
+LDI IND_BC RPAREN COMMA A         |8085 |-     |IXIY |ldi (bc), a   |02; 03                                      |     13 T
+LDI IND_BC RPAREN COMMA A         |gbz80|-     |-    |ldi (bc), a   |02; 03                                      |     16 T
+LDI IND_BC RPAREN COMMA A         |gbz80|-     |IXIY |ldi (bc), a   |02; 03                                      |     16 T
+LDI IND_BC RPAREN COMMA A         |z80  |-     |-    |ldi (bc), a   |02; 03                                      |     13 T
+LDI IND_BC RPAREN COMMA A         |z80  |-     |IXIY |ldi (bc), a   |02; 03                                      |     13 T
+LDI IND_BC RPAREN COMMA A         |z80n |-     |-    |ldi (bc), a   |02; 03                                      |     13 T
+LDI IND_BC RPAREN COMMA A         |z80n |-     |IXIY |ldi (bc), a   |02; 03                                      |     13 T
+LDI IND_DE RPAREN COMMA A         |8080 |-     |-    |ldi (de), a   |12; 13                                      |     12 T
+LDI IND_DE RPAREN COMMA A         |8080 |-     |IXIY |ldi (de), a   |12; 13                                      |     12 T
+LDI IND_DE RPAREN COMMA A         |8085 |-     |-    |ldi (de), a   |12; 13                                      |     13 T
+LDI IND_DE RPAREN COMMA A         |8085 |-     |IXIY |ldi (de), a   |12; 13                                      |     13 T
+LDI IND_DE RPAREN COMMA A         |gbz80|-     |-    |ldi (de), a   |12; 13                                      |     16 T
+LDI IND_DE RPAREN COMMA A         |gbz80|-     |IXIY |ldi (de), a   |12; 13                                      |     16 T
+LDI IND_DE RPAREN COMMA A         |z80  |-     |-    |ldi (de), a   |12; 13                                      |     13 T
+LDI IND_DE RPAREN COMMA A         |z80  |-     |IXIY |ldi (de), a   |12; 13                                      |     13 T
+LDI IND_DE RPAREN COMMA A         |z80n |-     |-    |ldi (de), a   |12; 13                                      |     13 T
+LDI IND_DE RPAREN COMMA A         |z80n |-     |IXIY |ldi (de), a   |12; 13                                      |     13 T
+LDI IND_HL RPAREN COMMA A         |8080 |-     |-    |ldi (hl), a   |77; 23                                      |     12 T
+LDI IND_HL RPAREN COMMA A         |8080 |-     |IXIY |ldi (hl), a   |77; 23                                      |     12 T
+LDI IND_HL RPAREN COMMA A         |8085 |-     |-    |ldi (hl), a   |77; 23                                      |     13 T
+LDI IND_HL RPAREN COMMA A         |8085 |-     |IXIY |ldi (hl), a   |77; 23                                      |     13 T
 LDI IND_HL RPAREN COMMA A         |gbz80|-     |-    |ldi (hl), a   |22                                          |      8 T
 LDI IND_HL RPAREN COMMA A         |gbz80|-     |IXIY |ldi (hl), a   |22                                          |      8 T
+LDI IND_HL RPAREN COMMA A         |z80  |-     |-    |ldi (hl), a   |77; 23                                      |     13 T
+LDI IND_HL RPAREN COMMA A         |z80  |-     |IXIY |ldi (hl), a   |77; 23                                      |     13 T
+LDI IND_HL RPAREN COMMA A         |z80n |-     |-    |ldi (hl), a   |77; 23                                      |     13 T
+LDI IND_HL RPAREN COMMA A         |z80n |-     |IXIY |ldi (hl), a   |77; 23                                      |     13 T
+LDI IND_HL RPAREN COMMA B         |8080 |-     |-    |ldi (hl), b   |70; 23                                      |     12 T
+LDI IND_HL RPAREN COMMA B         |8080 |-     |IXIY |ldi (hl), b   |70; 23                                      |     12 T
+LDI IND_HL RPAREN COMMA B         |8085 |-     |-    |ldi (hl), b   |70; 23                                      |     13 T
+LDI IND_HL RPAREN COMMA B         |8085 |-     |IXIY |ldi (hl), b   |70; 23                                      |     13 T
+LDI IND_HL RPAREN COMMA B         |gbz80|-     |-    |ldi (hl), b   |70; 23                                      |     16 T
+LDI IND_HL RPAREN COMMA B         |gbz80|-     |IXIY |ldi (hl), b   |70; 23                                      |     16 T
+LDI IND_HL RPAREN COMMA B         |z80  |-     |-    |ldi (hl), b   |70; 23                                      |     13 T
+LDI IND_HL RPAREN COMMA B         |z80  |-     |IXIY |ldi (hl), b   |70; 23                                      |     13 T
+LDI IND_HL RPAREN COMMA B         |z80n |-     |-    |ldi (hl), b   |70; 23                                      |     13 T
+LDI IND_HL RPAREN COMMA B         |z80n |-     |IXIY |ldi (hl), b   |70; 23                                      |     13 T
+LDI IND_HL RPAREN COMMA BC        |8080 |-     |-    |ldi (hl), bc  |71; 23; 70; 23                              |     24 T
+LDI IND_HL RPAREN COMMA BC        |8080 |-     |IXIY |ldi (hl), bc  |71; 23; 70; 23                              |     24 T
+LDI IND_HL RPAREN COMMA BC        |8085 |-     |-    |ldi (hl), bc  |71; 23; 70; 23                              |     26 T
+LDI IND_HL RPAREN COMMA BC        |8085 |-     |IXIY |ldi (hl), bc  |71; 23; 70; 23                              |     26 T
+LDI IND_HL RPAREN COMMA BC        |gbz80|-     |-    |ldi (hl), bc  |71; 23; 70; 23                              |     32 T
+LDI IND_HL RPAREN COMMA BC        |gbz80|-     |IXIY |ldi (hl), bc  |71; 23; 70; 23                              |     32 T
+LDI IND_HL RPAREN COMMA BC        |z80  |-     |-    |ldi (hl), bc  |71; 23; 70; 23                              |     26 T
+LDI IND_HL RPAREN COMMA BC        |z80  |-     |IXIY |ldi (hl), bc  |71; 23; 70; 23                              |     26 T
+LDI IND_HL RPAREN COMMA BC        |z80n |-     |-    |ldi (hl), bc  |71; 23; 70; 23                              |     26 T
+LDI IND_HL RPAREN COMMA BC        |z80n |-     |IXIY |ldi (hl), bc  |71; 23; 70; 23                              |     26 T
+LDI IND_HL RPAREN COMMA C         |8080 |-     |-    |ldi (hl), c   |71; 23                                      |     12 T
+LDI IND_HL RPAREN COMMA C         |8080 |-     |IXIY |ldi (hl), c   |71; 23                                      |     12 T
+LDI IND_HL RPAREN COMMA C         |8085 |-     |-    |ldi (hl), c   |71; 23                                      |     13 T
+LDI IND_HL RPAREN COMMA C         |8085 |-     |IXIY |ldi (hl), c   |71; 23                                      |     13 T
+LDI IND_HL RPAREN COMMA C         |gbz80|-     |-    |ldi (hl), c   |71; 23                                      |     16 T
+LDI IND_HL RPAREN COMMA C         |gbz80|-     |IXIY |ldi (hl), c   |71; 23                                      |     16 T
+LDI IND_HL RPAREN COMMA C         |z80  |-     |-    |ldi (hl), c   |71; 23                                      |     13 T
+LDI IND_HL RPAREN COMMA C         |z80  |-     |IXIY |ldi (hl), c   |71; 23                                      |     13 T
+LDI IND_HL RPAREN COMMA C         |z80n |-     |-    |ldi (hl), c   |71; 23                                      |     13 T
+LDI IND_HL RPAREN COMMA C         |z80n |-     |IXIY |ldi (hl), c   |71; 23                                      |     13 T
+LDI IND_HL RPAREN COMMA D         |8080 |-     |-    |ldi (hl), d   |72; 23                                      |     12 T
+LDI IND_HL RPAREN COMMA D         |8080 |-     |IXIY |ldi (hl), d   |72; 23                                      |     12 T
+LDI IND_HL RPAREN COMMA D         |8085 |-     |-    |ldi (hl), d   |72; 23                                      |     13 T
+LDI IND_HL RPAREN COMMA D         |8085 |-     |IXIY |ldi (hl), d   |72; 23                                      |     13 T
+LDI IND_HL RPAREN COMMA D         |gbz80|-     |-    |ldi (hl), d   |72; 23                                      |     16 T
+LDI IND_HL RPAREN COMMA D         |gbz80|-     |IXIY |ldi (hl), d   |72; 23                                      |     16 T
+LDI IND_HL RPAREN COMMA D         |z80  |-     |-    |ldi (hl), d   |72; 23                                      |     13 T
+LDI IND_HL RPAREN COMMA D         |z80  |-     |IXIY |ldi (hl), d   |72; 23                                      |     13 T
+LDI IND_HL RPAREN COMMA D         |z80n |-     |-    |ldi (hl), d   |72; 23                                      |     13 T
+LDI IND_HL RPAREN COMMA D         |z80n |-     |IXIY |ldi (hl), d   |72; 23                                      |     13 T
+LDI IND_HL RPAREN COMMA DE        |8080 |-     |-    |ldi (hl), de  |73; 23; 72; 23                              |     24 T
+LDI IND_HL RPAREN COMMA DE        |8080 |-     |IXIY |ldi (hl), de  |73; 23; 72; 23                              |     24 T
+LDI IND_HL RPAREN COMMA DE        |8085 |-     |-    |ldi (hl), de  |73; 23; 72; 23                              |     26 T
+LDI IND_HL RPAREN COMMA DE        |8085 |-     |IXIY |ldi (hl), de  |73; 23; 72; 23                              |     26 T
+LDI IND_HL RPAREN COMMA DE        |gbz80|-     |-    |ldi (hl), de  |73; 23; 72; 23                              |     32 T
+LDI IND_HL RPAREN COMMA DE        |gbz80|-     |IXIY |ldi (hl), de  |73; 23; 72; 23                              |     32 T
+LDI IND_HL RPAREN COMMA DE        |z80  |-     |-    |ldi (hl), de  |73; 23; 72; 23                              |     26 T
+LDI IND_HL RPAREN COMMA DE        |z80  |-     |IXIY |ldi (hl), de  |73; 23; 72; 23                              |     26 T
+LDI IND_HL RPAREN COMMA DE        |z80n |-     |-    |ldi (hl), de  |73; 23; 72; 23                              |     26 T
+LDI IND_HL RPAREN COMMA DE        |z80n |-     |IXIY |ldi (hl), de  |73; 23; 72; 23                              |     26 T
+LDI IND_HL RPAREN COMMA E         |8080 |-     |-    |ldi (hl), e   |73; 23                                      |     12 T
+LDI IND_HL RPAREN COMMA E         |8080 |-     |IXIY |ldi (hl), e   |73; 23                                      |     12 T
+LDI IND_HL RPAREN COMMA E         |8085 |-     |-    |ldi (hl), e   |73; 23                                      |     13 T
+LDI IND_HL RPAREN COMMA E         |8085 |-     |IXIY |ldi (hl), e   |73; 23                                      |     13 T
+LDI IND_HL RPAREN COMMA E         |gbz80|-     |-    |ldi (hl), e   |73; 23                                      |     16 T
+LDI IND_HL RPAREN COMMA E         |gbz80|-     |IXIY |ldi (hl), e   |73; 23                                      |     16 T
+LDI IND_HL RPAREN COMMA E         |z80  |-     |-    |ldi (hl), e   |73; 23                                      |     13 T
+LDI IND_HL RPAREN COMMA E         |z80  |-     |IXIY |ldi (hl), e   |73; 23                                      |     13 T
+LDI IND_HL RPAREN COMMA E         |z80n |-     |-    |ldi (hl), e   |73; 23                                      |     13 T
+LDI IND_HL RPAREN COMMA E         |z80n |-     |IXIY |ldi (hl), e   |73; 23                                      |     13 T
+LDI IND_HL RPAREN COMMA H         |8080 |-     |-    |ldi (hl), h   |74; 23                                      |     12 T
+LDI IND_HL RPAREN COMMA H         |8080 |-     |IXIY |ldi (hl), h   |74; 23                                      |     12 T
+LDI IND_HL RPAREN COMMA H         |8085 |-     |-    |ldi (hl), h   |74; 23                                      |     13 T
+LDI IND_HL RPAREN COMMA H         |8085 |-     |IXIY |ldi (hl), h   |74; 23                                      |     13 T
+LDI IND_HL RPAREN COMMA H         |gbz80|-     |-    |ldi (hl), h   |74; 23                                      |     16 T
+LDI IND_HL RPAREN COMMA H         |gbz80|-     |IXIY |ldi (hl), h   |74; 23                                      |     16 T
+LDI IND_HL RPAREN COMMA H         |z80  |-     |-    |ldi (hl), h   |74; 23                                      |     13 T
+LDI IND_HL RPAREN COMMA H         |z80  |-     |IXIY |ldi (hl), h   |74; 23                                      |     13 T
+LDI IND_HL RPAREN COMMA H         |z80n |-     |-    |ldi (hl), h   |74; 23                                      |     13 T
+LDI IND_HL RPAREN COMMA H         |z80n |-     |IXIY |ldi (hl), h   |74; 23                                      |     13 T
+LDI IND_HL RPAREN COMMA L         |8080 |-     |-    |ldi (hl), l   |75; 23                                      |     12 T
+LDI IND_HL RPAREN COMMA L         |8080 |-     |IXIY |ldi (hl), l   |75; 23                                      |     12 T
+LDI IND_HL RPAREN COMMA L         |8085 |-     |-    |ldi (hl), l   |75; 23                                      |     13 T
+LDI IND_HL RPAREN COMMA L         |8085 |-     |IXIY |ldi (hl), l   |75; 23                                      |     13 T
+LDI IND_HL RPAREN COMMA L         |gbz80|-     |-    |ldi (hl), l   |75; 23                                      |     16 T
+LDI IND_HL RPAREN COMMA L         |gbz80|-     |IXIY |ldi (hl), l   |75; 23                                      |     16 T
+LDI IND_HL RPAREN COMMA L         |z80  |-     |-    |ldi (hl), l   |75; 23                                      |     13 T
+LDI IND_HL RPAREN COMMA L         |z80  |-     |IXIY |ldi (hl), l   |75; 23                                      |     13 T
+LDI IND_HL RPAREN COMMA L         |z80n |-     |-    |ldi (hl), l   |75; 23                                      |     13 T
+LDI IND_HL RPAREN COMMA L         |z80n |-     |IXIY |ldi (hl), l   |75; 23                                      |     13 T
+LDI IND_HL RPAREN COMMA expr      |8080 |expr  |-    |ldi (hl), %n  |36 %n; 23                                   |     15 T
+LDI IND_HL RPAREN COMMA expr      |8080 |expr  |IXIY |ldi (hl), %n  |36 %n; 23                                   |     15 T
+LDI IND_HL RPAREN COMMA expr      |8085 |expr  |-    |ldi (hl), %n  |36 %n; 23                                   |     16 T
+LDI IND_HL RPAREN COMMA expr      |8085 |expr  |IXIY |ldi (hl), %n  |36 %n; 23                                   |     16 T
+LDI IND_HL RPAREN COMMA expr      |gbz80|expr  |-    |ldi (hl), %n  |36 %n; 23                                   |     20 T
+LDI IND_HL RPAREN COMMA expr      |gbz80|expr  |IXIY |ldi (hl), %n  |36 %n; 23                                   |     20 T
+LDI IND_HL RPAREN COMMA expr      |z80  |expr  |-    |ldi (hl), %n  |36 %n; 23                                   |     16 T
+LDI IND_HL RPAREN COMMA expr      |z80  |expr  |IXIY |ldi (hl), %n  |36 %n; 23                                   |     16 T
+LDI IND_HL RPAREN COMMA expr      |z80n |expr  |-    |ldi (hl), %n  |36 %n; 23                                   |     16 T
+LDI IND_HL RPAREN COMMA expr      |z80n |expr  |IXIY |ldi (hl), %n  |36 %n; 23                                   |     16 T
 LDI                               |8080 |-     |-    |ldi           |CD @ldi                                     |181/188 T
 LDI                               |8080 |-     |IXIY |ldi           |CD @ldi                                     |181/188 T
 LDI                               |8085 |-     |-    |ldi           |CD @ldi                                     |180/184 T
@@ -5343,6 +6377,26 @@ OR A COMMA H                      |z80  |-     |-    |or a, h       |B4         
 OR A COMMA H                      |z80  |-     |IXIY |or a, h       |B4                                          |      4 T
 OR A COMMA H                      |z80n |-     |-    |or a, h       |B4                                          |      4 T
 OR A COMMA H                      |z80n |-     |IXIY |or a, h       |B4                                          |      4 T
+OR A COMMA IND_HL MINUS RPAREN    |8080 |-     |-    |or a, (hl-)   |B6; 2B                                      |     12 T
+OR A COMMA IND_HL MINUS RPAREN    |8080 |-     |IXIY |or a, (hl-)   |B6; 2B                                      |     12 T
+OR A COMMA IND_HL MINUS RPAREN    |8085 |-     |-    |or a, (hl-)   |B6; 2B                                      |     13 T
+OR A COMMA IND_HL MINUS RPAREN    |8085 |-     |IXIY |or a, (hl-)   |B6; 2B                                      |     13 T
+OR A COMMA IND_HL MINUS RPAREN    |gbz80|-     |-    |or a, (hl-)   |B6; 2B                                      |     16 T
+OR A COMMA IND_HL MINUS RPAREN    |gbz80|-     |IXIY |or a, (hl-)   |B6; 2B                                      |     16 T
+OR A COMMA IND_HL MINUS RPAREN    |z80  |-     |-    |or a, (hl-)   |B6; 2B                                      |     13 T
+OR A COMMA IND_HL MINUS RPAREN    |z80  |-     |IXIY |or a, (hl-)   |B6; 2B                                      |     13 T
+OR A COMMA IND_HL MINUS RPAREN    |z80n |-     |-    |or a, (hl-)   |B6; 2B                                      |     13 T
+OR A COMMA IND_HL MINUS RPAREN    |z80n |-     |IXIY |or a, (hl-)   |B6; 2B                                      |     13 T
+OR A COMMA IND_HL PLUS RPAREN     |8080 |-     |-    |or a, (hl+)   |B6; 23                                      |     12 T
+OR A COMMA IND_HL PLUS RPAREN     |8080 |-     |IXIY |or a, (hl+)   |B6; 23                                      |     12 T
+OR A COMMA IND_HL PLUS RPAREN     |8085 |-     |-    |or a, (hl+)   |B6; 23                                      |     13 T
+OR A COMMA IND_HL PLUS RPAREN     |8085 |-     |IXIY |or a, (hl+)   |B6; 23                                      |     13 T
+OR A COMMA IND_HL PLUS RPAREN     |gbz80|-     |-    |or a, (hl+)   |B6; 23                                      |     16 T
+OR A COMMA IND_HL PLUS RPAREN     |gbz80|-     |IXIY |or a, (hl+)   |B6; 23                                      |     16 T
+OR A COMMA IND_HL PLUS RPAREN     |z80  |-     |-    |or a, (hl+)   |B6; 23                                      |     13 T
+OR A COMMA IND_HL PLUS RPAREN     |z80  |-     |IXIY |or a, (hl+)   |B6; 23                                      |     13 T
+OR A COMMA IND_HL PLUS RPAREN     |z80n |-     |-    |or a, (hl+)   |B6; 23                                      |     13 T
+OR A COMMA IND_HL PLUS RPAREN     |z80n |-     |IXIY |or a, (hl+)   |B6; 23                                      |     13 T
 OR A COMMA IND_HL RPAREN          |8080 |-     |-    |or a, (hl)    |B6                                          |      7 T
 OR A COMMA IND_HL RPAREN          |8080 |-     |IXIY |or a, (hl)    |B6                                          |      7 T
 OR A COMMA IND_HL RPAREN          |8085 |-     |-    |or a, (hl)    |B6                                          |      7 T
@@ -5449,6 +6503,26 @@ OR H                              |z80  |-     |-    |or h          |B4         
 OR H                              |z80  |-     |IXIY |or h          |B4                                          |      4 T
 OR H                              |z80n |-     |-    |or h          |B4                                          |      4 T
 OR H                              |z80n |-     |IXIY |or h          |B4                                          |      4 T
+OR IND_HL MINUS RPAREN            |8080 |-     |-    |or (hl-)      |B6; 2B                                      |     12 T
+OR IND_HL MINUS RPAREN            |8080 |-     |IXIY |or (hl-)      |B6; 2B                                      |     12 T
+OR IND_HL MINUS RPAREN            |8085 |-     |-    |or (hl-)      |B6; 2B                                      |     13 T
+OR IND_HL MINUS RPAREN            |8085 |-     |IXIY |or (hl-)      |B6; 2B                                      |     13 T
+OR IND_HL MINUS RPAREN            |gbz80|-     |-    |or (hl-)      |B6; 2B                                      |     16 T
+OR IND_HL MINUS RPAREN            |gbz80|-     |IXIY |or (hl-)      |B6; 2B                                      |     16 T
+OR IND_HL MINUS RPAREN            |z80  |-     |-    |or (hl-)      |B6; 2B                                      |     13 T
+OR IND_HL MINUS RPAREN            |z80  |-     |IXIY |or (hl-)      |B6; 2B                                      |     13 T
+OR IND_HL MINUS RPAREN            |z80n |-     |-    |or (hl-)      |B6; 2B                                      |     13 T
+OR IND_HL MINUS RPAREN            |z80n |-     |IXIY |or (hl-)      |B6; 2B                                      |     13 T
+OR IND_HL PLUS RPAREN             |8080 |-     |-    |or (hl+)      |B6; 23                                      |     12 T
+OR IND_HL PLUS RPAREN             |8080 |-     |IXIY |or (hl+)      |B6; 23                                      |     12 T
+OR IND_HL PLUS RPAREN             |8085 |-     |-    |or (hl+)      |B6; 23                                      |     13 T
+OR IND_HL PLUS RPAREN             |8085 |-     |IXIY |or (hl+)      |B6; 23                                      |     13 T
+OR IND_HL PLUS RPAREN             |gbz80|-     |-    |or (hl+)      |B6; 23                                      |     16 T
+OR IND_HL PLUS RPAREN             |gbz80|-     |IXIY |or (hl+)      |B6; 23                                      |     16 T
+OR IND_HL PLUS RPAREN             |z80  |-     |-    |or (hl+)      |B6; 23                                      |     13 T
+OR IND_HL PLUS RPAREN             |z80  |-     |IXIY |or (hl+)      |B6; 23                                      |     13 T
+OR IND_HL PLUS RPAREN             |z80n |-     |-    |or (hl+)      |B6; 23                                      |     13 T
+OR IND_HL PLUS RPAREN             |z80n |-     |IXIY |or (hl+)      |B6; 23                                      |     13 T
 OR IND_HL RPAREN                  |8080 |-     |-    |or (hl)       |B6                                          |      7 T
 OR IND_HL RPAREN                  |8080 |-     |IXIY |or (hl)       |B6                                          |      7 T
 OR IND_HL RPAREN                  |8085 |-     |-    |or (hl)       |B6                                          |      7 T
@@ -6681,6 +7755,26 @@ SBC A COMMA H                     |z80  |-     |-    |sbc a, h      |9C         
 SBC A COMMA H                     |z80  |-     |IXIY |sbc a, h      |9C                                          |      4 T
 SBC A COMMA H                     |z80n |-     |-    |sbc a, h      |9C                                          |      4 T
 SBC A COMMA H                     |z80n |-     |IXIY |sbc a, h      |9C                                          |      4 T
+SBC A COMMA IND_HL MINUS RPAREN   |8080 |-     |-    |sbc a, (hl-)  |9E; 2B                                      |     12 T
+SBC A COMMA IND_HL MINUS RPAREN   |8080 |-     |IXIY |sbc a, (hl-)  |9E; 2B                                      |     12 T
+SBC A COMMA IND_HL MINUS RPAREN   |8085 |-     |-    |sbc a, (hl-)  |9E; 2B                                      |     13 T
+SBC A COMMA IND_HL MINUS RPAREN   |8085 |-     |IXIY |sbc a, (hl-)  |9E; 2B                                      |     13 T
+SBC A COMMA IND_HL MINUS RPAREN   |gbz80|-     |-    |sbc a, (hl-)  |9E; 2B                                      |     16 T
+SBC A COMMA IND_HL MINUS RPAREN   |gbz80|-     |IXIY |sbc a, (hl-)  |9E; 2B                                      |     16 T
+SBC A COMMA IND_HL MINUS RPAREN   |z80  |-     |-    |sbc a, (hl-)  |9E; 2B                                      |     13 T
+SBC A COMMA IND_HL MINUS RPAREN   |z80  |-     |IXIY |sbc a, (hl-)  |9E; 2B                                      |     13 T
+SBC A COMMA IND_HL MINUS RPAREN   |z80n |-     |-    |sbc a, (hl-)  |9E; 2B                                      |     13 T
+SBC A COMMA IND_HL MINUS RPAREN   |z80n |-     |IXIY |sbc a, (hl-)  |9E; 2B                                      |     13 T
+SBC A COMMA IND_HL PLUS RPAREN    |8080 |-     |-    |sbc a, (hl+)  |9E; 23                                      |     12 T
+SBC A COMMA IND_HL PLUS RPAREN    |8080 |-     |IXIY |sbc a, (hl+)  |9E; 23                                      |     12 T
+SBC A COMMA IND_HL PLUS RPAREN    |8085 |-     |-    |sbc a, (hl+)  |9E; 23                                      |     13 T
+SBC A COMMA IND_HL PLUS RPAREN    |8085 |-     |IXIY |sbc a, (hl+)  |9E; 23                                      |     13 T
+SBC A COMMA IND_HL PLUS RPAREN    |gbz80|-     |-    |sbc a, (hl+)  |9E; 23                                      |     16 T
+SBC A COMMA IND_HL PLUS RPAREN    |gbz80|-     |IXIY |sbc a, (hl+)  |9E; 23                                      |     16 T
+SBC A COMMA IND_HL PLUS RPAREN    |z80  |-     |-    |sbc a, (hl+)  |9E; 23                                      |     13 T
+SBC A COMMA IND_HL PLUS RPAREN    |z80  |-     |IXIY |sbc a, (hl+)  |9E; 23                                      |     13 T
+SBC A COMMA IND_HL PLUS RPAREN    |z80n |-     |-    |sbc a, (hl+)  |9E; 23                                      |     13 T
+SBC A COMMA IND_HL PLUS RPAREN    |z80n |-     |IXIY |sbc a, (hl+)  |9E; 23                                      |     13 T
 SBC A COMMA IND_HL RPAREN         |8080 |-     |-    |sbc a, (hl)   |9E                                          |      7 T
 SBC A COMMA IND_HL RPAREN         |8080 |-     |IXIY |sbc a, (hl)   |9E                                          |      7 T
 SBC A COMMA IND_HL RPAREN         |8085 |-     |-    |sbc a, (hl)   |9E                                          |      7 T
@@ -6827,6 +7921,26 @@ SBC HL COMMA SP                   |z80  |-     |-    |sbc hl, sp    |ED 72      
 SBC HL COMMA SP                   |z80  |-     |IXIY |sbc hl, sp    |ED 72                                       |     15 T
 SBC HL COMMA SP                   |z80n |-     |-    |sbc hl, sp    |ED 72                                       |     15 T
 SBC HL COMMA SP                   |z80n |-     |IXIY |sbc hl, sp    |ED 72                                       |     15 T
+SBC IND_HL MINUS RPAREN           |8080 |-     |-    |sbc (hl-)     |9E; 2B                                      |     12 T
+SBC IND_HL MINUS RPAREN           |8080 |-     |IXIY |sbc (hl-)     |9E; 2B                                      |     12 T
+SBC IND_HL MINUS RPAREN           |8085 |-     |-    |sbc (hl-)     |9E; 2B                                      |     13 T
+SBC IND_HL MINUS RPAREN           |8085 |-     |IXIY |sbc (hl-)     |9E; 2B                                      |     13 T
+SBC IND_HL MINUS RPAREN           |gbz80|-     |-    |sbc (hl-)     |9E; 2B                                      |     16 T
+SBC IND_HL MINUS RPAREN           |gbz80|-     |IXIY |sbc (hl-)     |9E; 2B                                      |     16 T
+SBC IND_HL MINUS RPAREN           |z80  |-     |-    |sbc (hl-)     |9E; 2B                                      |     13 T
+SBC IND_HL MINUS RPAREN           |z80  |-     |IXIY |sbc (hl-)     |9E; 2B                                      |     13 T
+SBC IND_HL MINUS RPAREN           |z80n |-     |-    |sbc (hl-)     |9E; 2B                                      |     13 T
+SBC IND_HL MINUS RPAREN           |z80n |-     |IXIY |sbc (hl-)     |9E; 2B                                      |     13 T
+SBC IND_HL PLUS RPAREN            |8080 |-     |-    |sbc (hl+)     |9E; 23                                      |     12 T
+SBC IND_HL PLUS RPAREN            |8080 |-     |IXIY |sbc (hl+)     |9E; 23                                      |     12 T
+SBC IND_HL PLUS RPAREN            |8085 |-     |-    |sbc (hl+)     |9E; 23                                      |     13 T
+SBC IND_HL PLUS RPAREN            |8085 |-     |IXIY |sbc (hl+)     |9E; 23                                      |     13 T
+SBC IND_HL PLUS RPAREN            |gbz80|-     |-    |sbc (hl+)     |9E; 23                                      |     16 T
+SBC IND_HL PLUS RPAREN            |gbz80|-     |IXIY |sbc (hl+)     |9E; 23                                      |     16 T
+SBC IND_HL PLUS RPAREN            |z80  |-     |-    |sbc (hl+)     |9E; 23                                      |     13 T
+SBC IND_HL PLUS RPAREN            |z80  |-     |IXIY |sbc (hl+)     |9E; 23                                      |     13 T
+SBC IND_HL PLUS RPAREN            |z80n |-     |-    |sbc (hl+)     |9E; 23                                      |     13 T
+SBC IND_HL PLUS RPAREN            |z80n |-     |IXIY |sbc (hl+)     |9E; 23                                      |     13 T
 SBC IND_HL RPAREN                 |8080 |-     |-    |sbc (hl)      |9E                                          |      7 T
 SBC IND_HL RPAREN                 |8080 |-     |IXIY |sbc (hl)      |9E                                          |      7 T
 SBC IND_HL RPAREN                 |8085 |-     |-    |sbc (hl)      |9E                                          |      7 T
@@ -7405,6 +8519,26 @@ SUB A COMMA H                     |z80  |-     |-    |sub a, h      |94         
 SUB A COMMA H                     |z80  |-     |IXIY |sub a, h      |94                                          |      4 T
 SUB A COMMA H                     |z80n |-     |-    |sub a, h      |94                                          |      4 T
 SUB A COMMA H                     |z80n |-     |IXIY |sub a, h      |94                                          |      4 T
+SUB A COMMA IND_HL MINUS RPAREN   |8080 |-     |-    |sub a, (hl-)  |96; 2B                                      |     12 T
+SUB A COMMA IND_HL MINUS RPAREN   |8080 |-     |IXIY |sub a, (hl-)  |96; 2B                                      |     12 T
+SUB A COMMA IND_HL MINUS RPAREN   |8085 |-     |-    |sub a, (hl-)  |96; 2B                                      |     13 T
+SUB A COMMA IND_HL MINUS RPAREN   |8085 |-     |IXIY |sub a, (hl-)  |96; 2B                                      |     13 T
+SUB A COMMA IND_HL MINUS RPAREN   |gbz80|-     |-    |sub a, (hl-)  |96; 2B                                      |     16 T
+SUB A COMMA IND_HL MINUS RPAREN   |gbz80|-     |IXIY |sub a, (hl-)  |96; 2B                                      |     16 T
+SUB A COMMA IND_HL MINUS RPAREN   |z80  |-     |-    |sub a, (hl-)  |96; 2B                                      |     13 T
+SUB A COMMA IND_HL MINUS RPAREN   |z80  |-     |IXIY |sub a, (hl-)  |96; 2B                                      |     13 T
+SUB A COMMA IND_HL MINUS RPAREN   |z80n |-     |-    |sub a, (hl-)  |96; 2B                                      |     13 T
+SUB A COMMA IND_HL MINUS RPAREN   |z80n |-     |IXIY |sub a, (hl-)  |96; 2B                                      |     13 T
+SUB A COMMA IND_HL PLUS RPAREN    |8080 |-     |-    |sub a, (hl+)  |96; 23                                      |     12 T
+SUB A COMMA IND_HL PLUS RPAREN    |8080 |-     |IXIY |sub a, (hl+)  |96; 23                                      |     12 T
+SUB A COMMA IND_HL PLUS RPAREN    |8085 |-     |-    |sub a, (hl+)  |96; 23                                      |     13 T
+SUB A COMMA IND_HL PLUS RPAREN    |8085 |-     |IXIY |sub a, (hl+)  |96; 23                                      |     13 T
+SUB A COMMA IND_HL PLUS RPAREN    |gbz80|-     |-    |sub a, (hl+)  |96; 23                                      |     16 T
+SUB A COMMA IND_HL PLUS RPAREN    |gbz80|-     |IXIY |sub a, (hl+)  |96; 23                                      |     16 T
+SUB A COMMA IND_HL PLUS RPAREN    |z80  |-     |-    |sub a, (hl+)  |96; 23                                      |     13 T
+SUB A COMMA IND_HL PLUS RPAREN    |z80  |-     |IXIY |sub a, (hl+)  |96; 23                                      |     13 T
+SUB A COMMA IND_HL PLUS RPAREN    |z80n |-     |-    |sub a, (hl+)  |96; 23                                      |     13 T
+SUB A COMMA IND_HL PLUS RPAREN    |z80n |-     |IXIY |sub a, (hl+)  |96; 23                                      |     13 T
 SUB A COMMA IND_HL RPAREN         |8080 |-     |-    |sub a, (hl)   |96                                          |      7 T
 SUB A COMMA IND_HL RPAREN         |8080 |-     |IXIY |sub a, (hl)   |96                                          |      7 T
 SUB A COMMA IND_HL RPAREN         |8085 |-     |-    |sub a, (hl)   |96                                          |      7 T
@@ -7551,6 +8685,26 @@ SUB HL COMMA SP                   |z80  |-     |-    |sub hl, sp    |CD @sub_hl_
 SUB HL COMMA SP                   |z80  |-     |IXIY |sub hl, sp    |CD @sub_hl_sp                               |    151 T
 SUB HL COMMA SP                   |z80n |-     |-    |sub hl, sp    |CD @sub_hl_sp                               |    151 T
 SUB HL COMMA SP                   |z80n |-     |IXIY |sub hl, sp    |CD @sub_hl_sp                               |    151 T
+SUB IND_HL MINUS RPAREN           |8080 |-     |-    |sub (hl-)     |96; 2B                                      |     12 T
+SUB IND_HL MINUS RPAREN           |8080 |-     |IXIY |sub (hl-)     |96; 2B                                      |     12 T
+SUB IND_HL MINUS RPAREN           |8085 |-     |-    |sub (hl-)     |96; 2B                                      |     13 T
+SUB IND_HL MINUS RPAREN           |8085 |-     |IXIY |sub (hl-)     |96; 2B                                      |     13 T
+SUB IND_HL MINUS RPAREN           |gbz80|-     |-    |sub (hl-)     |96; 2B                                      |     16 T
+SUB IND_HL MINUS RPAREN           |gbz80|-     |IXIY |sub (hl-)     |96; 2B                                      |     16 T
+SUB IND_HL MINUS RPAREN           |z80  |-     |-    |sub (hl-)     |96; 2B                                      |     13 T
+SUB IND_HL MINUS RPAREN           |z80  |-     |IXIY |sub (hl-)     |96; 2B                                      |     13 T
+SUB IND_HL MINUS RPAREN           |z80n |-     |-    |sub (hl-)     |96; 2B                                      |     13 T
+SUB IND_HL MINUS RPAREN           |z80n |-     |IXIY |sub (hl-)     |96; 2B                                      |     13 T
+SUB IND_HL PLUS RPAREN            |8080 |-     |-    |sub (hl+)     |96; 23                                      |     12 T
+SUB IND_HL PLUS RPAREN            |8080 |-     |IXIY |sub (hl+)     |96; 23                                      |     12 T
+SUB IND_HL PLUS RPAREN            |8085 |-     |-    |sub (hl+)     |96; 23                                      |     13 T
+SUB IND_HL PLUS RPAREN            |8085 |-     |IXIY |sub (hl+)     |96; 23                                      |     13 T
+SUB IND_HL PLUS RPAREN            |gbz80|-     |-    |sub (hl+)     |96; 23                                      |     16 T
+SUB IND_HL PLUS RPAREN            |gbz80|-     |IXIY |sub (hl+)     |96; 23                                      |     16 T
+SUB IND_HL PLUS RPAREN            |z80  |-     |-    |sub (hl+)     |96; 23                                      |     13 T
+SUB IND_HL PLUS RPAREN            |z80  |-     |IXIY |sub (hl+)     |96; 23                                      |     13 T
+SUB IND_HL PLUS RPAREN            |z80n |-     |-    |sub (hl+)     |96; 23                                      |     13 T
+SUB IND_HL PLUS RPAREN            |z80n |-     |IXIY |sub (hl+)     |96; 23                                      |     13 T
 SUB IND_HL RPAREN                 |8080 |-     |-    |sub (hl)      |96                                          |      7 T
 SUB IND_HL RPAREN                 |8080 |-     |IXIY |sub (hl)      |96                                          |      7 T
 SUB IND_HL RPAREN                 |8085 |-     |-    |sub (hl)      |96                                          |      7 T
@@ -7703,6 +8857,26 @@ XOR A COMMA H                     |z80  |-     |-    |xor a, h      |AC         
 XOR A COMMA H                     |z80  |-     |IXIY |xor a, h      |AC                                          |      4 T
 XOR A COMMA H                     |z80n |-     |-    |xor a, h      |AC                                          |      4 T
 XOR A COMMA H                     |z80n |-     |IXIY |xor a, h      |AC                                          |      4 T
+XOR A COMMA IND_HL MINUS RPAREN   |8080 |-     |-    |xor a, (hl-)  |AE; 2B                                      |     12 T
+XOR A COMMA IND_HL MINUS RPAREN   |8080 |-     |IXIY |xor a, (hl-)  |AE; 2B                                      |     12 T
+XOR A COMMA IND_HL MINUS RPAREN   |8085 |-     |-    |xor a, (hl-)  |AE; 2B                                      |     13 T
+XOR A COMMA IND_HL MINUS RPAREN   |8085 |-     |IXIY |xor a, (hl-)  |AE; 2B                                      |     13 T
+XOR A COMMA IND_HL MINUS RPAREN   |gbz80|-     |-    |xor a, (hl-)  |AE; 2B                                      |     16 T
+XOR A COMMA IND_HL MINUS RPAREN   |gbz80|-     |IXIY |xor a, (hl-)  |AE; 2B                                      |     16 T
+XOR A COMMA IND_HL MINUS RPAREN   |z80  |-     |-    |xor a, (hl-)  |AE; 2B                                      |     13 T
+XOR A COMMA IND_HL MINUS RPAREN   |z80  |-     |IXIY |xor a, (hl-)  |AE; 2B                                      |     13 T
+XOR A COMMA IND_HL MINUS RPAREN   |z80n |-     |-    |xor a, (hl-)  |AE; 2B                                      |     13 T
+XOR A COMMA IND_HL MINUS RPAREN   |z80n |-     |IXIY |xor a, (hl-)  |AE; 2B                                      |     13 T
+XOR A COMMA IND_HL PLUS RPAREN    |8080 |-     |-    |xor a, (hl+)  |AE; 23                                      |     12 T
+XOR A COMMA IND_HL PLUS RPAREN    |8080 |-     |IXIY |xor a, (hl+)  |AE; 23                                      |     12 T
+XOR A COMMA IND_HL PLUS RPAREN    |8085 |-     |-    |xor a, (hl+)  |AE; 23                                      |     13 T
+XOR A COMMA IND_HL PLUS RPAREN    |8085 |-     |IXIY |xor a, (hl+)  |AE; 23                                      |     13 T
+XOR A COMMA IND_HL PLUS RPAREN    |gbz80|-     |-    |xor a, (hl+)  |AE; 23                                      |     16 T
+XOR A COMMA IND_HL PLUS RPAREN    |gbz80|-     |IXIY |xor a, (hl+)  |AE; 23                                      |     16 T
+XOR A COMMA IND_HL PLUS RPAREN    |z80  |-     |-    |xor a, (hl+)  |AE; 23                                      |     13 T
+XOR A COMMA IND_HL PLUS RPAREN    |z80  |-     |IXIY |xor a, (hl+)  |AE; 23                                      |     13 T
+XOR A COMMA IND_HL PLUS RPAREN    |z80n |-     |-    |xor a, (hl+)  |AE; 23                                      |     13 T
+XOR A COMMA IND_HL PLUS RPAREN    |z80n |-     |IXIY |xor a, (hl+)  |AE; 23                                      |     13 T
 XOR A COMMA IND_HL RPAREN         |8080 |-     |-    |xor a, (hl)   |AE                                          |      7 T
 XOR A COMMA IND_HL RPAREN         |8080 |-     |IXIY |xor a, (hl)   |AE                                          |      7 T
 XOR A COMMA IND_HL RPAREN         |8085 |-     |-    |xor a, (hl)   |AE                                          |      7 T
@@ -7809,6 +8983,26 @@ XOR H                             |z80  |-     |-    |xor h         |AC         
 XOR H                             |z80  |-     |IXIY |xor h         |AC                                          |      4 T
 XOR H                             |z80n |-     |-    |xor h         |AC                                          |      4 T
 XOR H                             |z80n |-     |IXIY |xor h         |AC                                          |      4 T
+XOR IND_HL MINUS RPAREN           |8080 |-     |-    |xor (hl-)     |AE; 2B                                      |     12 T
+XOR IND_HL MINUS RPAREN           |8080 |-     |IXIY |xor (hl-)     |AE; 2B                                      |     12 T
+XOR IND_HL MINUS RPAREN           |8085 |-     |-    |xor (hl-)     |AE; 2B                                      |     13 T
+XOR IND_HL MINUS RPAREN           |8085 |-     |IXIY |xor (hl-)     |AE; 2B                                      |     13 T
+XOR IND_HL MINUS RPAREN           |gbz80|-     |-    |xor (hl-)     |AE; 2B                                      |     16 T
+XOR IND_HL MINUS RPAREN           |gbz80|-     |IXIY |xor (hl-)     |AE; 2B                                      |     16 T
+XOR IND_HL MINUS RPAREN           |z80  |-     |-    |xor (hl-)     |AE; 2B                                      |     13 T
+XOR IND_HL MINUS RPAREN           |z80  |-     |IXIY |xor (hl-)     |AE; 2B                                      |     13 T
+XOR IND_HL MINUS RPAREN           |z80n |-     |-    |xor (hl-)     |AE; 2B                                      |     13 T
+XOR IND_HL MINUS RPAREN           |z80n |-     |IXIY |xor (hl-)     |AE; 2B                                      |     13 T
+XOR IND_HL PLUS RPAREN            |8080 |-     |-    |xor (hl+)     |AE; 23                                      |     12 T
+XOR IND_HL PLUS RPAREN            |8080 |-     |IXIY |xor (hl+)     |AE; 23                                      |     12 T
+XOR IND_HL PLUS RPAREN            |8085 |-     |-    |xor (hl+)     |AE; 23                                      |     13 T
+XOR IND_HL PLUS RPAREN            |8085 |-     |IXIY |xor (hl+)     |AE; 23                                      |     13 T
+XOR IND_HL PLUS RPAREN            |gbz80|-     |-    |xor (hl+)     |AE; 23                                      |     16 T
+XOR IND_HL PLUS RPAREN            |gbz80|-     |IXIY |xor (hl+)     |AE; 23                                      |     16 T
+XOR IND_HL PLUS RPAREN            |z80  |-     |-    |xor (hl+)     |AE; 23                                      |     13 T
+XOR IND_HL PLUS RPAREN            |z80  |-     |IXIY |xor (hl+)     |AE; 23                                      |     13 T
+XOR IND_HL PLUS RPAREN            |z80n |-     |-    |xor (hl+)     |AE; 23                                      |     13 T
+XOR IND_HL PLUS RPAREN            |z80n |-     |IXIY |xor (hl+)     |AE; 23                                      |     13 T
 XOR IND_HL RPAREN                 |8080 |-     |-    |xor (hl)      |AE                                          |      7 T
 XOR IND_HL RPAREN                 |8080 |-     |IXIY |xor (hl)      |AE                                          |      7 T
 XOR IND_HL RPAREN                 |8085 |-     |-    |xor (hl)      |AE                                          |      7 T
