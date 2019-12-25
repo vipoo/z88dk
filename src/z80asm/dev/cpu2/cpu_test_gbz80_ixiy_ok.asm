@@ -53,10 +53,22 @@
  add a, h                       ; 84
  add a, l                       ; 85
  add b                          ; 80
+ add bc, -32768                 ; E5; 21 00 80; 09; 44; 4D; E1
+ add bc, 32767                  ; E5; 21 FF 7F; 09; 44; 4D; E1
+ add bc, 65535                  ; E5; 21 FF FF; 09; 44; 4D; E1
+ add bc, a                      ; CD @add_bc_a
  add c                          ; 81
  add d                          ; 82
+ add de, -32768                 ; E5; 21 00 80; 19; 54; 5D; E1
+ add de, 32767                  ; E5; 21 FF 7F; 19; 54; 5D; E1
+ add de, 65535                  ; E5; 21 FF FF; 19; 54; 5D; E1
+ add de, a                      ; CD @add_de_a
  add e                          ; 83
  add h                          ; 84
+ add hl, -32768                 ; D5; 11 00 80; 19; D1
+ add hl, 32767                  ; D5; 11 FF 7F; 19; D1
+ add hl, 65535                  ; D5; 11 FF FF; 19; D1
+ add hl, a                      ; CD @add_hl_a
  add hl, bc                     ; 09
  add hl, de                     ; 19
  add hl, hl                     ; 29
@@ -114,6 +126,11 @@
  bit %c, e                      ; CB 43+%c*08
  bit %c, h                      ; CB 44+%c*08
  bit %c, l                      ; CB 45+%c*08
+ brlc de, b                     ; CD @brlc_de_b
+ bsla de, b                     ; CD @bsla_de_b
+ bsra de, b                     ; CD @bsra_de_b
+ bsrf de, b                     ; CD @bsrf_de_b
+ bsrl de, b                     ; CD @bsrl_de_b
  call -32768                    ; CD 00 80
  call 32767                     ; CD FF 7F
  call 65535                     ; CD FF FF
@@ -760,10 +777,13 @@
  rlc (hl)                       ; CB 06
  rlc a                          ; CB 07
  rlc b                          ; CB 00
+ rlc bc                         ; CD @rlc_bc
  rlc c                          ; CB 01
  rlc d                          ; CB 02
+ rlc de                         ; CD @rlc_de
  rlc e                          ; CB 03
  rlc h                          ; CB 04
+ rlc hl                         ; CD @rlc_hl
  rlc l                          ; CB 05
  rlca                           ; 07
  rld                            ; CD @rld
@@ -786,10 +806,13 @@
  rrc (hl)                       ; CB 0E
  rrc a                          ; CB 0F
  rrc b                          ; CB 08
+ rrc bc                         ; CD @rrc_bc
  rrc c                          ; CB 09
  rrc d                          ; CB 0A
+ rrc de                         ; CD @rrc_de
  rrc e                          ; CB 0B
  rrc h                          ; CB 0C
+ rrc hl                         ; CD @rrc_hl
  rrc l                          ; CB 0D
  rrca                           ; 0F
  rrd                            ; CD @rrd
@@ -849,10 +872,13 @@
  sla (hl)                       ; CB 26
  sla a                          ; CB 27
  sla b                          ; CB 20
+ sla bc                         ; CB 21; CB 10
  sla c                          ; CB 21
  sla d                          ; CB 22
+ sla de                         ; CB 23; CB 12
  sla e                          ; CB 23
  sla h                          ; CB 24
+ sla hl                         ; 29
  sla l                          ; CB 25
  sphl                           ; F9
  sra (hl)                       ; CB 2E
@@ -869,10 +895,13 @@
  srl (hl)                       ; CB 3E
  srl a                          ; CB 3F
  srl b                          ; CB 38
+ srl bc                         ; CB 38; CB 19
  srl c                          ; CB 39
  srl d                          ; CB 3A
+ srl de                         ; CB 3A; CB 1B
  srl e                          ; CB 3B
  srl h                          ; CB 3C
+ srl hl                         ; CB 3C; CB 1D
  srl l                          ; CB 3D
  sta -32768                     ; EA 00 80
  sta 32767                      ; EA FF 7F

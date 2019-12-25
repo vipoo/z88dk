@@ -28,7 +28,7 @@ enum { F_NZ, F_Z, F_NC, F_C, F_PO, F_NV = F_PO, F_PE, F_V = F_PE, F_P, F_M };
 // operation codes
 enum {
 	OP_ADD = 0, OP_ADC, OP_SUB, OP_SBC, OP_AND, OP_XOR, OP_OR, OP_CP,
-	OP_RLC = 0, OP_RRC, OP_RL, OP_RR, OP_SLA, OP_SRA, OP_SLL, OP_SLI = OP_SLL, OP_SRL,
+	OP_RLC = 0, OP_RRC, OP_RL, OP_RR, OP_SLA, OP_SRA, OP_SLL, OP_SRL,
 	OP_BIT = 1, OP_RES, OP_SET,
 };
 
@@ -97,10 +97,18 @@ bool emit_rot_indx(int op, int x, int dis);
 bool emit_rot_indx_r(int op, int x, int dis, int r);
 bool emit_rrd(void);
 bool emit_rld(void);
+bool emit_sla_rr(int rr);
+bool emit_sla_bc(void);
+bool emit_sla_de(void);
+bool emit_sla_hl(void);
 bool emit_sra_rr(int rr);
 bool emit_sra_bc(void);
 bool emit_sra_de(void);
 bool emit_sra_hl(void);
+bool emit_srl_rr(int rr);
+bool emit_srl_bc(void);
+bool emit_srl_de(void);
+bool emit_srl_hl(void);
 bool emit_rl_rr(int rr);
 bool emit_rl_bc(void);
 bool emit_rl_de(void);

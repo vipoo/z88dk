@@ -190,6 +190,11 @@
  bit.a 7, e                     ; 7B E6 80
  bit.a 7, h                     ; 7C E6 80
  bit.a 7, l                     ; 7D E6 80
+ brlc de, b                     ; CD @__z80asm__brlc_de_b
+ bsla de, b                     ; CD @__z80asm__bsla_de_b
+ bsra de, b                     ; CD @__z80asm__bsra_de_b
+ bsrf de, b                     ; CD @__z80asm__bsrf_de_b
+ bsrl de, b                     ; CD @__z80asm__bsrl_de_b
  call -32768                    ; CD 00 80
  call 32767                     ; CD FF 7F
  call 65535                     ; CD FF FF
@@ -997,6 +1002,9 @@
  rl hl                          ; CD @__z80asm__rl_hl
  rla                            ; 17
  rlc                            ; 07
+ rlc bc                         ; CD @__z80asm__rlc_bc
+ rlc de                         ; CD @__z80asm__rlc_de
+ rlc hl                         ; CD @__z80asm__rlc_hl
  rlca                           ; 07
  rld                            ; CD @__z80asm__rld
  rlde                           ; 18
@@ -1012,6 +1020,9 @@
  rr hl                          ; CD @__z80asm__rr_hl
  rra                            ; 1F
  rrc                            ; 0F
+ rrc bc                         ; CD @__z80asm__rrc_bc
+ rrc de                         ; CD @__z80asm__rrc_de
+ rrc hl                         ; CD @__z80asm__rrc_hl
  rrca                           ; 0F
  rrd                            ; CD @__z80asm__rrd
  rrhl                           ; 10
@@ -1145,10 +1156,16 @@
  shlde                          ; D9
  shlx                           ; D9
  sim                            ; 30
+ sla bc                         ; CD @__z80asm__sla_bc
+ sla de                         ; CD @__z80asm__sla_de
+ sla hl                         ; 29
  sphl                           ; F9
  sra bc                         ; CD @__z80asm__sra_bc
  sra de                         ; CD @__z80asm__sra_de
  sra hl                         ; 10
+ srl bc                         ; CD @__z80asm__srl_bc
+ srl de                         ; CD @__z80asm__srl_de
+ srl hl                         ; CD @__z80asm__srl_hl
  sta -32768                     ; 32 00 80
  sta 32767                      ; 32 FF 7F
  sta 65535                      ; 32 FF FF

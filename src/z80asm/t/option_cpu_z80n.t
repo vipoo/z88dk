@@ -49,7 +49,6 @@ add("bsrf de,b",		0xED, 0x2B);
 add("brlc de,b",		0xED, 0x2C);
 
 # T=4+           8T     mul d,e (mlt de)  ED 30           multiply DE = D*E (no flags set)
-add("mul d,e",			0xED, 0x30);
 add("mlt de",			0xED, 0x30);
 add("mul de",			0xED, 0x30);
 

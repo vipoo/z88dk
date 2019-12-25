@@ -1,13 +1,10 @@
+;------------------------------------------------------------------------------
+; z80asm library
 ; Substitute for the z80 ex (sp),hl instruction
-; CPU   Min T Max T
-; 8080   18    18
-; 8085   16    16
-; gbz80 148   148
-; r2k    15    15
-; z180   16    16
-; z80    19    19
-; z80n   19    19
-
+; Copyright (C) Paulo Custodio, 2011-2020
+; License: http://www.perlfoundation.org/artistic_license_2_0
+; Repository: https://github.com/z88dk/z88dk
+;------------------------------------------------------------------------------
 IF __CPU_GBZ80__
       SECTION  code_crt0_sccz80
       PUBLIC   __z80asm__ex_sp_hl

@@ -1,13 +1,10 @@
+;------------------------------------------------------------------------------
+; z80asm library
 ; Substitute for 'sub hl, de' instruction
-; CPU   Min T Max T
-; 8080  86    86
-; 8085  82    82
-; gbz80 80    80
-; r2k   53    53
-; z180  77    77
-; z80   80    80
-; z80n  80    80
-
+; Copyright (C) Paulo Custodio, 2011-2020
+; License: http://www.perlfoundation.org/artistic_license_2_0
+; Repository: https://github.com/z88dk/z88dk
+;------------------------------------------------------------------------------
       SECTION  code_crt0_sccz80
       PUBLIC   __z80asm__sub_hl_hl
 

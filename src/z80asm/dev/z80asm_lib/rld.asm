@@ -1,14 +1,12 @@
+;------------------------------------------------------------------------------
+; z80asm library
 ; Substitute for z80 rld instruction
-; aralbrec 06.2007
-; CPU   Min T Max T
-; 8080  201   232
-; 8085  197   226
-; gbz80 164   188
-; r2k   108   125
-; z180   18    18
-; z80    18    18
-; z80n   18    18
-
+; Doesn't emulate the flags correctly
+; initial z80 version by aralbrec 06.2007
+; Copyright (C) Paulo Custodio, 2011-2020
+; License: http://www.perlfoundation.org/artistic_license_2_0
+; Repository: https://github.com/z88dk/z88dk
+;------------------------------------------------------------------------------
       SECTION  code_crt0_sccz80
       PUBLIC   __z80asm__rld
 

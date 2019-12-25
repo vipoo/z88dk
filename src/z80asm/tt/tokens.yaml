@@ -380,6 +380,7 @@ tokens:
   - name    : SLA
   - name    : SLL
   - name    : SLI
+  - name    : SL1
   - name    : SRA
   - name    : SRL
   - name    : STOP

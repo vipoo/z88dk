@@ -1,13 +1,10 @@
+;------------------------------------------------------------------------------
+; z80asm library
 ; Substitute for the z80 adc hl,hl instruction
-; CPU   Min T Max T
-; 8080  110   110
-; 8085  111   111
-; gbz80  84    84
-; r2k     4     4
-; z180   10    10
-; z80    15    15
-; z80n   15    15
-
+; Copyright (C) Paulo Custodio, 2011-2020
+; License: http://www.perlfoundation.org/artistic_license_2_0
+; Repository: https://github.com/z88dk/z88dk
+;------------------------------------------------------------------------------
       SECTION  code_crt0_sccz80
       PUBLIC   __z80asm__adc_hl_hl
 

@@ -250,6 +250,11 @@
  bit.a 7, e                     ; CB 7B
  bit.a 7, h                     ; CB 7C
  bit.a 7, l                     ; CB 7D
+ brlc de, b                     ; CD @__z80asm__brlc_de_b
+ bsla de, b                     ; CD @__z80asm__bsla_de_b
+ bsra de, b                     ; CD @__z80asm__bsra_de_b
+ bsrf de, b                     ; CD @__z80asm__bsrf_de_b
+ bsrl de, b                     ; CD @__z80asm__bsrl_de_b
  call -32768                    ; CD 00 80
  call 32767                     ; CD FF 7F
  call 65535                     ; CD FF FF
@@ -1021,10 +1026,13 @@
  rlc (hl)                       ; CB 06
  rlc a                          ; CB 07
  rlc b                          ; CB 00
+ rlc bc                         ; CD @__z80asm__rlc_bc
  rlc c                          ; CB 01
  rlc d                          ; CB 02
+ rlc de                         ; CD @__z80asm__rlc_de
  rlc e                          ; CB 03
  rlc h                          ; CB 04
+ rlc hl                         ; CD @__z80asm__rlc_hl
  rlc l                          ; CB 05
  rlca                           ; 07
  rld                            ; CD @__z80asm__rld
@@ -1047,10 +1055,13 @@
  rrc (hl)                       ; CB 0E
  rrc a                          ; CB 0F
  rrc b                          ; CB 08
+ rrc bc                         ; CD @__z80asm__rrc_bc
  rrc c                          ; CB 09
  rrc d                          ; CB 0A
+ rrc de                         ; CD @__z80asm__rrc_de
  rrc e                          ; CB 0B
  rrc h                          ; CB 0C
+ rrc hl                         ; CD @__z80asm__rrc_hl
  rrc l                          ; CB 0D
  rrca                           ; 0F
  rrd                            ; CD @__z80asm__rrd
@@ -1244,10 +1255,13 @@
  sla (hl)                       ; CB 26
  sla a                          ; CB 27
  sla b                          ; CB 20
+ sla bc                         ; CB 21 CB 10
  sla c                          ; CB 21
  sla d                          ; CB 22
+ sla de                         ; CB 23 CB 12
  sla e                          ; CB 23
  sla h                          ; CB 24
+ sla hl                         ; 29
  sla l                          ; CB 25
  sphl                           ; F9
  sra (hl)                       ; CB 2E
@@ -1264,10 +1278,13 @@
  srl (hl)                       ; CB 3E
  srl a                          ; CB 3F
  srl b                          ; CB 38
+ srl bc                         ; CB 38 CB 19
  srl c                          ; CB 39
  srl d                          ; CB 3A
+ srl de                         ; CB 3A CB 1B
  srl e                          ; CB 3B
  srl h                          ; CB 3C
+ srl hl                         ; CB 3C CB 1D
  srl l                          ; CB 3D
  sta -32768                     ; EA 00 80
  sta 32767                      ; EA FF 7F

@@ -1,13 +1,10 @@
+;------------------------------------------------------------------------------
+; z80asm library
 ; Emulate 'sra bc' instruction, only carry is affected
-; CPU   Min T Max T
-; 8080  99    99
-; 8085  96    96
-; gbz80 16    16
-; r2k    8     8
-; z180  14    14
-; z80   16    16
-; z80n  16    16
-
+; Copyright (C) Paulo Custodio, 2011-2020
+; License: http://www.perlfoundation.org/artistic_license_2_0
+; Repository: https://github.com/z88dk/z88dk
+;------------------------------------------------------------------------------
       SECTION  code_crt0_sccz80
       PUBLIC   __z80asm__sra_bc
 

@@ -1,13 +1,10 @@
+;------------------------------------------------------------------------------
+; z80asm library
 ; Emulate 'rr hl' instruction, only carry is affected
-; CPU   Min T Max T
-; 8080  90    90
-; 8085  88    88
-; gbz80 16    16
-; r2k    2     2
-; z180  14    14
-; z80   16    16
-; z80n  16    16
-
+; Copyright (C) Paulo Custodio, 2011-2020
+; License: http://www.perlfoundation.org/artistic_license_2_0
+; Repository: https://github.com/z88dk/z88dk
+;------------------------------------------------------------------------------
       SECTION  code_crt0_sccz80
       PUBLIC   __z80asm__rr_hl
 

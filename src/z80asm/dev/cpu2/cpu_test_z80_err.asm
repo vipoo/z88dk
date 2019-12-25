@@ -21,6 +21,7 @@
  jnx5 -32768                    ; Error
  jnx5 32767                     ; Error
  jnx5 65535                     ; Error
+ jp (c)                         ; Error
  jr -32768                      ; Error
  jr 32767                       ; Error
  jr 65535                       ; Error
@@ -50,6 +51,8 @@
  ld de, hl+127                  ; Error
  ld de, hl+255                  ; Error
  ld hl, (de)                    ; Error
+ lddrx                          ; Error
+ lddx                           ; Error
  ldh (-128), a                  ; Error
  ldh (127), a                   ; Error
  ldh (255), a                   ; Error
@@ -63,14 +66,32 @@
  ldhi 255                       ; Error
  ldhl sp, -128                  ; Error
  ldhl sp, 127                   ; Error
+ ldirx                          ; Error
+ ldix                           ; Error
+ ldpirx                         ; Error
  ldsi -128                      ; Error
  ldsi 127                       ; Error
  ldsi 255                       ; Error
+ ldws                           ; Error
  lhlde                          ; Error
  lhlx                           ; Error
+ mirror a                       ; Error
+ mlt de                         ; Error
+ mul de                         ; Error
+ nextreg -128, %N               ; Error
+ nextreg -128, a                ; Error
+ nextreg 127, %N                ; Error
+ nextreg 127, a                 ; Error
+ nextreg 255, %N                ; Error
+ nextreg 255, a                 ; Error
+ outinb                         ; Error
  ovrst8                         ; Error
+ pixelad                        ; Error
+ pixeldn                        ; Error
+ push %M                        ; Error
  rim                            ; Error
  rstv                           ; Error
+ setae                          ; Error
  shlde                          ; Error
  shlx                           ; Error
  sim                            ; Error
@@ -83,3 +104,16 @@
  swap e                         ; Error
  swap h                         ; Error
  swap l                         ; Error
+ swapnib                        ; Error
+ test -128                      ; Error
+ test 127                       ; Error
+ test 255                       ; Error
+ test a, -128                   ; Error
+ test a, 127                    ; Error
+ test a, 255                    ; Error
+ tst -128                       ; Error
+ tst 127                        ; Error
+ tst 255                        ; Error
+ tst a, -128                    ; Error
+ tst a, 127                     ; Error
+ tst a, 255                     ; Error

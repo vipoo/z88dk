@@ -865,19 +865,28 @@ static bool check_rot(int op) {
 	if (IND_X(&x, &dis) && TK(',') && REG8(&r) && EOS())	// rot (HL)/(IX+d)/(IY+d), r
 		return emit_rot_indx_r(op, x, dis, r);
 	yy = yy0;
+	if (REG8(&r) && TK(',') && IND_X(&x, &dis) && EOS())	// rot r, (HL)/(IX+d)/(IY+d)
+		return emit_rot_indx_r(op, x, dis, r);
+	yy = yy0;
 	if (IND_X(&x, &dis) && EOS())							// rot (HL)/(IX+d)/(IY+d)
 		return emit_rot_indx(op, x, dis);
 	yy = yy0;
-    if (op == OP_SRA && BCDEHL(&rr) && EOS())				// sra bc/de/hl
-        return emit_sra_rr(rr);
-    yy = yy0;
     if (op == OP_RL && BCDEHL(&rr) && EOS())				// rl bc/de/hl
         return emit_rl_rr(rr);
     yy = yy0;
     if (op == OP_RR && BCDEHL(&rr) && EOS())				// rr bc/de/hl
         return emit_rr_rr(rr);
     yy = yy0;
-    return false;
+	if (op == OP_SLA && BCDEHL(&rr) && EOS())				// sla bc/de/hl
+		return emit_sla_rr(rr);
+	yy = yy0;
+	if (op == OP_SRA && BCDEHL(&rr) && EOS())				// sra bc/de/hl
+		return emit_sra_rr(rr);
+	yy = yy0;
+	if (op == OP_SRL && BCDEHL(&rr) && EOS())				// srl bc/de/hl
+		return emit_srl_rr(rr);
+	yy = yy0;
+	return false;
 }
 
 static bool parse_rot(int op) {
@@ -889,23 +898,29 @@ static bool parse_rot(int op) {
 
 static bool parse_bit8(int op) {
 	int r, x, bit, dis;
+	token_t* yy0 = yy;
 	if (CONST(&bit) && TK(',')) {
-		token_t* yy0 = yy;
+		token_t* yy1 = yy;
 		if (REG8(&r) && EOS())									// bit/res/set b, B/C/D/E/H/L/A
 			return emit_bit_r(op, bit, r);
-		yy = yy0;
-		if (IND_X(&x, &dis) && TK(',') && REG8(&r) && EOS())	// bit/res/set b, (HL)/(IX+d)/(IY+d), r
+		yy = yy1;
+		if (IND_X(&x, &dis) && TK(',') && REG8(&r) && EOS())	// res/set b, (IX+d)/(IY+d), r
 			return emit_bit_indx_r(op, bit, x, dis, r);
-		yy = yy0;
+		yy = yy1;
 		if (IND_X(&x, &dis) && EOS())							// bit/res/set b, (HL)/(IX+d)/(IY+d)
 			return emit_bit_indx(op, bit, x, dis);
 	}
+	yy = yy0;
+	if (REG8(&r) && TK(',') && CONST(&bit) && TK(',') &&
+		IND_X(&x, &dis) && EOS()) 								// res/set r, b, (IX+d)/(IY+d)
+		return emit_bit_indx_r(op, bit, x, dis, r);
+	yy = yy0;
 	syntax_error();
 	return false;
 }
 
 static bool parse_ld(int dummy) {
-	int r, r1, r2, rr, x, x1, x2, n, nn, dis;
+	int r, r1, r2, rr, x, x1, x2, n, nn, dis, bit;
 	token_t* yy0 = yy;
 	if (REG8_X(&r1) && TK(',') && REG8_X(&r2) && EOS())			// LD r, r
 		return emit_ld_r_r(r1, r2);
@@ -1044,10 +1059,25 @@ static bool parse_ld(int dummy) {
 			emit_ld_r_r(R_L, R_A) &&
 			emit_pop_rr(RR_AF));
 	yy = yy0;
-	if (HL() && TK(',') && SP() && PLUS_DIS(&dis) && EOS())		// LD HL, SP
+	if (HL() && TK(',') && SP() && PLUS_DIS(&dis) && EOS())		// LD HL, SP+N
 		return (
 			emit_ld_rr_nn(RR_HL, dis) &&
 			emit_add_x_rr(RR_HL, RR_SP));
+	yy = yy0;
+	if (REG8(&r) && TK(',')) {
+		token_t* yy1 = yy;
+		for (int op = OP_RLC; op <= OP_SRL; op++) {
+			if (KW(op) && IND_X(&x, &dis) && EOS())				// ld r, rot (x+d)
+				return emit_rot_indx_r(op, x, dis, r);
+			yy = yy1;
+		}
+		for (int op = OP_RES; op <= OP_SET; op++) {
+			if (KW(op) && CONST(&bit) && TK(',') &&
+				IND_X(&x, &dis) && EOS()) 						// ld r, res/set b, (IX+d)/(IY+d)
+				return emit_bit_indx_r(op, bit, x, dis, r);
+			yy = yy1;
+		}
+	}
 	yy = yy0;
 	syntax_error();
 	return false;
@@ -1682,19 +1712,20 @@ static keyword_t keywords_table[] = {
 {"RLA",		0,		IS_ANY,			NA,		NA,		NA,			NULL, 0, parse_void, emit_rla },
 {"RAL",		0,		IS_ANY,			NA,		NA,		NA,			NULL, 0, parse_void, emit_rla },
 {"RLCA",	0,		IS_ANY,			NA,		NA,		NA,			NULL, 0, parse_void, emit_rlca },
-{"RLC",		0,		IS_ANY,			NA,		NA,		NA,			parse_rlc_rrc,	1			},
-{"RL",		0,		IS_ANY,			NA,		NA,		NA,			parse_rot,		OP_RL		},
-{"SLA",		0,		IS_ANY,			NA,		NA,		NA,			parse_rot,		OP_SLA		},
-{"SLL",		0,		IS_ANY,			NA,		NA,		NA,			parse_rot,		OP_SLL		},
-{"SLI",		0,		IS_ANY,			NA,		NA,		NA,			parse_rot,		OP_SLI		},
+{"RLC",		OP_RLC,	IS_ANY,			NA,		NA,		NA,			parse_rlc_rrc,	1			},
+{"RL",		OP_RL,	IS_ANY,			NA,		NA,		NA,			parse_rot,		OP_RL		},
+{"SLA",		OP_SLA,	IS_ANY,			NA,		NA,		NA,			parse_rot,		OP_SLA		},
+{"SLL",		OP_SLL,	IS_ANY,			NA,		NA,		NA,			parse_rot,		OP_SLL		},
+{"SLI",		OP_SLL,	IS_ANY,			NA,		NA,		NA,			parse_rot,		OP_SLL		},
+{"SL1",		OP_SLL,	IS_ANY,			NA,		NA,		NA,			parse_rot,		OP_SLL		},
 {"RLD",		0,		IS_ANY,			NA,		NA,		NA,			NULL, 0, parse_void, emit_rld },
 {"RRA",		0,		IS_ANY,			NA,		NA,		NA,			NULL, 0, parse_void, emit_rra },
 {"RAR",		0,		IS_ANY,			NA,		NA,		NA,			NULL, 0, parse_void, emit_rra },
 {"RRCA",	0,		IS_ANY,			NA,		NA,		NA,			NULL, 0, parse_void, emit_rrca },
-{"RRC",		0,		IS_ANY,			NA,		NA,		NA,			parse_rlc_rrc,	0			},
-{"RR",		0,		IS_ANY,			NA,		NA,		NA,			parse_rot,		OP_RR		},
-{"SRA",		0,		IS_ANY,			NA,		NA,		NA,			parse_rot,		OP_SRA		},
-{"SRL",		0,		IS_ANY,			NA,		NA,		NA,			parse_rot,		OP_SRL		},
+{"RRC",		OP_RRC,	IS_ANY,			NA,		NA,		NA,			parse_rlc_rrc,	0			},
+{"RR",		OP_RR,	IS_ANY,			NA,		NA,		NA,			parse_rot,		OP_RR		},
+{"SRA",		OP_SRA,	IS_ANY,			NA,		NA,		NA,			parse_rot,		OP_SRA		},
+{"SRL",		OP_SRL,	IS_ANY,			NA,		NA,		NA,			parse_rot,		OP_SRL		},
 {"RRD",		0,		IS_ANY,			NA,		NA,		NA,			NULL, 0, parse_void, emit_rrd },
 {"ARHL",	0,		IS_ANY,			NA,		NA,		NA,			NULL, 0, parse_void, emit_sra_hl },
 {"RRHL",	0,		IS_ANY,			NA,		NA,		NA,			NULL, 0, parse_void, emit_sra_hl },
@@ -1703,8 +1734,8 @@ static keyword_t keywords_table[] = {
 
 // bit manipulation
 {"BIT",		0,		IS_ANY,			NA,		NA,		NA,			parse_bit8,		OP_BIT		},
-{"RES",		0,		IS_ANY,			NA,		NA,		NA,			parse_bit8,		OP_RES		},
-{"SET",		0,		IS_ANY,			NA,		NA,		NA,			parse_bit8,		OP_SET		},
+{"RES",		OP_RES,	IS_ANY,			NA,		NA,		NA,			parse_bit8,		OP_RES		},
+{"SET",		OP_SET,	IS_ANY,			NA,		NA,		NA,			parse_bit8,		OP_SET		},
 
 // block transfer
 {"LDIR",	0,		IS_ANY,			NA,		NA,		NA,			NULL, 0, parse_void, emit_ldir },
