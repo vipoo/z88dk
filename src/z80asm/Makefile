@@ -106,7 +106,7 @@ clean::
 #------------------------------------------------------------------------------
 .PHONY: dev
 dev:
-	perl asmstyle.pl dev/z80asm_lib/*.asm dev/z80asm_lib/gen/*.asm
+	perl asmstyle.pl dev/z80asm_lib/*.asm dev/z80asm_lib/out/*.asm
 	$(MAKE) -C tt
 	$(MAKE) -C lib
 	$(MAKE) -f dev/Makefile
