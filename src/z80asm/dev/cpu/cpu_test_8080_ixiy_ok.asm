@@ -26,10 +26,10 @@
  adc d                          ; 8A
  adc e                          ; 8B
  adc h                          ; 8C
- adc hl, bc                     ; CD @__z80asm__adc_hl_bc
- adc hl, de                     ; CD @__z80asm__adc_hl_de
- adc hl, hl                     ; CD @__z80asm__adc_hl_hl
- adc hl, sp                     ; CD @__z80asm__adc_hl_sp
+ adc hl, bc                     ; CD @adc_hl_bc
+ adc hl, de                     ; CD @adc_hl_de
+ adc hl, hl                     ; CD @adc_hl_hl
+ adc hl, sp                     ; CD @adc_hl_sp
  adc l                          ; 8D
  adc m                          ; 8E
  add (hl)                       ; 86
@@ -56,27 +56,25 @@
  add bc, -32768                 ; E5 21 00 80 09 44 4D E1
  add bc, 32767                  ; E5 21 FF 7F 09 44 4D E1
  add bc, 65535                  ; E5 21 FF FF 09 44 4D E1
- add bc, a                      ; CD @__z80asm__add_bc_a
+ add bc, a                      ; CD @add_bc_a
  add c                          ; 81
  add d                          ; 82
  add de, -32768                 ; E5 21 00 80 19 54 5D E1
  add de, 32767                  ; E5 21 FF 7F 19 54 5D E1
  add de, 65535                  ; E5 21 FF FF 19 54 5D E1
- add de, a                      ; CD @__z80asm__add_de_a
+ add de, a                      ; CD @add_de_a
  add e                          ; 83
  add h                          ; 84
  add hl, -32768                 ; D5 11 00 80 19 D1
  add hl, 32767                  ; D5 11 FF 7F 19 D1
  add hl, 65535                  ; D5 11 FF FF 19 D1
- add hl, a                      ; CD @__z80asm__add_hl_a
+ add hl, a                      ; CD @add_hl_a
  add hl, bc                     ; 09
  add hl, de                     ; 19
  add hl, hl                     ; 29
  add hl, sp                     ; 39
  add l                          ; 85
  add m                          ; 86
- add.a sp, -128                 ; E5 3E 80 6F 17 9F 67 39 F9 E1
- add.a sp, 127                  ; E5 3E 7F 6F 17 9F 67 39 F9 E1
  adi -128                       ; C6 80
  adi 127                        ; C6 7F
  adi 255                        ; C6 FF
@@ -114,81 +112,15 @@
  and e                          ; A3
  and h                          ; A4
  and l                          ; A5
- and.a hl, bc                   ; 7C A0 67 7D A1 6F
- and.a hl, de                   ; 7C A2 67 7D A3 6F
  ani -128                       ; E6 80
  ani 127                        ; E6 7F
  ani 255                        ; E6 FF
- arhl                           ; CD @__z80asm__sra_hl
- bit.a 0, (hl)                  ; 7E E6 01
- bit.a 0, a                     ; E6 01
- bit.a 0, b                     ; 78 E6 01
- bit.a 0, c                     ; 79 E6 01
- bit.a 0, d                     ; 7A E6 01
- bit.a 0, e                     ; 7B E6 01
- bit.a 0, h                     ; 7C E6 01
- bit.a 0, l                     ; 7D E6 01
- bit.a 1, (hl)                  ; 7E E6 02
- bit.a 1, a                     ; E6 02
- bit.a 1, b                     ; 78 E6 02
- bit.a 1, c                     ; 79 E6 02
- bit.a 1, d                     ; 7A E6 02
- bit.a 1, e                     ; 7B E6 02
- bit.a 1, h                     ; 7C E6 02
- bit.a 1, l                     ; 7D E6 02
- bit.a 2, (hl)                  ; 7E E6 04
- bit.a 2, a                     ; E6 04
- bit.a 2, b                     ; 78 E6 04
- bit.a 2, c                     ; 79 E6 04
- bit.a 2, d                     ; 7A E6 04
- bit.a 2, e                     ; 7B E6 04
- bit.a 2, h                     ; 7C E6 04
- bit.a 2, l                     ; 7D E6 04
- bit.a 3, (hl)                  ; 7E E6 08
- bit.a 3, a                     ; E6 08
- bit.a 3, b                     ; 78 E6 08
- bit.a 3, c                     ; 79 E6 08
- bit.a 3, d                     ; 7A E6 08
- bit.a 3, e                     ; 7B E6 08
- bit.a 3, h                     ; 7C E6 08
- bit.a 3, l                     ; 7D E6 08
- bit.a 4, (hl)                  ; 7E E6 10
- bit.a 4, a                     ; E6 10
- bit.a 4, b                     ; 78 E6 10
- bit.a 4, c                     ; 79 E6 10
- bit.a 4, d                     ; 7A E6 10
- bit.a 4, e                     ; 7B E6 10
- bit.a 4, h                     ; 7C E6 10
- bit.a 4, l                     ; 7D E6 10
- bit.a 5, (hl)                  ; 7E E6 20
- bit.a 5, a                     ; E6 20
- bit.a 5, b                     ; 78 E6 20
- bit.a 5, c                     ; 79 E6 20
- bit.a 5, d                     ; 7A E6 20
- bit.a 5, e                     ; 7B E6 20
- bit.a 5, h                     ; 7C E6 20
- bit.a 5, l                     ; 7D E6 20
- bit.a 6, (hl)                  ; 7E E6 40
- bit.a 6, a                     ; E6 40
- bit.a 6, b                     ; 78 E6 40
- bit.a 6, c                     ; 79 E6 40
- bit.a 6, d                     ; 7A E6 40
- bit.a 6, e                     ; 7B E6 40
- bit.a 6, h                     ; 7C E6 40
- bit.a 6, l                     ; 7D E6 40
- bit.a 7, (hl)                  ; 7E E6 80
- bit.a 7, a                     ; E6 80
- bit.a 7, b                     ; 78 E6 80
- bit.a 7, c                     ; 79 E6 80
- bit.a 7, d                     ; 7A E6 80
- bit.a 7, e                     ; 7B E6 80
- bit.a 7, h                     ; 7C E6 80
- bit.a 7, l                     ; 7D E6 80
- brlc de, b                     ; CD @__z80asm__brlc_de_b
- bsla de, b                     ; CD @__z80asm__bsla_de_b
- bsra de, b                     ; CD @__z80asm__bsra_de_b
- bsrf de, b                     ; CD @__z80asm__bsrf_de_b
- bsrl de, b                     ; CD @__z80asm__bsrl_de_b
+ arhl                           ; CD @sra_hl
+ brlc de, b                     ; CD @brlc_de_b
+ bsla de, b                     ; CD @bsla_de_b
+ bsra de, b                     ; CD @bsra_de_b
+ bsrf de, b                     ; CD @bsrf_de_b
+ bsrl de, b                     ; CD @bsrl_de_b
  call -32768                    ; CD 00 80
  call 32767                     ; CD FF 7F
  call 65535                     ; CD FF FF
@@ -293,16 +225,16 @@
  cp e                           ; BB
  cp h                           ; BC
  cp l                           ; BD
- cpd                            ; CD @__z80asm__cpd
- cpdr                           ; CD @__z80asm__cpdr
+ cpd                            ; CD @cpd
+ cpdr                           ; CD @cpdr
  cpe -32768                     ; EC 00 80
  cpe 32767                      ; EC FF 7F
  cpe 65535                      ; EC FF FF
- cpi                            ; CD @__z80asm__cpi
+ cpi                            ; CD @cpi
  cpi -128                       ; FE 80
  cpi 127                        ; FE 7F
  cpi 255                        ; FE FF
- cpir                           ; CD @__z80asm__cpir
+ cpir                           ; CD @cpir
  cpl                            ; 2F
  cpl a                          ; 2F
  cpo -32768                     ; E4 00 80
@@ -358,7 +290,7 @@
  djnz b, -32768                 ; 05 C2 00 80
  djnz b, 32767                  ; 05 C2 FF 7F
  djnz b, 65535                  ; 05 C2 FF FF
- dsub                           ; CD @__z80asm__sub_hl_bc
+ dsub                           ; CD @sub_hl_bc
  ei                             ; FB
  ex (sp), hl                    ; E3
  ex de, hl                      ; EB
@@ -572,6 +504,8 @@
  ld bc, 65535                   ; 01 FF FF
  ld bc, de                      ; 42 4B
  ld bc, hl                      ; 44 4D
+ ld bc, ix                      ; FD E5 C1
+ ld bc, iy                      ; DD E5 C1
  ld c, (hl)                     ; 4E
  ld c, (hl+)                    ; 4E 23
  ld c, (hl-)                    ; 4E 2B
@@ -605,6 +539,8 @@
  ld de, 65535                   ; 11 FF FF
  ld de, bc                      ; 50 59
  ld de, hl                      ; 54 5D
+ ld de, ix                      ; FD E5 D1
+ ld de, iy                      ; DD E5 D1
  ld de, sp                      ; EB 21 00 00 39 EB
  ld de, sp+0                    ; EB 21 00 00 39 EB
  ld de, sp+255                  ; EB 21 FF 00 39 EB
@@ -666,7 +602,7 @@
  ldax bc                        ; 0A
  ldax d                         ; 1A
  ldax de                        ; 1A
- ldd                            ; CD @__z80asm__ldd
+ ldd                            ; CD @ldd
  ldd (bc), a                    ; 02 0B
  ldd (de), a                    ; 12 1B
  ldd (hl), -128                 ; 36 80 2B
@@ -686,8 +622,8 @@
  ldd c, (hl)                    ; 4E 2B
  ldd d, (hl)                    ; 56 2B
  ldd e, (hl)                    ; 5E 2B
- lddr                           ; CD @__z80asm__lddr
- ldi                            ; CD @__z80asm__ldi
+ lddr                           ; CD @lddr
+ ldi                            ; CD @ldi
  ldi (bc), a                    ; 02 03
  ldi (de), a                    ; 12 13
  ldi (hl), -128                 ; 36 80 23
@@ -711,7 +647,7 @@
  ldi d, (hl)                    ; 56 23
  ldi de, (hl)                   ; 5E 23 56 23
  ldi e, (hl)                    ; 5E 23
- ldir                           ; CD @__z80asm__ldir
+ ldir                           ; CD @ldir
  lhld -32768                    ; 2A 00 80
  lhld 32767                     ; 2A FF 7F
  lhld 65535                     ; 2A FF FF
@@ -889,71 +825,7 @@
  ral                            ; 17
  rar                            ; 1F
  rc                             ; D8
- rdel                           ; CD @__z80asm__rl_de
- res.a 0, (hl)                  ; 7E E6 FE 77
- res.a 0, a                     ; E6 FE
- res.a 0, b                     ; 78 E6 FE 47
- res.a 0, c                     ; 79 E6 FE 4F
- res.a 0, d                     ; 7A E6 FE 57
- res.a 0, e                     ; 7B E6 FE 5F
- res.a 0, h                     ; 7C E6 FE 67
- res.a 0, l                     ; 7D E6 FE 6F
- res.a 1, (hl)                  ; 7E E6 FD 77
- res.a 1, a                     ; E6 FD
- res.a 1, b                     ; 78 E6 FD 47
- res.a 1, c                     ; 79 E6 FD 4F
- res.a 1, d                     ; 7A E6 FD 57
- res.a 1, e                     ; 7B E6 FD 5F
- res.a 1, h                     ; 7C E6 FD 67
- res.a 1, l                     ; 7D E6 FD 6F
- res.a 2, (hl)                  ; 7E E6 FB 77
- res.a 2, a                     ; E6 FB
- res.a 2, b                     ; 78 E6 FB 47
- res.a 2, c                     ; 79 E6 FB 4F
- res.a 2, d                     ; 7A E6 FB 57
- res.a 2, e                     ; 7B E6 FB 5F
- res.a 2, h                     ; 7C E6 FB 67
- res.a 2, l                     ; 7D E6 FB 6F
- res.a 3, (hl)                  ; 7E E6 F7 77
- res.a 3, a                     ; E6 F7
- res.a 3, b                     ; 78 E6 F7 47
- res.a 3, c                     ; 79 E6 F7 4F
- res.a 3, d                     ; 7A E6 F7 57
- res.a 3, e                     ; 7B E6 F7 5F
- res.a 3, h                     ; 7C E6 F7 67
- res.a 3, l                     ; 7D E6 F7 6F
- res.a 4, (hl)                  ; 7E E6 EF 77
- res.a 4, a                     ; E6 EF
- res.a 4, b                     ; 78 E6 EF 47
- res.a 4, c                     ; 79 E6 EF 4F
- res.a 4, d                     ; 7A E6 EF 57
- res.a 4, e                     ; 7B E6 EF 5F
- res.a 4, h                     ; 7C E6 EF 67
- res.a 4, l                     ; 7D E6 EF 6F
- res.a 5, (hl)                  ; 7E E6 DF 77
- res.a 5, a                     ; E6 DF
- res.a 5, b                     ; 78 E6 DF 47
- res.a 5, c                     ; 79 E6 DF 4F
- res.a 5, d                     ; 7A E6 DF 57
- res.a 5, e                     ; 7B E6 DF 5F
- res.a 5, h                     ; 7C E6 DF 67
- res.a 5, l                     ; 7D E6 DF 6F
- res.a 6, (hl)                  ; 7E E6 BF 77
- res.a 6, a                     ; E6 BF
- res.a 6, b                     ; 78 E6 BF 47
- res.a 6, c                     ; 79 E6 BF 4F
- res.a 6, d                     ; 7A E6 BF 57
- res.a 6, e                     ; 7B E6 BF 5F
- res.a 6, h                     ; 7C E6 BF 67
- res.a 6, l                     ; 7D E6 BF 6F
- res.a 7, (hl)                  ; 7E E6 7F 77
- res.a 7, a                     ; E6 7F
- res.a 7, b                     ; 78 E6 7F 47
- res.a 7, c                     ; 79 E6 7F 4F
- res.a 7, d                     ; 7A E6 7F 57
- res.a 7, e                     ; 7B E6 7F 5F
- res.a 7, h                     ; 7C E6 7F 67
- res.a 7, l                     ; 7D E6 7F 6F
+ rdel                           ; CD @rl_de
  ret                            ; C9
  ret c                          ; D8
  ret m                          ; F8
@@ -965,17 +837,17 @@
  ret po                         ; E0
  ret v                          ; E8
  ret z                          ; C8
- rl bc                          ; CD @__z80asm__rl_bc
- rl de                          ; CD @__z80asm__rl_de
- rl hl                          ; CD @__z80asm__rl_hl
+ rl bc                          ; CD @rl_bc
+ rl de                          ; CD @rl_de
+ rl hl                          ; CD @rl_hl
  rla                            ; 17
  rlc                            ; 07
- rlc bc                         ; CD @__z80asm__rlc_bc
- rlc de                         ; CD @__z80asm__rlc_de
- rlc hl                         ; CD @__z80asm__rlc_hl
+ rlc bc                         ; CD @rlc_bc
+ rlc de                         ; CD @rlc_de
+ rlc hl                         ; CD @rlc_hl
  rlca                           ; 07
- rld                            ; CD @__z80asm__rld
- rlde                           ; CD @__z80asm__rl_de
+ rld                            ; CD @rld
+ rlde                           ; CD @rl_de
  rm                             ; F8
  rnc                            ; D0
  rnv                            ; E0
@@ -983,17 +855,17 @@
  rp                             ; F0
  rpe                            ; E8
  rpo                            ; E0
- rr bc                          ; CD @__z80asm__rr_bc
- rr de                          ; CD @__z80asm__rr_de
- rr hl                          ; CD @__z80asm__rr_hl
+ rr bc                          ; CD @rr_bc
+ rr de                          ; CD @rr_de
+ rr hl                          ; CD @rr_hl
  rra                            ; 1F
  rrc                            ; 0F
- rrc bc                         ; CD @__z80asm__rrc_bc
- rrc de                         ; CD @__z80asm__rrc_de
- rrc hl                         ; CD @__z80asm__rrc_hl
+ rrc bc                         ; CD @rrc_bc
+ rrc de                         ; CD @rrc_de
+ rrc hl                         ; CD @rrc_hl
  rrca                           ; 0F
- rrd                            ; CD @__z80asm__rrd
- rrhl                           ; CD @__z80asm__sra_hl
+ rrd                            ; CD @rrd
+ rrhl                           ; CD @sra_hl
  rst 0                          ; C7
  rst 1                          ; CF
  rst 16                         ; D7
@@ -1044,92 +916,28 @@
  sbc d                          ; 9A
  sbc e                          ; 9B
  sbc h                          ; 9C
- sbc hl, bc                     ; CD @__z80asm__sbc_hl_bc
- sbc hl, de                     ; CD @__z80asm__sbc_hl_de
- sbc hl, hl                     ; CD @__z80asm__sbc_hl_hl
- sbc hl, sp                     ; CD @__z80asm__sbc_hl_sp
+ sbc hl, bc                     ; CD @sbc_hl_bc
+ sbc hl, de                     ; CD @sbc_hl_de
+ sbc hl, hl                     ; CD @sbc_hl_hl
+ sbc hl, sp                     ; CD @sbc_hl_sp
  sbc l                          ; 9D
  sbi -128                       ; DE 80
  sbi 127                        ; DE 7F
  sbi 255                        ; DE FF
  scf                            ; 37
- set.a 0, (hl)                  ; 7E F6 01 77
- set.a 0, a                     ; F6 01
- set.a 0, b                     ; 78 F6 01 47
- set.a 0, c                     ; 79 F6 01 4F
- set.a 0, d                     ; 7A F6 01 57
- set.a 0, e                     ; 7B F6 01 5F
- set.a 0, h                     ; 7C F6 01 67
- set.a 0, l                     ; 7D F6 01 6F
- set.a 1, (hl)                  ; 7E F6 02 77
- set.a 1, a                     ; F6 02
- set.a 1, b                     ; 78 F6 02 47
- set.a 1, c                     ; 79 F6 02 4F
- set.a 1, d                     ; 7A F6 02 57
- set.a 1, e                     ; 7B F6 02 5F
- set.a 1, h                     ; 7C F6 02 67
- set.a 1, l                     ; 7D F6 02 6F
- set.a 2, (hl)                  ; 7E F6 04 77
- set.a 2, a                     ; F6 04
- set.a 2, b                     ; 78 F6 04 47
- set.a 2, c                     ; 79 F6 04 4F
- set.a 2, d                     ; 7A F6 04 57
- set.a 2, e                     ; 7B F6 04 5F
- set.a 2, h                     ; 7C F6 04 67
- set.a 2, l                     ; 7D F6 04 6F
- set.a 3, (hl)                  ; 7E F6 08 77
- set.a 3, a                     ; F6 08
- set.a 3, b                     ; 78 F6 08 47
- set.a 3, c                     ; 79 F6 08 4F
- set.a 3, d                     ; 7A F6 08 57
- set.a 3, e                     ; 7B F6 08 5F
- set.a 3, h                     ; 7C F6 08 67
- set.a 3, l                     ; 7D F6 08 6F
- set.a 4, (hl)                  ; 7E F6 10 77
- set.a 4, a                     ; F6 10
- set.a 4, b                     ; 78 F6 10 47
- set.a 4, c                     ; 79 F6 10 4F
- set.a 4, d                     ; 7A F6 10 57
- set.a 4, e                     ; 7B F6 10 5F
- set.a 4, h                     ; 7C F6 10 67
- set.a 4, l                     ; 7D F6 10 6F
- set.a 5, (hl)                  ; 7E F6 20 77
- set.a 5, a                     ; F6 20
- set.a 5, b                     ; 78 F6 20 47
- set.a 5, c                     ; 79 F6 20 4F
- set.a 5, d                     ; 7A F6 20 57
- set.a 5, e                     ; 7B F6 20 5F
- set.a 5, h                     ; 7C F6 20 67
- set.a 5, l                     ; 7D F6 20 6F
- set.a 6, (hl)                  ; 7E F6 40 77
- set.a 6, a                     ; F6 40
- set.a 6, b                     ; 78 F6 40 47
- set.a 6, c                     ; 79 F6 40 4F
- set.a 6, d                     ; 7A F6 40 57
- set.a 6, e                     ; 7B F6 40 5F
- set.a 6, h                     ; 7C F6 40 67
- set.a 6, l                     ; 7D F6 40 6F
- set.a 7, (hl)                  ; 7E F6 80 77
- set.a 7, a                     ; F6 80
- set.a 7, b                     ; 78 F6 80 47
- set.a 7, c                     ; 79 F6 80 4F
- set.a 7, d                     ; 7A F6 80 57
- set.a 7, e                     ; 7B F6 80 5F
- set.a 7, h                     ; 7C F6 80 67
- set.a 7, l                     ; 7D F6 80 6F
  shld -32768                    ; 22 00 80
  shld 32767                     ; 22 FF 7F
  shld 65535                     ; 22 FF FF
- sla bc                         ; CD @__z80asm__sla_bc
- sla de                         ; CD @__z80asm__sla_de
+ sla bc                         ; CD @sla_bc
+ sla de                         ; CD @sla_de
  sla hl                         ; 29
  sphl                           ; F9
- sra bc                         ; CD @__z80asm__sra_bc
- sra de                         ; CD @__z80asm__sra_de
- sra hl                         ; CD @__z80asm__sra_hl
- srl bc                         ; CD @__z80asm__srl_bc
- srl de                         ; CD @__z80asm__srl_de
- srl hl                         ; CD @__z80asm__srl_hl
+ sra bc                         ; CD @sra_bc
+ sra de                         ; CD @sra_de
+ sra hl                         ; CD @sra_hl
+ srl bc                         ; CD @srl_bc
+ srl de                         ; CD @srl_de
+ srl hl                         ; CD @srl_hl
  sta -32768                     ; 32 00 80
  sta 32767                      ; 32 FF 7F
  sta 65535                      ; 32 FF FF
@@ -1163,10 +971,10 @@
  sub d                          ; 92
  sub e                          ; 93
  sub h                          ; 94
- sub hl, bc                     ; CD @__z80asm__sub_hl_bc
- sub hl, de                     ; CD @__z80asm__sub_hl_de
- sub hl, hl                     ; CD @__z80asm__sub_hl_hl
- sub hl, sp                     ; CD @__z80asm__sub_hl_sp
+ sub hl, bc                     ; CD @sub_hl_bc
+ sub hl, de                     ; CD @sub_hl_de
+ sub hl, hl                     ; CD @sub_hl_hl
+ sub hl, sp                     ; CD @sub_hl_sp
  sub l                          ; 95
  sub m                          ; 96
  sui -128                       ; D6 80

@@ -12,6 +12,33 @@
  djnz b, -32768                 ; Error
  djnz b, 32767                  ; Error
  djnz b, 65535                  ; Error
+ in0 (-128)                     ; Error
+ in0 (127)                      ; Error
+ in0 (255)                      ; Error
+ in0 a, (-128)                  ; Error
+ in0 a, (127)                   ; Error
+ in0 a, (255)                   ; Error
+ in0 b, (-128)                  ; Error
+ in0 b, (127)                   ; Error
+ in0 b, (255)                   ; Error
+ in0 c, (-128)                  ; Error
+ in0 c, (127)                   ; Error
+ in0 c, (255)                   ; Error
+ in0 d, (-128)                  ; Error
+ in0 d, (127)                   ; Error
+ in0 d, (255)                   ; Error
+ in0 e, (-128)                  ; Error
+ in0 e, (127)                   ; Error
+ in0 e, (255)                   ; Error
+ in0 f, (-128)                  ; Error
+ in0 f, (127)                   ; Error
+ in0 f, (255)                   ; Error
+ in0 h, (-128)                  ; Error
+ in0 h, (127)                   ; Error
+ in0 h, (255)                   ; Error
+ in0 l, (-128)                  ; Error
+ in0 l, (127)                   ; Error
+ in0 l, (255)                   ; Error
  jk -32768                      ; Error
  jk 32767                       ; Error
  jk 65535                       ; Error
@@ -42,14 +69,10 @@
  jx5 65535                      ; Error
  ld (c), a                      ; Error
  ld (de), hl                    ; Error
- ld (hld), a                    ; Error
- ld (hli), a                    ; Error
  ld a, (c)                      ; Error
- ld a, (hld)                    ; Error
- ld a, (hli)                    ; Error
- ld de, hl+-128                 ; Error
  ld de, hl+127                  ; Error
  ld de, hl+255                  ; Error
+ ld de, hl-128                  ; Error
  ld hl, (de)                    ; Error
  lddrx                          ; Error
  lddx                           ; Error
@@ -76,14 +99,45 @@
  lhlde                          ; Error
  lhlx                           ; Error
  mirror a                       ; Error
+ mlt bc                         ; Error
  mlt de                         ; Error
+ mlt hl                         ; Error
+ mlt sp                         ; Error
+ mul bc                         ; Error
  mul de                         ; Error
+ mul hl                         ; Error
+ mul sp                         ; Error
  nextreg -128, %N               ; Error
  nextreg -128, a                ; Error
  nextreg 127, %N                ; Error
  nextreg 127, a                 ; Error
  nextreg 255, %N                ; Error
  nextreg 255, a                 ; Error
+ otdm                           ; Error
+ otdmr                          ; Error
+ otim                           ; Error
+ otimr                          ; Error
+ out0 (-128), a                 ; Error
+ out0 (-128), b                 ; Error
+ out0 (-128), c                 ; Error
+ out0 (-128), d                 ; Error
+ out0 (-128), e                 ; Error
+ out0 (-128), h                 ; Error
+ out0 (-128), l                 ; Error
+ out0 (127), a                  ; Error
+ out0 (127), b                  ; Error
+ out0 (127), c                  ; Error
+ out0 (127), d                  ; Error
+ out0 (127), e                  ; Error
+ out0 (127), h                  ; Error
+ out0 (127), l                  ; Error
+ out0 (255), a                  ; Error
+ out0 (255), b                  ; Error
+ out0 (255), c                  ; Error
+ out0 (255), d                  ; Error
+ out0 (255), e                  ; Error
+ out0 (255), h                  ; Error
+ out0 (255), l                  ; Error
  outinb                         ; Error
  ovrst8                         ; Error
  pixelad                        ; Error
@@ -95,6 +149,7 @@
  shlde                          ; Error
  shlx                           ; Error
  sim                            ; Error
+ slp                            ; Error
  stop                           ; Error
  swap (hl)                      ; Error
  swap a                         ; Error
@@ -105,15 +160,50 @@
  swap h                         ; Error
  swap l                         ; Error
  swapnib                        ; Error
+ test (hl)                      ; Error
  test -128                      ; Error
  test 127                       ; Error
  test 255                       ; Error
+ test a                         ; Error
+ test a, (hl)                   ; Error
  test a, -128                   ; Error
  test a, 127                    ; Error
  test a, 255                    ; Error
+ test a, a                      ; Error
+ test a, b                      ; Error
+ test a, c                      ; Error
+ test a, d                      ; Error
+ test a, e                      ; Error
+ test a, h                      ; Error
+ test a, l                      ; Error
+ test b                         ; Error
+ test c                         ; Error
+ test d                         ; Error
+ test e                         ; Error
+ test h                         ; Error
+ test l                         ; Error
+ tst (hl)                       ; Error
  tst -128                       ; Error
  tst 127                        ; Error
  tst 255                        ; Error
+ tst a                          ; Error
+ tst a, (hl)                    ; Error
  tst a, -128                    ; Error
  tst a, 127                     ; Error
  tst a, 255                     ; Error
+ tst a, a                       ; Error
+ tst a, b                       ; Error
+ tst a, c                       ; Error
+ tst a, d                       ; Error
+ tst a, e                       ; Error
+ tst a, h                       ; Error
+ tst a, l                       ; Error
+ tst b                          ; Error
+ tst c                          ; Error
+ tst d                          ; Error
+ tst e                          ; Error
+ tst h                          ; Error
+ tst l                          ; Error
+ tstio -128                     ; Error
+ tstio 127                      ; Error
+ tstio 255                      ; Error

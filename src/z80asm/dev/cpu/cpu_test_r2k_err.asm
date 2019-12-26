@@ -252,62 +252,6 @@
  bit 8, h                       ; Error
  bit 8, l                       ; Error
  bit 8, l                       ; Error
- bit.a -1, (hl)                 ; Error
- bit.a -1, (hl)                 ; Error
- bit.a -1, (ix)                 ; Error
- bit.a -1, (ix)                 ; Error
- bit.a -1, (ix+127)             ; Error
- bit.a -1, (ix+127)             ; Error
- bit.a -1, (ix-128)             ; Error
- bit.a -1, (ix-128)             ; Error
- bit.a -1, (iy)                 ; Error
- bit.a -1, (iy)                 ; Error
- bit.a -1, (iy+127)             ; Error
- bit.a -1, (iy+127)             ; Error
- bit.a -1, (iy-128)             ; Error
- bit.a -1, (iy-128)             ; Error
- bit.a -1, a                    ; Error
- bit.a -1, a                    ; Error
- bit.a -1, b                    ; Error
- bit.a -1, b                    ; Error
- bit.a -1, c                    ; Error
- bit.a -1, c                    ; Error
- bit.a -1, d                    ; Error
- bit.a -1, d                    ; Error
- bit.a -1, e                    ; Error
- bit.a -1, e                    ; Error
- bit.a -1, h                    ; Error
- bit.a -1, h                    ; Error
- bit.a -1, l                    ; Error
- bit.a -1, l                    ; Error
- bit.a 8, (hl)                  ; Error
- bit.a 8, (hl)                  ; Error
- bit.a 8, (ix)                  ; Error
- bit.a 8, (ix)                  ; Error
- bit.a 8, (ix+127)              ; Error
- bit.a 8, (ix+127)              ; Error
- bit.a 8, (ix-128)              ; Error
- bit.a 8, (ix-128)              ; Error
- bit.a 8, (iy)                  ; Error
- bit.a 8, (iy)                  ; Error
- bit.a 8, (iy+127)              ; Error
- bit.a 8, (iy+127)              ; Error
- bit.a 8, (iy-128)              ; Error
- bit.a 8, (iy-128)              ; Error
- bit.a 8, a                     ; Error
- bit.a 8, a                     ; Error
- bit.a 8, b                     ; Error
- bit.a 8, b                     ; Error
- bit.a 8, c                     ; Error
- bit.a 8, c                     ; Error
- bit.a 8, d                     ; Error
- bit.a 8, d                     ; Error
- bit.a 8, e                     ; Error
- bit.a 8, e                     ; Error
- bit.a 8, h                     ; Error
- bit.a 8, h                     ; Error
- bit.a 8, l                     ; Error
- bit.a 8, l                     ; Error
  cmp a, ixh                     ; Error
  cmp a, ixl                     ; Error
  cmp a, iyh                     ; Error
@@ -446,34 +390,6 @@
  ioe bit 8, (iy+127)            ; Error
  ioe bit 8, (iy-128)            ; Error
  ioe bit 8, (iy-128)            ; Error
- ioe bit.a -1, (hl)             ; Error
- ioe bit.a -1, (hl)             ; Error
- ioe bit.a -1, (ix)             ; Error
- ioe bit.a -1, (ix)             ; Error
- ioe bit.a -1, (ix+127)         ; Error
- ioe bit.a -1, (ix+127)         ; Error
- ioe bit.a -1, (ix-128)         ; Error
- ioe bit.a -1, (ix-128)         ; Error
- ioe bit.a -1, (iy)             ; Error
- ioe bit.a -1, (iy)             ; Error
- ioe bit.a -1, (iy+127)         ; Error
- ioe bit.a -1, (iy+127)         ; Error
- ioe bit.a -1, (iy-128)         ; Error
- ioe bit.a -1, (iy-128)         ; Error
- ioe bit.a 8, (hl)              ; Error
- ioe bit.a 8, (hl)              ; Error
- ioe bit.a 8, (ix)              ; Error
- ioe bit.a 8, (ix)              ; Error
- ioe bit.a 8, (ix+127)          ; Error
- ioe bit.a 8, (ix+127)          ; Error
- ioe bit.a 8, (ix-128)          ; Error
- ioe bit.a 8, (ix-128)          ; Error
- ioe bit.a 8, (iy)              ; Error
- ioe bit.a 8, (iy)              ; Error
- ioe bit.a 8, (iy+127)          ; Error
- ioe bit.a 8, (iy+127)          ; Error
- ioe bit.a 8, (iy-128)          ; Error
- ioe bit.a 8, (iy-128)          ; Error
  ioe lddsr                      ; Error
  ioe ldisr                      ; Error
  ioe lsddr                      ; Error
@@ -508,34 +424,6 @@
  ioe res 8, (iy+127)            ; Error
  ioe res 8, (iy-128)            ; Error
  ioe res 8, (iy-128)            ; Error
- ioe res.a -1, (hl)             ; Error
- ioe res.a -1, (hl)             ; Error
- ioe res.a -1, (ix)             ; Error
- ioe res.a -1, (ix)             ; Error
- ioe res.a -1, (ix+127)         ; Error
- ioe res.a -1, (ix+127)         ; Error
- ioe res.a -1, (ix-128)         ; Error
- ioe res.a -1, (ix-128)         ; Error
- ioe res.a -1, (iy)             ; Error
- ioe res.a -1, (iy)             ; Error
- ioe res.a -1, (iy+127)         ; Error
- ioe res.a -1, (iy+127)         ; Error
- ioe res.a -1, (iy-128)         ; Error
- ioe res.a -1, (iy-128)         ; Error
- ioe res.a 8, (hl)              ; Error
- ioe res.a 8, (hl)              ; Error
- ioe res.a 8, (ix)              ; Error
- ioe res.a 8, (ix)              ; Error
- ioe res.a 8, (ix+127)          ; Error
- ioe res.a 8, (ix+127)          ; Error
- ioe res.a 8, (ix-128)          ; Error
- ioe res.a 8, (ix-128)          ; Error
- ioe res.a 8, (iy)              ; Error
- ioe res.a 8, (iy)              ; Error
- ioe res.a 8, (iy+127)          ; Error
- ioe res.a 8, (iy+127)          ; Error
- ioe res.a 8, (iy-128)          ; Error
- ioe res.a 8, (iy-128)          ; Error
  ioe set -1, (hl)               ; Error
  ioe set -1, (hl)               ; Error
  ioe set -1, (ix)               ; Error
@@ -564,34 +452,6 @@
  ioe set 8, (iy+127)            ; Error
  ioe set 8, (iy-128)            ; Error
  ioe set 8, (iy-128)            ; Error
- ioe set.a -1, (hl)             ; Error
- ioe set.a -1, (hl)             ; Error
- ioe set.a -1, (ix)             ; Error
- ioe set.a -1, (ix)             ; Error
- ioe set.a -1, (ix+127)         ; Error
- ioe set.a -1, (ix+127)         ; Error
- ioe set.a -1, (ix-128)         ; Error
- ioe set.a -1, (ix-128)         ; Error
- ioe set.a -1, (iy)             ; Error
- ioe set.a -1, (iy)             ; Error
- ioe set.a -1, (iy+127)         ; Error
- ioe set.a -1, (iy+127)         ; Error
- ioe set.a -1, (iy-128)         ; Error
- ioe set.a -1, (iy-128)         ; Error
- ioe set.a 8, (hl)              ; Error
- ioe set.a 8, (hl)              ; Error
- ioe set.a 8, (ix)              ; Error
- ioe set.a 8, (ix)              ; Error
- ioe set.a 8, (ix+127)          ; Error
- ioe set.a 8, (ix+127)          ; Error
- ioe set.a 8, (ix-128)          ; Error
- ioe set.a 8, (ix-128)          ; Error
- ioe set.a 8, (iy)              ; Error
- ioe set.a 8, (iy)              ; Error
- ioe set.a 8, (iy+127)          ; Error
- ioe set.a 8, (iy+127)          ; Error
- ioe set.a 8, (iy-128)          ; Error
- ioe set.a 8, (iy-128)          ; Error
  ioi altd bit -1, (hl)          ; Error
  ioi altd bit -1, (hl)          ; Error
  ioi altd bit -1, (ix)          ; Error
@@ -648,34 +508,6 @@
  ioi bit 8, (iy+127)            ; Error
  ioi bit 8, (iy-128)            ; Error
  ioi bit 8, (iy-128)            ; Error
- ioi bit.a -1, (hl)             ; Error
- ioi bit.a -1, (hl)             ; Error
- ioi bit.a -1, (ix)             ; Error
- ioi bit.a -1, (ix)             ; Error
- ioi bit.a -1, (ix+127)         ; Error
- ioi bit.a -1, (ix+127)         ; Error
- ioi bit.a -1, (ix-128)         ; Error
- ioi bit.a -1, (ix-128)         ; Error
- ioi bit.a -1, (iy)             ; Error
- ioi bit.a -1, (iy)             ; Error
- ioi bit.a -1, (iy+127)         ; Error
- ioi bit.a -1, (iy+127)         ; Error
- ioi bit.a -1, (iy-128)         ; Error
- ioi bit.a -1, (iy-128)         ; Error
- ioi bit.a 8, (hl)              ; Error
- ioi bit.a 8, (hl)              ; Error
- ioi bit.a 8, (ix)              ; Error
- ioi bit.a 8, (ix)              ; Error
- ioi bit.a 8, (ix+127)          ; Error
- ioi bit.a 8, (ix+127)          ; Error
- ioi bit.a 8, (ix-128)          ; Error
- ioi bit.a 8, (ix-128)          ; Error
- ioi bit.a 8, (iy)              ; Error
- ioi bit.a 8, (iy)              ; Error
- ioi bit.a 8, (iy+127)          ; Error
- ioi bit.a 8, (iy+127)          ; Error
- ioi bit.a 8, (iy-128)          ; Error
- ioi bit.a 8, (iy-128)          ; Error
  ioi lddsr                      ; Error
  ioi ldisr                      ; Error
  ioi lsddr                      ; Error
@@ -710,34 +542,6 @@
  ioi res 8, (iy+127)            ; Error
  ioi res 8, (iy-128)            ; Error
  ioi res 8, (iy-128)            ; Error
- ioi res.a -1, (hl)             ; Error
- ioi res.a -1, (hl)             ; Error
- ioi res.a -1, (ix)             ; Error
- ioi res.a -1, (ix)             ; Error
- ioi res.a -1, (ix+127)         ; Error
- ioi res.a -1, (ix+127)         ; Error
- ioi res.a -1, (ix-128)         ; Error
- ioi res.a -1, (ix-128)         ; Error
- ioi res.a -1, (iy)             ; Error
- ioi res.a -1, (iy)             ; Error
- ioi res.a -1, (iy+127)         ; Error
- ioi res.a -1, (iy+127)         ; Error
- ioi res.a -1, (iy-128)         ; Error
- ioi res.a -1, (iy-128)         ; Error
- ioi res.a 8, (hl)              ; Error
- ioi res.a 8, (hl)              ; Error
- ioi res.a 8, (ix)              ; Error
- ioi res.a 8, (ix)              ; Error
- ioi res.a 8, (ix+127)          ; Error
- ioi res.a 8, (ix+127)          ; Error
- ioi res.a 8, (ix-128)          ; Error
- ioi res.a 8, (ix-128)          ; Error
- ioi res.a 8, (iy)              ; Error
- ioi res.a 8, (iy)              ; Error
- ioi res.a 8, (iy+127)          ; Error
- ioi res.a 8, (iy+127)          ; Error
- ioi res.a 8, (iy-128)          ; Error
- ioi res.a 8, (iy-128)          ; Error
  ioi set -1, (hl)               ; Error
  ioi set -1, (hl)               ; Error
  ioi set -1, (ix)               ; Error
@@ -766,34 +570,6 @@
  ioi set 8, (iy+127)            ; Error
  ioi set 8, (iy-128)            ; Error
  ioi set 8, (iy-128)            ; Error
- ioi set.a -1, (hl)             ; Error
- ioi set.a -1, (hl)             ; Error
- ioi set.a -1, (ix)             ; Error
- ioi set.a -1, (ix)             ; Error
- ioi set.a -1, (ix+127)         ; Error
- ioi set.a -1, (ix+127)         ; Error
- ioi set.a -1, (ix-128)         ; Error
- ioi set.a -1, (ix-128)         ; Error
- ioi set.a -1, (iy)             ; Error
- ioi set.a -1, (iy)             ; Error
- ioi set.a -1, (iy+127)         ; Error
- ioi set.a -1, (iy+127)         ; Error
- ioi set.a -1, (iy-128)         ; Error
- ioi set.a -1, (iy-128)         ; Error
- ioi set.a 8, (hl)              ; Error
- ioi set.a 8, (hl)              ; Error
- ioi set.a 8, (ix)              ; Error
- ioi set.a 8, (ix)              ; Error
- ioi set.a 8, (ix+127)          ; Error
- ioi set.a 8, (ix+127)          ; Error
- ioi set.a 8, (ix-128)          ; Error
- ioi set.a 8, (ix-128)          ; Error
- ioi set.a 8, (iy)              ; Error
- ioi set.a 8, (iy)              ; Error
- ioi set.a 8, (iy+127)          ; Error
- ioi set.a 8, (iy+127)          ; Error
- ioi set.a 8, (iy-128)          ; Error
- ioi set.a 8, (iy-128)          ; Error
  ipset -1                       ; Error
  ipset -1                       ; Error
  ipset 4                        ; Error
@@ -824,8 +600,6 @@
  ld b, ixl                      ; Error
  ld b, iyh                      ; Error
  ld b, iyl                      ; Error
- ld bc, ix                      ; Error
- ld bc, iy                      ; Error
  ld c, ixh                      ; Error
  ld c, ixl                      ; Error
  ld c, iyh                      ; Error
@@ -836,8 +610,6 @@
  ld d, iyl                      ; Error
  ld de, hl+0                    ; Error
  ld de, hl+255                  ; Error
- ld de, ix                      ; Error
- ld de, iy                      ; Error
  ld e, ixh                      ; Error
  ld e, ixl                      ; Error
  ld e, iyh                      ; Error
@@ -2173,62 +1945,6 @@
  res l, 8, (iy+127)             ; Error
  res l, 8, (iy-128)             ; Error
  res l, 8, (iy-128)             ; Error
- res.a -1, (hl)                 ; Error
- res.a -1, (hl)                 ; Error
- res.a -1, (ix)                 ; Error
- res.a -1, (ix)                 ; Error
- res.a -1, (ix+127)             ; Error
- res.a -1, (ix+127)             ; Error
- res.a -1, (ix-128)             ; Error
- res.a -1, (ix-128)             ; Error
- res.a -1, (iy)                 ; Error
- res.a -1, (iy)                 ; Error
- res.a -1, (iy+127)             ; Error
- res.a -1, (iy+127)             ; Error
- res.a -1, (iy-128)             ; Error
- res.a -1, (iy-128)             ; Error
- res.a -1, a                    ; Error
- res.a -1, a                    ; Error
- res.a -1, b                    ; Error
- res.a -1, b                    ; Error
- res.a -1, c                    ; Error
- res.a -1, c                    ; Error
- res.a -1, d                    ; Error
- res.a -1, d                    ; Error
- res.a -1, e                    ; Error
- res.a -1, e                    ; Error
- res.a -1, h                    ; Error
- res.a -1, h                    ; Error
- res.a -1, l                    ; Error
- res.a -1, l                    ; Error
- res.a 8, (hl)                  ; Error
- res.a 8, (hl)                  ; Error
- res.a 8, (ix)                  ; Error
- res.a 8, (ix)                  ; Error
- res.a 8, (ix+127)              ; Error
- res.a 8, (ix+127)              ; Error
- res.a 8, (ix-128)              ; Error
- res.a 8, (ix-128)              ; Error
- res.a 8, (iy)                  ; Error
- res.a 8, (iy)                  ; Error
- res.a 8, (iy+127)              ; Error
- res.a 8, (iy+127)              ; Error
- res.a 8, (iy-128)              ; Error
- res.a 8, (iy-128)              ; Error
- res.a 8, a                     ; Error
- res.a 8, a                     ; Error
- res.a 8, b                     ; Error
- res.a 8, b                     ; Error
- res.a 8, c                     ; Error
- res.a 8, c                     ; Error
- res.a 8, d                     ; Error
- res.a 8, d                     ; Error
- res.a 8, e                     ; Error
- res.a 8, e                     ; Error
- res.a 8, h                     ; Error
- res.a 8, h                     ; Error
- res.a 8, l                     ; Error
- res.a 8, l                     ; Error
  retn                           ; Error
  rim                            ; Error
  rl (ix), a                     ; Error
@@ -3770,62 +3486,6 @@
  set l, 8, (iy+127)             ; Error
  set l, 8, (iy-128)             ; Error
  set l, 8, (iy-128)             ; Error
- set.a -1, (hl)                 ; Error
- set.a -1, (hl)                 ; Error
- set.a -1, (ix)                 ; Error
- set.a -1, (ix)                 ; Error
- set.a -1, (ix+127)             ; Error
- set.a -1, (ix+127)             ; Error
- set.a -1, (ix-128)             ; Error
- set.a -1, (ix-128)             ; Error
- set.a -1, (iy)                 ; Error
- set.a -1, (iy)                 ; Error
- set.a -1, (iy+127)             ; Error
- set.a -1, (iy+127)             ; Error
- set.a -1, (iy-128)             ; Error
- set.a -1, (iy-128)             ; Error
- set.a -1, a                    ; Error
- set.a -1, a                    ; Error
- set.a -1, b                    ; Error
- set.a -1, b                    ; Error
- set.a -1, c                    ; Error
- set.a -1, c                    ; Error
- set.a -1, d                    ; Error
- set.a -1, d                    ; Error
- set.a -1, e                    ; Error
- set.a -1, e                    ; Error
- set.a -1, h                    ; Error
- set.a -1, h                    ; Error
- set.a -1, l                    ; Error
- set.a -1, l                    ; Error
- set.a 8, (hl)                  ; Error
- set.a 8, (hl)                  ; Error
- set.a 8, (ix)                  ; Error
- set.a 8, (ix)                  ; Error
- set.a 8, (ix+127)              ; Error
- set.a 8, (ix+127)              ; Error
- set.a 8, (ix-128)              ; Error
- set.a 8, (ix-128)              ; Error
- set.a 8, (iy)                  ; Error
- set.a 8, (iy)                  ; Error
- set.a 8, (iy+127)              ; Error
- set.a 8, (iy+127)              ; Error
- set.a 8, (iy-128)              ; Error
- set.a 8, (iy-128)              ; Error
- set.a 8, a                     ; Error
- set.a 8, a                     ; Error
- set.a 8, b                     ; Error
- set.a 8, b                     ; Error
- set.a 8, c                     ; Error
- set.a 8, c                     ; Error
- set.a 8, d                     ; Error
- set.a 8, d                     ; Error
- set.a 8, e                     ; Error
- set.a 8, e                     ; Error
- set.a 8, h                     ; Error
- set.a 8, h                     ; Error
- set.a 8, l                     ; Error
- set.a 8, l                     ; Error
  setae                          ; Error
  setusr                         ; Error
  shlde                          ; Error
@@ -4399,23 +4059,11 @@
  swapnib                        ; Error
  syscall                        ; Error
  test (hl)                      ; Error
- test (ix)                      ; Error
- test (ix+127)                  ; Error
- test (ix-128)                  ; Error
- test (iy)                      ; Error
- test (iy+127)                  ; Error
- test (iy-128)                  ; Error
  test -128                      ; Error
  test 127                       ; Error
  test 255                       ; Error
  test a                         ; Error
  test a, (hl)                   ; Error
- test a, (ix)                   ; Error
- test a, (ix+127)               ; Error
- test a, (ix-128)               ; Error
- test a, (iy)                   ; Error
- test a, (iy+127)               ; Error
- test a, (iy-128)               ; Error
  test a, -128                   ; Error
  test a, 127                    ; Error
  test a, 255                    ; Error
@@ -4433,23 +4081,11 @@
  test h                         ; Error
  test l                         ; Error
  tst (hl)                       ; Error
- tst (ix)                       ; Error
- tst (ix+127)                   ; Error
- tst (ix-128)                   ; Error
- tst (iy)                       ; Error
- tst (iy+127)                   ; Error
- tst (iy-128)                   ; Error
  tst -128                       ; Error
  tst 127                        ; Error
  tst 255                        ; Error
  tst a                          ; Error
  tst a, (hl)                    ; Error
- tst a, (ix)                    ; Error
- tst a, (ix+127)                ; Error
- tst a, (ix-128)                ; Error
- tst a, (iy)                    ; Error
- tst a, (iy+127)                ; Error
- tst a, (iy-128)                ; Error
  tst a, -128                    ; Error
  tst a, 127                     ; Error
  tst a, 255                     ; Error

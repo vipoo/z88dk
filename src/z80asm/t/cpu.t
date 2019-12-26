@@ -47,7 +47,7 @@ for my $file (<dev/cpu/cpu_test*.asm>) {
 					s/.*;//;
 					for (split(' ', $_)) {
 						if (/^@(\w+)/) {
-							push @patch, [$addr, $1];
+							push @patch, [$addr, '__z80asm__'.$1];
 							$bin[$addr++] = 0;
 							$bin[$addr++] = 0;
 						}

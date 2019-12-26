@@ -13,8 +13,8 @@ __z80asm__rrc_bc:
 IF __CPU_INTEL__
       push  af
       ld    a, c
-      rra                  ; bit 0 of C into carry
-      
+      rra                     ; bit 0 of C into carry
+
       ld    a, b
       rra   
       ld    b, a
@@ -32,12 +32,12 @@ out_carry_0:
       and   a
       ret   
 ELSE  
-      and   a              ; clear carry
-      bit   0, c          ; bit 0 of C into carry
+      and   a                 ; clear carry
+      bit   0, c              ; bit 0 of C into carry
       jr    z, in_carry_0
-      scf
-in_carry_0:                    
-      rr    b             ; rotate B, bit 0 of C into bit 7 of B
-      rr    c             ; rotate C
+      scf   
+in_carry_0:
+      rr    b                 ; rotate B, bit 0 of C into bit 7 of B
+      rr    c                 ; rotate C
       ret   
 ENDIF 

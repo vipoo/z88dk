@@ -91,7 +91,7 @@ sub run_tests {
 	}
 }	
 
-parse(join("", grep {!/\@__z80asm__|\.a/} path('../cpu/cpu_test_z80_ok.asm')->lines));
+parse(join("", grep {!/\@\w+|\.a/} path('../cpu/cpu_test_z80_ok.asm')->lines));
 
 run_tests(@code);
 done_testing;

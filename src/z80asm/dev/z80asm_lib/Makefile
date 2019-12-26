@@ -36,9 +36,10 @@ install::
 endef
 
 define MAKE_ASM
-$(OUT)/$(1)_$(2).asm: $(1)_RR.asm.m4
+$(OUT)/$(1)_$(2).asm: $(1)_RR.asm.m4 Makefile
 	@mkdir -p $(OUT)
 	m4 -D_RR=$(2) $(1)_RR.asm.m4 > $(OUT)/$(1)_$(2).asm
+	perl ../../asmstyle.pl $(OUT)/$(1)_$(2).asm
 
 clean::
 	$(RM) $(OUT)/$(1)_$(2).o $(OUT)/$(1)_$(2).lis $(OUT)/$(1)_$(2).asm.bak
