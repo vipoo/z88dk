@@ -48,6 +48,6 @@ unlink "test.asm", "test.bin", "test.lis", "test.o", "test.out";
 
 sub run {
 	my($cmd) = @_;
-	say $cmd;
+	say $cmd if $ENV{DEBUG};
 	system($cmd)==0 or die "Command failed\n";
 }
