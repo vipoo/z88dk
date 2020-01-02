@@ -80,9 +80,9 @@ sub run {
 	$err //= '';
 	
 	$cmd .= " >test.stdout 2>test.stderr";
-	
-	ok 1, $cmd;
-	ok !!$return == !!system($cmd), "exit value";
+    
+    my $ok = (!!$return == !!system($cmd));
+    ok $ok, "$cmd: exit value" if $ENV{DEBUG} || !$ok;
 	
 	my $gotout = slurp("test.stdout");
 	my $goterr = slurp("test.stderr");
@@ -91,14 +91,14 @@ sub run {
 		note "test.stdout: ", $gotout;
 	}
 	else {
-		check_text($gotout, $out, "test.stdout");
+		check_text($gotout, $out, "$cmd: test.stdout");
 	}
 	
 	if ($err eq "IGNORE") {
 		note "test.stderr: ", $goterr;
 	}
 	else {
-		check_text($goterr, $err, "test.stderr");
+		check_text($goterr, $err, "$cmd: test.stderr");
 	}
 	
 	if (Test::More->builder->is_passing) {
@@ -125,7 +125,7 @@ sub ticks {
 	my($source, $options) = @_;
 
 	build_ticks();
-	z80asm($source, $options." -b");
+	z80asm($source, $options." -b -l");
 	
 	my $cpu = ($options =~ /(?:--cpu=?|-m=?)(\S+)/) ? $1 : "z80";
 	run("z88dk-ticks test.bin -m$cpu -output test.out", 
@@ -210,7 +210,8 @@ sub z80nm {
 
 sub slurp {
 	my($file) = @_;
-	ok -f $file, $file;
+    my $ok = -f $file;
+	ok $ok, $file if $ENV{DEBUG} || !$ok;
 	local $/;
 	open(my $fh, "<:raw", $file) or die "$file: $!";
 	return <$fh> // "";
@@ -305,8 +306,9 @@ sub check_text {
 	my $out_t = trim($out);
 	my $exp_t = trim($exp);
 	
-	ok $out_t eq $exp_t, $title;
-	if ($out_t ne $exp_t) {
+    my $ok = ($out_t eq $exp_t);
+	ok $ok, $title if $ENV{DEBUG} || !$ok;
+	if (!$ok) {
 		my $line_nr = 0;
 		my @out = map {(++$line_nr).": ".$_} split(/\n/, $out);
 		my @out_t = map {trim($_)} @out;

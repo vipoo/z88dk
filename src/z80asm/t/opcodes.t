@@ -21,9 +21,9 @@ END_ASM
 ; Input data for tests, to be parsed by build_opcodes.pl
 ;
 ; Copyright (C) Gunther Strube, InterLogic 1993-99
-; Copyright (C) Paulo Custodio, 2011-2019
+; Copyright (C) Paulo Custodio, 2011-2017
 ; License: The Artistic License 2.0, http://www.perlfoundation.org/artistic_license_2_0
-; Repository: https://github.com/z88dk/z88dk
+; Repository: https://github.com/pauloscustodio/z88dk-z80asm
 ;------------------------------------------------------------------------------
 
         org  0100h
@@ -77,8 +77,6 @@ END_ASM
         ld   bc,1                       ;; 01 01 00
         ld   bc,32767                   ;; 01 FF 7F
         ld   bc,65535                   ;; 01 FF FF
-        ld   bc,-32769                  ;; 01 FF 7F
-        ld   bc,65536                   ;; 01 00 00
 
 ; 32-bit arithmetic, long range is not tested on a 32bit long
         defq 0xFFFFFFFF                 ;; FF FF FF FF
@@ -90,8 +88,6 @@ END_ASM
         call 0                          ;; CD 00 00
         call 1                          ;; CD 01 00
         call 65535                      ;; CD FF FF
-        call -32769                     ;; CD FF 7F
-        call 65536                      ;; CD 00 00
 
 ;------------------------------------------------------------------------------
 ; Expressions
@@ -102,8 +98,8 @@ END_ASM
 .label_1 ld   a,2                       ;; 3E 02
 label_2: ld   a,3                       ;; 3E 03
 
-        defw label_1, label_2           ;; 6D 01 6F 01
-        defw ZERO+label_1               ;; 6D 01
+        defw label_1, label_2           ;; 61 01 63 01
+        defw ZERO+label_1               ;; 61 01
         defb +label_2-label_1           ;; 02
         defb +ZERO+label_2-label_1      ;; 02
 
@@ -2338,9 +2334,9 @@ END_ASM
 ; Input data for tests, to be parsed by build_opcodes.pl
 ;
 ; Copyright (C) Gunther Strube, InterLogic 1993-99
-; Copyright (C) Paulo Custodio, 2011-2019
+; Copyright (C) Paulo Custodio, 2011-2017
 ; License: The Artistic License 2.0, http://www.perlfoundation.org/artistic_license_2_0
-; Repository: https://github.com/z88dk/z88dk
+; Repository: https://github.com/pauloscustodio/z88dk-z80asm
 ;------------------------------------------------------------------------------
 
         org  0100h
@@ -2394,8 +2390,6 @@ END_ASM
         ld   bc,1                       ;; 01 01 00
         ld   bc,32767                   ;; 01 FF 7F
         ld   bc,65535                   ;; 01 FF FF
-        ld   bc,-32769                  ;; 01 FF 7F
-        ld   bc,65536                   ;; 01 00 00
 
 ; 32-bit arithmetic, long range is not tested on a 32bit long
         defq 0xFFFFFFFF                 ;; FF FF FF FF
@@ -2407,8 +2401,6 @@ END_ASM
         call 0                          ;; CD 00 00
         call 1                          ;; CD 01 00
         call 65535                      ;; CD FF FF
-        call -32769                     ;; CD FF 7F
-        call 65536                      ;; CD 00 00
 
 ;------------------------------------------------------------------------------
 ; Expressions
@@ -2419,8 +2411,8 @@ END_ASM
 .label_1 ld   a,2                       ;; 3E 02
 label_2: ld   a,3                       ;; 3E 03
 
-        defw label_1, label_2           ;; 6D 01 6F 01
-        defw ZERO+label_1               ;; 6D 01
+        defw label_1, label_2           ;; 61 01 63 01
+        defw ZERO+label_1               ;; 61 01
         defb +label_2-label_1           ;; 02
         defb +ZERO+label_2-label_1      ;; 02
 
@@ -4171,10 +4163,10 @@ ELSE
         call z,NN                       ;; 20 03 CD 30 00
         call nc,NN                      ;; 38 03 CD 30 00
         call c,NN                       ;; 30 03 CD 30 00
-        call po,NN                      ;; EA 9C 09 CD 30 00
-        call pe,NN                      ;; E2 A2 09 CD 30 00
-        call p,NN                       ;; FA A8 09 CD 30 00
-        call m,NN                       ;; F2 AE 09 CD 30 00
+        call po,NN                      ;; EA 90 09 CD 30 00
+        call pe,NN                      ;; E2 96 09 CD 30 00
+        call p,NN                       ;; FA 9C 09 CD 30 00
+        call m,NN                       ;; F2 A2 09 CD 30 00
 
 
 ENDIF   
@@ -4375,7 +4367,6 @@ IF      !RABBIT
         call_pkg 1
         call_pkg 65535
         call_pkg -1
-        call_pkg 65536
 ENDIF   
 
         fpp  1                          ;; DF 01

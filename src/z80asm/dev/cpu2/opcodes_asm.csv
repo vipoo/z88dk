@@ -5171,8 +5171,8 @@ ld a, (ix)        |gbz80|   **                              |   **
 ld a, (ix)        |r2k  |   **                              |   **    
 ld a, (ix)        |r3k  |   **                              |   **    
 ld a, (ix)        |z180 |DD 7E 00                           |     14 T
-ld a, (ix)        |z80  |DD 7E 00                           |     15 T
-ld a, (ix)        |z80n |DD 7E 00                           |     15 T
+ld a, (ix)        |z80  |DD 7E 00                           |     19 T
+ld a, (ix)        |z80n |DD 7E 00                           |     19 T
                   |     |                                   |         
 ld a, (ix+%d)     |8080 |   **                              |   **    
 ld a, (ix+%d)     |8085 |   **                              |   **    
@@ -5180,8 +5180,8 @@ ld a, (ix+%d)     |gbz80|   **                              |   **
 ld a, (ix+%d)     |r2k  |   **                              |   **    
 ld a, (ix+%d)     |r3k  |   **                              |   **    
 ld a, (ix+%d)     |z180 |DD 7E %d                           |     14 T
-ld a, (ix+%d)     |z80  |DD 7E %d                           |     15 T
-ld a, (ix+%d)     |z80n |DD 7E %d                           |     15 T
+ld a, (ix+%d)     |z80  |DD 7E %d                           |     19 T
+ld a, (ix+%d)     |z80n |DD 7E %d                           |     19 T
                   |     |                                   |         
 ld a, (iy)        |8080 |   **                              |   **    
 ld a, (iy)        |8085 |   **                              |   **    
@@ -5189,8 +5189,8 @@ ld a, (iy)        |gbz80|   **                              |   **
 ld a, (iy)        |r2k  |   **                              |   **    
 ld a, (iy)        |r3k  |   **                              |   **    
 ld a, (iy)        |z180 |FD 7E 00                           |     14 T
-ld a, (iy)        |z80  |FD 7E 00                           |     15 T
-ld a, (iy)        |z80n |FD 7E 00                           |     15 T
+ld a, (iy)        |z80  |FD 7E 00                           |     19 T
+ld a, (iy)        |z80n |FD 7E 00                           |     19 T
                   |     |                                   |         
 ld a, (iy+%d)     |8080 |   **                              |   **    
 ld a, (iy+%d)     |8085 |   **                              |   **    
@@ -5198,8 +5198,8 @@ ld a, (iy+%d)     |gbz80|   **                              |   **
 ld a, (iy+%d)     |r2k  |   **                              |   **    
 ld a, (iy+%d)     |r3k  |   **                              |   **    
 ld a, (iy+%d)     |z180 |FD 7E %d                           |     14 T
-ld a, (iy+%d)     |z80  |FD 7E %d                           |     15 T
-ld a, (iy+%d)     |z80n |FD 7E %d                           |     15 T
+ld a, (iy+%d)     |z80  |FD 7E %d                           |     19 T
+ld a, (iy+%d)     |z80n |FD 7E %d                           |     19 T
                   |     |                                   |         
 ld a, a           |8080 |7F                                 |      5 T
 ld a, a           |8085 |7F                                 |      4 T
@@ -5360,8 +5360,8 @@ ld b, (ix)        |gbz80|   **                              |   **
 ld b, (ix)        |r2k  |   **                              |   **    
 ld b, (ix)        |r3k  |   **                              |   **    
 ld b, (ix)        |z180 |DD 46 00                           |     14 T
-ld b, (ix)        |z80  |DD 46 00                           |     15 T
-ld b, (ix)        |z80n |DD 46 00                           |     15 T
+ld b, (ix)        |z80  |DD 46 00                           |     19 T
+ld b, (ix)        |z80n |DD 46 00                           |     19 T
                   |     |                                   |         
 ld b, (ix+%d)     |8080 |   **                              |   **    
 ld b, (ix+%d)     |8085 |   **                              |   **    
@@ -5369,8 +5369,8 @@ ld b, (ix+%d)     |gbz80|   **                              |   **
 ld b, (ix+%d)     |r2k  |   **                              |   **    
 ld b, (ix+%d)     |r3k  |   **                              |   **    
 ld b, (ix+%d)     |z180 |DD 46 %d                           |     14 T
-ld b, (ix+%d)     |z80  |DD 46 %d                           |     15 T
-ld b, (ix+%d)     |z80n |DD 46 %d                           |     15 T
+ld b, (ix+%d)     |z80  |DD 46 %d                           |     19 T
+ld b, (ix+%d)     |z80n |DD 46 %d                           |     19 T
                   |     |                                   |         
 ld b, (iy)        |8080 |   **                              |   **    
 ld b, (iy)        |8085 |   **                              |   **    
@@ -5378,8 +5378,8 @@ ld b, (iy)        |gbz80|   **                              |   **
 ld b, (iy)        |r2k  |   **                              |   **    
 ld b, (iy)        |r3k  |   **                              |   **    
 ld b, (iy)        |z180 |FD 46 00                           |     14 T
-ld b, (iy)        |z80  |FD 46 00                           |     15 T
-ld b, (iy)        |z80n |FD 46 00                           |     15 T
+ld b, (iy)        |z80  |FD 46 00                           |     19 T
+ld b, (iy)        |z80n |FD 46 00                           |     19 T
                   |     |                                   |         
 ld b, (iy+%d)     |8080 |   **                              |   **    
 ld b, (iy+%d)     |8085 |   **                              |   **    
@@ -5387,8 +5387,8 @@ ld b, (iy+%d)     |gbz80|   **                              |   **
 ld b, (iy+%d)     |r2k  |   **                              |   **    
 ld b, (iy+%d)     |r3k  |   **                              |   **    
 ld b, (iy+%d)     |z180 |FD 46 %d                           |     14 T
-ld b, (iy+%d)     |z80  |FD 46 %d                           |     15 T
-ld b, (iy+%d)     |z80n |FD 46 %d                           |     15 T
+ld b, (iy+%d)     |z80  |FD 46 %d                           |     19 T
+ld b, (iy+%d)     |z80n |FD 46 %d                           |     19 T
                   |     |                                   |         
 ld b, a           |8080 |47                                 |      5 T
 ld b, a           |8085 |47                                 |      4 T
@@ -5603,8 +5603,8 @@ ld c, (ix)        |gbz80|   **                              |   **
 ld c, (ix)        |r2k  |   **                              |   **    
 ld c, (ix)        |r3k  |   **                              |   **    
 ld c, (ix)        |z180 |DD 4E 00                           |     14 T
-ld c, (ix)        |z80  |DD 4E 00                           |     15 T
-ld c, (ix)        |z80n |DD 4E 00                           |     15 T
+ld c, (ix)        |z80  |DD 4E 00                           |     19 T
+ld c, (ix)        |z80n |DD 4E 00                           |     19 T
                   |     |                                   |         
 ld c, (ix+%d)     |8080 |   **                              |   **    
 ld c, (ix+%d)     |8085 |   **                              |   **    
@@ -5612,8 +5612,8 @@ ld c, (ix+%d)     |gbz80|   **                              |   **
 ld c, (ix+%d)     |r2k  |   **                              |   **    
 ld c, (ix+%d)     |r3k  |   **                              |   **    
 ld c, (ix+%d)     |z180 |DD 4E %d                           |     14 T
-ld c, (ix+%d)     |z80  |DD 4E %d                           |     15 T
-ld c, (ix+%d)     |z80n |DD 4E %d                           |     15 T
+ld c, (ix+%d)     |z80  |DD 4E %d                           |     19 T
+ld c, (ix+%d)     |z80n |DD 4E %d                           |     19 T
                   |     |                                   |         
 ld c, (iy)        |8080 |   **                              |   **    
 ld c, (iy)        |8085 |   **                              |   **    
@@ -5621,8 +5621,8 @@ ld c, (iy)        |gbz80|   **                              |   **
 ld c, (iy)        |r2k  |   **                              |   **    
 ld c, (iy)        |r3k  |   **                              |   **    
 ld c, (iy)        |z180 |FD 4E 00                           |     14 T
-ld c, (iy)        |z80  |FD 4E 00                           |     15 T
-ld c, (iy)        |z80n |FD 4E 00                           |     15 T
+ld c, (iy)        |z80  |FD 4E 00                           |     19 T
+ld c, (iy)        |z80n |FD 4E 00                           |     19 T
                   |     |                                   |         
 ld c, (iy+%d)     |8080 |   **                              |   **    
 ld c, (iy+%d)     |8085 |   **                              |   **    
@@ -5630,8 +5630,8 @@ ld c, (iy+%d)     |gbz80|   **                              |   **
 ld c, (iy+%d)     |r2k  |   **                              |   **    
 ld c, (iy+%d)     |r3k  |   **                              |   **    
 ld c, (iy+%d)     |z180 |FD 4E %d                           |     14 T
-ld c, (iy+%d)     |z80  |FD 4E %d                           |     15 T
-ld c, (iy+%d)     |z80n |FD 4E %d                           |     15 T
+ld c, (iy+%d)     |z80  |FD 4E %d                           |     19 T
+ld c, (iy+%d)     |z80n |FD 4E %d                           |     19 T
                   |     |                                   |         
 ld c, a           |8080 |4F                                 |      5 T
 ld c, a           |8085 |4F                                 |      4 T
@@ -5774,8 +5774,8 @@ ld d, (ix)        |gbz80|   **                              |   **
 ld d, (ix)        |r2k  |   **                              |   **    
 ld d, (ix)        |r3k  |   **                              |   **    
 ld d, (ix)        |z180 |DD 56 00                           |     14 T
-ld d, (ix)        |z80  |DD 56 00                           |     15 T
-ld d, (ix)        |z80n |DD 56 00                           |     15 T
+ld d, (ix)        |z80  |DD 56 00                           |     19 T
+ld d, (ix)        |z80n |DD 56 00                           |     19 T
                   |     |                                   |         
 ld d, (ix+%d)     |8080 |   **                              |   **    
 ld d, (ix+%d)     |8085 |   **                              |   **    
@@ -5783,8 +5783,8 @@ ld d, (ix+%d)     |gbz80|   **                              |   **
 ld d, (ix+%d)     |r2k  |   **                              |   **    
 ld d, (ix+%d)     |r3k  |   **                              |   **    
 ld d, (ix+%d)     |z180 |DD 56 %d                           |     14 T
-ld d, (ix+%d)     |z80  |DD 56 %d                           |     15 T
-ld d, (ix+%d)     |z80n |DD 56 %d                           |     15 T
+ld d, (ix+%d)     |z80  |DD 56 %d                           |     19 T
+ld d, (ix+%d)     |z80n |DD 56 %d                           |     19 T
                   |     |                                   |         
 ld d, (iy)        |8080 |   **                              |   **    
 ld d, (iy)        |8085 |   **                              |   **    
@@ -5792,8 +5792,8 @@ ld d, (iy)        |gbz80|   **                              |   **
 ld d, (iy)        |r2k  |   **                              |   **    
 ld d, (iy)        |r3k  |   **                              |   **    
 ld d, (iy)        |z180 |FD 56 00                           |     14 T
-ld d, (iy)        |z80  |FD 56 00                           |     15 T
-ld d, (iy)        |z80n |FD 56 00                           |     15 T
+ld d, (iy)        |z80  |FD 56 00                           |     19 T
+ld d, (iy)        |z80n |FD 56 00                           |     19 T
                   |     |                                   |         
 ld d, (iy+%d)     |8080 |   **                              |   **    
 ld d, (iy+%d)     |8085 |   **                              |   **    
@@ -5801,8 +5801,8 @@ ld d, (iy+%d)     |gbz80|   **                              |   **
 ld d, (iy+%d)     |r2k  |   **                              |   **    
 ld d, (iy+%d)     |r3k  |   **                              |   **    
 ld d, (iy+%d)     |z180 |FD 56 %d                           |     14 T
-ld d, (iy+%d)     |z80  |FD 56 %d                           |     15 T
-ld d, (iy+%d)     |z80n |FD 56 %d                           |     15 T
+ld d, (iy+%d)     |z80  |FD 56 %d                           |     19 T
+ld d, (iy+%d)     |z80n |FD 56 %d                           |     19 T
                   |     |                                   |         
 ld d, a           |8080 |57                                 |      5 T
 ld d, a           |8085 |57                                 |      4 T
@@ -6044,8 +6044,8 @@ ld e, (ix)        |gbz80|   **                              |   **
 ld e, (ix)        |r2k  |   **                              |   **    
 ld e, (ix)        |r3k  |   **                              |   **    
 ld e, (ix)        |z180 |DD 5E 00                           |     14 T
-ld e, (ix)        |z80  |DD 5E 00                           |     15 T
-ld e, (ix)        |z80n |DD 5E 00                           |     15 T
+ld e, (ix)        |z80  |DD 5E 00                           |     19 T
+ld e, (ix)        |z80n |DD 5E 00                           |     19 T
                   |     |                                   |         
 ld e, (ix+%d)     |8080 |   **                              |   **    
 ld e, (ix+%d)     |8085 |   **                              |   **    
@@ -6053,8 +6053,8 @@ ld e, (ix+%d)     |gbz80|   **                              |   **
 ld e, (ix+%d)     |r2k  |   **                              |   **    
 ld e, (ix+%d)     |r3k  |   **                              |   **    
 ld e, (ix+%d)     |z180 |DD 5E %d                           |     14 T
-ld e, (ix+%d)     |z80  |DD 5E %d                           |     15 T
-ld e, (ix+%d)     |z80n |DD 5E %d                           |     15 T
+ld e, (ix+%d)     |z80  |DD 5E %d                           |     19 T
+ld e, (ix+%d)     |z80n |DD 5E %d                           |     19 T
                   |     |                                   |         
 ld e, (iy)        |8080 |   **                              |   **    
 ld e, (iy)        |8085 |   **                              |   **    
@@ -6062,8 +6062,8 @@ ld e, (iy)        |gbz80|   **                              |   **
 ld e, (iy)        |r2k  |   **                              |   **    
 ld e, (iy)        |r3k  |   **                              |   **    
 ld e, (iy)        |z180 |FD 5E 00                           |     14 T
-ld e, (iy)        |z80  |FD 5E 00                           |     15 T
-ld e, (iy)        |z80n |FD 5E 00                           |     15 T
+ld e, (iy)        |z80  |FD 5E 00                           |     19 T
+ld e, (iy)        |z80n |FD 5E 00                           |     19 T
                   |     |                                   |         
 ld e, (iy+%d)     |8080 |   **                              |   **    
 ld e, (iy+%d)     |8085 |   **                              |   **    
@@ -6071,8 +6071,8 @@ ld e, (iy+%d)     |gbz80|   **                              |   **
 ld e, (iy+%d)     |r2k  |   **                              |   **    
 ld e, (iy+%d)     |r3k  |   **                              |   **    
 ld e, (iy+%d)     |z180 |FD 5E %d                           |     14 T
-ld e, (iy+%d)     |z80  |FD 5E %d                           |     15 T
-ld e, (iy+%d)     |z80n |FD 5E %d                           |     15 T
+ld e, (iy+%d)     |z80  |FD 5E %d                           |     19 T
+ld e, (iy+%d)     |z80n |FD 5E %d                           |     19 T
                   |     |                                   |         
 ld e, a           |8080 |5F                                 |      5 T
 ld e, a           |8085 |5F                                 |      4 T
@@ -6197,8 +6197,8 @@ ld h, (ix)        |gbz80|   **                              |   **
 ld h, (ix)        |r2k  |   **                              |   **    
 ld h, (ix)        |r3k  |   **                              |   **    
 ld h, (ix)        |z180 |DD 66 00                           |     14 T
-ld h, (ix)        |z80  |DD 66 00                           |     15 T
-ld h, (ix)        |z80n |DD 66 00                           |     15 T
+ld h, (ix)        |z80  |DD 66 00                           |     19 T
+ld h, (ix)        |z80n |DD 66 00                           |     19 T
                   |     |                                   |         
 ld h, (ix+%d)     |8080 |   **                              |   **    
 ld h, (ix+%d)     |8085 |   **                              |   **    
@@ -6206,8 +6206,8 @@ ld h, (ix+%d)     |gbz80|   **                              |   **
 ld h, (ix+%d)     |r2k  |   **                              |   **    
 ld h, (ix+%d)     |r3k  |   **                              |   **    
 ld h, (ix+%d)     |z180 |DD 66 %d                           |     14 T
-ld h, (ix+%d)     |z80  |DD 66 %d                           |     15 T
-ld h, (ix+%d)     |z80n |DD 66 %d                           |     15 T
+ld h, (ix+%d)     |z80  |DD 66 %d                           |     19 T
+ld h, (ix+%d)     |z80n |DD 66 %d                           |     19 T
                   |     |                                   |         
 ld h, (iy)        |8080 |   **                              |   **    
 ld h, (iy)        |8085 |   **                              |   **    
@@ -6215,8 +6215,8 @@ ld h, (iy)        |gbz80|   **                              |   **
 ld h, (iy)        |r2k  |   **                              |   **    
 ld h, (iy)        |r3k  |   **                              |   **    
 ld h, (iy)        |z180 |FD 66 00                           |     14 T
-ld h, (iy)        |z80  |FD 66 00                           |     15 T
-ld h, (iy)        |z80n |FD 66 00                           |     15 T
+ld h, (iy)        |z80  |FD 66 00                           |     19 T
+ld h, (iy)        |z80n |FD 66 00                           |     19 T
                   |     |                                   |         
 ld h, (iy+%d)     |8080 |   **                              |   **    
 ld h, (iy+%d)     |8085 |   **                              |   **    
@@ -6224,8 +6224,8 @@ ld h, (iy+%d)     |gbz80|   **                              |   **
 ld h, (iy+%d)     |r2k  |   **                              |   **    
 ld h, (iy+%d)     |r3k  |   **                              |   **    
 ld h, (iy+%d)     |z180 |FD 66 %d                           |     14 T
-ld h, (iy+%d)     |z80  |FD 66 %d                           |     15 T
-ld h, (iy+%d)     |z80n |FD 66 %d                           |     15 T
+ld h, (iy+%d)     |z80  |FD 66 %d                           |     19 T
+ld h, (iy+%d)     |z80n |FD 66 %d                           |     19 T
                   |     |                                   |         
 ld h, a           |8080 |67                                 |      5 T
 ld h, a           |8085 |67                                 |      4 T
@@ -6809,8 +6809,8 @@ ld l, (ix)        |gbz80|   **                              |   **
 ld l, (ix)        |r2k  |   **                              |   **    
 ld l, (ix)        |r3k  |   **                              |   **    
 ld l, (ix)        |z180 |DD 6E 00                           |     14 T
-ld l, (ix)        |z80  |DD 6E 00                           |     15 T
-ld l, (ix)        |z80n |DD 6E 00                           |     15 T
+ld l, (ix)        |z80  |DD 6E 00                           |     19 T
+ld l, (ix)        |z80n |DD 6E 00                           |     19 T
                   |     |                                   |         
 ld l, (ix+%d)     |8080 |   **                              |   **    
 ld l, (ix+%d)     |8085 |   **                              |   **    
@@ -6818,8 +6818,8 @@ ld l, (ix+%d)     |gbz80|   **                              |   **
 ld l, (ix+%d)     |r2k  |   **                              |   **    
 ld l, (ix+%d)     |r3k  |   **                              |   **    
 ld l, (ix+%d)     |z180 |DD 6E %d                           |     14 T
-ld l, (ix+%d)     |z80  |DD 6E %d                           |     15 T
-ld l, (ix+%d)     |z80n |DD 6E %d                           |     15 T
+ld l, (ix+%d)     |z80  |DD 6E %d                           |     19 T
+ld l, (ix+%d)     |z80n |DD 6E %d                           |     19 T
                   |     |                                   |         
 ld l, (iy)        |8080 |   **                              |   **    
 ld l, (iy)        |8085 |   **                              |   **    
@@ -6827,8 +6827,8 @@ ld l, (iy)        |gbz80|   **                              |   **
 ld l, (iy)        |r2k  |   **                              |   **    
 ld l, (iy)        |r3k  |   **                              |   **    
 ld l, (iy)        |z180 |FD 6E 00                           |     14 T
-ld l, (iy)        |z80  |FD 6E 00                           |     15 T
-ld l, (iy)        |z80n |FD 6E 00                           |     15 T
+ld l, (iy)        |z80  |FD 6E 00                           |     19 T
+ld l, (iy)        |z80n |FD 6E 00                           |     19 T
                   |     |                                   |         
 ld l, (iy+%d)     |8080 |   **                              |   **    
 ld l, (iy+%d)     |8085 |   **                              |   **    
@@ -6836,8 +6836,8 @@ ld l, (iy+%d)     |gbz80|   **                              |   **
 ld l, (iy+%d)     |r2k  |   **                              |   **    
 ld l, (iy+%d)     |r3k  |   **                              |   **    
 ld l, (iy+%d)     |z180 |FD 6E %d                           |     14 T
-ld l, (iy+%d)     |z80  |FD 6E %d                           |     15 T
-ld l, (iy+%d)     |z80n |FD 6E %d                           |     15 T
+ld l, (iy+%d)     |z80  |FD 6E %d                           |     19 T
+ld l, (iy+%d)     |z80n |FD 6E %d                           |     19 T
                   |     |                                   |         
 ld l, a           |8080 |6F                                 |      5 T
 ld l, a           |8085 |6F                                 |      4 T

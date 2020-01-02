@@ -293,7 +293,12 @@
  dsub                           ; CD @sub_hl_bc
  ei                             ; FB
  ex (sp), hl                    ; E3
+ ex bc, de                      ; C5 D5 C1 D1
+ ex bc, hl                      ; C5 E5 C1 E1
+ ex de, bc                      ; D5 C5 D1 C1
  ex de, hl                      ; EB
+ ex hl, bc                      ; E5 C5 E1 C1
+ ex hl, de                      ; EB
  halt                           ; 76
  hlt                            ; 76
  in -128                        ; DB 80
@@ -504,8 +509,6 @@
  ld bc, 65535                   ; 01 FF FF
  ld bc, de                      ; 42 4B
  ld bc, hl                      ; 44 4D
- ld bc, ix                      ; DD E5 C1
- ld bc, iy                      ; FD E5 C1
  ld c, (hl)                     ; 4E
  ld c, (hl+)                    ; 4E 23
  ld c, (hl-)                    ; 4E 2B
@@ -539,8 +542,6 @@
  ld de, 65535                   ; 11 FF FF
  ld de, bc                      ; 50 59
  ld de, hl                      ; 54 5D
- ld de, ix                      ; DD E5 D1
- ld de, iy                      ; FD E5 D1
  ld de, sp                      ; EB 21 00 00 39 EB
  ld de, sp+0                    ; EB 21 00 00 39 EB
  ld de, sp+255                  ; EB 21 FF 00 39 EB
@@ -826,6 +827,8 @@
  rar                            ; 1F
  rc                             ; D8
  rdel                           ; CD @rl_de
+ res a                          ; AF
+ res hl                         ; 21 00 00
  ret                            ; C9
  ret c                          ; D8
  ret m                          ; F8

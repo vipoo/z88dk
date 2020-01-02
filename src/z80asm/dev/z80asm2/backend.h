@@ -64,7 +64,6 @@ bool emit_dec_rr(int rr);
 
 // exchange
 bool emit_ex_af_af1(void);
-bool emit_ex_de_x(int x);
 bool emit_ex_de_hl(void);
 bool emit_ex_indsp_x(int x);
 bool emit_ex_indsp_hl(void);

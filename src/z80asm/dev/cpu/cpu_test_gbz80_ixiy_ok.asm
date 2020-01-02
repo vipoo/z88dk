@@ -322,7 +322,12 @@
  dsub                           ; CD @sub_hl_bc
  ei                             ; FB
  ex (sp), hl                    ; CD @ex_sp_hl
+ ex bc, de                      ; C5 D5 C1 D1
+ ex bc, hl                      ; C5 E5 C1 E1
+ ex de, bc                      ; D5 C5 D1 C1
  ex de, hl                      ; E5 D5 E1 D1
+ ex hl, bc                      ; E5 C5 E1 C1
+ ex hl, de                      ; E5 D5 E1 D1
  halt                           ; 76
  hlt                            ; 76
  inc (hl)                       ; 34
@@ -486,8 +491,6 @@
  ld bc, 65535                   ; 01 FF FF
  ld bc, de                      ; 42 4B
  ld bc, hl                      ; 44 4D
- ld bc, ix                      ; FD E5 C1
- ld bc, iy                      ; DD E5 C1
  ld c, (hl)                     ; 4E
  ld c, (hl+)                    ; 4E 23
  ld c, (hl-)                    ; 4E 2B
@@ -521,8 +524,6 @@
  ld de, 65535                   ; 11 FF FF
  ld de, bc                      ; 50 59
  ld de, hl                      ; 54 5D
- ld de, ix                      ; FD E5 D1
- ld de, iy                      ; DD E5 D1
  ld de, sp                      ; E5 D5 E1 D1 21 00 00 39 E5 D5 E1 D1
  ld de, sp+0                    ; E5 D5 E1 D1 21 00 00 39 E5 D5 E1 D1
  ld de, sp+255                  ; E5 D5 E1 D1 21 FF 00 39 E5 D5 E1 D1
@@ -559,12 +560,6 @@
  ld hl, sp                      ; F8 00
  ld hl, sp+-128                 ; F8 80
  ld hl, sp+127                  ; F8 7F
- ld ix, -32768                  ; FD 21 00 80
- ld ix, 32767                   ; FD 21 FF 7F
- ld ix, 65535                   ; FD 21 FF FF
- ld iy, -32768                  ; DD 21 00 80
- ld iy, 32767                   ; DD 21 FF 7F
- ld iy, 65535                   ; DD 21 FF FF
  ld l, (hl)                     ; 6E
  ld l, -128                     ; 2E 80
  ld l, 127                      ; 2E 7F
@@ -876,6 +871,8 @@
  res 7, e                       ; CB BB
  res 7, h                       ; CB BC
  res 7, l                       ; CB BD
+ res a                          ; AF
+ res hl                         ; 21 00 00
  ret                            ; C9
  ret c                          ; D8
  ret nc                         ; D0
@@ -1183,3 +1180,4 @@
  xri -128                       ; EE 80
  xri 127                        ; EE 7F
  xri 255                        ; EE FF
+ xthl                           ; CD @ex_sp_hl

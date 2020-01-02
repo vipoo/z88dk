@@ -132,6 +132,7 @@
  altd ioi bit 8, (iy+127)       ; Error
  altd ioi bit 8, (iy-128)       ; Error
  altd ioi bit 8, (iy-128)       ; Error
+ altd ld e, e                   ; Error
  altd res -1, a                 ; Error
  altd res -1, a                 ; Error
  altd res -1, b                 ; Error
@@ -597,15 +598,14 @@
  ld d, iyl                      ; Error
  ld de, hl+0                    ; Error
  ld de, hl+255                  ; Error
+ ld e', e                       ; Error
+ ld e, e                        ; Error
  ld e, ixh                      ; Error
  ld e, ixl                      ; Error
  ld e, iyh                      ; Error
  ld e, iyl                      ; Error
  ld hl, (de)                    ; Error
  ld i, a                        ; Error
- ld ix, bc                      ; Error
- ld ix, de                      ; Error
- ld ix, iy                      ; Error
  ld ixh, -128                   ; Error
  ld ixh, 127                    ; Error
  ld ixh, 255                    ; Error
@@ -626,9 +626,6 @@
  ld ixl, e                      ; Error
  ld ixl, ixh                    ; Error
  ld ixl, ixl                    ; Error
- ld iy, bc                      ; Error
- ld iy, de                      ; Error
- ld iy, ix                      ; Error
  ld iyh, -128                   ; Error
  ld iyh, 127                    ; Error
  ld iyh, 255                    ; Error
@@ -759,6 +756,7 @@
  mmu7 127                       ; Error
  mmu7 255                       ; Error
  mmu7 a                         ; Error
+ mov e, e                       ; Error
  mul bc                         ; Error
  mul de                         ; Error
  mul hl                         ; Error
@@ -4088,4 +4086,3 @@
  xor ixl                        ; Error
  xor iyh                        ; Error
  xor iyl                        ; Error
- xthl                           ; Error

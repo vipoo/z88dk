@@ -471,7 +471,7 @@ sub init_opcodes {
             for my $r (qw( b c d e h l a )) {
                 add(	 "ld  $r, (hl)", B(0x40+R($r)*8+6), T(isgbz80?8:isz180?6:7));
                 add(	 "mov $r,  m",	 B(0x40+R($r)*8+6), T(isgbz80?8:isz180?6:7));
-                add_ix_d("ld  $r, (hl)", B(0x40+R($r)*8+6), T(isz180?14:15));
+                add_ix_d("ld  $r, (hl)", B(0x40+R($r)*8+6), T(isz180?14:19));
             }
 
             # ld (hl) / (ix+d) / (iy+d), r

@@ -4133,28 +4133,28 @@ LD A COMMA IND_HLI RPAREN                      |z80n |-     |-    |ld a, (hli)  
 LD A COMMA IND_HLI RPAREN                      |z80n |-     |IXIY |ld a, (hli)       |7E 23                              |     13 T
 LD A COMMA IND_IX RPAREN                       |z180 |-     |-    |ld a, (ix)        |DD 7E 00                           |     14 T
 LD A COMMA IND_IX RPAREN                       |z180 |-     |IXIY |ld a, (ix)        |FD 7E 00                           |     14 T
-LD A COMMA IND_IX RPAREN                       |z80  |-     |-    |ld a, (ix)        |DD 7E 00                           |     15 T
-LD A COMMA IND_IX RPAREN                       |z80  |-     |IXIY |ld a, (ix)        |FD 7E 00                           |     15 T
-LD A COMMA IND_IX RPAREN                       |z80n |-     |-    |ld a, (ix)        |DD 7E 00                           |     15 T
-LD A COMMA IND_IX RPAREN                       |z80n |-     |IXIY |ld a, (ix)        |FD 7E 00                           |     15 T
+LD A COMMA IND_IX RPAREN                       |z80  |-     |-    |ld a, (ix)        |DD 7E 00                           |     19 T
+LD A COMMA IND_IX RPAREN                       |z80  |-     |IXIY |ld a, (ix)        |FD 7E 00                           |     19 T
+LD A COMMA IND_IX RPAREN                       |z80n |-     |-    |ld a, (ix)        |DD 7E 00                           |     19 T
+LD A COMMA IND_IX RPAREN                       |z80n |-     |IXIY |ld a, (ix)        |FD 7E 00                           |     19 T
 LD A COMMA IND_IX expr RPAREN                  |z180 |expr  |-    |ld a, (ix+%d)     |DD 7E %d                           |     14 T
 LD A COMMA IND_IX expr RPAREN                  |z180 |expr  |IXIY |ld a, (ix+%d)     |FD 7E %d                           |     14 T
-LD A COMMA IND_IX expr RPAREN                  |z80  |expr  |-    |ld a, (ix+%d)     |DD 7E %d                           |     15 T
-LD A COMMA IND_IX expr RPAREN                  |z80  |expr  |IXIY |ld a, (ix+%d)     |FD 7E %d                           |     15 T
-LD A COMMA IND_IX expr RPAREN                  |z80n |expr  |-    |ld a, (ix+%d)     |DD 7E %d                           |     15 T
-LD A COMMA IND_IX expr RPAREN                  |z80n |expr  |IXIY |ld a, (ix+%d)     |FD 7E %d                           |     15 T
+LD A COMMA IND_IX expr RPAREN                  |z80  |expr  |-    |ld a, (ix+%d)     |DD 7E %d                           |     19 T
+LD A COMMA IND_IX expr RPAREN                  |z80  |expr  |IXIY |ld a, (ix+%d)     |FD 7E %d                           |     19 T
+LD A COMMA IND_IX expr RPAREN                  |z80n |expr  |-    |ld a, (ix+%d)     |DD 7E %d                           |     19 T
+LD A COMMA IND_IX expr RPAREN                  |z80n |expr  |IXIY |ld a, (ix+%d)     |FD 7E %d                           |     19 T
 LD A COMMA IND_IY RPAREN                       |z180 |-     |-    |ld a, (iy)        |FD 7E 00                           |     14 T
 LD A COMMA IND_IY RPAREN                       |z180 |-     |IXIY |ld a, (iy)        |DD 7E 00                           |     14 T
-LD A COMMA IND_IY RPAREN                       |z80  |-     |-    |ld a, (iy)        |FD 7E 00                           |     15 T
-LD A COMMA IND_IY RPAREN                       |z80  |-     |IXIY |ld a, (iy)        |DD 7E 00                           |     15 T
-LD A COMMA IND_IY RPAREN                       |z80n |-     |-    |ld a, (iy)        |FD 7E 00                           |     15 T
-LD A COMMA IND_IY RPAREN                       |z80n |-     |IXIY |ld a, (iy)        |DD 7E 00                           |     15 T
+LD A COMMA IND_IY RPAREN                       |z80  |-     |-    |ld a, (iy)        |FD 7E 00                           |     19 T
+LD A COMMA IND_IY RPAREN                       |z80  |-     |IXIY |ld a, (iy)        |DD 7E 00                           |     19 T
+LD A COMMA IND_IY RPAREN                       |z80n |-     |-    |ld a, (iy)        |FD 7E 00                           |     19 T
+LD A COMMA IND_IY RPAREN                       |z80n |-     |IXIY |ld a, (iy)        |DD 7E 00                           |     19 T
 LD A COMMA IND_IY expr RPAREN                  |z180 |expr  |-    |ld a, (iy+%d)     |FD 7E %d                           |     14 T
 LD A COMMA IND_IY expr RPAREN                  |z180 |expr  |IXIY |ld a, (iy+%d)     |DD 7E %d                           |     14 T
-LD A COMMA IND_IY expr RPAREN                  |z80  |expr  |-    |ld a, (iy+%d)     |FD 7E %d                           |     15 T
-LD A COMMA IND_IY expr RPAREN                  |z80  |expr  |IXIY |ld a, (iy+%d)     |DD 7E %d                           |     15 T
-LD A COMMA IND_IY expr RPAREN                  |z80n |expr  |-    |ld a, (iy+%d)     |FD 7E %d                           |     15 T
-LD A COMMA IND_IY expr RPAREN                  |z80n |expr  |IXIY |ld a, (iy+%d)     |DD 7E %d                           |     15 T
+LD A COMMA IND_IY expr RPAREN                  |z80  |expr  |-    |ld a, (iy+%d)     |FD 7E %d                           |     19 T
+LD A COMMA IND_IY expr RPAREN                  |z80  |expr  |IXIY |ld a, (iy+%d)     |DD 7E %d                           |     19 T
+LD A COMMA IND_IY expr RPAREN                  |z80n |expr  |-    |ld a, (iy+%d)     |FD 7E %d                           |     19 T
+LD A COMMA IND_IY expr RPAREN                  |z80n |expr  |IXIY |ld a, (iy+%d)     |DD 7E %d                           |     19 T
 LD A COMMA IXH                                 |z80  |-     |-    |ld a, ixh         |DD 7C                              |      8 T
 LD A COMMA IXH                                 |z80  |-     |IXIY |ld a, ixh         |FD 7C                              |      8 T
 LD A COMMA IXH                                 |z80n |-     |-    |ld a, ixh         |DD 7C                              |      8 T
@@ -4323,28 +4323,28 @@ LD B COMMA IND_HL RPAREN                       |z80n |-     |-    |ld b, (hl)   
 LD B COMMA IND_HL RPAREN                       |z80n |-     |IXIY |ld b, (hl)        |46                                 |      7 T
 LD B COMMA IND_IX RPAREN                       |z180 |-     |-    |ld b, (ix)        |DD 46 00                           |     14 T
 LD B COMMA IND_IX RPAREN                       |z180 |-     |IXIY |ld b, (ix)        |FD 46 00                           |     14 T
-LD B COMMA IND_IX RPAREN                       |z80  |-     |-    |ld b, (ix)        |DD 46 00                           |     15 T
-LD B COMMA IND_IX RPAREN                       |z80  |-     |IXIY |ld b, (ix)        |FD 46 00                           |     15 T
-LD B COMMA IND_IX RPAREN                       |z80n |-     |-    |ld b, (ix)        |DD 46 00                           |     15 T
-LD B COMMA IND_IX RPAREN                       |z80n |-     |IXIY |ld b, (ix)        |FD 46 00                           |     15 T
+LD B COMMA IND_IX RPAREN                       |z80  |-     |-    |ld b, (ix)        |DD 46 00                           |     19 T
+LD B COMMA IND_IX RPAREN                       |z80  |-     |IXIY |ld b, (ix)        |FD 46 00                           |     19 T
+LD B COMMA IND_IX RPAREN                       |z80n |-     |-    |ld b, (ix)        |DD 46 00                           |     19 T
+LD B COMMA IND_IX RPAREN                       |z80n |-     |IXIY |ld b, (ix)        |FD 46 00                           |     19 T
 LD B COMMA IND_IX expr RPAREN                  |z180 |expr  |-    |ld b, (ix+%d)     |DD 46 %d                           |     14 T
 LD B COMMA IND_IX expr RPAREN                  |z180 |expr  |IXIY |ld b, (ix+%d)     |FD 46 %d                           |     14 T
-LD B COMMA IND_IX expr RPAREN                  |z80  |expr  |-    |ld b, (ix+%d)     |DD 46 %d                           |     15 T
-LD B COMMA IND_IX expr RPAREN                  |z80  |expr  |IXIY |ld b, (ix+%d)     |FD 46 %d                           |     15 T
-LD B COMMA IND_IX expr RPAREN                  |z80n |expr  |-    |ld b, (ix+%d)     |DD 46 %d                           |     15 T
-LD B COMMA IND_IX expr RPAREN                  |z80n |expr  |IXIY |ld b, (ix+%d)     |FD 46 %d                           |     15 T
+LD B COMMA IND_IX expr RPAREN                  |z80  |expr  |-    |ld b, (ix+%d)     |DD 46 %d                           |     19 T
+LD B COMMA IND_IX expr RPAREN                  |z80  |expr  |IXIY |ld b, (ix+%d)     |FD 46 %d                           |     19 T
+LD B COMMA IND_IX expr RPAREN                  |z80n |expr  |-    |ld b, (ix+%d)     |DD 46 %d                           |     19 T
+LD B COMMA IND_IX expr RPAREN                  |z80n |expr  |IXIY |ld b, (ix+%d)     |FD 46 %d                           |     19 T
 LD B COMMA IND_IY RPAREN                       |z180 |-     |-    |ld b, (iy)        |FD 46 00                           |     14 T
 LD B COMMA IND_IY RPAREN                       |z180 |-     |IXIY |ld b, (iy)        |DD 46 00                           |     14 T
-LD B COMMA IND_IY RPAREN                       |z80  |-     |-    |ld b, (iy)        |FD 46 00                           |     15 T
-LD B COMMA IND_IY RPAREN                       |z80  |-     |IXIY |ld b, (iy)        |DD 46 00                           |     15 T
-LD B COMMA IND_IY RPAREN                       |z80n |-     |-    |ld b, (iy)        |FD 46 00                           |     15 T
-LD B COMMA IND_IY RPAREN                       |z80n |-     |IXIY |ld b, (iy)        |DD 46 00                           |     15 T
+LD B COMMA IND_IY RPAREN                       |z80  |-     |-    |ld b, (iy)        |FD 46 00                           |     19 T
+LD B COMMA IND_IY RPAREN                       |z80  |-     |IXIY |ld b, (iy)        |DD 46 00                           |     19 T
+LD B COMMA IND_IY RPAREN                       |z80n |-     |-    |ld b, (iy)        |FD 46 00                           |     19 T
+LD B COMMA IND_IY RPAREN                       |z80n |-     |IXIY |ld b, (iy)        |DD 46 00                           |     19 T
 LD B COMMA IND_IY expr RPAREN                  |z180 |expr  |-    |ld b, (iy+%d)     |FD 46 %d                           |     14 T
 LD B COMMA IND_IY expr RPAREN                  |z180 |expr  |IXIY |ld b, (iy+%d)     |DD 46 %d                           |     14 T
-LD B COMMA IND_IY expr RPAREN                  |z80  |expr  |-    |ld b, (iy+%d)     |FD 46 %d                           |     15 T
-LD B COMMA IND_IY expr RPAREN                  |z80  |expr  |IXIY |ld b, (iy+%d)     |DD 46 %d                           |     15 T
-LD B COMMA IND_IY expr RPAREN                  |z80n |expr  |-    |ld b, (iy+%d)     |FD 46 %d                           |     15 T
-LD B COMMA IND_IY expr RPAREN                  |z80n |expr  |IXIY |ld b, (iy+%d)     |DD 46 %d                           |     15 T
+LD B COMMA IND_IY expr RPAREN                  |z80  |expr  |-    |ld b, (iy+%d)     |FD 46 %d                           |     19 T
+LD B COMMA IND_IY expr RPAREN                  |z80  |expr  |IXIY |ld b, (iy+%d)     |DD 46 %d                           |     19 T
+LD B COMMA IND_IY expr RPAREN                  |z80n |expr  |-    |ld b, (iy+%d)     |FD 46 %d                           |     19 T
+LD B COMMA IND_IY expr RPAREN                  |z80n |expr  |IXIY |ld b, (iy+%d)     |DD 46 %d                           |     19 T
 LD B COMMA IXH                                 |z80  |-     |-    |ld b, ixh         |DD 44                              |      8 T
 LD B COMMA IXH                                 |z80  |-     |IXIY |ld b, ixh         |FD 44                              |      8 T
 LD B COMMA IXH                                 |z80n |-     |-    |ld b, ixh         |DD 44                              |      8 T
@@ -4577,28 +4577,28 @@ LD C COMMA IND_HL RPAREN                       |z80n |-     |-    |ld c, (hl)   
 LD C COMMA IND_HL RPAREN                       |z80n |-     |IXIY |ld c, (hl)        |4E                                 |      7 T
 LD C COMMA IND_IX RPAREN                       |z180 |-     |-    |ld c, (ix)        |DD 4E 00                           |     14 T
 LD C COMMA IND_IX RPAREN                       |z180 |-     |IXIY |ld c, (ix)        |FD 4E 00                           |     14 T
-LD C COMMA IND_IX RPAREN                       |z80  |-     |-    |ld c, (ix)        |DD 4E 00                           |     15 T
-LD C COMMA IND_IX RPAREN                       |z80  |-     |IXIY |ld c, (ix)        |FD 4E 00                           |     15 T
-LD C COMMA IND_IX RPAREN                       |z80n |-     |-    |ld c, (ix)        |DD 4E 00                           |     15 T
-LD C COMMA IND_IX RPAREN                       |z80n |-     |IXIY |ld c, (ix)        |FD 4E 00                           |     15 T
+LD C COMMA IND_IX RPAREN                       |z80  |-     |-    |ld c, (ix)        |DD 4E 00                           |     19 T
+LD C COMMA IND_IX RPAREN                       |z80  |-     |IXIY |ld c, (ix)        |FD 4E 00                           |     19 T
+LD C COMMA IND_IX RPAREN                       |z80n |-     |-    |ld c, (ix)        |DD 4E 00                           |     19 T
+LD C COMMA IND_IX RPAREN                       |z80n |-     |IXIY |ld c, (ix)        |FD 4E 00                           |     19 T
 LD C COMMA IND_IX expr RPAREN                  |z180 |expr  |-    |ld c, (ix+%d)     |DD 4E %d                           |     14 T
 LD C COMMA IND_IX expr RPAREN                  |z180 |expr  |IXIY |ld c, (ix+%d)     |FD 4E %d                           |     14 T
-LD C COMMA IND_IX expr RPAREN                  |z80  |expr  |-    |ld c, (ix+%d)     |DD 4E %d                           |     15 T
-LD C COMMA IND_IX expr RPAREN                  |z80  |expr  |IXIY |ld c, (ix+%d)     |FD 4E %d                           |     15 T
-LD C COMMA IND_IX expr RPAREN                  |z80n |expr  |-    |ld c, (ix+%d)     |DD 4E %d                           |     15 T
-LD C COMMA IND_IX expr RPAREN                  |z80n |expr  |IXIY |ld c, (ix+%d)     |FD 4E %d                           |     15 T
+LD C COMMA IND_IX expr RPAREN                  |z80  |expr  |-    |ld c, (ix+%d)     |DD 4E %d                           |     19 T
+LD C COMMA IND_IX expr RPAREN                  |z80  |expr  |IXIY |ld c, (ix+%d)     |FD 4E %d                           |     19 T
+LD C COMMA IND_IX expr RPAREN                  |z80n |expr  |-    |ld c, (ix+%d)     |DD 4E %d                           |     19 T
+LD C COMMA IND_IX expr RPAREN                  |z80n |expr  |IXIY |ld c, (ix+%d)     |FD 4E %d                           |     19 T
 LD C COMMA IND_IY RPAREN                       |z180 |-     |-    |ld c, (iy)        |FD 4E 00                           |     14 T
 LD C COMMA IND_IY RPAREN                       |z180 |-     |IXIY |ld c, (iy)        |DD 4E 00                           |     14 T
-LD C COMMA IND_IY RPAREN                       |z80  |-     |-    |ld c, (iy)        |FD 4E 00                           |     15 T
-LD C COMMA IND_IY RPAREN                       |z80  |-     |IXIY |ld c, (iy)        |DD 4E 00                           |     15 T
-LD C COMMA IND_IY RPAREN                       |z80n |-     |-    |ld c, (iy)        |FD 4E 00                           |     15 T
-LD C COMMA IND_IY RPAREN                       |z80n |-     |IXIY |ld c, (iy)        |DD 4E 00                           |     15 T
+LD C COMMA IND_IY RPAREN                       |z80  |-     |-    |ld c, (iy)        |FD 4E 00                           |     19 T
+LD C COMMA IND_IY RPAREN                       |z80  |-     |IXIY |ld c, (iy)        |DD 4E 00                           |     19 T
+LD C COMMA IND_IY RPAREN                       |z80n |-     |-    |ld c, (iy)        |FD 4E 00                           |     19 T
+LD C COMMA IND_IY RPAREN                       |z80n |-     |IXIY |ld c, (iy)        |DD 4E 00                           |     19 T
 LD C COMMA IND_IY expr RPAREN                  |z180 |expr  |-    |ld c, (iy+%d)     |FD 4E %d                           |     14 T
 LD C COMMA IND_IY expr RPAREN                  |z180 |expr  |IXIY |ld c, (iy+%d)     |DD 4E %d                           |     14 T
-LD C COMMA IND_IY expr RPAREN                  |z80  |expr  |-    |ld c, (iy+%d)     |FD 4E %d                           |     15 T
-LD C COMMA IND_IY expr RPAREN                  |z80  |expr  |IXIY |ld c, (iy+%d)     |DD 4E %d                           |     15 T
-LD C COMMA IND_IY expr RPAREN                  |z80n |expr  |-    |ld c, (iy+%d)     |FD 4E %d                           |     15 T
-LD C COMMA IND_IY expr RPAREN                  |z80n |expr  |IXIY |ld c, (iy+%d)     |DD 4E %d                           |     15 T
+LD C COMMA IND_IY expr RPAREN                  |z80  |expr  |-    |ld c, (iy+%d)     |FD 4E %d                           |     19 T
+LD C COMMA IND_IY expr RPAREN                  |z80  |expr  |IXIY |ld c, (iy+%d)     |DD 4E %d                           |     19 T
+LD C COMMA IND_IY expr RPAREN                  |z80n |expr  |-    |ld c, (iy+%d)     |FD 4E %d                           |     19 T
+LD C COMMA IND_IY expr RPAREN                  |z80n |expr  |IXIY |ld c, (iy+%d)     |DD 4E %d                           |     19 T
 LD C COMMA IXH                                 |z80  |-     |-    |ld c, ixh         |DD 4C                              |      8 T
 LD C COMMA IXH                                 |z80  |-     |IXIY |ld c, ixh         |FD 4C                              |      8 T
 LD C COMMA IXH                                 |z80n |-     |-    |ld c, ixh         |DD 4C                              |      8 T
@@ -4749,28 +4749,28 @@ LD D COMMA IND_HL RPAREN                       |z80n |-     |-    |ld d, (hl)   
 LD D COMMA IND_HL RPAREN                       |z80n |-     |IXIY |ld d, (hl)        |56                                 |      7 T
 LD D COMMA IND_IX RPAREN                       |z180 |-     |-    |ld d, (ix)        |DD 56 00                           |     14 T
 LD D COMMA IND_IX RPAREN                       |z180 |-     |IXIY |ld d, (ix)        |FD 56 00                           |     14 T
-LD D COMMA IND_IX RPAREN                       |z80  |-     |-    |ld d, (ix)        |DD 56 00                           |     15 T
-LD D COMMA IND_IX RPAREN                       |z80  |-     |IXIY |ld d, (ix)        |FD 56 00                           |     15 T
-LD D COMMA IND_IX RPAREN                       |z80n |-     |-    |ld d, (ix)        |DD 56 00                           |     15 T
-LD D COMMA IND_IX RPAREN                       |z80n |-     |IXIY |ld d, (ix)        |FD 56 00                           |     15 T
+LD D COMMA IND_IX RPAREN                       |z80  |-     |-    |ld d, (ix)        |DD 56 00                           |     19 T
+LD D COMMA IND_IX RPAREN                       |z80  |-     |IXIY |ld d, (ix)        |FD 56 00                           |     19 T
+LD D COMMA IND_IX RPAREN                       |z80n |-     |-    |ld d, (ix)        |DD 56 00                           |     19 T
+LD D COMMA IND_IX RPAREN                       |z80n |-     |IXIY |ld d, (ix)        |FD 56 00                           |     19 T
 LD D COMMA IND_IX expr RPAREN                  |z180 |expr  |-    |ld d, (ix+%d)     |DD 56 %d                           |     14 T
 LD D COMMA IND_IX expr RPAREN                  |z180 |expr  |IXIY |ld d, (ix+%d)     |FD 56 %d                           |     14 T
-LD D COMMA IND_IX expr RPAREN                  |z80  |expr  |-    |ld d, (ix+%d)     |DD 56 %d                           |     15 T
-LD D COMMA IND_IX expr RPAREN                  |z80  |expr  |IXIY |ld d, (ix+%d)     |FD 56 %d                           |     15 T
-LD D COMMA IND_IX expr RPAREN                  |z80n |expr  |-    |ld d, (ix+%d)     |DD 56 %d                           |     15 T
-LD D COMMA IND_IX expr RPAREN                  |z80n |expr  |IXIY |ld d, (ix+%d)     |FD 56 %d                           |     15 T
+LD D COMMA IND_IX expr RPAREN                  |z80  |expr  |-    |ld d, (ix+%d)     |DD 56 %d                           |     19 T
+LD D COMMA IND_IX expr RPAREN                  |z80  |expr  |IXIY |ld d, (ix+%d)     |FD 56 %d                           |     19 T
+LD D COMMA IND_IX expr RPAREN                  |z80n |expr  |-    |ld d, (ix+%d)     |DD 56 %d                           |     19 T
+LD D COMMA IND_IX expr RPAREN                  |z80n |expr  |IXIY |ld d, (ix+%d)     |FD 56 %d                           |     19 T
 LD D COMMA IND_IY RPAREN                       |z180 |-     |-    |ld d, (iy)        |FD 56 00                           |     14 T
 LD D COMMA IND_IY RPAREN                       |z180 |-     |IXIY |ld d, (iy)        |DD 56 00                           |     14 T
-LD D COMMA IND_IY RPAREN                       |z80  |-     |-    |ld d, (iy)        |FD 56 00                           |     15 T
-LD D COMMA IND_IY RPAREN                       |z80  |-     |IXIY |ld d, (iy)        |DD 56 00                           |     15 T
-LD D COMMA IND_IY RPAREN                       |z80n |-     |-    |ld d, (iy)        |FD 56 00                           |     15 T
-LD D COMMA IND_IY RPAREN                       |z80n |-     |IXIY |ld d, (iy)        |DD 56 00                           |     15 T
+LD D COMMA IND_IY RPAREN                       |z80  |-     |-    |ld d, (iy)        |FD 56 00                           |     19 T
+LD D COMMA IND_IY RPAREN                       |z80  |-     |IXIY |ld d, (iy)        |DD 56 00                           |     19 T
+LD D COMMA IND_IY RPAREN                       |z80n |-     |-    |ld d, (iy)        |FD 56 00                           |     19 T
+LD D COMMA IND_IY RPAREN                       |z80n |-     |IXIY |ld d, (iy)        |DD 56 00                           |     19 T
 LD D COMMA IND_IY expr RPAREN                  |z180 |expr  |-    |ld d, (iy+%d)     |FD 56 %d                           |     14 T
 LD D COMMA IND_IY expr RPAREN                  |z180 |expr  |IXIY |ld d, (iy+%d)     |DD 56 %d                           |     14 T
-LD D COMMA IND_IY expr RPAREN                  |z80  |expr  |-    |ld d, (iy+%d)     |FD 56 %d                           |     15 T
-LD D COMMA IND_IY expr RPAREN                  |z80  |expr  |IXIY |ld d, (iy+%d)     |DD 56 %d                           |     15 T
-LD D COMMA IND_IY expr RPAREN                  |z80n |expr  |-    |ld d, (iy+%d)     |FD 56 %d                           |     15 T
-LD D COMMA IND_IY expr RPAREN                  |z80n |expr  |IXIY |ld d, (iy+%d)     |DD 56 %d                           |     15 T
+LD D COMMA IND_IY expr RPAREN                  |z80  |expr  |-    |ld d, (iy+%d)     |FD 56 %d                           |     19 T
+LD D COMMA IND_IY expr RPAREN                  |z80  |expr  |IXIY |ld d, (iy+%d)     |DD 56 %d                           |     19 T
+LD D COMMA IND_IY expr RPAREN                  |z80n |expr  |-    |ld d, (iy+%d)     |FD 56 %d                           |     19 T
+LD D COMMA IND_IY expr RPAREN                  |z80n |expr  |IXIY |ld d, (iy+%d)     |DD 56 %d                           |     19 T
 LD D COMMA IXH                                 |z80  |-     |-    |ld d, ixh         |DD 54                              |      8 T
 LD D COMMA IXH                                 |z80  |-     |IXIY |ld d, ixh         |FD 54                              |      8 T
 LD D COMMA IXH                                 |z80n |-     |-    |ld d, ixh         |DD 54                              |      8 T
@@ -5027,28 +5027,28 @@ LD E COMMA IND_HL RPAREN                       |z80n |-     |-    |ld e, (hl)   
 LD E COMMA IND_HL RPAREN                       |z80n |-     |IXIY |ld e, (hl)        |5E                                 |      7 T
 LD E COMMA IND_IX RPAREN                       |z180 |-     |-    |ld e, (ix)        |DD 5E 00                           |     14 T
 LD E COMMA IND_IX RPAREN                       |z180 |-     |IXIY |ld e, (ix)        |FD 5E 00                           |     14 T
-LD E COMMA IND_IX RPAREN                       |z80  |-     |-    |ld e, (ix)        |DD 5E 00                           |     15 T
-LD E COMMA IND_IX RPAREN                       |z80  |-     |IXIY |ld e, (ix)        |FD 5E 00                           |     15 T
-LD E COMMA IND_IX RPAREN                       |z80n |-     |-    |ld e, (ix)        |DD 5E 00                           |     15 T
-LD E COMMA IND_IX RPAREN                       |z80n |-     |IXIY |ld e, (ix)        |FD 5E 00                           |     15 T
+LD E COMMA IND_IX RPAREN                       |z80  |-     |-    |ld e, (ix)        |DD 5E 00                           |     19 T
+LD E COMMA IND_IX RPAREN                       |z80  |-     |IXIY |ld e, (ix)        |FD 5E 00                           |     19 T
+LD E COMMA IND_IX RPAREN                       |z80n |-     |-    |ld e, (ix)        |DD 5E 00                           |     19 T
+LD E COMMA IND_IX RPAREN                       |z80n |-     |IXIY |ld e, (ix)        |FD 5E 00                           |     19 T
 LD E COMMA IND_IX expr RPAREN                  |z180 |expr  |-    |ld e, (ix+%d)     |DD 5E %d                           |     14 T
 LD E COMMA IND_IX expr RPAREN                  |z180 |expr  |IXIY |ld e, (ix+%d)     |FD 5E %d                           |     14 T
-LD E COMMA IND_IX expr RPAREN                  |z80  |expr  |-    |ld e, (ix+%d)     |DD 5E %d                           |     15 T
-LD E COMMA IND_IX expr RPAREN                  |z80  |expr  |IXIY |ld e, (ix+%d)     |FD 5E %d                           |     15 T
-LD E COMMA IND_IX expr RPAREN                  |z80n |expr  |-    |ld e, (ix+%d)     |DD 5E %d                           |     15 T
-LD E COMMA IND_IX expr RPAREN                  |z80n |expr  |IXIY |ld e, (ix+%d)     |FD 5E %d                           |     15 T
+LD E COMMA IND_IX expr RPAREN                  |z80  |expr  |-    |ld e, (ix+%d)     |DD 5E %d                           |     19 T
+LD E COMMA IND_IX expr RPAREN                  |z80  |expr  |IXIY |ld e, (ix+%d)     |FD 5E %d                           |     19 T
+LD E COMMA IND_IX expr RPAREN                  |z80n |expr  |-    |ld e, (ix+%d)     |DD 5E %d                           |     19 T
+LD E COMMA IND_IX expr RPAREN                  |z80n |expr  |IXIY |ld e, (ix+%d)     |FD 5E %d                           |     19 T
 LD E COMMA IND_IY RPAREN                       |z180 |-     |-    |ld e, (iy)        |FD 5E 00                           |     14 T
 LD E COMMA IND_IY RPAREN                       |z180 |-     |IXIY |ld e, (iy)        |DD 5E 00                           |     14 T
-LD E COMMA IND_IY RPAREN                       |z80  |-     |-    |ld e, (iy)        |FD 5E 00                           |     15 T
-LD E COMMA IND_IY RPAREN                       |z80  |-     |IXIY |ld e, (iy)        |DD 5E 00                           |     15 T
-LD E COMMA IND_IY RPAREN                       |z80n |-     |-    |ld e, (iy)        |FD 5E 00                           |     15 T
-LD E COMMA IND_IY RPAREN                       |z80n |-     |IXIY |ld e, (iy)        |DD 5E 00                           |     15 T
+LD E COMMA IND_IY RPAREN                       |z80  |-     |-    |ld e, (iy)        |FD 5E 00                           |     19 T
+LD E COMMA IND_IY RPAREN                       |z80  |-     |IXIY |ld e, (iy)        |DD 5E 00                           |     19 T
+LD E COMMA IND_IY RPAREN                       |z80n |-     |-    |ld e, (iy)        |FD 5E 00                           |     19 T
+LD E COMMA IND_IY RPAREN                       |z80n |-     |IXIY |ld e, (iy)        |DD 5E 00                           |     19 T
 LD E COMMA IND_IY expr RPAREN                  |z180 |expr  |-    |ld e, (iy+%d)     |FD 5E %d                           |     14 T
 LD E COMMA IND_IY expr RPAREN                  |z180 |expr  |IXIY |ld e, (iy+%d)     |DD 5E %d                           |     14 T
-LD E COMMA IND_IY expr RPAREN                  |z80  |expr  |-    |ld e, (iy+%d)     |FD 5E %d                           |     15 T
-LD E COMMA IND_IY expr RPAREN                  |z80  |expr  |IXIY |ld e, (iy+%d)     |DD 5E %d                           |     15 T
-LD E COMMA IND_IY expr RPAREN                  |z80n |expr  |-    |ld e, (iy+%d)     |FD 5E %d                           |     15 T
-LD E COMMA IND_IY expr RPAREN                  |z80n |expr  |IXIY |ld e, (iy+%d)     |DD 5E %d                           |     15 T
+LD E COMMA IND_IY expr RPAREN                  |z80  |expr  |-    |ld e, (iy+%d)     |FD 5E %d                           |     19 T
+LD E COMMA IND_IY expr RPAREN                  |z80  |expr  |IXIY |ld e, (iy+%d)     |DD 5E %d                           |     19 T
+LD E COMMA IND_IY expr RPAREN                  |z80n |expr  |-    |ld e, (iy+%d)     |FD 5E %d                           |     19 T
+LD E COMMA IND_IY expr RPAREN                  |z80n |expr  |IXIY |ld e, (iy+%d)     |DD 5E %d                           |     19 T
 LD E COMMA IXH                                 |z80  |-     |-    |ld e, ixh         |DD 5C                              |      8 T
 LD E COMMA IXH                                 |z80  |-     |IXIY |ld e, ixh         |FD 5C                              |      8 T
 LD E COMMA IXH                                 |z80n |-     |-    |ld e, ixh         |DD 5C                              |      8 T
@@ -5175,28 +5175,28 @@ LD H COMMA IND_HL RPAREN                       |z80n |-     |-    |ld h, (hl)   
 LD H COMMA IND_HL RPAREN                       |z80n |-     |IXIY |ld h, (hl)        |66                                 |      7 T
 LD H COMMA IND_IX RPAREN                       |z180 |-     |-    |ld h, (ix)        |DD 66 00                           |     14 T
 LD H COMMA IND_IX RPAREN                       |z180 |-     |IXIY |ld h, (ix)        |FD 66 00                           |     14 T
-LD H COMMA IND_IX RPAREN                       |z80  |-     |-    |ld h, (ix)        |DD 66 00                           |     15 T
-LD H COMMA IND_IX RPAREN                       |z80  |-     |IXIY |ld h, (ix)        |FD 66 00                           |     15 T
-LD H COMMA IND_IX RPAREN                       |z80n |-     |-    |ld h, (ix)        |DD 66 00                           |     15 T
-LD H COMMA IND_IX RPAREN                       |z80n |-     |IXIY |ld h, (ix)        |FD 66 00                           |     15 T
+LD H COMMA IND_IX RPAREN                       |z80  |-     |-    |ld h, (ix)        |DD 66 00                           |     19 T
+LD H COMMA IND_IX RPAREN                       |z80  |-     |IXIY |ld h, (ix)        |FD 66 00                           |     19 T
+LD H COMMA IND_IX RPAREN                       |z80n |-     |-    |ld h, (ix)        |DD 66 00                           |     19 T
+LD H COMMA IND_IX RPAREN                       |z80n |-     |IXIY |ld h, (ix)        |FD 66 00                           |     19 T
 LD H COMMA IND_IX expr RPAREN                  |z180 |expr  |-    |ld h, (ix+%d)     |DD 66 %d                           |     14 T
 LD H COMMA IND_IX expr RPAREN                  |z180 |expr  |IXIY |ld h, (ix+%d)     |FD 66 %d                           |     14 T
-LD H COMMA IND_IX expr RPAREN                  |z80  |expr  |-    |ld h, (ix+%d)     |DD 66 %d                           |     15 T
-LD H COMMA IND_IX expr RPAREN                  |z80  |expr  |IXIY |ld h, (ix+%d)     |FD 66 %d                           |     15 T
-LD H COMMA IND_IX expr RPAREN                  |z80n |expr  |-    |ld h, (ix+%d)     |DD 66 %d                           |     15 T
-LD H COMMA IND_IX expr RPAREN                  |z80n |expr  |IXIY |ld h, (ix+%d)     |FD 66 %d                           |     15 T
+LD H COMMA IND_IX expr RPAREN                  |z80  |expr  |-    |ld h, (ix+%d)     |DD 66 %d                           |     19 T
+LD H COMMA IND_IX expr RPAREN                  |z80  |expr  |IXIY |ld h, (ix+%d)     |FD 66 %d                           |     19 T
+LD H COMMA IND_IX expr RPAREN                  |z80n |expr  |-    |ld h, (ix+%d)     |DD 66 %d                           |     19 T
+LD H COMMA IND_IX expr RPAREN                  |z80n |expr  |IXIY |ld h, (ix+%d)     |FD 66 %d                           |     19 T
 LD H COMMA IND_IY RPAREN                       |z180 |-     |-    |ld h, (iy)        |FD 66 00                           |     14 T
 LD H COMMA IND_IY RPAREN                       |z180 |-     |IXIY |ld h, (iy)        |DD 66 00                           |     14 T
-LD H COMMA IND_IY RPAREN                       |z80  |-     |-    |ld h, (iy)        |FD 66 00                           |     15 T
-LD H COMMA IND_IY RPAREN                       |z80  |-     |IXIY |ld h, (iy)        |DD 66 00                           |     15 T
-LD H COMMA IND_IY RPAREN                       |z80n |-     |-    |ld h, (iy)        |FD 66 00                           |     15 T
-LD H COMMA IND_IY RPAREN                       |z80n |-     |IXIY |ld h, (iy)        |DD 66 00                           |     15 T
+LD H COMMA IND_IY RPAREN                       |z80  |-     |-    |ld h, (iy)        |FD 66 00                           |     19 T
+LD H COMMA IND_IY RPAREN                       |z80  |-     |IXIY |ld h, (iy)        |DD 66 00                           |     19 T
+LD H COMMA IND_IY RPAREN                       |z80n |-     |-    |ld h, (iy)        |FD 66 00                           |     19 T
+LD H COMMA IND_IY RPAREN                       |z80n |-     |IXIY |ld h, (iy)        |DD 66 00                           |     19 T
 LD H COMMA IND_IY expr RPAREN                  |z180 |expr  |-    |ld h, (iy+%d)     |FD 66 %d                           |     14 T
 LD H COMMA IND_IY expr RPAREN                  |z180 |expr  |IXIY |ld h, (iy+%d)     |DD 66 %d                           |     14 T
-LD H COMMA IND_IY expr RPAREN                  |z80  |expr  |-    |ld h, (iy+%d)     |FD 66 %d                           |     15 T
-LD H COMMA IND_IY expr RPAREN                  |z80  |expr  |IXIY |ld h, (iy+%d)     |DD 66 %d                           |     15 T
-LD H COMMA IND_IY expr RPAREN                  |z80n |expr  |-    |ld h, (iy+%d)     |FD 66 %d                           |     15 T
-LD H COMMA IND_IY expr RPAREN                  |z80n |expr  |IXIY |ld h, (iy+%d)     |DD 66 %d                           |     15 T
+LD H COMMA IND_IY expr RPAREN                  |z80  |expr  |-    |ld h, (iy+%d)     |FD 66 %d                           |     19 T
+LD H COMMA IND_IY expr RPAREN                  |z80  |expr  |IXIY |ld h, (iy+%d)     |DD 66 %d                           |     19 T
+LD H COMMA IND_IY expr RPAREN                  |z80n |expr  |-    |ld h, (iy+%d)     |FD 66 %d                           |     19 T
+LD H COMMA IND_IY expr RPAREN                  |z80n |expr  |IXIY |ld h, (iy+%d)     |DD 66 %d                           |     19 T
 LD H COMMA L                                   |8080 |-     |-    |ld h, l           |65                                 |      5 T
 LD H COMMA L                                   |8080 |-     |IXIY |ld h, l           |65                                 |      5 T
 LD H COMMA L                                   |8085 |-     |-    |ld h, l           |65                                 |      4 T
@@ -6241,28 +6241,28 @@ LD L COMMA IND_HL RPAREN                       |z80n |-     |-    |ld l, (hl)   
 LD L COMMA IND_HL RPAREN                       |z80n |-     |IXIY |ld l, (hl)        |6E                                 |      7 T
 LD L COMMA IND_IX RPAREN                       |z180 |-     |-    |ld l, (ix)        |DD 6E 00                           |     14 T
 LD L COMMA IND_IX RPAREN                       |z180 |-     |IXIY |ld l, (ix)        |FD 6E 00                           |     14 T
-LD L COMMA IND_IX RPAREN                       |z80  |-     |-    |ld l, (ix)        |DD 6E 00                           |     15 T
-LD L COMMA IND_IX RPAREN                       |z80  |-     |IXIY |ld l, (ix)        |FD 6E 00                           |     15 T
-LD L COMMA IND_IX RPAREN                       |z80n |-     |-    |ld l, (ix)        |DD 6E 00                           |     15 T
-LD L COMMA IND_IX RPAREN                       |z80n |-     |IXIY |ld l, (ix)        |FD 6E 00                           |     15 T
+LD L COMMA IND_IX RPAREN                       |z80  |-     |-    |ld l, (ix)        |DD 6E 00                           |     19 T
+LD L COMMA IND_IX RPAREN                       |z80  |-     |IXIY |ld l, (ix)        |FD 6E 00                           |     19 T
+LD L COMMA IND_IX RPAREN                       |z80n |-     |-    |ld l, (ix)        |DD 6E 00                           |     19 T
+LD L COMMA IND_IX RPAREN                       |z80n |-     |IXIY |ld l, (ix)        |FD 6E 00                           |     19 T
 LD L COMMA IND_IX expr RPAREN                  |z180 |expr  |-    |ld l, (ix+%d)     |DD 6E %d                           |     14 T
 LD L COMMA IND_IX expr RPAREN                  |z180 |expr  |IXIY |ld l, (ix+%d)     |FD 6E %d                           |     14 T
-LD L COMMA IND_IX expr RPAREN                  |z80  |expr  |-    |ld l, (ix+%d)     |DD 6E %d                           |     15 T
-LD L COMMA IND_IX expr RPAREN                  |z80  |expr  |IXIY |ld l, (ix+%d)     |FD 6E %d                           |     15 T
-LD L COMMA IND_IX expr RPAREN                  |z80n |expr  |-    |ld l, (ix+%d)     |DD 6E %d                           |     15 T
-LD L COMMA IND_IX expr RPAREN                  |z80n |expr  |IXIY |ld l, (ix+%d)     |FD 6E %d                           |     15 T
+LD L COMMA IND_IX expr RPAREN                  |z80  |expr  |-    |ld l, (ix+%d)     |DD 6E %d                           |     19 T
+LD L COMMA IND_IX expr RPAREN                  |z80  |expr  |IXIY |ld l, (ix+%d)     |FD 6E %d                           |     19 T
+LD L COMMA IND_IX expr RPAREN                  |z80n |expr  |-    |ld l, (ix+%d)     |DD 6E %d                           |     19 T
+LD L COMMA IND_IX expr RPAREN                  |z80n |expr  |IXIY |ld l, (ix+%d)     |FD 6E %d                           |     19 T
 LD L COMMA IND_IY RPAREN                       |z180 |-     |-    |ld l, (iy)        |FD 6E 00                           |     14 T
 LD L COMMA IND_IY RPAREN                       |z180 |-     |IXIY |ld l, (iy)        |DD 6E 00                           |     14 T
-LD L COMMA IND_IY RPAREN                       |z80  |-     |-    |ld l, (iy)        |FD 6E 00                           |     15 T
-LD L COMMA IND_IY RPAREN                       |z80  |-     |IXIY |ld l, (iy)        |DD 6E 00                           |     15 T
-LD L COMMA IND_IY RPAREN                       |z80n |-     |-    |ld l, (iy)        |FD 6E 00                           |     15 T
-LD L COMMA IND_IY RPAREN                       |z80n |-     |IXIY |ld l, (iy)        |DD 6E 00                           |     15 T
+LD L COMMA IND_IY RPAREN                       |z80  |-     |-    |ld l, (iy)        |FD 6E 00                           |     19 T
+LD L COMMA IND_IY RPAREN                       |z80  |-     |IXIY |ld l, (iy)        |DD 6E 00                           |     19 T
+LD L COMMA IND_IY RPAREN                       |z80n |-     |-    |ld l, (iy)        |FD 6E 00                           |     19 T
+LD L COMMA IND_IY RPAREN                       |z80n |-     |IXIY |ld l, (iy)        |DD 6E 00                           |     19 T
 LD L COMMA IND_IY expr RPAREN                  |z180 |expr  |-    |ld l, (iy+%d)     |FD 6E %d                           |     14 T
 LD L COMMA IND_IY expr RPAREN                  |z180 |expr  |IXIY |ld l, (iy+%d)     |DD 6E %d                           |     14 T
-LD L COMMA IND_IY expr RPAREN                  |z80  |expr  |-    |ld l, (iy+%d)     |FD 6E %d                           |     15 T
-LD L COMMA IND_IY expr RPAREN                  |z80  |expr  |IXIY |ld l, (iy+%d)     |DD 6E %d                           |     15 T
-LD L COMMA IND_IY expr RPAREN                  |z80n |expr  |-    |ld l, (iy+%d)     |FD 6E %d                           |     15 T
-LD L COMMA IND_IY expr RPAREN                  |z80n |expr  |IXIY |ld l, (iy+%d)     |DD 6E %d                           |     15 T
+LD L COMMA IND_IY expr RPAREN                  |z80  |expr  |-    |ld l, (iy+%d)     |FD 6E %d                           |     19 T
+LD L COMMA IND_IY expr RPAREN                  |z80  |expr  |IXIY |ld l, (iy+%d)     |DD 6E %d                           |     19 T
+LD L COMMA IND_IY expr RPAREN                  |z80n |expr  |-    |ld l, (iy+%d)     |FD 6E %d                           |     19 T
+LD L COMMA IND_IY expr RPAREN                  |z80n |expr  |IXIY |ld l, (iy+%d)     |DD 6E %d                           |     19 T
 LD L COMMA L                                   |8080 |-     |-    |ld l, l           |6D                                 |      5 T
 LD L COMMA L                                   |8080 |-     |IXIY |ld l, l           |6D                                 |      5 T
 LD L COMMA L                                   |8085 |-     |-    |ld l, l           |6D                                 |      4 T

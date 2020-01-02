@@ -1,11 +1,10 @@
-# Z88DK Z80 Macro Assembler
-#
-# Copyright (C) Gunther Strube, InterLogic 1993-99
-# Copyright (C) Paulo Custodio, 2011-2019
-# License: The Artistic License 2.0, http://www.perlfoundation.org/artistic_license_2_0
-# Repository: https://github.com/z88dk/z88dk
-#
+# ------------------------------------------------------------------------------
+# z80asm assembler
 # Makefile to generate C files, to be called from the .. directory
+# Copyright (C) Paulo Custodio, 2011-2020
+# License: http://www.perlfoundation.org/artistic_license_2_0
+# Repository: https://github.com/z88dk/z88dk
+# ------------------------------------------------------------------------------
 
 # EXESUFFIX is passed when cross-compiling Win32 on Linux
 ifeq ($(OS),Windows_NT)
