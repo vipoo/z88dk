@@ -4,7 +4,7 @@ cache:
   directories:
   - ~/perl5/
   - ~/.ccache
- 
+
 language: cpp
 
 # https://docs.travis-ci.com/user/languages/cpp/ - support C11
@@ -46,3 +46,18 @@ before_script:
 
 script:
   - ./build.sh -e -t
+
+before_deploy:
+  - tar -czvf z88dk-${TRAVIS_TAG}.tar.gz bin lib/config
+
+deploy:
+  provider: releases
+  file: z88dk-${TRAVIS_TAG}.tar.gz
+  skip_cleanup: true
+  on:
+    tags: true
+  api-key:
+    secure: "guy/dCA9ptTDinZX0BuPJEE+/8YutsBins1J4k9ghc3/KuRRRBXdq85xJeQFXX9+7xYdSyYgTM9/tOHLTSZ4mUDlu/YdrnnyMMPS23rFvwOPIV0sWdp/vAN216oK0VsjOXn54CPRzE8LcdcQJYNDc8f6XQlBbzMIjfcCPANioNoRHi+9vkdlcIeokB/qIsg+N7SUv4Wcw1dn5WsbLsUrhnWpdoqzLM1ZuHRiYMp+HBIT4VRBC2qO38F2S2VSXKf4+6wo8TOmA0oMeqkQN52Fp/ZTgfxv2bJ3VOPiAFdCXpJCk86ZbLeMixlTcmzHJIKrB/va3IHzxuJjUbjq+Fgcg/MqIbGFjIqJm9F/yuibRjMvSzjcAltZBeLZKGCx7A01VpsERzSUcj+NkSaarA4gtT2ctEwNnv4BnyV2B74+nNraIHsmx8fzvrr709oFIBfKN+/P2Fs/e2lFiQZ3D7lZRBuYYfeIOFpZxHQnvImzJr8HzU6bD25Ee5E7tBkwE27+OPeZn9vxGAzrqnBIEp2R6W0PMol4I9MuQqByWhWU04Cj5nBIwP0XT5WAZz2muC9tN+KKRG9sXhb9WHF14oDc7N+f9zm7hh7mUxRDwgSLuVKiX0VEj9shDaU5qhtHP2jr7c8d2floyVRjnpGaoTktRVhJxIJ5QrMDC7kqR6/Nmbk="
+
+notifications:
+  email: false
