@@ -41,11 +41,11 @@ script:
   - ./build.sh -e -t
 
 before_deploy:
-  - tar -czvf z88dk-${TRAVIS_TAG}.tar.gz bin lib/config lib/clibs libsrc/_DEVELOPMENT/lib include/_DEVELOPMENT
+  - tar -czf /tmp/z88dk-${TRAVIS_TAG}.tar.gz .
 
 deploy:
   provider: releases
-  file: z88dk-${TRAVIS_TAG}.tar.gz
+  file: /tmp/z88dk-${TRAVIS_TAG}.tar.gz
   skip_cleanup: true
   on:
     tags: true
