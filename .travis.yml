@@ -1,10 +1,14 @@
 sudo: false
 
+branches:
+  only:
+  - master-dean
+
 cache:
   directories:
   - ~/perl5/
   - ~/.ccache
- 
+
 language: cpp
 
 matrix:
@@ -21,25 +25,41 @@ matrix:
             - texi2html
             - gdb
             - curl
+            - ragel
       env:
          - MATRIX_EVAL="CC=gcc && CXX=g++"
 
 before_install:
   - eval "${MATRIX_EVAL}"
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update                  ; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install cpanm dos2unix ccache ragel ; fi
   - cpanm --local-lib=~/perl5 local::lib App::Prove Modern::Perl Capture::Tiny Capture::Tiny::Extended Path::Tiny File::Path Template Template::Plugin::YAML Test::Differences Text::Table CPU::Z80::Assembler Test::Cmd::Common Test::HexDifferences Data::HexDump Object::Tiny::RW Regexp::Common List::Uniq Clone
   - eval $(perl -I ~/perl5/lib/perl5/ -Mlocal::lib)
 
 before_script:
   - export PATH=`pwd`/bin:$PATH
   - export ZCCCFG=`pwd`/lib/config
-  - ulimit -c unlimited -S       # enable core 
+  - ulimit -c unlimited -S       # enable core
+  - export BUILD_SDCC=1
 
 script:
-  - ./build.sh -e -t
+  - ./build.sh -e
 
-# show backtrace on core dump - replace path to executable file and un-comment following lines
-#after_failure:
-#  - COREFILE=$(find . -name "core*" | head -n 1) # find core file
-#  - if [[ -f "$COREFILE" ]]; then gdb -c "$COREFILE" INSERT-EXECUTABLE-HERE -ex "thread apply all bt" -ex "set pagination 0" -batch; fi
+before_deploy:
+  - tar -czf /tmp/z88dk-v2.0.0-dino.${TRAVIS_BUILD_NUMBER}.tar.gz .
+
+deploy:
+  provider: releases
+  file: /tmp/z88dk-v2.0.0-dino.${TRAVIS_BUILD_NUMBER}.tar.gz
+  skip_cleanup: true
+  on:
+    branch: master-dean
+  api-key:
+    secure: "yquUSfruOuJnpCYtu9ty7QmUYiLeRp9BlUbmrFArNL7Xuy8ugNil/gi8OcNGHKt+mewpxhSTFGW8UkuMn/sshHQC/RHaFoFMVOV2/dT9M4GFOnxOuVuTq5HHcyBv33ZQRtM23hwKc8dAu0gDIIbcv+s58Ga0hWoXhE6XNSRMvDa5Yq72rTYjrBcNhAXQ4U7JcXH7bojqptdx5sF9jt7B1+T6Srmq9PlpmTGh25+BrwlT/7JO+jMRkZJ4uY+X0E6kvYmyJLc7xCdQXy2+A4rlfmElCe5EWEBrGflYkMY94o+esJhgOUvpjDTfSrfQBlYYV3ldr26F/HzgMNR7uIMKtnYvyH4OLpvBSXc4VP31CnS+rT0v6Ef/J1utloct5jT0qKIeSlOIaJ5hapV3Ax8tgG65UchcjKuKk+5MV0CnzveyKtK0XTXfGUz8BxJt/sc2Ty/pVyFJzHY2zGcogGfMuOZikIpb1k2AX3PIL39M14owNmaGoeYNO3YMF+rAnJFr7URzhXOFftigabhUJrNYDGYVWrfgF+oUjBF/7jrXRUCQO+8zwYxPaf9AY65Zbh/eQZ/zSbJbO7nNrrijnVNQB2IK0jN4OWchU49OXpEuJXV9SD5urxGkZGk7tYQmoDlBvvL7Ft3QR29QLeJ8Uaz2uMK2DckeRU5MA16gfbOBjVM="
+
+notifications:
+  email: false
+
+
+# Generate a Github personal access token with the following scope: read:org, public_repo, repo:status, repo_deployment, user:email, write:repo_hook
+# Login using: travis login --pro --github-token <token...>
+# echo <token...> | travis encrypt --com
+# copy secure entry to deploy/api-key above
